@@ -3,7 +3,7 @@ services:
     name: business-os
     runtime: docker
     dockerfilePath: ./Dockerfile.combined
-    plan: starter
+    plan: free
     healthCheckPath: /api/v1/health
     envVars:
       - key: JWT_SECRET
