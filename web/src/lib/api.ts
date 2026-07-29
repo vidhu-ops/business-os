@@ -63,8 +63,8 @@ async function request<T>(
       const long = (opts?.timeoutMs ?? REQUEST_TIMEOUT_MS) > REQUEST_TIMEOUT_MS;
       throw new Error(
         long
-          ? "This operation took too long. Try again or use fewer report sections."
-          : "Request timed out — check that the API is running.",
+          ? "Request timed out while waiting for the server."
+          : "Request timed out — check that the API is running on port 8000.",
       );
     }
     throw err;
@@ -156,27 +156,36 @@ export const api = {
         method: "POST",
         body: JSON.stringify({ workspace_id, section_count, ...intake }),
       },
-      { timeoutMs: 60_000 },
+      { timeoutMs: 15_000 },
     );
-    if (started.status !== "running") return started;
+
+    // Legacy sync response (full report returned immediately).
+    if (started.status !== "running") {
+      if (started.success) return started;
+      throw new Error(String(started.error || started.detail || "Report failed to start"));
+    }
 
     for (let i = 0; i < RESEARCH_POLL_MAX; i += 1) {
       await sleep(RESEARCH_POLL_MS);
       const data = await request<{
         job?: { status?: string; error?: string; section_count?: number };
         research: Record<string, unknown>;
-      }>(`/api/v1/research/${workspace_id}`);
+      }>(`/api/v1/research/${workspace_id}`, undefined, { timeoutMs: 60_000 });
       const job = data.job || {};
       if (job.status === "failed") {
         throw new Error(String(job.error || "Report generation failed"));
       }
       const research = data.research || {};
-      if (research.available && Number(research.section_count) === section_count) {
+      const done =
+        job.status === "completed" ||
+        (research.available && Number(research.section_count) === section_count);
+      if (done) {
         const full = research.full_result as Record<string, unknown> | undefined;
-        return full && typeof full === "object" ? full : research;
+        if (full && typeof full === "object") return full;
+        if (research.available) return research;
       }
     }
-    throw new Error("Report generation is still running or timed out. Refresh the page in a minute.");
+    throw new Error("Report is still generating. Wait a minute and refresh this page — your report may already be saved.");
   },
   getResearch: (workspace_id: string) =>
     request<{

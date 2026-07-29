@@ -175,10 +175,15 @@ function ResearchContent() {
       await saveIntake();
       const data = await api.runResearch(selectedId, sectionCount, { idea, industry, country, areas });
       setResult(data);
-      if (!data.success) setError(String(data.error || "Report failed"));
+      if (data.success === false) setError(String(data.error || "Report failed"));
       else await loadWorkspace(selectedId);
     } catch (err) {
-      setError(err instanceof Error ? err.message : "Report failed");
+      const msg = err instanceof Error ? err.message : "Report failed";
+      setError(
+        msg.includes("timed out")
+          ? `${msg} Stop dev servers and run .\\scripts\\dev_start.ps1 again so the API uses background report jobs. Reports take several minutes — keep this tab open.`
+          : msg,
+      );
     } finally {
       setLoading(false);
     }
