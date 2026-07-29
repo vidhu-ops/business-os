@@ -4,7 +4,6 @@ ENV PYTHONDONTWRITEBYTECODE=1
 ENV PYTHONUNBUFFERED=1
 ENV PYTHONPATH=/app
 ENV API_URL=http://127.0.0.1:8000
-ENV NODE_ENV=production
 
 WORKDIR /app
 
@@ -23,12 +22,13 @@ COPY streamlit_app.py learning_engine.py market_modeling.py chroma_config.py cou
 RUN mkdir -p opportunity_workspaces business_build_outputs
 
 COPY web/package.json web/package-lock.json ./web/
-RUN cd web && npm ci
+RUN cd web && npm ci --include=dev
 COPY web ./web
 RUN cd web && API_URL=http://127.0.0.1:8000 npm run build
 
 COPY scripts/render-combined-start.sh /start.sh
 RUN chmod +x /start.sh
 
+ENV NODE_ENV=production
 EXPOSE 3000
 CMD ["/start.sh"]
