@@ -41,7 +41,10 @@ def is_crm_workbook_topic(topic: str, industry: str = "") -> bool:
     if _CRM_TOPIC_RE.search(blob):
         return True
     try:
-        from app import classify_topic_domain
+        try:
+            from streamlit_app import classify_topic_domain
+        except ImportError:
+            from app import classify_topic_domain
 
         return classify_topic_domain(topic, industry) == "crm_automation"
     except Exception:

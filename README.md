@@ -18,7 +18,7 @@ API:
 ```
 py -m venv .venv
 .\.venv\Scripts\Activate.ps1
-pip install -r requirements.txt
+pip install -r requirements-api.txt
 copy .env.example .env
 uvicorn backend.main:app --reload --port 8000
 ```

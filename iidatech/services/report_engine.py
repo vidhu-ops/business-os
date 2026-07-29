@@ -91,14 +91,20 @@ def _load_app_module(*, quiet: bool = True) -> Any:
     try:
         if quiet:
             with contextlib.redirect_stdout(io.StringIO()), contextlib.redirect_stderr(io.StringIO()):
-                import app as app_module
+                try:
+                    import streamlit_app as app_module
+                except ImportError:
+                    import app as app_module  # type: ignore[no-redef]
         else:
-            import app as app_module  # type: ignore[no-redef]
+            try:
+                import streamlit_app as app_module
+            except ImportError:
+                import app as app_module  # type: ignore[no-redef]
     except Exception as exc:
-        raise ReportEngineError(f"failed to import app.py: {exc}") from exc
+        raise ReportEngineError(f"failed to import streamlit_app.py: {exc}") from exc
 
     if not hasattr(app_module, "generate_business_build_plan"):
-        raise ReportEngineError("app.py did not expose generate_business_build_plan")
+        raise ReportEngineError("streamlit_app.py did not expose generate_business_build_plan")
 
     _APP_MODULE = app_module
     return app_module
