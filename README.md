@@ -1,76 +1,106 @@
-﻿# IIDATECH production stack
+﻿# IIDATECH Business OS
 
-Next.js founder product on Vercel + FastAPI backend reusing the existing `iidatech/` Python engine.
+One GitHub repo: **Next.js UI + FastAPI + iidatech research engine**.
+
+## Quick deploy (one URL)
+
+**Render (recommended):** connect `vidhu-ops/business-os` → Blueprint → uses `Dockerfile.combined`.
+
+Full steps: **[docs/DEPLOY_RENDER.md](docs/DEPLOY_RENDER.md)**
+
+| Platform | Config | Result |
+|----------|--------|--------|
+| **Render** | `render.yaml` + `Dockerfile.combined` | One URL, UI + API |
+| **Railway** | `railway.toml` + `Dockerfile.combined` | One URL, UI + API |
+| **Replit** | `.replit` + `scripts/start-replit.sh` | One Repl, UI + API |
+
+---
 
 ## Architecture
 
-| Layer | Tech | Host |
-|-------|------|------|
-| Marketing + app UI | Next.js 15 | Vercel |
-| API | FastAPI | Railway / Render / Fly |
-| Research engine | iidatech Python package | Same host as API |
+| Layer | Tech |
+|-------|------|
+| Marketing + app UI | Next.js 16 (`web/`) |
+| API | FastAPI (`backend/`) |
+| Research engine | `iidatech/` Python package |
 
-Streamlit is not used in this project.
+In the combined Docker image, Next.js proxies `/api/v1/*` to FastAPI on `127.0.0.1:8000`.
+
+---
 
 ## Local development
 
-API:
+```powershell
+cd c:\path\to\business-os
+.\scripts\dev_start.ps1
 ```
-py -m venv .venv
-.\.venv\Scripts\Activate.ps1
-pip install -r requirements-api.txt
-copy .env.example .env
+
+- Web: http://localhost:3000  
+- API: http://127.0.0.1:8000  
+
+Or manually:
+
+```powershell
+pip install -r requirements.txt
 uvicorn backend.main:app --reload --port 8000
 ```
 
-Web:
-```
+```powershell
 cd web
 npm install
 npm run dev
 ```
 
-Open http://localhost:3000
+Copy `.env.example` → `.env` and set `PERPLEXITY_API_KEY`, `JWT_SECRET`.
 
-## Deploy (frontend + backend from this repo)
+---
 
-Two services, one GitHub repo: `vidhu-ops/business-os`
+## Environment variables
 
-### 1. Frontend — Vercel
+| Variable | Required | Description |
+|----------|----------|-------------|
+| `JWT_SECRET` | Yes (prod) | Auth token signing |
+| `PERPLEXITY_API_KEY` | For research | Perplexity API |
+| `API_URL` | Combined deploy | `http://127.0.0.1:8000` (default in Docker) |
+| `CORS_ORIGINS` | Prod | Your public app URL |
+| `FRONTEND_URL` | Prod | Same as `CORS_ORIGINS` on single-URL deploy |
+| `ANTHROPIC_API_KEY` | Optional | Anthropic models |
+| `OPENAI_API_KEY` | Optional | OpenAI models |
 
-1. [vercel.com/new](https://vercel.com/new) → Import `vidhu-ops/business-os`
-2. **Root Directory:** `web`
-3. **Framework Preset:** Next.js (not FastAPI)
-4. **Environment variable:** `API_URL` = your Render API URL (step 2 below)
-5. Deploy
+---
 
-### 2. Backend — Render or Railway
+## Split deploy (optional)
 
-**Render:** [dashboard.render.com](https://dashboard.render.com) → **New** → **Blueprint** → connect repo (`render.yaml`).
+If you prefer Vercel for frontend + Render for API only:
 
-**Railway:** [railway.app/new](https://railway.app/new) → **Deploy from GitHub** → `vidhu-ops/business-os`. Uses root `Dockerfile` + `railway.toml` automatically.
+1. **Vercel:** root directory `web`, set `API_URL` to your Render API URL
+2. **Render:** use `Dockerfile` or `Dockerfile.api` (API only)
 
-Set secret env vars on either platform: `PERPLEXITY_API_KEY`, `ANTHROPIC_API_KEY`, `OPENAI_API_KEY`, `JWT_SECRET`.
+See [docs/DEPLOY_RENDER.md](docs/DEPLOY_RENDER.md) for the combined (one-URL) path.
 
-Copy the API URL, then set `CORS_ORIGINS` and `FRONTEND_URL` to your Vercel URL.
+---
 
-### 3. Wire them together
+## Replit
 
-| Where | Variable | Value |
-|-------|----------|-------|
-| Vercel | `API_URL` | `https://business-os-api.onrender.com` |
-| Render | `CORS_ORIGINS` | `https://your-app.vercel.app` |
-| Render | `FRONTEND_URL` | `https://your-app.vercel.app` |
+1. Import `vidhu-ops/business-os`
+2. Secrets: `JWT_SECRET`, `PERPLEXITY_API_KEY`
+3. Leave `API_URL` unset (defaults to `http://127.0.0.1:8000`)
+4. Run — opens Next.js on port 3000
 
-Vercel `*.vercel.app` preview URLs are allowed automatically by the API CORS config.
+---
 
-## Deploy on Replit
+## Repo layout
 
-1. Import `vidhu-ops/business-os` on [replit.com](https://replit.com).
-2. In **Secrets**, set optional keys (`JWT_SECRET`, `PERPLEXITY_API_KEY`, etc.). Leave **`API_URL`** as `http://127.0.0.1:8000` (default in `.replit`) so the Next.js proxy talks to the local FastAPI process.
-3. Click **Run** (or deploy). Replit runs `scripts/build-replit.sh` then `scripts/start-replit.sh`, which starts:
-   - FastAPI on `127.0.0.1:8000`
-   - Next.js on `0.0.0.0:3000` (webview port)
-4. Open the webview on port **3000**. API calls go to `/api/v1/*` and are proxied server-side to the local API.
-
-**Verify:** In the Replit shell, `curl http://127.0.0.1:8000/api/v1/health` should return `{"status":"ok",...}`. In the browser, `/app/dashboard` should load without a "Not Found" session error.
+```
+business-os/
+├── web/                 # Next.js frontend
+├── backend/             # FastAPI routes
+├── iidatech/            # Research & execution engine
+├── Dockerfile.combined  # One-image deploy (Render/Railway)
+├── render.yaml          # Render Blueprint
+├── railway.toml         # Railway config
+└── scripts/
+    ├── dev_start.ps1
+    ├── start-replit.sh
+    └── render-combined-start.sh
+```
