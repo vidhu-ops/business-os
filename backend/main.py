@@ -37,7 +37,7 @@ def root() -> dict:
 app.add_middleware(
     CORSMiddleware,
     allow_origins=settings.cors_origin_list,
-    allow_origin_regex=r"https://[\w.-]+\.(vercel\.app|onrender\.com)",
+    allow_origin_regex=r"https://[\w.-]+\.(vercel\.app|onrender\.com|replit\.dev|repl\.co|w\.repl\.co|kirk\.replit\.dev)",
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
