@@ -1,4 +1,3 @@
-# Render Blueprint - business-os API
 services:
   - type: web
     name: business-os-api
