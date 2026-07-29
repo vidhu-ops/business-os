@@ -3557,7 +3557,7 @@ def build_simple_markdown(
 
 
 
-        f"- **Runtime:** {runtime_sec:.1f}s · **Est. cost:** ${cost_usd:.3f} (budget cap ${simple_report_budget_usd():.2f})\n\n"
+        f"- **Prepared by:** IIDATECH Research\n\n"
 
 
 

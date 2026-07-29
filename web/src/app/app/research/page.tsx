@@ -5,21 +5,10 @@ import { Suspense, useCallback, useEffect, useMemo, useState } from "react";
 import { api } from "@/lib/api";
 import { ProjectPicker } from "@/components/ProjectPicker";
 import { useProjects } from "@/hooks/useProjects";
+import { brandReportText, filterClientWarnings, sanitizeReportMarkdown } from "@/lib/reportBrand";
 
-type ResearchOption = { section_count: number; titles: string[]; budget_usd: number };
-type UsageLedgerRow = { phase?: string; cost_usd?: number };
-type TabId = "report" | "closed";
-
-function brandText(text: string) {
-  return text
-    .replaceAll("Perplexity Sonar Pro", "IIDATECH Research Engine")
-    .replaceAll("Perplexity-powered", "IIDATECH-powered")
-    .replaceAll("Perplexity", "IIDATECH")
-    .replaceAll(/anthropic\/claude[^\s,)]+/gi, "IIDATECH engine")
-    .replaceAll(/openai\/[^\s,)]+/gi, "IIDATECH engine")
-    .replaceAll(/sonar-pro/gi, "research engine")
-    .replaceAll(/sonar/gi, "research engine");
-}
+type ResearchOption = { section_count: number; titles: string[] };
+type TabId = "report";
 
 function downloadFilename(topic: string) {
   const slug = (topic || "market").slice(0, 40).replace(/\s+/g, "_");
@@ -28,13 +17,13 @@ function downloadFilename(topic: string) {
 
 function ResearchContent() {
   const { projects, selectedId, setSelectedId } = useProjects();
-  const [activeTab, setActiveTab] = useState<TabId>("report");
+  const [activeTab] = useState<TabId>("report");
   const [sectionCount, setSectionCount] = useState(8);
   const [options, setOptions] = useState<ResearchOption[]>([]);
   const [countries, setCountries] = useState<string[]>(["Global"]);
   const [researchReady, setResearchReady] = useState(true);
   const [setupHint, setSetupHint] = useState("");
-  const [perplexityKey, setPerplexityKey] = useState("");
+  const [researchKey, setResearchKey] = useState("");
   const [savingKey, setSavingKey] = useState(false);
 
   const [idea, setIdea] = useState("");
@@ -50,7 +39,6 @@ function ResearchContent() {
 
   const [result, setResult] = useState<Record<string, unknown> | null>(null);
   const [showSections, setShowSections] = useState(false);
-  const [showLedger, setShowLedger] = useState(false);
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
   const [savingIntake, setSavingIntake] = useState(false);
@@ -91,10 +79,6 @@ function ResearchContent() {
         topic: research.topic,
         section_count: research.section_count,
         report_markdown: research.report_markdown || research.markdown,
-        estimated_cost_usd: research.estimated_cost_usd,
-        within_budget: research.within_budget,
-        usage_totals: research.usage_totals,
-        usage_ledger: research.usage_ledger,
         warnings: research.warnings,
       });
       if (typeof research.section_count === "number") setSectionCount(research.section_count);
@@ -123,10 +107,14 @@ function ResearchContent() {
   }, [idea, industry, country, areas]);
 
   const selectedOption = options.find((o) => o.section_count === sectionCount);
-  const budget = selectedOption?.budget_usd ?? 0;
 
   const markdown = useMemo(
-    () => brandText(String(result?.report_markdown || result?.markdown || "")),
+    () => sanitizeReportMarkdown(String(result?.report_markdown || result?.markdown || "")),
+    [result],
+  );
+
+  const clientWarnings = useMemo(
+    () => filterClientWarnings((result?.warnings as string[]) || []),
     [result],
   );
 
@@ -135,16 +123,16 @@ function ResearchContent() {
     String(result?.topic || "").trim() === String(idea || "").trim() &&
     Number(result?.section_count || 0) === Number(sectionCount);
 
-  async function savePerplexityKey() {
-    if (!selectedId || !perplexityKey.trim()) return;
+  async function saveResearchKey() {
+    if (!selectedId || !researchKey.trim()) return;
     setSavingKey(true);
     setError("");
     try {
-      await api.setOs2Keys(selectedId, { perplexity: perplexityKey.trim() });
-      setPerplexityKey("");
+      await api.setOs2Keys(selectedId, { perplexity: researchKey.trim() });
+      setResearchKey("");
       refreshResearchOptions(selectedId);
     } catch (err) {
-      setError(err instanceof Error ? err.message : "Could not save API key");
+      setError(err instanceof Error ? err.message : "Could not save research access key");
     } finally {
       setSavingKey(false);
     }
@@ -181,8 +169,8 @@ function ResearchContent() {
       const msg = err instanceof Error ? err.message : "Report failed";
       setError(
         msg.includes("timed out")
-          ? `${msg} Stop dev servers and run .\\scripts\\dev_start.ps1 again so the API uses background report jobs. Reports take several minutes — keep this tab open.`
-          : msg,
+          ? `${msg} Keep this tab open — IIDATECH reports can take several minutes to prepare.`
+          : brandReportText(msg),
       );
     } finally {
       setLoading(false);
@@ -199,15 +187,13 @@ function ResearchContent() {
     URL.revokeObjectURL(url);
   }
 
-  const totals = (result?.usage_totals as Record<string, number>) || {};
-  const ledger = (result?.usage_ledger as UsageLedgerRow[]) || [];
-  const warnings = (result?.warnings as string[]) || [];
-
   return (
     <div className="space-y-8">
       <div>
         <h1 className="font-display text-3xl font-bold">Understand your market</h1>
-        <p className="mt-2 muted">Enter your niche, industry, and market. IIDATECH returns sourced sections you can download as markdown.</p>
+        <p className="mt-2 muted">
+          Enter your niche, industry, and market. IIDATECH prepares a sourced report you can download and share.
+        </p>
       </div>
 
       {projects.length === 0 ? (
@@ -276,37 +262,11 @@ function ResearchContent() {
             </button>
           </section>
 
-          <div className="flex gap-2 border-b border-[var(--iid-line)]">
-            <button
-              type="button"
-              className={`px-4 py-2 text-sm font-semibold ${activeTab === "report" ? "border-b-2 border-[var(--iid-blue)] text-white" : "text-[var(--iid-muted)]"}`}
-              onClick={() => setActiveTab("report")}
-            >
-              Market research report
-            </button>
-            <button
-              type="button"
-              className={`px-4 py-2 text-sm font-semibold ${activeTab === "closed" ? "border-b-2 border-[var(--iid-blue)] text-white" : "text-[var(--iid-muted)]"}`}
-              onClick={() => setActiveTab("closed")}
-            >
-              Closed for public use
-            </button>
-          </div>
-
-          {activeTab === "closed" ? (
-            <section className="iid-card space-y-3">
-              <h2 className="font-display text-xl font-bold">Closed for public use</h2>
-              <p className="muted text-sm">
-                The previous multi-pass research engine is retired from public use. Use the
-                <strong> Market research report </strong>
-                tab (IIDATECH, 3/8/16/25 sections).
-              </p>
-            </section>
-          ) : (
+          {activeTab === "report" && (
             <section className="iid-card space-y-4">
-              <h2 className="font-display text-xl font-bold">Market research report</h2>
+              <h2 className="font-display text-xl font-bold">IIDATECH market research report</h2>
 
-              <label className="block text-sm font-semibold">Report depth (sections)</label>
+              <label className="block text-sm font-semibold">Report depth</label>
               <div className="flex flex-wrap gap-2">
                 {options.map((opt) => {
                   const preview = opt.titles.slice(0, 3).join(", ");
@@ -326,8 +286,8 @@ function ResearchContent() {
               </div>
 
               <p className="text-sm muted">
-                Boardroom- and funding-ready report with research, sizing, competitors, and analyst review ({sectionCount} sections).
-                Budget cap <strong>${budget.toFixed(2)}</strong>. Market: <strong>{marketLabel || country}</strong>.
+                Boardroom- and funding-ready report with research, sizing, competitors, and analyst review.
+                Market: <strong>{marketLabel || country}</strong>.
               </p>
 
               <button type="button" className="text-sm text-[var(--iid-blue)] hover:underline" onClick={() => setShowSections((v) => !v)}>
@@ -344,34 +304,29 @@ function ResearchContent() {
               {!researchReady && (
                 <div className="space-y-3 rounded-xl border border-amber-500/40 bg-amber-500/10 p-4 text-sm text-amber-100">
                   <div>
-                    <p className="font-semibold">Perplexity API key required</p>
+                    <p className="font-semibold">Research service not available</p>
                     <p className="mt-2 text-amber-100/90">
-                      {setupHint ||
-                        "Paste your key below for this session, or add PERPLEXITY_API_KEY to the project .env file and restart the API."}
+                      {setupHint || "An administrator must enable research access in server settings."}
                     </p>
                   </div>
                   <div className="flex flex-col gap-2 sm:flex-row sm:items-center">
                     <input
                       type="password"
                       className="iid-input flex-1"
-                      value={perplexityKey}
-                      onChange={(e) => setPerplexityKey(e.target.value)}
-                      placeholder="pplx-..."
+                      value={researchKey}
+                      onChange={(e) => setResearchKey(e.target.value)}
+                      placeholder="Research access key"
                       autoComplete="off"
                     />
                     <button
                       type="button"
                       className="iid-btn iid-btn-primary shrink-0"
-                      onClick={savePerplexityKey}
-                      disabled={savingKey || !perplexityKey.trim() || !selectedId}
+                      onClick={saveResearchKey}
+                      disabled={savingKey || !researchKey.trim() || !selectedId}
                     >
                       {savingKey ? "Saving…" : "Save key"}
                     </button>
                   </div>
-                  <p className="text-xs text-amber-100/70">
-                    Local: edit <code className="rounded bg-black/30 px-1">.env</code> in the repo root. Render: add{" "}
-                    <code className="rounded bg-black/30 px-1">PERPLEXITY_API_KEY</code> in Environment.
-                  </p>
                 </div>
               )}
               {!scopeOk && (
@@ -386,7 +341,7 @@ function ResearchContent() {
                   onClick={runResearch}
                   disabled={loading || !researchReady || !selectedId || !scopeOk || !idea.trim()}
                 >
-                  {loading ? `Building ${sectionCount}-section report — this can take several minutes…` : "Generate report"}
+                  {loading ? `Preparing your ${sectionCount}-section report…` : "Generate report"}
                 </button>
                 {showResult && markdown && (
                   <button className="iid-btn iid-btn-ghost" type="button" onClick={downloadReport}>
@@ -399,33 +354,12 @@ function ResearchContent() {
 
           {activeTab === "report" && showResult && (
             <>
-              <div className="grid gap-4 md:grid-cols-4">
+              <div className="grid gap-4 md:grid-cols-2">
                 <div className="iid-card"><p className="label">Sections</p><p className="value">{sectionCount}</p></div>
-                <div className="iid-card"><p className="label">Est. cost</p><p className="value">${Number(result?.estimated_cost_usd || 0).toFixed(3)}</p></div>
-                <div className="iid-card"><p className="label">Budget cap</p><p className="value">${budget.toFixed(2)}</p></div>
-                <div className="iid-card"><p className="label">Within budget</p><p className="value">{result?.within_budget === false ? "No" : "Yes"}</p></div>
+                <div className="iid-card"><p className="label">Prepared by</p><p className="value">IIDATECH</p></div>
               </div>
 
-              {totals.calls ? (
-                <p className="text-sm muted">{totals.calls} research passes completed</p>
-              ) : null}
-
-              {ledger.length > 0 && (
-                <section className="iid-card">
-                  <button type="button" className="font-semibold" onClick={() => setShowLedger((v) => !v)}>
-                    Cost by pass {showLedger ? "▾" : "▸"}
-                  </button>
-                  {showLedger && (
-                    <ul className="mt-3 space-y-1 text-sm muted">
-                      {ledger.map((row, i) => (
-                        <li key={i}><strong>{row.phase}</strong>: ${Number(row.cost_usd || 0).toFixed(4)}</li>
-                      ))}
-                    </ul>
-                  )}
-                </section>
-              )}
-
-              {warnings.map((warn, i) => (
+              {clientWarnings.map((warn, i) => (
                 <p key={i} className="rounded-lg border border-amber-500/40 bg-amber-500/10 px-4 py-2 text-sm text-amber-200">{warn.slice(0, 400)}</p>
               ))}
 
@@ -439,10 +373,7 @@ function ResearchContent() {
 
           {activeTab === "report" && result && !result.success && (
             <section className="iid-card">
-              <p className="text-sm text-red-400">{String(result.error || "Report failed")}</p>
-              {Array.isArray(result.traces) && (
-                <pre className="mt-3 max-h-64 overflow-auto text-xs">{JSON.stringify(result.traces, null, 2)}</pre>
-              )}
+              <p className="text-sm text-red-400">{brandReportText(String(result.error || "Report failed"))}</p>
             </section>
           )}
         </>

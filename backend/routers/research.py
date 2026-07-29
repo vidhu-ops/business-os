@@ -14,13 +14,13 @@ from iidatech.evidence_bank.perplexity_client import perplexity_enabled
 from iidatech.execution.session_api_keys import session_api_keys
 from iidatech.services.perplexity_report_engine import format_market_geography
 from iidatech.services.report_section_plans import SIMPLE_SECTION_COUNTS, budget_for_sections, section_titles
+from iidatech.services.client_report_view import sanitize_research_result
 from iidatech.services.simple_perplexity_report import generate_simple_perplexity_report, simple_report_budget_usd
 
 router = APIRouter(prefix="/research", tags=["research"])
 
 _RESEARCH_SETUP_HINT = (
-    "Add your Perplexity API key in the box below, or set PERPLEXITY_API_KEY in the project "
-    ".env file and restart the API. Keys are not stored in the browser permanently."
+    "Research is not configured yet. An administrator can enable it in server environment settings."
 )
 
 
@@ -50,7 +50,8 @@ class ScopePreviewBody(BaseModel):
 def _persist_research(workspace: dict, result: dict, section_count: int) -> None:
     topic = str(workspace.get("idea") or "").strip()
     geography = str(workspace.get("country") or "Global").strip()
-    markdown = str(result.get("report_markdown") or result.get("markdown") or "")
+    client = sanitize_research_result(result)
+    markdown = str(client.get("report_markdown") or client.get("markdown") or "")
     workspace["research_report"] = {
         "available": bool(result.get("success")),
         "pipeline": "simple",
@@ -59,12 +60,8 @@ def _persist_research(workspace: dict, result: dict, section_count: int) -> None
         "section_count": section_count,
         "report_markdown": markdown,
         "markdown": markdown,
-        "estimated_cost_usd": result.get("estimated_cost_usd"),
-        "within_budget": result.get("within_budget"),
-        "usage_totals": result.get("usage_totals"),
-        "usage_ledger": result.get("usage_ledger"),
-        "warnings": result.get("warnings"),
-        "full_result": result,
+        "warnings": client.get("warnings") or [],
+        "full_result": client,
     }
     save_workspace(workspace)
 
@@ -145,7 +142,6 @@ def research_options(
     workspace_id: str | None = None,
     _: str = Depends(get_current_user),
 ) -> dict:
-    base = simple_report_budget_usd()
     ready = _perplexity_ready(workspace_id)
     options = []
     for count in SIMPLE_SECTION_COUNTS:
@@ -153,7 +149,6 @@ def research_options(
             {
                 "section_count": count,
                 "titles": section_titles(count),
-                "budget_usd": budget_for_sections(count, base_budget=base),
             }
         )
     return {
@@ -161,7 +156,6 @@ def research_options(
         "setup_hint": None if ready else _RESEARCH_SETUP_HINT,
         "section_counts": list(SIMPLE_SECTION_COUNTS),
         "countries": country_choices(),
-        "base_budget_usd": base,
         "options": options,
     }
 
@@ -181,6 +175,13 @@ def get_research(workspace_id: str, _: str = Depends(get_current_user)) -> dict:
     if not workspace:
         raise HTTPException(status_code=404, detail="Project not found")
     research = workspace.get("research_report") if isinstance(workspace.get("research_report"), dict) else {}
+    if research:
+        research = dict(research)
+        full = research.get("full_result")
+        if isinstance(full, dict):
+            research["full_result"] = sanitize_research_result(full)
+        elif research.get("report_markdown") or research.get("markdown"):
+            research = {**research, **sanitize_research_result(research)}
     return {
         "research": research,
         "job": _research_job(workspace),

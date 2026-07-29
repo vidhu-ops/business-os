@@ -138,7 +138,7 @@ export const api = {
       research_ready: boolean;
       setup_hint?: string | null;
       countries: string[];
-      options: Array<{ section_count: number; titles: string[]; budget_usd: number }>;
+      options: Array<{ section_count: number; titles: string[] }>;
     }>(`/api/v1/research/options${workspace_id ? `?workspace_id=${encodeURIComponent(workspace_id)}` : ""}`),
   previewScope: (idea: string, industry: string, country: string, areas = "") =>
     request<{ scope: Record<string, unknown>; market_label: string }>("/api/v1/research/scope", {
