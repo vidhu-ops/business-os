@@ -10,7 +10,7 @@ from pathlib import Path
 from typing import Any
 from xml.sax.saxutils import escape
 
-from iidatech.ui.plain_render import humanize_label, sanitize_report_text
+from iidatech.render.report_text import humanize_label, sanitize_report_text
 
 
 def clean_harness_reply_for_display(reply: str) -> str:
