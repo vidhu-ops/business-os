@@ -76,6 +76,15 @@ function TeamContent() {
   const [goalsText, setGoalsText] = useState("");
   const [autoApprove, setAutoApprove] = useState(false);
   const [actionLoading, setActionLoading] = useState("");
+  const [successMsg, setSuccessMsg] = useState("");
+  const [activeKeyProviders, setActiveKeyProviders] = useState<string[]>([]);
+  const [perplexityKey, setPerplexityKey] = useState("");
+  const [llmKey, setLlmKey] = useState("");
+  const [llmProvider, setLlmProvider] = useState("openai");
+  const [manualHubspot, setManualHubspot] = useState("");
+  const [manualLinkedinToken, setManualLinkedinToken] = useState("");
+  const [manualLinkedinUrn, setManualLinkedinUrn] = useState("");
+  const [manualGmailPassword, setManualGmailPassword] = useState("");
 
   const agents = (bootstrap?.agents as Agent[]) || [];
   const deptOptions = (bootstrap?.departments as string[]) || [];
@@ -95,6 +104,7 @@ function TeamContent() {
       setHarnessIds((scope.harness_ids as string[]) || []);
       setChecklist((data.checklist as Record<string, unknown>) || null);
       setPulse((data.taylor_pulse as Record<string, unknown>) || null);
+      setActiveKeyProviders((data.active_key_providers as string[]) || []);
       const officeData = await api.getOs2Office(selectedId).catch(() => null);
       if (officeData) {
         setOffice(officeData);
@@ -136,8 +146,70 @@ function TeamContent() {
 
   async function saveScope() {
     if (!selectedId) return;
-    await api.setOs2Scope(selectedId, { mode: scopeMode, departments, harness_ids: harnessIds });
-    await refresh();
+    setError("");
+    setSuccessMsg("");
+    try {
+      await api.setOs2Scope(selectedId, { mode: scopeMode, departments, harness_ids: harnessIds });
+      setSuccessMsg("Workspace saved — you can use the tabs below.");
+      await refresh();
+    } catch (err) {
+      setError(err instanceof Error ? err.message : "Could not save workspace");
+    }
+  }
+
+  async function saveApiKeys() {
+    if (!selectedId) return;
+    setActionLoading("keys");
+    setError("");
+    setSuccessMsg("");
+    try {
+      const keys: Record<string, string> = {};
+      if (perplexityKey.trim()) keys.perplexity = perplexityKey.trim();
+      if (llmKey.trim()) keys[llmProvider] = llmKey.trim();
+      if (!Object.keys(keys).length) {
+        setError("Enter at least one API key to save.");
+        return;
+      }
+      const data = await api.setOs2Keys(selectedId, keys);
+      setActiveKeyProviders(data.active_key_providers || []);
+      setPerplexityKey("");
+      setLlmKey("");
+      setSuccessMsg("API keys saved for this session.");
+      await refresh();
+    } catch (err) {
+      setError(err instanceof Error ? err.message : "Could not save API keys");
+    } finally {
+      setActionLoading("");
+    }
+  }
+
+  async function saveManualOAuth(provider: string) {
+    if (!selectedId) return;
+    setActionLoading(`oauth-${provider}`);
+    setError("");
+    setSuccessMsg("");
+    try {
+      const body: Record<string, string> = {};
+      if (provider === "hubspot" && manualHubspot.trim()) body.access_token = manualHubspot.trim();
+      if (provider === "linkedin") {
+        if (manualLinkedinToken.trim()) body.access_token = manualLinkedinToken.trim();
+        if (manualLinkedinUrn.trim()) body.author_urn = manualLinkedinUrn.trim();
+      }
+      if (provider === "gmail" && manualGmailPassword.trim()) body.smtp_app_password = manualGmailPassword.trim();
+      if (!Object.keys(body).length) {
+        setError("Enter the credentials before saving.");
+        return;
+      }
+      await api.saveManualOAuth(selectedId, provider, body);
+      setSuccessMsg(`${provider} connection saved.`);
+      const data = await api.getOs2OAuth(selectedId);
+      setOauthProviders(data.providers || []);
+      await refresh();
+    } catch (err) {
+      setError(err instanceof Error ? err.message : "Could not save connection");
+    } finally {
+      setActionLoading("");
+    }
   }
 
   async function sendChat(starter?: string) {
@@ -160,16 +232,36 @@ function TeamContent() {
 
   async function buildChecklist() {
     if (!selectedId) return;
-    const data = await api.buildOs2Checklist(selectedId);
-    setChecklist(data.checklist as Record<string, unknown>);
-    await refresh();
+    setActionLoading("checklist");
+    setError("");
+    setSuccessMsg("");
+    try {
+      const data = await api.buildOs2Checklist(selectedId);
+      setChecklist(data.checklist as Record<string, unknown>);
+      setSuccessMsg("Task checklist built from your business plan.");
+      await refresh();
+    } catch (err) {
+      setError(err instanceof Error ? err.message : "Could not build checklist — add a business plan first");
+    } finally {
+      setActionLoading("");
+    }
   }
 
   async function runNextTask() {
     if (!selectedId) return;
-    const data = await api.runOs2ChecklistNext(selectedId, autoApprove);
-    setTaskMsg(String(data.message || "Task processed"));
-    await refresh();
+    setActionLoading("run-next");
+    setError("");
+    setSuccessMsg("");
+    try {
+      const data = await api.runOs2ChecklistNext(selectedId, autoApprove);
+      setTaskMsg(String(data.message || "Task processed"));
+      setSuccessMsg(String(data.message || "Next task processed."));
+      await refresh();
+    } catch (err) {
+      setError(err instanceof Error ? err.message : "Task run failed — check API keys in Integrations");
+    } finally {
+      setActionLoading("");
+    }
   }
 
   async function runOfficeAction(action: string) {
@@ -302,12 +394,17 @@ function TeamContent() {
   const oauthRows = (bootstrap?.oauth_status as Array<Record<string, unknown>>) || [];
   const notifications = (pulse?.notifications as string[]) || [];
   const suggestions = (pulse?.suggestions as Array<Record<string, unknown>>) || [];
+  const setupComplete = setupRows.filter((r) => r.ok).length;
+  const hasLlmKeys = activeKeyProviders.some((p) => p !== "perplexity");
+  const hasPerplexity = activeKeyProviders.includes("perplexity");
 
   return (
     <div className="space-y-8">
       <div>
         <h1 className="font-display text-3xl font-bold">Team & Execution</h1>
-        <p className="mt-2 muted">Pick Full office, Department, or Employee / team — then work in the workspace below (same as Streamlit Employee OS 2).</p>
+        <p className="mt-2 muted">
+          Your virtual team runs tasks from your business plan. Start with <strong>Full office</strong>, connect API keys under Integrations, then chat with agents or run The Office day.
+        </p>
       </div>
 
       {projects.length === 0 ? (
@@ -347,15 +444,28 @@ function TeamContent() {
                 ))}
               </div>
             )}
-            <button type="button" className="iid-btn iid-btn-ghost text-sm" onClick={saveScope}>Save workspace scope</button>
+            <button type="button" className="iid-btn iid-btn-primary text-sm" onClick={saveScope}>Save workspace</button>
+            {scopeMode !== "full_office" && (
+              <p className="text-xs muted">Pick at least one department or employee, then save.</p>
+            )}
           </section>
 
           {!scopeConfigured ? (
-            <section className="iid-card"><p className="text-amber-300 text-sm">Configure your workspace scope above to open Employee OS tabs.</p></section>
+            <section className="iid-card">
+              <p className="text-amber-300 text-sm">
+                {scopeMode === "department"
+                  ? "Select one or more departments above, then click Save workspace."
+                  : "Select at least one employee above, then click Save workspace."}
+              </p>
+            </section>
           ) : (
             <>
               <section className="iid-card space-y-3">
-                <h3 className="text-sm font-semibold">Workspace setup</h3>
+                <div className="flex flex-wrap items-center justify-between gap-2">
+                  <h3 className="text-sm font-semibold">Setup checklist</h3>
+                  <span className="text-xs muted">{setupComplete}/{setupRows.length} ready</span>
+                </div>
+                <p className="text-xs muted">Green items are ready. Open <strong>Integrations</strong> to add API keys and connect apps.</p>
                 <div className="grid gap-2 md:grid-cols-2 text-sm">
                   {setupRows.map((row) => (
                     <div key={String(row.need)} className="rounded-lg border border-[var(--iid-line)] px-3 py-2">
@@ -364,6 +474,14 @@ function TeamContent() {
                     </div>
                   ))}
                 </div>
+                {!hasLlmKeys && (
+                  <p className="text-sm text-amber-300">
+                    No LLM API key detected yet. Agents need OpenAI, Anthropic, or similar — add one in Integrations.
+                  </p>
+                )}
+                {hasLlmKeys && !hasPerplexity && (
+                  <p className="text-sm muted">Tip: add a Perplexity key for live research and lead search.</p>
+                )}
               </section>
 
               {pulse && (
@@ -390,8 +508,14 @@ function TeamContent() {
                 </div>
               </div>
 
-              {error && <p className="text-sm text-red-400">{error}</p>}
-              {loading && <p className="text-sm muted">Loading…</p>}
+              {error && (
+                <section className="iid-card border border-red-500/40">
+                  <p className="text-sm text-red-300">{error}</p>
+                  <p className="text-xs muted mt-1">Fix the issue above and try again. Most problems are missing API keys or OAuth connections.</p>
+                </section>
+              )}
+              {successMsg && <p className="text-sm text-emerald-300">{successMsg}</p>}
+              {loading && <p className="text-sm muted">Loading workspace…</p>}
 
               {activeTab === "office" && (
                 <section className="iid-card space-y-4">
@@ -424,7 +548,9 @@ function TeamContent() {
                     <button type="button" className="iid-btn iid-btn-primary text-xs" disabled={!!actionLoading} onClick={() => runOfficeAction("full_day")}>
                       {actionLoading === "full_day" ? "Running…" : "Run full office day"}
                     </button>
-                    <button type="button" className="iid-btn iid-btn-ghost text-xs" onClick={buildChecklist}>Build checklist from plan</button>
+                    <button type="button" className="iid-btn iid-btn-ghost text-xs" disabled={actionLoading === "checklist"} onClick={buildChecklist}>
+                      {actionLoading === "checklist" ? "Building…" : "Build checklist from plan"}
+                    </button>
                   </div>
                   {taskMsg && <p className="text-sm text-emerald-300">{taskMsg}</p>}
                   {((office?.board as Array<Record<string, unknown>>) || []).length > 0 && (
@@ -454,10 +580,17 @@ function TeamContent() {
                     Auto-approve external actions
                   </label>
                   <div className="flex flex-wrap gap-2">
-                    <button type="button" className="iid-btn iid-btn-primary" onClick={buildChecklist}>Build checklist from plan</button>
-                    <button type="button" className="iid-btn iid-btn-ghost" onClick={runNextTask}>Approve & run next</button>
+                    <button type="button" className="iid-btn iid-btn-primary" disabled={actionLoading === "checklist"} onClick={buildChecklist}>
+                      {actionLoading === "checklist" ? "Building…" : "Build checklist from plan"}
+                    </button>
+                    <button type="button" className="iid-btn iid-btn-ghost" disabled={actionLoading === "run-next"} onClick={runNextTask}>
+                      {actionLoading === "run-next" ? "Running…" : "Approve & run next"}
+                    </button>
                     <button type="button" className="iid-btn iid-btn-ghost" onClick={() => runTaylor("approve_all")}>Approve all</button>
                   </div>
+                  {checklistItems.length === 0 ? (
+                    <p className="text-sm muted">No tasks yet. Click <strong>Build checklist from plan</strong> after you have a business plan.</p>
+                  ) : null}
                   <ul className="space-y-2 text-sm">
                     {checklistItems.map((item) => (
                       <li key={String(item.id)} className="rounded-lg border border-[var(--iid-line)] px-3 py-2">
@@ -613,20 +746,106 @@ function TeamContent() {
               )}
 
               {activeTab === "integrations" && (
-                <section className="iid-card space-y-3">
-                  <h3 className="font-semibold">Integrations</h3>
-                  <p className="text-sm muted">Connect LinkedIn, Gmail, and HubSpot — same OAuth store as Streamlit.</p>
-                  {(oauthProviders.length ? oauthProviders : oauthRows).map((row) => (
-                    <div key={String(row.provider)} className="rounded-lg border border-[var(--iid-line)] p-3 text-sm">
-                      <p><strong>{String(row.label)}</strong> — {String(row.status)}</p>
-                      {row.authorize_url ? (
-                        <a href={String(row.authorize_url)} target="_blank" rel="noreferrer" className="text-[var(--iid-blue)] text-xs hover:underline">
-                          Open OAuth authorization
-                        </a>
-                      ) : null}
-                      {row.error ? <p className="text-xs text-amber-300 mt-1">{String(row.error)}</p> : null}
+                <section className="iid-card space-y-6">
+                  <div className="space-y-3">
+                    <h3 className="font-semibold">API keys (required for agents)</h3>
+                    <p className="text-sm muted">
+                      Keys are stored for your browser session only — not saved to disk. Your server can also provide keys via environment variables.
+                    </p>
+                    {activeKeyProviders.length > 0 ? (
+                      <p className="text-sm text-emerald-300">Active: {activeKeyProviders.join(", ")}</p>
+                    ) : (
+                      <p className="text-sm text-amber-300">No keys active — agents cannot run until you add at least one LLM key.</p>
+                    )}
+                    <div className="grid gap-3 md:grid-cols-2">
+                      <div className="space-y-2">
+                        <label className="text-xs font-semibold uppercase muted">Perplexity (research & leads)</label>
+                        <input
+                          className="iid-input"
+                          type="password"
+                          value={perplexityKey}
+                          onChange={(e) => setPerplexityKey(e.target.value)}
+                          placeholder="pplx-…"
+                        />
+                      </div>
+                      <div className="space-y-2">
+                        <label className="text-xs font-semibold uppercase muted">LLM key</label>
+                        <div className="flex gap-2">
+                          <select className="iid-input w-36" value={llmProvider} onChange={(e) => setLlmProvider(e.target.value)}>
+                            <option value="openai">OpenAI</option>
+                            <option value="anthropic">Anthropic</option>
+                            <option value="deepseek">DeepSeek</option>
+                            <option value="groq">Groq</option>
+                          </select>
+                          <input
+                            className="iid-input flex-1"
+                            type="password"
+                            value={llmKey}
+                            onChange={(e) => setLlmKey(e.target.value)}
+                            placeholder="sk-…"
+                          />
+                        </div>
+                      </div>
                     </div>
-                  ))}
+                    <button type="button" className="iid-btn iid-btn-primary text-sm" disabled={actionLoading === "keys"} onClick={saveApiKeys}>
+                      {actionLoading === "keys" ? "Saving…" : "Save API keys"}
+                    </button>
+                  </div>
+
+                  <div className="border-t border-[var(--iid-line)] pt-4 space-y-3">
+                    <h3 className="font-semibold">Connect apps (OAuth)</h3>
+                    <p className="text-sm muted">Needed only when tasks send email, post to LinkedIn, or sync CRM data.</p>
+                    {(oauthProviders.length ? oauthProviders : oauthRows).map((row) => {
+                      const provider = String(row.provider || row.App || "").toLowerCase();
+                      const label = String(row.label || row.App || provider);
+                      const status = String(row.status || row.Status || "unknown");
+                      const envReady = row.env_ready !== false;
+                      return (
+                        <div key={provider || label} className="rounded-lg border border-[var(--iid-line)] p-3 text-sm space-y-2">
+                          <p>
+                            <strong>{label}</strong> — <span className={status === "connected" ? "text-emerald-300" : "muted"}>{status}</span>
+                          </p>
+                          {row.authorize_url ? (
+                            <a href={String(row.authorize_url)} target="_blank" rel="noreferrer" className="iid-btn iid-btn-primary text-xs inline-flex">
+                              Connect with {label}
+                            </a>
+                          ) : envReady === false ? (
+                            <p className="text-xs text-amber-300">OAuth app not configured on server — use manual token below or ask your admin to set client ID/secret.</p>
+                          ) : null}
+                          {row.error ? <p className="text-xs text-amber-300">{String(row.error)}</p> : null}
+                        </div>
+                      );
+                    })}
+                  </div>
+
+                  <div className="border-t border-[var(--iid-line)] pt-4 space-y-4">
+                    <h3 className="font-semibold text-sm">Manual tokens (alternative)</h3>
+                    <p className="text-xs muted">Paste tokens if OAuth redirect is not set up yet.</p>
+                    <div className="grid gap-3 md:grid-cols-2">
+                      <div className="space-y-2">
+                        <label className="text-xs font-semibold">HubSpot private app token</label>
+                        <input className="iid-input" type="password" value={manualHubspot} onChange={(e) => setManualHubspot(e.target.value)} placeholder="pat-…" />
+                        <button type="button" className="iid-btn iid-btn-ghost text-xs" disabled={actionLoading === "oauth-hubspot"} onClick={() => saveManualOAuth("hubspot")}>
+                          Save HubSpot
+                        </button>
+                      </div>
+                      <div className="space-y-2">
+                        <label className="text-xs font-semibold">LinkedIn access token</label>
+                        <input className="iid-input" type="password" value={manualLinkedinToken} onChange={(e) => setManualLinkedinToken(e.target.value)} placeholder="Access token" />
+                        <input className="iid-input" value={manualLinkedinUrn} onChange={(e) => setManualLinkedinUrn(e.target.value)} placeholder="Author URN (urn:li:person:…)" />
+                        <button type="button" className="iid-btn iid-btn-ghost text-xs" disabled={actionLoading === "oauth-linkedin"} onClick={() => saveManualOAuth("linkedin")}>
+                          Save LinkedIn
+                        </button>
+                      </div>
+                      <div className="space-y-2">
+                        <label className="text-xs font-semibold">Gmail app password</label>
+                        <input className="iid-input" type="password" value={manualGmailPassword} onChange={(e) => setManualGmailPassword(e.target.value)} placeholder="16-character app password" />
+                        <button type="button" className="iid-btn iid-btn-ghost text-xs" disabled={actionLoading === "oauth-gmail"} onClick={() => saveManualOAuth("gmail")}>
+                          Save Gmail SMTP
+                        </button>
+                      </div>
+                    </div>
+                  </div>
                 </section>
               )}
 

@@ -6,6 +6,7 @@ import { api } from "@/lib/api";
 import { ProjectPicker } from "@/components/ProjectPicker";
 import { ExistingCompanyPlanForward } from "@/components/ExistingCompanyPlanForward";
 import { ValidationUnderstanding } from "@/components/ValidationUnderstanding";
+import { ReportMarkdown } from "@/components/ReportMarkdown";
 import { useProjects } from "@/hooks/useProjects";
 
 type CompanyMode = "new" | "existing" | null;
@@ -172,9 +173,15 @@ function PlanContent() {
               )}
 
               {activeTab === "output" && (
-                <section className="iid-card">
+                <section className="iid-card iid-report-shell">
                   <h2 className="font-display text-xl font-bold">Readable plan</h2>
-                  {markdown ? <pre className="mt-4 whitespace-pre-wrap text-sm leading-relaxed">{markdown}</pre> : <p className="muted mt-4">No plan yet — complete Intake and build your plan.</p>}
+                  {markdown ? (
+                    <div className="mt-4">
+                      <ReportMarkdown markdown={markdown} title="IIDATECH business plan" subtitle={country} />
+                    </div>
+                  ) : (
+                    <p className="muted mt-4">No plan yet — complete Intake and build your plan.</p>
+                  )}
                 </section>
               )}
 

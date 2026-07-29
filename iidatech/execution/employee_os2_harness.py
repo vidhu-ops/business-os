@@ -184,7 +184,14 @@ def execute_harness_job(
     if not harness:
         return {"success": False, "reply": "Unknown employee.", "artifacts": []}
     if not keys:
-        return {"success": False, "reply": "Enter at least one API key.", "artifacts": []}
+        return {
+            "success": False,
+            "reply": (
+                "No API keys configured. Add OPENAI_API_KEY or PERPLEXITY_API_KEY on your server, "
+                "or enter keys under Team → Integrations → API keys."
+            ),
+            "artifacts": [],
+        }
 
     tool_calls, reasoning = route_message_to_tools(harness_id, message, report_context=report_context, extra_harnesses=extra_harnesses)
     if not tool_calls:

@@ -7,7 +7,7 @@ from pathlib import Path
 
 try:
     import chromadb
-except ImportError:  # pragma: no cover - optional local dependency
+except ImportError:  # pragma: no cover
     chromadb = None
 
 APP_DIR = Path(__file__).resolve().parent

@@ -104,13 +104,28 @@ def save_scope(workspace: dict[str, Any], scope: OfficeScope) -> dict[str, Any]:
     return scope.to_dict()
 
 
-def setup_requirements(report_id: str, keys: dict[str, str]) -> list[dict[str, Any]]:
-    _ = keys
+def setup_requirements(report_id: str, keys: dict[str, str], *, has_plan: bool = True) -> list[dict[str, Any]]:
+    from iidatech.execution.session_api_keys import has_any_llm_key
+
     return [
+        {
+            "need": "Run agents & write copy",
+            "ok": has_any_llm_key(keys),
+            "required": "Yes — add an LLM key in Integrations or set OPENAI_API_KEY on the server",
+        },
+        {
+            "need": "Live research & lead search",
+            "ok": bool(keys.get("perplexity")),
+            "required": "Recommended for research and lead-finding tasks",
+        },
         {"need": "Send emails from agents", "ok": is_connected(report_id, "gmail"), "required": "Only if tasks send email"},
         {"need": "Post to LinkedIn", "ok": is_connected(report_id, "linkedin"), "required": "Only if tasks post to LinkedIn"},
         {"need": "Update CRM / deals", "ok": is_connected(report_id, "hubspot"), "required": "Only if tasks touch HubSpot"},
-        {"need": "Business plan for task queue", "ok": True, "required": "Yes — Taylor builds the checklist from your plan"},
+        {
+            "need": "Business plan for task queue",
+            "ok": has_plan,
+            "required": "Yes — build a plan first, then Taylor creates your task checklist",
+        },
     ]
 
 
@@ -170,7 +185,11 @@ def bootstrap_os2(workspace_id: str) -> dict[str, Any]:
         ],
         "office_state": office_state,
         "checklist": checklist,
-        "setup_requirements": setup_requirements(report_id, keys),
+        "setup_requirements": setup_requirements(
+            report_id,
+            keys,
+            has_plan=bool((workspace.get("business_plan") or {}).get("available")),
+        ),
         "oauth_status": connection_status_rows(report_id),
         "taylor_pulse": pulse,
         "has_research": bool((workspace.get("research_report") or {}).get("available")),
@@ -401,7 +420,10 @@ def run_office_action(
         outcome["result"] = out
     elif action == "next_task":
         if not keys:
-            raise ValueError("Research service is not available right now. Try again in a moment.")
+            raise ValueError(
+                "No AI API keys found. Add OPENAI_API_KEY or PERPLEXITY_API_KEY in your server settings, "
+                "or enter keys under Integrations → API keys."
+            )
         step = run_office_execution_step(
             report_id,
             checklist,
@@ -427,7 +449,10 @@ def run_office_action(
         outcome["result"] = out
     elif action == "full_day":
         if not keys:
-            raise ValueError("Research service is not available right now. Try again in a moment.")
+            raise ValueError(
+                "No AI API keys found. Add OPENAI_API_KEY or PERPLEXITY_API_KEY in your server settings, "
+                "or enter keys under Integrations → API keys."
+            )
         run_office_arrival(report_id, report_context=report_context)
         out = run_office_standup(report_id, goal_list, report_v3=report_v3, report_context=report_context)
         state["last_mentor"] = out.get("mentor")

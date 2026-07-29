@@ -36,7 +36,7 @@ export function WorkspaceEntryLink({ href = "/app/dashboard", className, childre
       }}
       {...rest}
     >
-      {busy ? "Opening workspace..." : children}
+      {busy ? "Opening workspace…" : children}
     </Link>
   );
 }

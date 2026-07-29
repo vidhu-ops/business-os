@@ -6,6 +6,7 @@ import { api } from "@/lib/api";
 import { ProjectPicker } from "@/components/ProjectPicker";
 import { useProjects } from "@/hooks/useProjects";
 import { brandReportText, filterClientWarnings, sanitizeReportMarkdown } from "@/lib/reportBrand";
+import { ReportMarkdown } from "@/components/ReportMarkdown";
 
 type ResearchOption = { section_count: number; titles: string[] };
 type TabId = "report";
@@ -364,8 +365,12 @@ function ResearchContent() {
               ))}
 
               {markdown && (
-                <article className="iid-card prose-report">
-                  <pre className="whitespace-pre-wrap text-sm leading-relaxed">{markdown}</pre>
+                <article className="iid-card iid-report-shell">
+                  <ReportMarkdown
+                    markdown={markdown}
+                    title="IIDATECH market research report"
+                    subtitle={marketLabel || country}
+                  />
                 </article>
               )}
             </>

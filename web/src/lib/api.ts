@@ -1,6 +1,9 @@
 const API_BASE = process.env.NEXT_PUBLIC_API_URL || "";
 const REQUEST_TIMEOUT_MS = 15_000;
+const BOOTSTRAP_TIMEOUT_MS = 90_000;
 const LONG_REQUEST_TIMEOUT_MS = 30 * 60 * 1000;
+/** Agent chat, checklist runs, and office actions can take several minutes. */
+const OS2_REQUEST_TIMEOUT_MS = 10 * 60 * 1000;
 const RESEARCH_POLL_MS = 4_000;
 const RESEARCH_POLL_MAX = 450;
 
@@ -32,6 +35,16 @@ function sleep(ms: number) {
   return new Promise((resolve) => window.setTimeout(resolve, ms));
 }
 
+function timeoutMessage(timeoutMs: number): string {
+  if (timeoutMs > REQUEST_TIMEOUT_MS) {
+    return "Request timed out while waiting for the server. On Render, the service can take up to a minute to wake from sleep — please retry.";
+  }
+  if (!API_BASE) {
+    return "Request timed out — the server may still be starting. Wait a moment and retry.";
+  }
+  return "Request timed out — check that the API is running on port 8000.";
+}
+
 async function request<T>(
   path: string,
   init?: RequestInit,
@@ -60,12 +73,7 @@ async function request<T>(
     return data as T;
   } catch (err) {
     if (err instanceof DOMException && err.name === "AbortError") {
-      const long = (opts?.timeoutMs ?? REQUEST_TIMEOUT_MS) > REQUEST_TIMEOUT_MS;
-      throw new Error(
-        long
-          ? "Request timed out while waiting for the server."
-          : "Request timed out — check that the API is running on port 8000.",
-      );
+      throw new Error(timeoutMessage(opts?.timeoutMs ?? REQUEST_TIMEOUT_MS));
     }
     throw err;
   } finally {
@@ -75,17 +83,32 @@ async function request<T>(
 
 /** Ensure a demo session exists before entering /app routes. */
 export async function ensureSession(): Promise<User> {
+  const bootstrap = { timeoutMs: BOOTSTRAP_TIMEOUT_MS };
   const token = getToken();
   if (token) {
     try {
-      return await request<User>("/api/v1/auth/me");
+      return await request<User>("/api/v1/auth/me", undefined, bootstrap);
     } catch {
       setToken(null);
     }
   }
-  const data = await request<User & { token: string }>("/api/v1/auth/demo", { method: "POST", body: "{}" }, { auth: false });
-  setToken(data.token);
-  return data;
+
+  let lastError: Error | null = null;
+  for (let attempt = 0; attempt < 4; attempt += 1) {
+    try {
+      const data = await request<User & { token: string }>(
+        "/api/v1/auth/demo",
+        { method: "POST", body: "{}" },
+        { auth: false, ...bootstrap },
+      );
+      setToken(data.token);
+      return data;
+    } catch (err) {
+      lastError = err instanceof Error ? err : new Error("Could not start session");
+      if (attempt < 3) await sleep(2500 * (attempt + 1));
+    }
+  }
+  throw lastError ?? new Error("Could not start session");
 }
 
 export const api = {
@@ -228,7 +251,8 @@ export const api = {
       },
       { timeoutMs: LONG_REQUEST_TIMEOUT_MS },
     ),
-  getOs2: (workspace_id: string) => request<Record<string, unknown>>(`/api/v1/os2/${workspace_id}`),
+  getOs2: (workspace_id: string) =>
+    request<Record<string, unknown>>(`/api/v1/os2/${workspace_id}`, undefined, { timeoutMs: BOOTSTRAP_TIMEOUT_MS }),
   setOs2Scope: (workspace_id: string, scope: { mode: string; departments?: string[]; harness_ids?: string[] }) =>
     request<Record<string, unknown>>(`/api/v1/os2/${workspace_id}/scope`, {
       method: "PATCH",
@@ -242,37 +266,46 @@ export const api = {
   getOs2Chat: (workspace_id: string, harness_id: string) =>
     request<{ chat: Array<Record<string, unknown>> }>(`/api/v1/os2/${workspace_id}/chat/${harness_id}`),
   postOs2Chat: (workspace_id: string, harness_id: string, message: string) =>
-    request<Record<string, unknown>>(`/api/v1/os2/${workspace_id}/chat/${harness_id}`, {
-      method: "POST",
-      body: JSON.stringify({ message }),
-    }),
+    request<Record<string, unknown>>(
+      `/api/v1/os2/${workspace_id}/chat/${harness_id}`,
+      { method: "POST", body: JSON.stringify({ message }) },
+      { timeoutMs: OS2_REQUEST_TIMEOUT_MS },
+    ),
   buildOs2Checklist: (workspace_id: string) =>
-    request<{ checklist: Record<string, unknown> }>(`/api/v1/os2/${workspace_id}/checklist/build`, { method: "POST", body: "{}" }),
+    request<{ checklist: Record<string, unknown> }>(
+      `/api/v1/os2/${workspace_id}/checklist/build`,
+      { method: "POST", body: "{}" },
+      { timeoutMs: OS2_REQUEST_TIMEOUT_MS },
+    ),
   runOs2ChecklistNext: (workspace_id: string, auto_approve_external = false) =>
-    request<Record<string, unknown>>(`/api/v1/os2/${workspace_id}/checklist/run-next`, {
-      method: "POST",
-      body: JSON.stringify({ auto_approve_external }),
-    }),
+    request<Record<string, unknown>>(
+      `/api/v1/os2/${workspace_id}/checklist/run-next`,
+      { method: "POST", body: JSON.stringify({ auto_approve_external }) },
+      { timeoutMs: OS2_REQUEST_TIMEOUT_MS },
+    ),
   getTaylorPulse: (workspace_id: string) =>
     request<{ pulse: Record<string, unknown> }>(`/api/v1/os2/${workspace_id}/pulse`),
   getOs2Command: (workspace_id: string) => request<Record<string, unknown>>(`/api/v1/os2/${workspace_id}/command`),
   getOs2WarRoom: (workspace_id: string) => request<Record<string, unknown>>(`/api/v1/os2/${workspace_id}/war-room`),
   getOs2Office: (workspace_id: string) => request<Record<string, unknown>>(`/api/v1/os2/${workspace_id}/office`),
   runOs2OfficeAction: (workspace_id: string, action: string, goals?: string[], auto_approve?: boolean) =>
-    request<Record<string, unknown>>(`/api/v1/os2/${workspace_id}/office/action`, {
-      method: "POST",
-      body: JSON.stringify({ action, goals: goals || [], auto_approve: Boolean(auto_approve) }),
-    }),
+    request<Record<string, unknown>>(
+      `/api/v1/os2/${workspace_id}/office/action`,
+      { method: "POST", body: JSON.stringify({ action, goals: goals || [], auto_approve: Boolean(auto_approve) }) },
+      { timeoutMs: OS2_REQUEST_TIMEOUT_MS },
+    ),
   runTaylorAction: (workspace_id: string, action: string) =>
-    request<Record<string, unknown>>(`/api/v1/os2/${workspace_id}/taylor/action`, {
-      method: "POST",
-      body: JSON.stringify({ action }),
-    }),
+    request<Record<string, unknown>>(
+      `/api/v1/os2/${workspace_id}/taylor/action`,
+      { method: "POST", body: JSON.stringify({ action }) },
+      { timeoutMs: OS2_REQUEST_TIMEOUT_MS },
+    ),
   runOs2TaskAction: (workspace_id: string, task_id: string, action: string) =>
-    request<Record<string, unknown>>(`/api/v1/os2/${workspace_id}/tasks/${task_id}/action`, {
-      method: "POST",
-      body: JSON.stringify({ action }),
-    }),
+    request<Record<string, unknown>>(
+      `/api/v1/os2/${workspace_id}/tasks/${task_id}/action`,
+      { method: "POST", body: JSON.stringify({ action }) },
+      { timeoutMs: OS2_REQUEST_TIMEOUT_MS },
+    ),
   getOs2OAuth: (workspace_id: string) =>
     request<{ providers: Array<Record<string, unknown>> }>(`/api/v1/os2/${workspace_id}/oauth`),
   getOs2Memory: (workspace_id: string) =>
@@ -356,10 +389,11 @@ export const api = {
   getTeam: (workspace_id: string) =>
     request<{ team: Record<string, unknown>; report_id?: string; has_research?: boolean }>(`/api/v1/team/${workspace_id}`),
   runTeamTask: (workspace_id: string, harness_id: string, message: string) =>
-    request<Record<string, unknown>>("/api/v1/team/run", {
-      method: "POST",
-      body: JSON.stringify({ workspace_id, harness_id, message }),
-    }),
+    request<Record<string, unknown>>(
+      "/api/v1/team/run",
+      { method: "POST", body: JSON.stringify({ workspace_id, harness_id, message }) },
+      { timeoutMs: OS2_REQUEST_TIMEOUT_MS },
+    ),
   automationWorkflows: () => request<{ steps: Array<Record<string, unknown>> }>("/api/v1/automation/steps"),
   getAutomation: (workspace_id: string) =>
     request<{ automation: Record<string, unknown>; queue: Record<string, unknown>; steps_catalog: Array<Record<string, unknown>> }>(

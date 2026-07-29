@@ -38,5 +38,18 @@ class Settings(BaseSettings):
 
 
 settings = Settings()
+
+
+def _render_public_url() -> str:
+    return (os.getenv("RENDER_EXTERNAL_URL") or os.getenv("FRONTEND_URL") or "").strip().rstrip("/")
+
+
+_public = _render_public_url()
+if _public:
+    if not (os.getenv("FRONTEND_URL") or "").strip():
+        settings.frontend_url = _public
+    if not (os.getenv("CORS_ORIGINS") or "").strip():
+        settings.cors_origins = _public
+
 settings.outputs_root.mkdir(parents=True, exist_ok=True)
 settings.workspaces_root.mkdir(parents=True, exist_ok=True)
