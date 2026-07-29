@@ -63,3 +63,14 @@ Copy the API URL, then set `CORS_ORIGINS` and `FRONTEND_URL` to your Vercel URL.
 | Render | `FRONTEND_URL` | `https://your-app.vercel.app` |
 
 Vercel `*.vercel.app` preview URLs are allowed automatically by the API CORS config.
+
+## Deploy on Replit
+
+1. Import `vidhu-ops/business-os` on [replit.com](https://replit.com).
+2. In **Secrets**, set optional keys (`JWT_SECRET`, `PERPLEXITY_API_KEY`, etc.). Leave **`API_URL`** as `http://127.0.0.1:8000` (default in `.replit`) so the Next.js proxy talks to the local FastAPI process.
+3. Click **Run** (or deploy). Replit runs `scripts/build-replit.sh` then `scripts/start-replit.sh`, which starts:
+   - FastAPI on `127.0.0.1:8000`
+   - Next.js on `0.0.0.0:3000` (webview port)
+4. Open the webview on port **3000**. API calls go to `/api/v1/*` and are proxied server-side to the local API.
+
+**Verify:** In the Replit shell, `curl http://127.0.0.1:8000/api/v1/health` should return `{"status":"ok",...}`. In the browser, `/app/dashboard` should load without a "Not Found" session error.

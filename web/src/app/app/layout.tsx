@@ -43,7 +43,9 @@ export default function AppLayout({ children }: { children: React.ReactNode }) {
       <main className="flex min-h-screen flex-col items-center justify-center gap-4 px-6 text-center">
         <p className="text-sm text-red-600">{error}</p>
         <p className="text-sm text-[var(--iid-muted)]">
-          Set <code className="text-xs">API_URL</code> to your backend URL (e.g. Render API service), then redeploy the web app.
+          Make sure the API is running, then retry. On Replit, leave{" "}
+          <code className="text-xs">API_URL</code> as <code className="text-xs">http://127.0.0.1:8000</code> and
+          confirm <code className="text-xs">scripts/start-replit.sh</code> started both the API (port 8000) and web (port 3000).
         </p>
         <button
           type="button"
