@@ -2,7 +2,7 @@ services:
   - type: web
     name: business-os-api
     runtime: docker
-    dockerfilePath: ./Dockerfile.api
+    dockerfilePath: ./Dockerfile
     plan: starter
     healthCheckPath: /api/v1/health
     envVars:
@@ -18,3 +18,19 @@ services:
         sync: false
       - key: OPENAI_API_KEY
         sync: false
+
+  - type: web
+    name: business-os-web
+    runtime: node
+    rootDir: web
+    plan: starter
+    buildCommand: npm install && npm run build
+    startCommand: npm start
+    envVars:
+      - key: NODE_VERSION
+        value: "20"
+      - key: API_URL
+        fromService:
+          name: business-os-api
+          type: web
+          envVarKey: RENDER_EXTERNAL_URL

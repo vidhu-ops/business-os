@@ -23,10 +23,21 @@ app = FastAPI(
     description="Production API for IIDATECH founder product",
 )
 
+
+@app.get("/")
+def root() -> dict:
+    return {
+        "service": "iidatech-api",
+        "message": "This URL is the API only. Open the web app service for the UI.",
+        "health": "/api/v1/health",
+        "docs": "/docs",
+    }
+
+
 app.add_middleware(
     CORSMiddleware,
     allow_origins=settings.cors_origin_list,
-    allow_origin_regex=r"https://[\w.-]+\.vercel\.app",
+    allow_origin_regex=r"https://[\w.-]+\.(vercel\.app|onrender\.com)",
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
