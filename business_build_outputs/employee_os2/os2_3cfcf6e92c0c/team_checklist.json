@@ -1,0 +1,182 @@
+{
+  "team_leader": "Taylor - Team Leader (COO)",
+  "summary": "Taylor - Team Leader (COO) reviewed the business plan for Test existing co (India). Assigned 9 tasks. Buyer focus: target buyer. External steps need OAuth + approval.",
+  "snapshot": {
+    "idea": "Test existing co",
+    "industry": "retail",
+    "geography": "India",
+    "buyer": "target buyer",
+    "pain": "",
+    "trigger": "",
+    "cta": "book a validation call",
+    "channels": [],
+    "blueprint_tasks": [],
+    "materials": []
+  },
+  "items": [
+    {
+      "id": "tl_2399d4beba",
+      "seq": 1,
+      "harness_id": "research_analyst",
+      "assignee": "Sam - Research",
+      "title": "Competitor and pricing evidence pass",
+      "prompt": "Research named competitors, pricing tiers, and review signals for Test existing co serving target buyer in India. Pull live evidence and log gaps.",
+      "task_kind": "harness",
+      "oauth_provider": "",
+      "external": false,
+      "depends_on": [],
+      "status": "pending",
+      "approved": true,
+      "result": "",
+      "artifacts": [],
+      "error": ""
+    },
+    {
+      "id": "tl_eaa06b9b20",
+      "seq": 2,
+      "harness_id": "sales_lead",
+      "assignee": "Alex - Sales Lead",
+      "title": "Qualified lead list (CSV)",
+      "prompt": "Find 20 qualified leads for Test existing co targeting target buyer in India. Export real companies with contact names, titles, emails or LinkedIn where available.",
+      "task_kind": "harness",
+      "oauth_provider": "",
+      "external": false,
+      "depends_on": [
+        "tl_2399d4beba"
+      ],
+      "status": "pending",
+      "approved": true,
+      "result": "",
+      "artifacts": [],
+      "error": ""
+    },
+    {
+      "id": "tl_1956331446",
+      "seq": 3,
+      "harness_id": "sales_lead",
+      "assignee": "Alex - Sales Lead",
+      "title": "3-step cold outreach sequence",
+      "prompt": "Write a 3-step cold outreach sequence for target buyer. Pain: core buyer pain from the plan. Trigger: buying trigger from the plan. CTA: book a validation call. Include opt-out language.",
+      "task_kind": "harness",
+      "oauth_provider": "",
+      "external": false,
+      "depends_on": [
+        "tl_eaa06b9b20"
+      ],
+      "status": "pending",
+      "approved": true,
+      "result": "",
+      "artifacts": [],
+      "error": ""
+    },
+    {
+      "id": "tl_623cb23149",
+      "seq": 4,
+      "harness_id": "growth_marketer",
+      "assignee": "Morgan - Growth",
+      "title": "LinkedIn + email campaign draft",
+      "prompt": "Draft a LinkedIn post and email campaign for Test existing co in India. Buyer: target buyer. CTA: book a validation call. Create 3 ad copy variants.",
+      "task_kind": "harness",
+      "oauth_provider": "",
+      "external": false,
+      "depends_on": [],
+      "status": "pending",
+      "approved": true,
+      "result": "",
+      "artifacts": [],
+      "error": ""
+    },
+    {
+      "id": "tl_7600fb2f8f",
+      "seq": 5,
+      "harness_id": "creative_producer",
+      "assignee": "Riley - Creative",
+      "title": "Landing hero and proof brief",
+      "prompt": "Create a creative brief for the landing page hero for Test existing co. Buyer: target buyer. Geography: India.",
+      "task_kind": "harness",
+      "oauth_provider": "",
+      "external": false,
+      "depends_on": [],
+      "status": "pending",
+      "approved": true,
+      "result": "",
+      "artifacts": [],
+      "error": ""
+    },
+    {
+      "id": "tl_0f243dae73",
+      "seq": 6,
+      "harness_id": "ops_manager",
+      "assignee": "Jordan - Ops",
+      "title": "Weekly execution SOP and handoff checklist",
+      "prompt": "Write an SOP checklist for weekly sales and marketing execution for Test existing co.",
+      "task_kind": "harness",
+      "oauth_provider": "",
+      "external": false,
+      "depends_on": [],
+      "status": "pending",
+      "approved": true,
+      "result": "",
+      "artifacts": [],
+      "error": ""
+    },
+    {
+      "id": "tl_f02a7dd6f2",
+      "seq": 7,
+      "harness_id": "growth_marketer",
+      "assignee": "Morgan - Growth",
+      "title": "Post approved LinkedIn update (OAuth)",
+      "prompt": "Publish the approved LinkedIn campaign message for Test existing co targeting target buyer.",
+      "task_kind": "oauth_post",
+      "oauth_provider": "linkedin",
+      "external": true,
+      "depends_on": [
+        "tl_623cb23149"
+      ],
+      "status": "pending",
+      "approved": false,
+      "result": "",
+      "artifacts": [],
+      "error": ""
+    },
+    {
+      "id": "tl_53e6e740cf",
+      "seq": 8,
+      "harness_id": "sales_lead",
+      "assignee": "Alex - Sales Lead",
+      "title": "Send pilot outreach email (OAuth)",
+      "prompt": "Send the approved outreach email to the first qualified lead for Test existing co.",
+      "task_kind": "oauth_send",
+      "oauth_provider": "gmail",
+      "external": true,
+      "depends_on": [
+        "tl_eaa06b9b20"
+      ],
+      "status": "pending",
+      "approved": false,
+      "result": "",
+      "artifacts": [],
+      "error": ""
+    },
+    {
+      "id": "tl_f036f4568c",
+      "seq": 9,
+      "harness_id": "sales_lead",
+      "assignee": "Alex - Sales Lead",
+      "title": "Sync leads to HubSpot CRM (OAuth)",
+      "prompt": "Create HubSpot contacts for the lead CSV for Test existing co in India.",
+      "task_kind": "oauth_crm",
+      "oauth_provider": "hubspot",
+      "external": true,
+      "depends_on": [
+        "tl_2399d4beba"
+      ],
+      "status": "pending",
+      "approved": false,
+      "result": "",
+      "artifacts": [],
+      "error": ""
+    }
+  ],
+  "current_index": 0
+}

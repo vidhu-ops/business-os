@@ -46,14 +46,22 @@ export default function LoginPage() {
   }
 
   return (
-    <main className="mx-auto flex min-h-screen max-w-md flex-col justify-center px-5 py-16">
-      <Link href="/" className="mb-8 font-display text-sm font-extrabold tracking-[0.2em] uppercase">
-        IIDA<span className="text-[var(--iid-blue)]">TECH</span>
-      </Link>
-      <div className="iid-card">
-        <h1 className="font-display text-2xl font-bold">{mode === "login" ? "Welcome back" : "Create account"}</h1>
-        <p className="mt-2 text-sm text-[var(--iid-muted)]">Production founder workspace — no Streamlit required.</p>
-        <form className="mt-6 space-y-3" onSubmit={onSubmit}>
+    <main className="login-shell">
+      <div className="login-grid">
+        <section className="login-brand">
+          <Link href="/" className="mkt-logo">IIDA<span>TECH</span></Link>
+          <h1 className="login-title">Build your business in minutes.</h1>
+          <p className="login-lead">Research, plan, and execute with an AI team — built for companies and teams.</p>
+          <div className="login-pills">
+            <span>30 free credits</span>
+            <span>No card required</span>
+            <span>Reports in minutes</span>
+          </div>
+        </section>
+        <section className="login-panel iid-card">
+          <h2 className="font-display text-2xl font-bold tracking-tight">{mode === "login" ? "Welcome back" : "Create account"}</h2>
+          <p className="mt-3 text-sm text-[var(--iid-muted)]">Your IIDA workspace awaits.</p>
+          <form className="mt-8 space-y-4" onSubmit={onSubmit}>
           {mode === "register" && (
             <input className="iid-input" placeholder="Name" value={name} onChange={(e) => setName(e.target.value)} />
           )}
@@ -88,6 +96,7 @@ export default function LoginPage() {
         >
           {mode === "login" ? "Need an account? Register" : "Already have an account? Log in"}
         </button>
+        </section>
       </div>
     </main>
   );

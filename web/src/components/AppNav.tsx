@@ -3,7 +3,10 @@ import Link from "next/link";
 const links = [
   { href: "/app/dashboard", label: "Dashboard" },
   { href: "/app/projects", label: "Projects" },
-  { href: "/app/workspace", label: "Workspace" },
+  { href: "/app/research", label: "Research" },
+  { href: "/app/plan", label: "Plan" },
+  { href: "/app/team", label: "Employee OS" },
+  { href: "/app/automation", label: "Automation" },
   { href: "/app/saved", label: "Saved Files" },
   { href: "/app/profile", label: "Profile" },
 ];
@@ -16,7 +19,7 @@ export function AppNav({ email }: { email?: string }) {
           <Link href="/" className="font-display text-sm font-extrabold tracking-[0.2em] text-white uppercase">
             IIDA<span className="text-[var(--iid-blue)]">TECH</span>
           </Link>
-          <span className="hidden text-xs text-[var(--iid-muted)] sm:inline">Founder app</span>
+          <span className="hidden text-xs text-[var(--iid-muted)] sm:inline">IIDA workspace</span>
         </div>
         <nav className="flex flex-wrap items-center gap-2">
           {links.map((link) => (

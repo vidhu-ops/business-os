@@ -1,6 +1,7 @@
 const API_BASE = process.env.NEXT_PUBLIC_API_URL || "";
+const REQUEST_TIMEOUT_MS = 15_000;
 
-function getToken(): string | null {
+export function getToken(): string | null {
   if (typeof window === "undefined") return null;
   return localStorage.getItem("iida_token");
 }
@@ -24,44 +25,77 @@ export type Project = {
   has_plan?: boolean;
 };
 
-async function request<T>(path: string, init?: RequestInit): Promise<T> {
-  const token = getToken();
-  const res = await fetch(`${API_BASE}${path}`, {
-    ...init,
-    credentials: "include",
-    headers: {
-      "Content-Type": "application/json",
-      ...(token ? { Authorization: `Bearer ${token}` } : {}),
-      ...(init?.headers || {}),
-    },
-  });
-  const data = await res.json().catch(() => ({}));
-  if (!res.ok) {
-    const detail = (data as { detail?: unknown }).detail;
-    throw new Error(typeof detail === "string" ? detail : JSON.stringify(detail || res.statusText));
+async function request<T>(path: string, init?: RequestInit, opts?: { auth?: boolean }): Promise<T> {
+  const useAuth = opts?.auth !== false;
+  const token = useAuth ? getToken() : null;
+  const controller = new AbortController();
+  const timer = window.setTimeout(() => controller.abort(), REQUEST_TIMEOUT_MS);
+  try {
+    const res = await fetch(`${API_BASE}${path}`, {
+      ...init,
+      credentials: "include",
+      signal: controller.signal,
+      headers: {
+        "Content-Type": "application/json",
+        ...(token ? { Authorization: `Bearer ${token}` } : {}),
+        ...(init?.headers || {}),
+      },
+    });
+    const data = await res.json().catch(() => ({}));
+    if (!res.ok) {
+      const detail = (data as { detail?: unknown }).detail;
+      throw new Error(typeof detail === "string" ? detail : JSON.stringify(detail || res.statusText));
+    }
+    return data as T;
+  } catch (err) {
+    if (err instanceof DOMException && err.name === "AbortError") {
+      throw new Error("Request timed out — is the API running on port 8000?");
+    }
+    throw err;
+  } finally {
+    window.clearTimeout(timer);
   }
-  return data as T;
+}
+
+/** Ensure a demo session exists before entering /app routes. */
+export async function ensureSession(): Promise<User> {
+  const token = getToken();
+  if (token) {
+    try {
+      return await request<User>("/api/v1/auth/me");
+    } catch {
+      setToken(null);
+    }
+  }
+  const data = await request<User & { token: string }>("/api/v1/auth/demo", { method: "POST", body: "{}" }, { auth: false });
+  setToken(data.token);
+  return data;
 }
 
 export const api = {
   demoLogin: async () => {
-    const data = await request<User & { token: string }>("/api/v1/auth/demo", { method: "POST", body: "{}" });
+    setToken(null);
+    const data = await request<User & { token: string }>("/api/v1/auth/demo", { method: "POST", body: "{}" }, { auth: false });
     setToken(data.token);
     return data;
   },
   login: async (email: string, password: string) => {
-    const data = await request<User & { token: string }>("/api/v1/auth/login", {
-      method: "POST",
-      body: JSON.stringify({ email, password }),
-    });
+    setToken(null);
+    const data = await request<User & { token: string }>(
+      "/api/v1/auth/login",
+      { method: "POST", body: JSON.stringify({ email, password }) },
+      { auth: false },
+    );
     setToken(data.token);
     return data;
   },
   register: async (email: string, password: string, name: string) => {
-    const data = await request<User & { token: string }>("/api/v1/auth/register", {
-      method: "POST",
-      body: JSON.stringify({ email, password, name }),
-    });
+    setToken(null);
+    const data = await request<User & { token: string }>(
+      "/api/v1/auth/register",
+      { method: "POST", body: JSON.stringify({ email, password, name }) },
+      { auth: false },
+    );
     setToken(data.token);
     return data;
   },
@@ -72,20 +106,219 @@ export const api = {
     return data;
   },
   projects: () => request<{ projects: Project[] }>("/api/v1/projects"),
-  createProject: (idea: string, industry: string, country: string) =>
+  createProject: (idea: string, industry: string, country: string, areas = "") =>
     request<{ project: Project }>("/api/v1/projects", {
       method: "POST",
-      body: JSON.stringify({ idea, industry, country }),
+      body: JSON.stringify({ idea, industry, country, areas }),
     }),
   project: (id: string) => request<{ project: Record<string, unknown> }>(`/api/v1/projects/${id}`),
+  updateIntake: (workspace_id: string, idea: string, industry: string, country: string, areas = "") =>
+    request<{ project: Record<string, unknown>; scope: Record<string, unknown> }>(`/api/v1/projects/${workspace_id}/intake`, {
+      method: "PATCH",
+      body: JSON.stringify({ idea, industry, country, areas }),
+    }),
   researchOptions: () =>
-    request<{ perplexity_enabled: boolean; options: Array<{ section_count: number; titles: string[]; budget_usd: number }> }>(
-      "/api/v1/research/options",
-    ),
-  runResearch: (workspace_id: string, section_count: number) =>
+    request<{
+      research_ready: boolean;
+      countries: string[];
+      options: Array<{ section_count: number; titles: string[]; budget_usd: number }>;
+    }>("/api/v1/research/options"),
+  previewScope: (idea: string, industry: string, country: string, areas = "") =>
+    request<{ scope: Record<string, unknown>; market_label: string }>("/api/v1/research/scope", {
+      method: "POST",
+      body: JSON.stringify({ idea, industry, country, areas }),
+    }),
+  runResearch: (
+    workspace_id: string,
+    section_count: number,
+    intake?: { idea: string; industry: string; country: string; areas?: string },
+  ) =>
     request<Record<string, unknown>>("/api/v1/research/run", {
       method: "POST",
-      body: JSON.stringify({ workspace_id, section_count }),
+      body: JSON.stringify({ workspace_id, section_count, ...intake }),
+    }),
+  getResearch: (workspace_id: string) =>
+    request<{
+      research: Record<string, unknown>;
+      intake: {
+        idea: string;
+        industry: string;
+        country: string;
+        areas: string;
+        market_label: string;
+        scope_ok: boolean;
+        scope_issues: string[];
+        scope_suggestions: string[];
+      };
+    }>(`/api/v1/research/${workspace_id}`),
+  getPlan: (workspace_id: string) =>
+    request<{
+      plan: Record<string, unknown>;
+      has_research: boolean;
+      company_mode?: string | null;
+      intake: Record<string, unknown>;
+    }>(`/api/v1/plan/${workspace_id}`),
+  setPlanMode: (workspace_id: string, company_mode: string | null) =>
+    request<{ company_mode: string | null }>(`/api/v1/plan/${workspace_id}/mode`, {
+      method: "PATCH",
+      body: JSON.stringify({ company_mode }),
+    }),
+  savePlanIntake: (workspace_id: string, intake: Record<string, unknown>) =>
+    request<{ intake: Record<string, unknown> }>(`/api/v1/plan/${workspace_id}/intake`, {
+      method: "PATCH",
+      body: JSON.stringify(intake),
+    }),
+  runPlan: (workspace_id: string, use_research = true) =>
+    request<Record<string, unknown>>("/api/v1/plan/run", {
+      method: "POST",
+      body: JSON.stringify({ workspace_id, use_research }),
+    }),
+  getOs2: (workspace_id: string) => request<Record<string, unknown>>(`/api/v1/os2/${workspace_id}`),
+  setOs2Scope: (workspace_id: string, scope: { mode: string; departments?: string[]; harness_ids?: string[] }) =>
+    request<Record<string, unknown>>(`/api/v1/os2/${workspace_id}/scope`, {
+      method: "PATCH",
+      body: JSON.stringify(scope),
+    }),
+  setOs2Keys: (workspace_id: string, keys: Record<string, string>) =>
+    request<{ active_key_providers: string[] }>(`/api/v1/os2/${workspace_id}/keys`, {
+      method: "PATCH",
+      body: JSON.stringify({ keys }),
+    }),
+  getOs2Chat: (workspace_id: string, harness_id: string) =>
+    request<{ chat: Array<Record<string, unknown>> }>(`/api/v1/os2/${workspace_id}/chat/${harness_id}`),
+  postOs2Chat: (workspace_id: string, harness_id: string, message: string) =>
+    request<Record<string, unknown>>(`/api/v1/os2/${workspace_id}/chat/${harness_id}`, {
+      method: "POST",
+      body: JSON.stringify({ message }),
+    }),
+  buildOs2Checklist: (workspace_id: string) =>
+    request<{ checklist: Record<string, unknown> }>(`/api/v1/os2/${workspace_id}/checklist/build`, { method: "POST", body: "{}" }),
+  runOs2ChecklistNext: (workspace_id: string, auto_approve_external = false) =>
+    request<Record<string, unknown>>(`/api/v1/os2/${workspace_id}/checklist/run-next`, {
+      method: "POST",
+      body: JSON.stringify({ auto_approve_external }),
+    }),
+  getTaylorPulse: (workspace_id: string) =>
+    request<{ pulse: Record<string, unknown> }>(`/api/v1/os2/${workspace_id}/pulse`),
+  getOs2Command: (workspace_id: string) => request<Record<string, unknown>>(`/api/v1/os2/${workspace_id}/command`),
+  getOs2WarRoom: (workspace_id: string) => request<Record<string, unknown>>(`/api/v1/os2/${workspace_id}/war-room`),
+  getOs2Office: (workspace_id: string) => request<Record<string, unknown>>(`/api/v1/os2/${workspace_id}/office`),
+  runOs2OfficeAction: (workspace_id: string, action: string, goals?: string[], auto_approve?: boolean) =>
+    request<Record<string, unknown>>(`/api/v1/os2/${workspace_id}/office/action`, {
+      method: "POST",
+      body: JSON.stringify({ action, goals: goals || [], auto_approve: Boolean(auto_approve) }),
+    }),
+  runTaylorAction: (workspace_id: string, action: string) =>
+    request<Record<string, unknown>>(`/api/v1/os2/${workspace_id}/taylor/action`, {
+      method: "POST",
+      body: JSON.stringify({ action }),
+    }),
+  runOs2TaskAction: (workspace_id: string, task_id: string, action: string) =>
+    request<Record<string, unknown>>(`/api/v1/os2/${workspace_id}/tasks/${task_id}/action`, {
+      method: "POST",
+      body: JSON.stringify({ action }),
+    }),
+  getOs2OAuth: (workspace_id: string) =>
+    request<{ providers: Array<Record<string, unknown>> }>(`/api/v1/os2/${workspace_id}/oauth`),
+  getOs2Memory: (workspace_id: string) =>
+    request<{ memory: Record<string, unknown> }>(`/api/v1/os2/${workspace_id}/memory`),
+  getOs2Harnesses: (workspace_id: string) =>
+    request<{ custom: Array<Record<string, unknown>> }>(`/api/v1/os2/${workspace_id}/harnesses`),
+  addOs2Harness: (workspace_id: string, body: Record<string, unknown>) =>
+    request<{ custom: Array<Record<string, unknown>> }>(`/api/v1/os2/${workspace_id}/harnesses`, {
+      method: "POST",
+      body: JSON.stringify(body),
+    }),
+  getOs2Employees: (workspace_id: string) =>
+    request<{ employees: Array<Record<string, unknown>>; catalog_roles: Array<Record<string, unknown>>; core_roles: string[] }>(
+      `/api/v1/os2/${workspace_id}/employees`,
+    ),
+  hireOs2Employee: (workspace_id: string, body: { name?: string; role: string; catalog?: boolean }) =>
+    request<Record<string, unknown>>(`/api/v1/os2/${workspace_id}/employees`, {
+      method: "POST",
+      body: JSON.stringify(body),
+    }),
+  saveManualOAuth: (workspace_id: string, provider: string, body: Record<string, string>) =>
+    request<{ ok: boolean }>(`/api/v1/oauth/${workspace_id}/${provider}`, {
+      method: "POST",
+      body: JSON.stringify(body),
+    }),
+  previewDeliverable: (body: { title: string; reply?: string; artifacts?: string[] }) =>
+    request<Record<string, unknown>>("/api/v1/deliverables/preview", { method: "POST", body: JSON.stringify(body) }),
+  exportDeliverable: async (body: { title: string; reply?: string; artifacts?: string[] }, format: "pdf" | "docx") => {
+    const token = getToken();
+    const res = await fetch(`${API_BASE}/api/v1/deliverables/export?format=${format}`, {
+      method: "POST",
+      credentials: "include",
+      headers: {
+        "Content-Type": "application/json",
+        ...(token ? { Authorization: `Bearer ${token}` } : {}),
+      },
+      body: JSON.stringify(body),
+    });
+    if (!res.ok) throw new Error("Export failed");
+    const blob = await res.blob();
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = `${body.title}.${format}`;
+    a.click();
+    URL.revokeObjectURL(url);
+  },
+  gaugeMetadata: () => request<Record<string, unknown>>("/api/v1/plan/gauge/metadata"),
+  getGauge: (workspace_id: string) =>
+    request<{ draft: Record<string, unknown>; audit: Record<string, unknown> | null; step: number }>(`/api/v1/plan/${workspace_id}/gauge`),
+  resetGauge: (workspace_id: string) =>
+    request<{ ok: boolean; step: number }>(`/api/v1/plan/${workspace_id}/gauge`, { method: "DELETE" }),
+  saveGaugeDraft: (workspace_id: string, draft: Record<string, unknown>) =>
+    request<{ draft: Record<string, unknown> }>(`/api/v1/plan/${workspace_id}/gauge`, {
+      method: "PATCH",
+      body: JSON.stringify({ draft }),
+    }),
+  runGaugeAudit: (workspace_id: string) =>
+    request<{ audit: Record<string, unknown>; profile: Record<string, unknown> }>(`/api/v1/plan/${workspace_id}/gauge/audit`, {
+      method: "POST",
+      body: "{}",
+    }),
+  buildGaugePlan: (workspace_id: string) =>
+    request<Record<string, unknown>>(`/api/v1/plan/${workspace_id}/gauge/build-plan`, { method: "POST", body: "{}" }),
+  downloadFile: async (path: string, filename?: string) => {
+    const token = getToken();
+    const res = await fetch(`${API_BASE}/api/v1/files/download?path=${encodeURIComponent(path)}`, {
+      credentials: "include",
+      headers: token ? { Authorization: `Bearer ${token}` } : {},
+    });
+    if (!res.ok) throw new Error("Download failed");
+    const blob = await res.blob();
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = filename || path.split("/").pop() || "download";
+    a.click();
+    URL.revokeObjectURL(url);
+  },
+  teamRoster: () => request<{ agents: Array<Record<string, unknown>> }>("/api/v1/team/roster"),
+  getTeam: (workspace_id: string) =>
+    request<{ team: Record<string, unknown>; report_id?: string; has_research?: boolean }>(`/api/v1/team/${workspace_id}`),
+  runTeamTask: (workspace_id: string, harness_id: string, message: string) =>
+    request<Record<string, unknown>>("/api/v1/team/run", {
+      method: "POST",
+      body: JSON.stringify({ workspace_id, harness_id, message }),
+    }),
+  automationWorkflows: () => request<{ steps: Array<Record<string, unknown>> }>("/api/v1/automation/steps"),
+  getAutomation: (workspace_id: string) =>
+    request<{ automation: Record<string, unknown>; queue: Record<string, unknown>; steps_catalog: Array<Record<string, unknown>> }>(
+      `/api/v1/automation/${workspace_id}`,
+    ),
+  buildAutomation: (workspace_id: string, step_ids: string[], name: string) =>
+    request<Record<string, unknown>>("/api/v1/automation/build", {
+      method: "POST",
+      body: JSON.stringify({ workspace_id, step_ids, name }),
+    }),
+  runAutomationNext: (workspace_id: string, auto_approve_external = false) =>
+    request<Record<string, unknown>>("/api/v1/automation/run-next", {
+      method: "POST",
+      body: JSON.stringify({ workspace_id, auto_approve_external }),
     }),
   files: () => request<{ files: Array<Record<string, string | number>> }>("/api/v1/files"),
 };

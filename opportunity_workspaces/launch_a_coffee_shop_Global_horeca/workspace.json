@@ -1,0 +1,22 @@
+{
+  "workspace_id": "launch_a_coffee_shop_Global_horeca",
+  "workspace_dir": "C:\\Users\\weewee\\iida-final-vercel\\opportunity_workspaces\\launch_a_coffee_shop_Global_horeca",
+  "updated_at": "2026-07-29T08:31:17.151269Z",
+  "idea": "launch a coffee shop",
+  "country": "Global",
+  "industry": "horeca",
+  "current_path": "Understand your market",
+  "scope_assessment": {
+    "ok": true,
+    "issues": [],
+    "token_count": 3
+  },
+  "research_report": {
+    "available": false
+  },
+  "business_plan": {
+    "available": false
+  },
+  "business_plan_mode": "new",
+  "business_builder_is_existing": false
+}

@@ -122,7 +122,7 @@ def render_app_nav(st: Any, current_page: str) -> None:
 def _user_display_name(st: Any) -> str:
     email = str(st.session_state.get("iidatech_user_email") or "").strip().lower()
     if not email:
-        return "Founder"
+        return "User"
     record = load_local_users().get(email)
     if isinstance(record, dict) and record.get("name"):
         return str(record["name"])

@@ -1,5 +1,6 @@
 "use client";
 
+import Link from "next/link";
 import { FormEvent, useEffect, useState } from "react";
 import { api, Project } from "@/lib/api";
 
@@ -8,6 +9,7 @@ export default function ProjectsPage() {
   const [idea, setIdea] = useState("");
   const [industry, setIndustry] = useState("");
   const [country, setCountry] = useState("Global");
+  const [areas, setAreas] = useState("");
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
 
@@ -25,8 +27,9 @@ export default function ProjectsPage() {
     setLoading(true);
     setError("");
     try {
-      await api.createProject(idea, industry, country);
+      await api.createProject(idea, industry, country, areas);
       setIdea("");
+      setAreas("");
       await refresh();
     } catch (err) {
       setError(err instanceof Error ? err.message : "Could not create project");
@@ -39,7 +42,7 @@ export default function ProjectsPage() {
     <div className="space-y-8">
       <div>
         <h1 className="font-display text-3xl font-bold">Projects</h1>
-        <p className="mt-2 text-[var(--iid-muted)]">Create and open founder workspaces.</p>
+        <p className="mt-2 text-[var(--iid-muted)]">Create and open projects in your IIDA workspace.</p>
       </div>
 
       <form className="iid-card space-y-3" onSubmit={onCreate}>
@@ -49,6 +52,12 @@ export default function ProjectsPage() {
           <input className="iid-input" placeholder="Industry" value={industry} onChange={(e) => setIndustry(e.target.value)} required />
           <input className="iid-input" placeholder="Country / market" value={country} onChange={(e) => setCountry(e.target.value)} required />
         </div>
+        <input
+          className="iid-input"
+          placeholder="Cities / metro areas (optional)"
+          value={areas}
+          onChange={(e) => setAreas(e.target.value)}
+        />
         {error && <p className="text-sm text-red-400">{error}</p>}
         <button className="iid-btn iid-btn-primary" type="submit" disabled={loading}>{loading ? "Creating..." : "Create project"}</button>
       </form>
@@ -60,7 +69,7 @@ export default function ProjectsPage() {
         ) : (
           <div className="mt-4 overflow-x-auto">
             <table className="w-full text-left text-sm">
-              <thead className="text-[var(--iid-muted)]"><tr><th className="pb-2">Idea</th><th className="pb-2">Market</th><th className="pb-2">Industry</th><th className="pb-2">Report</th></tr></thead>
+              <thead className="text-[var(--iid-muted)]"><tr><th className="pb-2">Idea</th><th className="pb-2">Market</th><th className="pb-2">Industry</th><th className="pb-2">Report</th><th className="pb-2">Action</th></tr></thead>
               <tbody>
                 {projects.map((p) => (
                   <tr key={p.workspace_id} className="border-t border-[var(--iid-line)]">
@@ -68,6 +77,11 @@ export default function ProjectsPage() {
                     <td className="py-2 pr-4">{p.country}</td>
                     <td className="py-2 pr-4">{p.industry}</td>
                     <td className="py-2">{p.has_report ? "Yes" : "No"}</td>
+                    <td className="py-2">
+                      <Link href={`/app/research?project=${p.workspace_id}`} className="text-[var(--iid-blue)] hover:underline">
+                        Open workspace
+                      </Link>
+                    </td>
                   </tr>
                 ))}
               </tbody>

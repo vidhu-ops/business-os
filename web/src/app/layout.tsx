@@ -15,7 +15,7 @@ const syne = Syne({
 
 export const metadata: Metadata = {
   title: "IIDATECH | Build Your Business",
-  description: "Research, business plans, and team execution for founders.",
+  description: "Research, business plans, and team execution in one IIDA workspace.",
 };
 
 export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {

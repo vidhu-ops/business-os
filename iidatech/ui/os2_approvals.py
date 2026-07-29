@@ -44,7 +44,7 @@ def render_os2_approvals(
     api_config: dict[str, str] | None = None,
     extra_harnesses: list[dict[str, Any]] | None = None,
 ) -> None:
-    st.markdown("### Founder approvals")
+    st.markdown("### Approvals")
     st.caption("External posts, emails, and CRM syncs pause here until you approve.")
 
     checklist = load_checklist(report_id)

@@ -1,0 +1,325 @@
+{
+  "workspace_id": "Test_existing_co_India_retail",
+  "workspace_dir": "C:\\Users\\weewee\\iida-final-vercel\\opportunity_workspaces\\Test_existing_co_India_retail",
+  "updated_at": "2026-07-29T13:08:08.507455Z",
+  "idea": "Test existing co",
+  "country": "India",
+  "industry": "retail",
+  "current_path": "Understand your market",
+  "scope_assessment": {
+    "ok": false,
+    "issues": [
+      "Topic has too few specific words."
+    ],
+    "token_count": 2,
+    "suggestions": [
+      "One product category for one buyer segment in India",
+      "One workflow inside retail for a named customer type in India"
+    ]
+  },
+  "areas": "",
+  "research_report": {
+    "available": false
+  },
+  "business_plan": {
+    "available": false
+  },
+  "employee_os": {
+    "available": false,
+    "runs": []
+  },
+  "automation": {
+    "available": false,
+    "log": []
+  },
+  "business_plan_mode": "existing",
+  "business_builder_is_existing": true,
+  "gauge_intake": {
+    "step": 5,
+    "gauge_type": "saas",
+    "company_name": "Fresh Co",
+    "geography": "India",
+    "monthly_revenue": "100000",
+    "description": "Test",
+    "plan_purpose": "Internal strategy",
+    "checklists": {
+      "saas": {}
+    },
+    "plan_forward": {
+      "biggest_bottleneck": "x",
+      "priority_12_months": "y",
+      "success_12_months": "z",
+      "willing_to_invest": "a",
+      "stop_doing": "b",
+      "why_customers_choose": "c",
+      "why_customers_leave": "d",
+      "competitive_threat": "e"
+    }
+  },
+  "gauge_audit": {
+    "overall_score": 10,
+    "overall_label": "Critical",
+    "overall_summary": "Fresh Co lacks essential metrics and operational structures across all business areas, indicating a critical need for foundational elements to be established.",
+    "plain_english_read": "Fresh Co is missing key financial, customer, sales, operational, product, and competitive metrics. Immediate attention is required to track and manage these areas effectively.",
+    "market_position": "Fresh Co is positioned as a generic SaaS player in a competitive Indian market, facing challenges in differentiation and market entry without a clear product offering.",
+    "categories": [
+      {
+        "name": "Financials",
+        "score": 0,
+        "status": "risk",
+        "summary": "No financial metrics are tracked, including MRR/ARR, gross margin, or cash runway."
+      },
+      {
+        "name": "Customers",
+        "score": 0,
+        "status": "risk",
+        "summary": "Lacks customer metrics such as churn rate, LTV, and customer segmentation."
+      },
+      {
+        "name": "Sales & Marketing",
+        "score": 0,
+        "status": "risk",
+        "summary": "No sales or marketing metrics are tracked, including CAC, conversion rates, or pricing strategies."
+      },
+      {
+        "name": "Operations",
+        "score": 0,
+        "status": "risk",
+        "summary": "No operational metrics are tracked, including uptime, onboarding processes, or support systems."
+      },
+      {
+        "name": "Product & Team",
+        "score": 0,
+        "status": "risk",
+        "summary": "Lacks product metrics such as feature usage and a defined team structure."
+      },
+      {
+        "name": "Competitive Position",
+        "score": 0,
+        "status": "risk",
+        "summary": "No competitive metrics are tracked, including competitor analysis or differentiation strategies."
+      }
+    ],
+    "key_metrics": [
+      {
+        "metric": "Monthly Revenue",
+        "value": 100000,
+        "currency": "USD"
+      },
+      {
+        "metric": "Geography",
+        "value": "India"
+      },
+      {
+        "metric": "Annual Growth Rate (Market)",
+        "value": "20-25%"
+      },
+      {
+        "metric": "Competitors",
+        "value": "Zoho, Freshworks, Salesforce, Microsoft, Darwinbox, Keka, Tally, Busy"
+      },
+      {
+        "metric": "Market Trend",
+        "value": "Rapid growth in vertical SaaS"
+      }
+    ],
+    "top_actions": [
+      "Establish financial tracking for MRR/ARR and cash runway.",
+      "Implement customer metrics tracking including churn rate and LTV.",
+      "Develop a sales and marketing strategy with defined pricing and CAC tracking.",
+      "Create operational processes including onboarding and support systems."
+    ],
+    "industry_landscape": "India's SaaS market is rapidly growing, with a focus on vertical specialization and AI features. Companies are consolidating, favoring those with strong unit economics.",
+    "risks": [
+      "Lack of foundational metrics may lead to poor decision-making.",
+      "Inability to compete effectively against established players.",
+      "Potential loss of market share due to lack of differentiation."
+    ],
+    "sources": [
+      "Market analysis reports",
+      "Industry publications",
+      "Competitor benchmarking studies"
+    ],
+    "_fallback": false,
+    "_route": "openai:gpt-4o-mini",
+    "_market_context_used": true
+  },
+  "existing_business_profile": {
+    "business_stage": "existing",
+    "gauge_business_type": "saas",
+    "gauge_business_type_label": "Software / SaaS",
+    "company_name": "Fresh Co",
+    "website": "",
+    "public_links": "",
+    "business_description": "Test",
+    "industry": "Software / SaaS",
+    "geography": "India",
+    "months_in_operation": "",
+    "years_operating": "",
+    "currency": "USD",
+    "monthly_revenue": "100000",
+    "monthly_costs": "",
+    "annual_revenue": "1200000.0",
+    "monthly_opex": "",
+    "active_customers": "",
+    "customer_churn_pct": "",
+    "employees_ft": "",
+    "main_competitors": "",
+    "gauge_notes": "",
+    "plan_purpose": "Internal strategy",
+    "target_revenue_year_3": "",
+    "funding_amount_needed": "",
+    "growth_goal_12_24m": "",
+    "gauge_checklist_state": {},
+    "gauge_checklist_summary": {
+      "Financials": {
+        "has": [],
+        "missing": [
+          "We track MRR/ARR monthly",
+          "We know our gross margin",
+          "We track cash runway"
+        ]
+      },
+      "Customers": {
+        "has": [],
+        "missing": [
+          "We track monthly churn rate",
+          "We know average LTV per customer",
+          "We segment customers by plan/tier"
+        ]
+      },
+      "Sales & Marketing": {
+        "has": [],
+        "missing": [
+          "We track CAC by channel",
+          "We know our free-to-paid conversion rate",
+          "We have a defined pricing/packaging strategy"
+        ]
+      },
+      "Operations": {
+        "has": [],
+        "missing": [
+          "We track uptime/reliability",
+          "We have a documented onboarding flow",
+          "We use a support ticketing system"
+        ]
+      },
+      "Product & Team": {
+        "has": [],
+        "missing": [
+          "We track feature usage/adoption",
+          "We have a public product roadmap",
+          "Team responsibilities are clearly divided"
+        ]
+      },
+      "Competitive Position": {
+        "has": [],
+        "missing": [
+          "We track at least 3 direct competitors",
+          "We know our differentiation vs competitors",
+          "We monitor competitor pricing changes"
+        ]
+      }
+    },
+    "gauge_checklist_prompt": "Financials:\n  Has: none\n  Missing: We track MRR/ARR monthly; We know our gross margin; We track cash runway\nCustomers:\n  Has: none\n  Missing: We track monthly churn rate; We know average LTV per customer; We segment customers by plan/tier\nSales & Marketing:\n  Has: none\n  Missing: We track CAC by channel; We know our free-to-paid conversion rate; We have a defined pricing/packaging strategy\nOperations:\n  Has: none\n  Missing: We track uptime/reliability; We have a documented onboarding flow; We use a support ticketing system\nProduct & Team:\n  Has: none\n  Missing: We track feature usage/adoption; We have a public product roadmap; Team responsibilities are clearly divided\nCompetitive Position:\n  Has: none\n  Missing: We track at least 3 direct competitors; We know our differentiation vs competitors; We monitor competitor pricing changes",
+    "plan_forward": {
+      "biggest_bottleneck": "x",
+      "priority_12_months": "y",
+      "success_12_months": "z",
+      "willing_to_invest": "a",
+      "stop_doing": "b",
+      "why_customers_choose": "c",
+      "why_customers_leave": "d",
+      "competitive_threat": "e"
+    },
+    "intake_source": "existing_company_plan_forward",
+    "gauge_audit": {
+      "overall_score": 10,
+      "overall_label": "Critical",
+      "overall_summary": "Fresh Co lacks essential metrics and operational structures across all business areas, indicating a critical need for foundational elements to be established.",
+      "plain_english_read": "Fresh Co is missing key financial, customer, sales, operational, product, and competitive metrics. Immediate attention is required to track and manage these areas effectively.",
+      "market_position": "Fresh Co is positioned as a generic SaaS player in a competitive Indian market, facing challenges in differentiation and market entry without a clear product offering.",
+      "categories": [
+        {
+          "name": "Financials",
+          "score": 0,
+          "status": "risk",
+          "summary": "No financial metrics are tracked, including MRR/ARR, gross margin, or cash runway."
+        },
+        {
+          "name": "Customers",
+          "score": 0,
+          "status": "risk",
+          "summary": "Lacks customer metrics such as churn rate, LTV, and customer segmentation."
+        },
+        {
+          "name": "Sales & Marketing",
+          "score": 0,
+          "status": "risk",
+          "summary": "No sales or marketing metrics are tracked, including CAC, conversion rates, or pricing strategies."
+        },
+        {
+          "name": "Operations",
+          "score": 0,
+          "status": "risk",
+          "summary": "No operational metrics are tracked, including uptime, onboarding processes, or support systems."
+        },
+        {
+          "name": "Product & Team",
+          "score": 0,
+          "status": "risk",
+          "summary": "Lacks product metrics such as feature usage and a defined team structure."
+        },
+        {
+          "name": "Competitive Position",
+          "score": 0,
+          "status": "risk",
+          "summary": "No competitive metrics are tracked, including competitor analysis or differentiation strategies."
+        }
+      ],
+      "key_metrics": [
+        {
+          "metric": "Monthly Revenue",
+          "value": 100000,
+          "currency": "USD"
+        },
+        {
+          "metric": "Geography",
+          "value": "India"
+        },
+        {
+          "metric": "Annual Growth Rate (Market)",
+          "value": "20-25%"
+        },
+        {
+          "metric": "Competitors",
+          "value": "Zoho, Freshworks, Salesforce, Microsoft, Darwinbox, Keka, Tally, Busy"
+        },
+        {
+          "metric": "Market Trend",
+          "value": "Rapid growth in vertical SaaS"
+        }
+      ],
+      "top_actions": [
+        "Establish financial tracking for MRR/ARR and cash runway.",
+        "Implement customer metrics tracking including churn rate and LTV.",
+        "Develop a sales and marketing strategy with defined pricing and CAC tracking.",
+        "Create operational processes including onboarding and support systems."
+      ],
+      "industry_landscape": "India's SaaS market is rapidly growing, with a focus on vertical specialization and AI features. Companies are consolidating, favoring those with strong unit economics.",
+      "risks": [
+        "Lack of foundational metrics may lead to poor decision-making.",
+        "Inability to compete effectively against established players.",
+        "Potential loss of market share due to lack of differentiation."
+      ],
+      "sources": [
+        "Market analysis reports",
+        "Industry publications",
+        "Competitor benchmarking studies"
+      ],
+      "_fallback": false,
+      "_route": "openai:gpt-4o-mini",
+      "_market_context_used": true
+    }
+  }
+}

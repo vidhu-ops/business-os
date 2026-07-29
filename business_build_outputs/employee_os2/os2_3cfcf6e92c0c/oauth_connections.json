@@ -1,0 +1,8 @@
+{
+  "hubspot": {
+    "access_token": "na2-ba9b-36ba-4ea9-974e-f25bbcc38ee1",
+    "token": "na2-ba9b-36ba-4ea9-974e-f25bbcc38ee1",
+    "source": "env",
+    "provider": "hubspot"
+  }
+}

@@ -14,6 +14,7 @@ def ensure_env_loaded() -> None:
         return
     candidates = (
         _ROOT / ".env",
+        _ROOT.parent / "iida" / ".env",
         _ROOT / "research_llm_production" / ".env",
     )
     for path in candidates:

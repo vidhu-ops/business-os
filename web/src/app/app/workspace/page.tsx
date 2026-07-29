@@ -1,2 +1,10 @@
-"use client";
-export default function WorkspacePage(){return(<div className="space-y-6"><h1 className="font-display text-3xl font-bold">Workspace</h1><p className="muted">Research tools connect to the FastAPI backend.</p></div>);}
+import { redirect } from "next/navigation";
+
+export default function WorkspaceRedirectPage({
+  searchParams,
+}: {
+  searchParams: { project?: string };
+}) {
+  const q = searchParams.project ? `?project=${encodeURIComponent(searchParams.project)}` : "";
+  redirect(`/app/research${q}`);
+}
