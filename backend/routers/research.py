@@ -1,5 +1,8 @@
 from __future__ import annotations
 
+import threading
+from datetime import datetime, timezone
+
 from fastapi import APIRouter, Depends, HTTPException
 from pydantic import BaseModel, Field
 
@@ -12,6 +15,11 @@ from iidatech.services.report_section_plans import SIMPLE_SECTION_COUNTS, budget
 from iidatech.services.simple_perplexity_report import generate_simple_perplexity_report, simple_report_budget_usd
 
 router = APIRouter(prefix="/research", tags=["research"])
+
+_RESEARCH_SETUP_HINT = (
+    "Add PERPLEXITY_API_KEY in your host dashboard (Render → Environment → PERPLEXITY_API_KEY). "
+    "The app does not collect API keys in the browser for security."
+)
 
 
 class ResearchRunBody(BaseModel):
@@ -68,9 +76,63 @@ def _workspace_intake_payload(workspace: dict) -> dict:
     }
 
 
+def _research_job(workspace: dict) -> dict:
+    job = workspace.get("research_job")
+    return job if isinstance(job, dict) else {}
+
+
+def _run_research_background(
+    workspace_id: str,
+    section_count: int,
+    topic: str,
+    industry: str,
+    geography: str,
+    areas: str,
+) -> None:
+    try:
+        result = generate_simple_perplexity_report(
+            topic,
+            industry=industry,
+            geography=geography,
+            areas=areas,
+            section_count=section_count,
+        )
+        workspace = load_workspace(workspace_id)
+        if not workspace:
+            return
+        if result.get("success"):
+            _persist_research(workspace, result, section_count)
+            workspace = load_workspace(workspace_id) or workspace
+            workspace["research_job"] = {
+                "status": "completed",
+                "section_count": section_count,
+                "finished_at": datetime.now(timezone.utc).isoformat(),
+            }
+        else:
+            workspace["research_job"] = {
+                "status": "failed",
+                "error": str(result.get("error") or "Report failed"),
+                "section_count": section_count,
+                "finished_at": datetime.now(timezone.utc).isoformat(),
+            }
+        save_workspace(workspace)
+    except Exception as exc:
+        workspace = load_workspace(workspace_id)
+        if not workspace:
+            return
+        workspace["research_job"] = {
+            "status": "failed",
+            "error": str(exc),
+            "section_count": section_count,
+            "finished_at": datetime.now(timezone.utc).isoformat(),
+        }
+        save_workspace(workspace)
+
+
 @router.get("/options")
 def research_options(_: str = Depends(get_current_user)) -> dict:
     base = simple_report_budget_usd()
+    ready = perplexity_enabled()
     options = []
     for count in SIMPLE_SECTION_COUNTS:
         options.append(
@@ -81,7 +143,8 @@ def research_options(_: str = Depends(get_current_user)) -> dict:
             }
         )
     return {
-        "research_ready": perplexity_enabled(),
+        "research_ready": ready,
+        "setup_hint": None if ready else _RESEARCH_SETUP_HINT,
         "section_counts": list(SIMPLE_SECTION_COUNTS),
         "countries": country_choices(),
         "base_budget_usd": base,
@@ -92,10 +155,9 @@ def research_options(_: str = Depends(get_current_user)) -> dict:
 @router.post("/scope")
 def preview_scope(body: ScopePreviewBody, _: str = Depends(get_current_user)) -> dict:
     scope = assess_topic_scope(body.idea, body.industry, body.country)
-    areas = body.areas.strip()
     return {
         "scope": scope,
-        "market_label": format_market_geography(body.country, areas),
+        "market_label": format_market_geography(body.country, body.areas.strip()),
     }
 
 
@@ -107,6 +169,7 @@ def get_research(workspace_id: str, _: str = Depends(get_current_user)) -> dict:
     research = workspace.get("research_report") if isinstance(workspace.get("research_report"), dict) else {}
     return {
         "research": research,
+        "job": _research_job(workspace),
         "intake": _workspace_intake_payload(workspace),
     }
 
@@ -114,10 +177,14 @@ def get_research(workspace_id: str, _: str = Depends(get_current_user)) -> dict:
 @router.post("/run")
 def run_research(body: ResearchRunBody, _: str = Depends(get_current_user)) -> dict:
     if not perplexity_enabled():
-        raise HTTPException(status_code=503, detail="Research service is temporarily unavailable")
+        raise HTTPException(status_code=503, detail=_RESEARCH_SETUP_HINT)
     workspace = load_workspace(body.workspace_id)
     if not workspace:
         raise HTTPException(status_code=404, detail="Project not found")
+
+    job = _research_job(workspace)
+    if job.get("status") == "running":
+        raise HTTPException(status_code=409, detail="Report generation already in progress")
 
     if body.idea is not None:
         scope = assess_topic_scope(
@@ -154,13 +221,23 @@ def run_research(body: ResearchRunBody, _: str = Depends(get_current_user)) -> d
     if body.section_count not in SIMPLE_SECTION_COUNTS:
         raise HTTPException(status_code=400, detail="Invalid section count")
 
-    result = generate_simple_perplexity_report(
-        topic,
-        industry=industry,
-        geography=geography,
-        areas=areas,
-        section_count=body.section_count,
+    workspace["research_job"] = {
+        "status": "running",
+        "section_count": body.section_count,
+        "started_at": datetime.now(timezone.utc).isoformat(),
+    }
+    save_workspace(workspace)
+
+    thread = threading.Thread(
+        target=_run_research_background,
+        args=(body.workspace_id, body.section_count, topic, industry, geography, areas),
+        daemon=True,
     )
-    if result.get("success"):
-        _persist_research(workspace, result, body.section_count)
-    return result
+    thread.start()
+
+    return {
+        "success": False,
+        "status": "running",
+        "message": "Report generation started. This usually takes several minutes.",
+        "section_count": body.section_count,
+    }

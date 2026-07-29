@@ -1,5 +1,8 @@
 const API_BASE = process.env.NEXT_PUBLIC_API_URL || "";
 const REQUEST_TIMEOUT_MS = 15_000;
+const LONG_REQUEST_TIMEOUT_MS = 30 * 60 * 1000;
+const RESEARCH_POLL_MS = 4_000;
+const RESEARCH_POLL_MAX = 450;
 
 export function getToken(): string | null {
   if (typeof window === "undefined") return null;
@@ -25,11 +28,19 @@ export type Project = {
   has_plan?: boolean;
 };
 
-async function request<T>(path: string, init?: RequestInit, opts?: { auth?: boolean }): Promise<T> {
+function sleep(ms: number) {
+  return new Promise((resolve) => window.setTimeout(resolve, ms));
+}
+
+async function request<T>(
+  path: string,
+  init?: RequestInit,
+  opts?: { auth?: boolean; timeoutMs?: number },
+): Promise<T> {
   const useAuth = opts?.auth !== false;
   const token = useAuth ? getToken() : null;
   const controller = new AbortController();
-  const timer = window.setTimeout(() => controller.abort(), REQUEST_TIMEOUT_MS);
+  const timer = window.setTimeout(() => controller.abort(), opts?.timeoutMs ?? REQUEST_TIMEOUT_MS);
   try {
     const res = await fetch(`${API_BASE}${path}`, {
       ...init,
@@ -49,7 +60,12 @@ async function request<T>(path: string, init?: RequestInit, opts?: { auth?: bool
     return data as T;
   } catch (err) {
     if (err instanceof DOMException && err.name === "AbortError") {
-      throw new Error("Request timed out — check API_URL and that the API service is running.");
+      const long = (opts?.timeoutMs ?? REQUEST_TIMEOUT_MS) > REQUEST_TIMEOUT_MS;
+      throw new Error(
+        long
+          ? "This operation took too long. Try again or use fewer report sections."
+          : "Request timed out — check that the API is running.",
+      );
     }
     throw err;
   } finally {
@@ -120,6 +136,7 @@ export const api = {
   researchOptions: () =>
     request<{
       research_ready: boolean;
+      setup_hint?: string | null;
       countries: string[];
       options: Array<{ section_count: number; titles: string[]; budget_usd: number }>;
     }>("/api/v1/research/options"),
@@ -128,17 +145,42 @@ export const api = {
       method: "POST",
       body: JSON.stringify({ idea, industry, country, areas }),
     }),
-  runResearch: (
+  runResearch: async (
     workspace_id: string,
     section_count: number,
     intake?: { idea: string; industry: string; country: string; areas?: string },
-  ) =>
-    request<Record<string, unknown>>("/api/v1/research/run", {
-      method: "POST",
-      body: JSON.stringify({ workspace_id, section_count, ...intake }),
-    }),
+  ) => {
+    const started = await request<Record<string, unknown>>(
+      "/api/v1/research/run",
+      {
+        method: "POST",
+        body: JSON.stringify({ workspace_id, section_count, ...intake }),
+      },
+      { timeoutMs: 60_000 },
+    );
+    if (started.status !== "running") return started;
+
+    for (let i = 0; i < RESEARCH_POLL_MAX; i += 1) {
+      await sleep(RESEARCH_POLL_MS);
+      const data = await request<{
+        job?: { status?: string; error?: string; section_count?: number };
+        research: Record<string, unknown>;
+      }>(`/api/v1/research/${workspace_id}`);
+      const job = data.job || {};
+      if (job.status === "failed") {
+        throw new Error(String(job.error || "Report generation failed"));
+      }
+      const research = data.research || {};
+      if (research.available && Number(research.section_count) === section_count) {
+        const full = research.full_result as Record<string, unknown> | undefined;
+        return full && typeof full === "object" ? full : research;
+      }
+    }
+    throw new Error("Report generation is still running or timed out. Refresh the page in a minute.");
+  },
   getResearch: (workspace_id: string) =>
     request<{
+      job?: { status?: string; error?: string; section_count?: number };
       research: Record<string, unknown>;
       intake: {
         idea: string;
@@ -169,10 +211,14 @@ export const api = {
       body: JSON.stringify(intake),
     }),
   runPlan: (workspace_id: string, use_research = true) =>
-    request<Record<string, unknown>>("/api/v1/plan/run", {
-      method: "POST",
-      body: JSON.stringify({ workspace_id, use_research }),
-    }),
+    request<Record<string, unknown>>(
+      "/api/v1/plan/run",
+      {
+        method: "POST",
+        body: JSON.stringify({ workspace_id, use_research }),
+      },
+      { timeoutMs: LONG_REQUEST_TIMEOUT_MS },
+    ),
   getOs2: (workspace_id: string) => request<Record<string, unknown>>(`/api/v1/os2/${workspace_id}`),
   setOs2Scope: (workspace_id: string, scope: { mode: string; departments?: string[]; harness_ids?: string[] }) =>
     request<Record<string, unknown>>(`/api/v1/os2/${workspace_id}/scope`, {

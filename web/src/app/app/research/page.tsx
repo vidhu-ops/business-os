@@ -33,6 +33,7 @@ function ResearchContent() {
   const [options, setOptions] = useState<ResearchOption[]>([]);
   const [countries, setCountries] = useState<string[]>(["Global"]);
   const [researchReady, setResearchReady] = useState(true);
+  const [setupHint, setSetupHint] = useState("");
 
   const [idea, setIdea] = useState("");
   const [industry, setIndustry] = useState("");
@@ -57,6 +58,7 @@ function ResearchContent() {
       setOptions(data.options);
       setCountries(data.countries?.length ? data.countries : ["Global"]);
       setResearchReady(data.research_ready !== false);
+      setSetupHint(data.setup_hint || "");
     }).catch(() => setOptions([]));
   }, []);
 
@@ -314,7 +316,13 @@ function ResearchContent() {
               )}
 
               {!researchReady && (
-                <p className="text-sm text-amber-300">Research is temporarily unavailable. Please try again later.</p>
+                <div className="rounded-xl border border-amber-500/40 bg-amber-500/10 p-4 text-sm text-amber-100">
+                  <p className="font-semibold">Perplexity API key required</p>
+                  <p className="mt-2 text-amber-100/90">
+                    {setupHint ||
+                      "Set PERPLEXITY_API_KEY in your hosting dashboard (Render → Environment). Keys are not entered in the browser."}
+                  </p>
+                </div>
               )}
               {!scopeOk && (
                 <p className="text-sm text-amber-300">Narrow the topic in the fields above before generating.</p>
@@ -328,7 +336,7 @@ function ResearchContent() {
                   onClick={runResearch}
                   disabled={loading || !researchReady || !selectedId || !scopeOk || !idea.trim()}
                 >
-                  {loading ? `Building ${sectionCount}-section report (cap $${budget.toFixed(2)})…` : "Generate report"}
+                  {loading ? `Building ${sectionCount}-section report — this can take several minutes…` : "Generate report"}
                 </button>
                 {showResult && markdown && (
                   <button className="iid-btn iid-btn-ghost" type="button" onClick={downloadReport}>
