@@ -4,14 +4,16 @@ One GitHub repo: **Next.js UI + FastAPI + iidatech research engine**.
 
 ## Quick deploy (one URL)
 
-**Render (recommended):** connect `vidhu-ops/business-os` → Blueprint → uses `Dockerfile.combined`.
+**Render:** connect `vidhu-ops/business-os` → Blueprint or Web Service. Uses root **`Dockerfile`** (Next.js UI + API in one container).
 
 Full steps: **[docs/DEPLOY_RENDER.md](docs/DEPLOY_RENDER.md)**
 
+> If you see JSON `{"service":"iidatech-api"...}` at your URL, the service is using the **old API-only** deploy. Redeploy from latest `main` (root `Dockerfile` is now the full app).
+
 | Platform | Config | Result |
 |----------|--------|--------|
-| **Render** | `render.yaml` + `Dockerfile.combined` | One URL, UI + API |
-| **Railway** | `railway.toml` + `Dockerfile.combined` | One URL, UI + API |
+| **Render** | `render.yaml` + `Dockerfile` | One URL, UI + API |
+| **Railway** | `railway.toml` + `Dockerfile` | One URL, UI + API |
 | **Replit** | `.replit` + `scripts/start-replit.sh` | One Repl, UI + API |
 
 ---

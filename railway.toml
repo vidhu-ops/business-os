@@ -1,6 +1,6 @@
 [build]
 builder = "DOCKERFILE"
-dockerfilePath = "Dockerfile.combined"
+dockerfilePath = "Dockerfile"
 
 [deploy]
 healthcheckPath = "/api/v1/health"
