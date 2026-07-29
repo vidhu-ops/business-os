@@ -1,6 +1,4 @@
-# Render Blueprint — deploy the FastAPI backend from this repo.
-# Dashboard: https://dashboard.render.com/ → New → Blueprint → connect vidhu-ops/business-os
-
+# Render Blueprint - business-os API
 services:
   - type: web
     name: business-os-api
