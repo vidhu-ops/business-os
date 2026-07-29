@@ -32,8 +32,32 @@ npm run dev
 
 Open http://localhost:3000
 
-## Deploy
+## Deploy (frontend + backend from this repo)
 
-Vercel: import repo, set Root Directory to `web`, add `API_URL` env var.
+Two services, one GitHub repo: `vidhu-ops/business-os`
 
-API: deploy repo root on Railway/Render with `uvicorn backend.main:app --host 0.0.0.0 --port $PORT`.
+### 1. Frontend — Vercel
+
+1. [vercel.com/new](https://vercel.com/new) → Import `vidhu-ops/business-os`
+2. **Root Directory:** `web`
+3. **Framework Preset:** Next.js (not FastAPI)
+4. **Environment variable:** `API_URL` = your Render API URL (step 2 below)
+5. Deploy
+
+### 2. Backend — Render
+
+1. [dashboard.render.com](https://dashboard.render.com) → **New** → **Blueprint**
+2. Connect `vidhu-ops/business-os` (uses `render.yaml` in repo)
+3. Set secret env vars: `PERPLEXITY_API_KEY`, `ANTHROPIC_API_KEY`, `OPENAI_API_KEY`
+4. Copy the service URL (e.g. `https://business-os-api.onrender.com`)
+5. Set `CORS_ORIGINS` and `FRONTEND_URL` to your Vercel URL
+
+### 3. Wire them together
+
+| Where | Variable | Value |
+|-------|----------|-------|
+| Vercel | `API_URL` | `https://business-os-api.onrender.com` |
+| Render | `CORS_ORIGINS` | `https://your-app.vercel.app` |
+| Render | `FRONTEND_URL` | `https://your-app.vercel.app` |
+
+Vercel `*.vercel.app` preview URLs are allowed automatically by the API CORS config.
