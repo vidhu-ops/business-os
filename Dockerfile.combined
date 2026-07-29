@@ -21,10 +21,10 @@ COPY iidatech ./iidatech
 COPY streamlit_app.py learning_engine.py market_modeling.py chroma_config.py country_industry_packs.py ./
 RUN mkdir -p opportunity_workspaces business_build_outputs
 
-COPY web/package.json web/package-lock.json ./web/
-RUN cd web && npm ci --include=dev
 COPY web ./web
-RUN cd web && API_URL=http://127.0.0.1:8000 npm run build
+RUN cd web \
+    && npm ci --include=dev \
+    && API_URL=http://127.0.0.1:8000 npm run build
 
 COPY scripts/render-combined-start.sh /start.sh
 RUN chmod +x /start.sh
