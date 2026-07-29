@@ -1,0 +1,734 @@
+{
+  "workspace_id": "Dental_clinic_SaaS_India_Healthcare_SaaS",
+  "workspace_dir": "C:\\Users\\weewee\\iida\\opportunity_workspaces\\Dental_clinic_SaaS_India_Healthcare_SaaS",
+  "updated_at": "2026-07-04T08:44:40.125675Z",
+  "idea": "Dental clinic SaaS",
+  "country": "India",
+  "industry": "Healthcare SaaS",
+  "current_path": "Research a market",
+  "uploaded_files": [],
+  "uploaded_file_context": [],
+  "source_ledger": [
+    {
+      "id": 1,
+      "grade": "C",
+      "evidence_label": "ESTIMATED / PROXY",
+      "publisher": "Crossref / Asia Pacific University Sdn. Bhd.",
+      "title": "SaaS Cloud Solution for Healthcare",
+      "source_family": "academic_research",
+      "metric": "On-demand peer-reviewed literature route: topic-relevant journal article source",
+      "url": "https://doi.org/10.65136/jati.v7i1.130",
+      "decision_use": "Qualitative signal only; useful for hypotheses, buyer language, and field intelligence, not hard claims."
+    },
+    {
+      "id": 2,
+      "grade": "C",
+      "evidence_label": "ESTIMATED / PROXY",
+      "publisher": "Crossref / Bulent Evcevit University",
+      "title": "SOFTWARE AS A SERVICE (SAAS) ADOPTION AS A DISRUPTIVE TECHNOLOGY: UNDERSTANDING THE CHALLENGES AND THE OBSTACLES OF NON-SAAS ADOPTERS YENİLİKÇİ TEKNOLOJİ OLARAK HİZMET İÇİN YAZILIM (SaaS): SaaS KULLANMAYANLARIN ZORLUKLARINI VE ENGELLERİNİ ARAŞTIRMAK",
+      "source_family": "academic_research",
+      "metric": "On-demand peer-reviewed literature route: topic-relevant journal article source",
+      "url": "https://doi.org/10.17130/ijmeb.1249540",
+      "decision_use": "Qualitative signal only; useful for hypotheses, buyer language, and field intelligence, not hard claims."
+    },
+    {
+      "id": 3,
+      "grade": "C",
+      "evidence_label": "ESTIMATED / PROXY",
+      "publisher": "Crossref / Elsevier BV",
+      "title": "Encryption in Transit in Healthcare SaaS: The Role of Mutual TLS",
+      "source_family": "academic_research",
+      "metric": "On-demand peer-reviewed literature route: topic-relevant journal article source",
+      "url": "https://doi.org/10.2139/ssrn.5131928",
+      "decision_use": "Qualitative signal only; useful for hypotheses, buyer language, and field intelligence, not hard claims."
+    },
+    {
+      "id": 4,
+      "grade": "C",
+      "evidence_label": "ESTIMATED / PROXY",
+      "publisher": "Crossref / Elsevier BV",
+      "title": "Predicting sports performance from well-being: A mapping of professional athletes’, amateur athletes’ and non-athletes’ positions",
+      "source_family": "academic_research",
+      "metric": "On-demand peer-reviewed literature route: topic-relevant journal article source",
+      "url": "https://doi.org/10.1016/j.erap.2022.100793",
+      "decision_use": "Qualitative signal only; useful for hypotheses, buyer language, and field intelligence, not hard claims."
+    },
+    {
+      "id": 5,
+      "grade": "C",
+      "evidence_label": "ESTIMATED / PROXY",
+      "publisher": "Crossref / Elsevier BV",
+      "title": "The influence of social networks within sports teams on athletes’ eating and exercise psychopathology: A longitudinal study",
+      "source_family": "academic_research",
+      "metric": "On-demand peer-reviewed literature route: topic-relevant journal article source",
+      "url": "https://doi.org/10.1016/j.psychsport.2020.101786",
+      "decision_use": "Qualitative signal only; useful for hypotheses, buyer language, and field intelligence, not hard claims."
+    },
+    {
+      "id": 6,
+      "grade": "C",
+      "evidence_label": "ESTIMATED / PROXY",
+      "publisher": "Crossref / Hogrefe Publishing Group",
+      "title": "Psychological support for elite athletes",
+      "source_family": "academic_research",
+      "metric": "On-demand peer-reviewed literature route: topic-relevant journal article source",
+      "url": "https://doi.org/10.1024/2674-0052/a000078",
+      "decision_use": "Qualitative signal only; useful for hypotheses, buyer language, and field intelligence, not hard claims."
+    },
+    {
+      "id": 7,
+      "grade": "C",
+      "evidence_label": "ESTIMATED / PROXY",
+      "publisher": "Crossref / Informa UK Limited",
+      "title": "The role of digital technology in facilitating epistemic fluency in professional education",
+      "source_family": "academic_research",
+      "metric": "On-demand peer-reviewed literature route: topic-relevant journal article source",
+      "url": "https://doi.org/10.1080/19415257.2024.2421489",
+      "decision_use": "Qualitative signal only; useful for hypotheses, buyer language, and field intelligence, not hard claims."
+    },
+    {
+      "id": 8,
+      "grade": "C",
+      "evidence_label": "ESTIMATED / PROXY",
+      "publisher": "Crossref / State Biotechnology University",
+      "title": "SaaS Fleet Tracking Systems for Sustainable Logistics Management in Ukraine.",
+      "source_family": "academic_research",
+      "metric": "On-demand peer-reviewed literature route: topic-relevant journal article source",
+      "url": "https://doi.org/10.69803/3083-6034-2025-4-61",
+      "decision_use": "Qualitative signal only; useful for hypotheses, buyer language, and field intelligence, not hard claims."
+    },
+    {
+      "id": 9,
+      "grade": "B+",
+      "evidence_label": "ESTIMATED / PROXY",
+      "publisher": "blog.shipperguide.com",
+      "title": "Unknown vendor pricing: $17.47",
+      "source_family": "pricing_reference",
+      "metric": "Pricing signal: $17.47: Unknown vendor pricing evidence $17.47 pricing",
+      "url": "https://blog.shipperguide.com/best-logistics-software-smb",
+      "decision_use": "Can support financial benchmarking, pricing, implementation, or procurement evidence when the vendor/buyer segment matches; disclose proxy limits."
+    },
+    {
+      "id": 10,
+      "grade": "B+",
+      "evidence_label": "ESTIMATED / PROXY",
+      "publisher": "cargo.flowers",
+      "title": "Unknown vendor pricing: $10",
+      "source_family": "pricing_reference",
+      "metric": "Pricing signal: $10: Unknown vendor pricing evidence $10 pricing",
+      "url": "https://cargo.flowers/en/blog/post/saas-in-logistics",
+      "decision_use": "Can support financial benchmarking, pricing, implementation, or procurement evidence when the vendor/buyer segment matches; disclose proxy limits."
+    },
+    {
+      "id": 11,
+      "grade": "B+",
+      "evidence_label": "VERIFIED BENCHMARK",
+      "publisher": "cliniify.com",
+      "title": "Unknown vendor pricing: rs.\n\n21",
+      "source_family": "pricing_reference",
+      "metric": "Pricing signal: rs.\n\n21: Unknown vendor pricing evidence rs.\n\n21 pricing",
+      "url": "https://cliniify.com/",
+      "decision_use": "Can support financial benchmarking, pricing, implementation, or procurement evidence when the vendor/buyer segment matches; disclose proxy limits."
+    },
+    {
+      "id": 12,
+      "grade": "B+",
+      "evidence_label": "VERIFIED BENCHMARK",
+      "publisher": "dentskart.com",
+      "title": "Unknown vendor pricing: rs 24",
+      "source_family": "pricing_reference",
+      "metric": "Pricing signal: rs 24: Unknown vendor pricing evidence rs 24 pricing",
+      "url": "https://www.dentskart.com/",
+      "decision_use": "Can support financial benchmarking, pricing, implementation, or procurement evidence when the vendor/buyer segment matches; disclose proxy limits."
+    },
+    {
+      "id": 13,
+      "grade": "B+",
+      "evidence_label": "VERIFIED BENCHMARK",
+      "publisher": "g2.com",
+      "title": "Unknown vendor pricing: rs 2026",
+      "source_family": "pricing_reference",
+      "metric": "Pricing signal: rs 2026: Unknown vendor pricing evidence rs 2026 pricing",
+      "url": "https://www.g2.com/best-software-companies/top-companies",
+      "decision_use": "Can support financial benchmarking, pricing, implementation, or procurement evidence when the vendor/buyer segment matches; disclose proxy limits."
+    },
+    {
+      "id": 14,
+      "grade": "B+",
+      "evidence_label": "VERIFIED BENCHMARK",
+      "publisher": "marketresearchfuture.com",
+      "title": "Unknown vendor pricing: $ 258.6",
+      "source_family": "pricing_reference",
+      "metric": "Pricing signal: $ 258.6: Unknown vendor pricing evidence $ 258.6 pricing",
+      "url": "https://www.marketresearchfuture.com/reports/india-dental-software-market-49199",
+      "decision_use": "Can support financial benchmarking, pricing, implementation, or procurement evidence when the vendor/buyer segment matches; disclose proxy limits."
+    },
+    {
+      "id": 15,
+      "grade": "B+",
+      "evidence_label": "ESTIMATED / PROXY",
+      "publisher": "reddit.com",
+      "title": "Unknown vendor pricing: $120",
+      "source_family": "pricing_reference",
+      "metric": "Funding diligence evidence: Supplier quotes / input costs: Supplier quotes / input costs accepted from pricing_reference; original gate: Unknown vendor pricing evidence $120 pricing",
+      "url": "https://www.reddit.com/r/SaaS",
+      "decision_use": "Can support financial benchmarking, pricing, implementation, or procurement evidence when the vendor/buyer segment matches; disclose proxy limits."
+    },
+    {
+      "id": 16,
+      "grade": "B+",
+      "evidence_label": "ESTIMATED / PROXY",
+      "publisher": "reddit.com",
+      "title": "Unknown vendor pricing: $6",
+      "source_family": "pricing_reference",
+      "metric": "Funding diligence evidence: Supplier quotes / input costs: Supplier quotes / input costs accepted from pricing_reference; original gate: Unknown vendor pricing evidence $6 pricing",
+      "url": "https://www.reddit.com/r/agency/comments/1jpcit8/three_digital_marketing_agencies_181_clients_6myr",
+      "decision_use": "Can support financial benchmarking, pricing, implementation, or procurement evidence when the vendor/buyer segment matches; disclose proxy limits."
+    },
+    {
+      "id": 17,
+      "grade": "B+",
+      "evidence_label": "VERIFIED BENCHMARK",
+      "publisher": "reddit.com",
+      "title": "Unknown vendor pricing: 35$",
+      "source_family": "pricing_reference",
+      "metric": "Funding diligence evidence: Supplier quotes / input costs: Supplier quotes / input costs accepted from pricing_reference; original gate: Unknown vendor pricing evidence 35$ pricing",
+      "url": "https://www.reddit.com/r/bangalore/comments/1ej3jrw/dentists_of_bangalore_what_is_this_scam",
+      "decision_use": "Can support financial benchmarking, pricing, implementation, or procurement evidence when the vendor/buyer segment matches; disclose proxy limits."
+    },
+    {
+      "id": 18,
+      "grade": "B+",
+      "evidence_label": "VERIFIED BENCHMARK",
+      "publisher": "youtube.com",
+      "title": "Audi pricing: rs. 3",
+      "source_family": "pricing_reference",
+      "metric": "Funding diligence evidence: Supplier quotes / input costs: Supplier quotes / input costs accepted from pricing_reference; original gate: Audi pricing evidence rs. 3 pricing",
+      "url": "https://www.youtube.com/watch?v=MlYWfeWH9TU",
+      "decision_use": "Can support financial benchmarking, pricing, implementation, or procurement evidence when the vendor/buyer segment matches; disclose proxy limits."
+    },
+    {
+      "id": 19,
+      "grade": "B+",
+      "evidence_label": "ESTIMATED / PROXY",
+      "publisher": "youtube.com",
+      "title": "Unknown vendor pricing: $60",
+      "source_family": "pricing_reference",
+      "metric": "Funding diligence evidence: Supplier quotes / input costs: Supplier quotes / input costs accepted from pricing_reference; original gate: Unknown vendor pricing evidence $60 pricing",
+      "url": "https://www.youtube.com/watch?v=XiGag8GJHWA",
+      "decision_use": "Can support financial benchmarking, pricing, implementation, or procurement evidence when the vendor/buyer segment matches; disclose proxy limits."
+    },
+    {
+      "id": 20,
+      "grade": "B+",
+      "evidence_label": "VERIFIED BENCHMARK",
+      "publisher": "youtube.com",
+      "title": "Unknown vendor pricing: 20 $",
+      "source_family": "pricing_reference",
+      "metric": "Funding diligence evidence: Supplier quotes / input costs: Supplier quotes / input costs accepted from pricing_reference; original gate: Unknown vendor pricing evidence 20 $ pricing",
+      "url": "https://www.youtube.com/watch?v=ZRVH3y0TQZI",
+      "decision_use": "Can support financial benchmarking, pricing, implementation, or procurement evidence when the vendor/buyer segment matches; disclose proxy limits."
+    },
+    {
+      "id": 21,
+      "grade": "B+",
+      "evidence_label": "VERIFIED BENCHMARK",
+      "publisher": "youtube.com",
+      "title": "Unknown vendor pricing: rs\n308",
+      "source_family": "pricing_reference",
+      "metric": "Funding diligence evidence: Supplier quotes / input costs: Supplier quotes / input costs accepted from pricing_reference; original gate: Unknown vendor pricing evidence rs\n308 pricing",
+      "url": "https://www.youtube.com/watch?v=9XEF1CS925g",
+      "decision_use": "Can support financial benchmarking, pricing, implementation, or procurement evidence when the vendor/buyer segment matches; disclose proxy limits."
+    },
+    {
+      "id": 22,
+      "grade": "B+",
+      "evidence_label": "VERIFIED BENCHMARK",
+      "publisher": "youtube.com",
+      "title": "Unknown vendor pricing: rs 70",
+      "source_family": "pricing_reference",
+      "metric": "Funding diligence evidence: Supplier quotes / input costs: Supplier quotes / input costs accepted from pricing_reference; original gate: Unknown vendor pricing evidence rs 70 pricing",
+      "url": "https://www.youtube.com/watch?v=RwxX5kjCoig",
+      "decision_use": "Can support financial benchmarking, pricing, implementation, or procurement evidence when the vendor/buyer segment matches; disclose proxy limits."
+    },
+    {
+      "id": 23,
+      "grade": "C",
+      "evidence_label": "ESTIMATED / PROXY",
+      "publisher": "reddit.com",
+      "title": "Anyone Having Success with an AI Automation Business? - Reddit",
+      "source_family": "reddit_practitioner",
+      "metric": "Funding diligence evidence: Buyer interviews / proxy surveys: Buyer interviews / proxy surveys accepted from reddit_practitioner; original gate: published practitioner signal only; qualitative buyer/operator evidence, not hard financial proof source",
+      "url": "https://www.reddit.com/r/automation/comments/1iuwnuh/anyone_having_success_with_an_ai_automation",
+      "decision_use": "Qualitative signal only; useful for hypotheses, buyer language, and field intelligence, not hard claims."
+    },
+    {
+      "id": 24,
+      "grade": "C",
+      "evidence_label": "ESTIMATED / PROXY",
+      "publisher": "reddit.com",
+      "title": "Choosing the right software for managing my marketing agency?",
+      "source_family": "reddit_practitioner",
+      "metric": "Funding diligence evidence: Buyer interviews / proxy surveys: Buyer interviews / proxy surveys accepted from reddit_practitioner; original gate: published practitioner signal only; qualitative buyer/operator evidence, not hard financial proof source",
+      "url": "https://www.reddit.com/r/DigitalMarketing/comments/1c6p6q3/choosing_the_right_software_for_managing_my/",
+      "decision_use": "Qualitative signal only; useful for hypotheses, buyer language, and field intelligence, not hard claims."
+    },
+    {
+      "id": 25,
+      "grade": "C",
+      "evidence_label": "ESTIMATED / PROXY",
+      "publisher": "reddit.com",
+      "title": "For those working in logistics and supply chain etc..., what are the real pain points when trying to optimize processes? : r/logistics",
+      "source_family": "reddit_practitioner",
+      "metric": "Funding diligence evidence: Buyer interviews / proxy surveys: Buyer interviews / proxy surveys accepted from reddit_practitioner; original gate: published practitioner signal only; qualitative buyer/operator evidence, not hard financial proof source",
+      "url": "https://www.reddit.com/r/logistics/comments/1riu85i/for_those_working_in_logistics_and_supply_chain",
+      "decision_use": "Qualitative signal only; useful for hypotheses, buyer language, and field intelligence, not hard claims."
+    },
+    {
+      "id": 26,
+      "grade": "C",
+      "evidence_label": "ESTIMATED / PROXY",
+      "publisher": "reddit.com",
+      "title": "Logistics company guide to choosing between SaaS or Custom ...",
+      "source_family": "reddit_practitioner",
+      "metric": "Funding diligence evidence: Buyer interviews / proxy surveys: Buyer interviews / proxy surveys accepted from reddit_practitioner; original gate: published practitioner signal only; qualitative buyer/operator evidence, not hard financial proof source",
+      "url": "https://www.reddit.com/user/i6technology/comments/1ajtxlw/logistics_company_guide_to_choosing_between_saas/",
+      "decision_use": "Qualitative signal only; useful for hypotheses, buyer language, and field intelligence, not hard claims."
+    },
+    {
+      "id": 27,
+      "grade": "C",
+      "evidence_label": "ESTIMATED / PROXY",
+      "publisher": "reddit.com",
+      "title": "Software suggestions for Handling A Marketing Agency : r/agency",
+      "source_family": "reddit_practitioner",
+      "metric": "Funding diligence evidence: Buyer interviews / proxy surveys: Buyer interviews / proxy surveys accepted from reddit_practitioner; original gate: published practitioner signal only; qualitative buyer/operator evidence, not hard financial proof source",
+      "url": "https://www.reddit.com/r/agency/comments/1d8qp7c/software_suggestions_for_handling_a_marketing/",
+      "decision_use": "Qualitative signal only; useful for hypotheses, buyer language, and field intelligence, not hard claims."
+    },
+    {
+      "id": 28,
+      "grade": "C",
+      "evidence_label": "ESTIMATED / PROXY",
+      "publisher": "reddit.com",
+      "title": "What tools/software do you use to run your agency : r/agency",
+      "source_family": "reddit_practitioner",
+      "metric": "Funding diligence evidence: Buyer interviews / proxy surveys: Buyer interviews / proxy surveys accepted from reddit_practitioner; original gate: published practitioner signal only; qualitative buyer/operator evidence, not hard financial proof source",
+      "url": "https://www.reddit.com/r/agency/comments/18xk882/what_toolssoftware_do_you_use_to_run_your_agency/",
+      "decision_use": "Qualitative signal only; useful for hypotheses, buyer language, and field intelligence, not hard claims."
+    },
+    {
+      "id": 29,
+      "grade": "C",
+      "evidence_label": "ESTIMATED / PROXY",
+      "publisher": "reddit.com",
+      "title": "Where are the opportunities for SaaS for logistics? - Reddit",
+      "source_family": "reddit_practitioner",
+      "metric": "Funding diligence evidence: Buyer interviews / proxy surveys: Buyer interviews / proxy surveys accepted from reddit_practitioner; original gate: published practitioner signal only; qualitative buyer/operator evidence, not hard financial proof source",
+      "url": "https://www.reddit.com/r/logistics/comments/1g6dirc/where_are_the_opportunities_for_saas_for_logistics",
+      "decision_use": "Qualitative signal only; useful for hypotheses, buyer language, and field intelligence, not hard claims."
+    },
+    {
+      "id": 30,
+      "grade": "C",
+      "evidence_label": "ESTIMATED / PROXY",
+      "publisher": "reddit.com",
+      "title": "r/logistics on Reddit: Small 3PL owners/Operators: What are ...",
+      "source_family": "reddit_practitioner",
+      "metric": "Funding diligence evidence: Buyer interviews / proxy surveys: Buyer interviews / proxy surveys accepted from reddit_practitioner; original gate: published practitioner signal only; qualitative buyer/operator evidence, not hard financial proof source",
+      "url": "https://www.reddit.com/r/logistics/comments/13p8p0r/small_3pl_ownersoperators_what_are_your_biggest/",
+      "decision_use": "Qualitative signal only; useful for hypotheses, buyer language, and field intelligence, not hard claims."
+    },
+    {
+      "grade": "B",
+      "title": "Management",
+      "url": "https://www.g2.com/categories/dental-practice-management?order=g2_score&page=6",
+      "source_family": "serp_competitor",
+      "publisher": "Management",
+      "year": "",
+      "metric": "",
+      "use_in_report": "serp_live_discovery"
+    },
+    {
+      "grade": "B",
+      "title": "Best Dental Practice",
+      "url": "https://www.g2.com/categories/dental-practice-management?order=g2_score&page=6",
+      "source_family": "serp_competitor",
+      "publisher": "Best Dental Practice",
+      "year": "",
+      "metric": "",
+      "use_in_report": "serp_live_discovery"
+    },
+    {
+      "grade": "B",
+      "title": "Management Software",
+      "url": "https://www.g2.com/categories/dental-practice-management?order=g2_score&page=6",
+      "source_family": "serp_competitor",
+      "publisher": "Management Software",
+      "year": "",
+      "metric": "",
+      "use_in_report": "serp_live_discovery"
+    },
+    {
+      "grade": "B",
+      "title": "Page",
+      "url": "https://www.g2.com/categories/dental-practice-management?order=g2_score&page=6",
+      "source_family": "serp_competitor",
+      "publisher": "Page",
+      "year": "",
+      "metric": "",
+      "use_in_report": "serp_live_discovery"
+    },
+    {
+      "grade": "B",
+      "title": "Dental",
+      "url": "https://www.g2.com/categories/dental-practice-management?order=g2_score&page=6",
+      "source_family": "serp_competitor",
+      "publisher": "Dental",
+      "year": "",
+      "metric": "",
+      "use_in_report": "serp_live_discovery"
+    },
+    {
+      "grade": "B",
+      "title": "Best Dental Practice Management Software - Page 6",
+      "url": "https://www.g2.com/categories/dental-practice-management?order=g2_score&page=6",
+      "source_family": "serp_buyer_voice",
+      "publisher": "Best Dental Practice Management Software - Page 6",
+      "year": "",
+      "metric": "",
+      "use_in_report": "serp_live_discovery"
+    },
+    {
+      "grade": "B",
+      "title": "Workflow",
+      "url": "https://ai.g2.com/event_tracking/external_clicks?label=visit_website&token=eyJfcmFpbHMiOnsibWVzc2FnZSI6IkJBaEpJaVZvZEhSd2N6b3ZMM2QzZHk1amNtVmhkR2x2TG1OdmJTOXdjbTlrZFdOMGN3WTZCa1ZVIiwiZXhwIjpudWxsLCJwdXIiOiJleHRlcm5hbF9jbGlja19yZWRpcmVjdCJ9fQ%3D%3D--7398f24ce7820a2354ae74622de612ac41c37ab3",
+      "source_family": "serp_competitor",
+      "publisher": "Workflow",
+      "year": "",
+      "metric": "",
+      "use_in_report": "serp_live_discovery"
+    },
+    {
+      "grade": "B",
+      "title": "Creatio",
+      "url": "https://ai.g2.com/event_tracking/external_clicks?label=visit_website&token=eyJfcmFpbHMiOnsibWVzc2FnZSI6IkJBaEpJaVZvZEhSd2N6b3ZMM2QzZHk1amNtVmhkR2x2TG1OdmJTOXdjbTlrZFdOMGN3WTZCa1ZVIiwiZXhwIjpudWxsLCJwdXIiOiJleHRlcm5hbF9jbGlja19yZWRpcmVjdCJ9fQ%3D%3D--7398f24ce7820a2354ae74622de612ac41c37ab3",
+      "source_family": "serp_competitor",
+      "publisher": "Creatio",
+      "year": "",
+      "metric": "",
+      "use_in_report": "serp_live_discovery"
+    },
+    {
+      "grade": "B",
+      "title": "Workflow Platform Bring",
+      "url": "https://ai.g2.com/event_tracking/external_clicks?label=visit_website&token=eyJfcmFpbHMiOnsibWVzc2FnZSI6IkJBaEpJaVZvZEhSd2N6b3ZMM2QzZHk1amNtVmhkR2x2TG1OdmJTOXdjbTlrZFdOMGN3WTZCa1ZVIiwiZXhwIjpudWxsLCJwdXIiOiJleHRlcm5hbF9jbGlja19yZWRpcmVjdCJ9fQ%3D%3D--7398f24ce7820a2354ae74622de612ac41c37ab3",
+      "source_family": "serp_competitor",
+      "publisher": "Workflow Platform Bring",
+      "year": "",
+      "metric": "",
+      "use_in_report": "serp_live_discovery"
+    },
+    {
+      "grade": "B",
+      "title": "User",
+      "url": "https://www.g2.com/categories/crm?hubs_content-cta=nav-utility-investors&hubs_content=ir.hubspot.com%25252525252Fnews%25252525252Fpage%25252525252F4&locale=pt&order=g2_score&page=61",
+      "source_family": "serp_competitor",
+      "publisher": "User",
+      "year": "",
+      "metric": "",
+      "use_in_report": "serp_live_discovery"
+    }
+  ],
+  "research_report": {
+    "available": true,
+    "topic": "Dental clinic SaaS",
+    "geography": "India",
+    "section_count": 3
+  },
+  "business_plan": {
+    "available": false,
+    "quality": {},
+    "founder_readable_available": false
+  },
+  "ICP": {},
+  "leads": [],
+  "financial_model": {
+    "topic": "Dental clinic SaaS",
+    "industry": "Healthcare SaaS",
+    "target": "India",
+    "horizon": "2026-2031",
+    "domain": "healthcare",
+    "dashboard_mode": "evidence_first",
+    "headline": {
+      "tam_base": 0,
+      "tam_base_fmt": "ESTIMATED $0",
+      "tam_range": "ESTIMATED $0 base; 2031 scenario $0",
+      "sam": 0,
+      "sam_fmt": "ESTIMATED $0",
+      "som_range": "ESTIMATED $0",
+      "forecast_cagr_2026_2031": 0.11,
+      "forecast_cagr_2026_2031_fmt": "ESTIMATED 11.0%"
+    },
+    "industry_model_name": "Healthcare Billing / RCM Evidence Model",
+    "assumptions": {
+      "model_status": "No blended healthcare TAM applied.",
+      "required_scope": "one wedge: hospital RCM, physician-practice billing, clinical registry compliance, diagnostic lab reimbursement, or regulated CDS/SaMD",
+      "selected_wedge": "hospital revenue cycle",
+      "sizing_rule": "TAM = addressable hospitals x net patient revenue affected x denial/recovery opportunity x vendor take rate or ACV, filtered by payer mix, EHR integration, procurement, and RCM workflow."
+    },
+    "executive_metrics": [
+      {
+        "label": "TAM 2026",
+        "value": "ESTIMATED $0",
+        "source": "IIDATECH 2026 Financial Model Bank",
+        "confidence": "Estimated",
+        "note": "Uses source-backed macro denominators where available plus IIDATECH domain assumptions; not a verified market-size claim.",
+        "evidence_namespace": "SYNTHETIC MODEL",
+        "citation_allowed": false,
+        "not_investor_citable": true
+      },
+      {
+        "label": "SAM 2026",
+        "value": "ESTIMATED $0",
+        "source": "IIDATECH 2026 Financial Model Bank",
+        "confidence": "Estimated",
+        "note": "SAM formula: TAM x serviceable_share.",
+        "evidence_namespace": "SYNTHETIC MODEL",
+        "citation_allowed": false,
+        "not_investor_citable": true
+      },
+      {
+        "label": "SOM 2026",
+        "value": "ESTIMATED $0",
+        "source": "IIDATECH 2026 Financial Model Bank",
+        "confidence": "Estimated",
+        "note": "SOM formula: SAM x obtainable_capture_share.",
+        "evidence_namespace": "SYNTHETIC MODEL",
+        "citation_allowed": false,
+        "not_investor_citable": true
+      },
+      {
+        "label": "2026-2031 CAGR",
+        "value": "ESTIMATED 11.0%",
+        "source": "IIDATECH 2026 Financial Model Bank",
+        "confidence": "Scenario",
+        "note": "Scenario assumption, not a verified analyst CAGR.",
+        "evidence_namespace": "SYNTHETIC MODEL",
+        "citation_allowed": false,
+        "not_investor_citable": true
+      },
+      {
+        "label": "Hospital denominator",
+        "value": "6,093 U.S. hospitals; 5,112 community hospitals",
+        "source": "American Hospital Association Fast Facts 2025",
+        "confidence": "High",
+        "note": "Use for hospital RCM account-count filters, not whole-market TAM."
+      },
+      {
+        "label": "Hospital spending denominator",
+        "value": "$1,634.7B U.S. hospital expenditures in 2024",
+        "source": "CMS National Health Expenditure Accounts",
+        "confidence": "High",
+        "note": "Use only as a denominator before applying denial/workflow/software spend filters."
+      },
+      {
+        "label": "RCM pain survey",
+        "value": "48.2% cite commercial denial volume as greatest revenue-cycle threat",
+        "source": "HFMA / Knowtion Health 2025 survey",
+        "confidence": "Medium-High",
+        "note": "Use as hospital RCM buyer-pain evidence with sponsor/sample disclosure."
+      },
+      {
+        "label": "Practice denial survey",
+        "value": "8% first-submission denial rate; 60% report higher denial rates",
+        "source": "MGMA 2024 Stat poll",
+        "confidence": "Medium-High",
+        "note": "Use for physician-practice billing, not hospital CFO validation."
+      },
+      {
+        "label": "Diagnostic lab reimbursement source",
+        "value": "2026 Q2 CLFS file has 2,179 records",
+        "source": "CMS Clinical Laboratory Fee Schedule",
+        "confidence": "High",
+        "note": "Use for diagnostic lab reimbursement/test-menu analysis."
+      },
+      {
+        "label": "Regulatory gate",
+        "value": "510(k) goal 90 FDA days after submission; pathway may require QMS and validation before submission",
+        "source": "FDA 510(k) / CDS guidance",
+        "confidence": "High",
+        "note": "Use as a launch gate only when product is regulated CDS/SaMD or diagnostic software."
+      }
+    ],
+    "formula_rows": [
+      {
+        "model_part": "Hospital RCM",
+        "formula": "eligible hospitals x net patient revenue affected x denial/recovery opportunity x ACV or recovery fee",
+        "required_data": "hospital count, NPR, denial rate/category, recoverable amount, price model, implementation capacity"
+      },
+      {
+        "model_part": "Practice billing",
+        "formula": "eligible practices x claims/month x fee/claim or billing fee %",
+        "required_data": "specialty/practice count, claim volume, denial rate, payer portal burden, billing fee"
+      },
+      {
+        "model_part": "Clinical registry",
+        "formula": "reporting facilities x annual registry/compliance software or service fee",
+        "required_data": "registry mandate, facility count, abstraction hours, audit/compliance cost"
+      },
+      {
+        "model_part": "Diagnostic lab",
+        "formula": "tests or labs x reimbursed price x billing/recovery fee or workflow ACV",
+        "required_data": "CLFS/CPT/test menu, test volume, payer mix, CLIA status, denial categories"
+      },
+      {
+        "model_part": "Regulated software",
+        "formula": "eligible approved sites x license/usage price after regulatory clearance",
+        "required_data": "FDA/EU/CDSCO classification, QMS cost, validation evidence, sales cycle, post-market cost"
+      }
+    ],
+    "scenario_rows": [
+      {
+        "scenario": "Bear",
+        "model_output": "Admin workflow only",
+        "logic": "Product avoids clinical claims but buyer pain or budget is not validated; procurement and integration slow adoption.",
+        "source_status": "Requires CFO/RCM director calls and implementation quotes."
+      },
+      {
+        "scenario": "Base",
+        "model_output": "One RCM/lab/registry wedge validated",
+        "logic": "One buyer type, workflow, price model, and source-backed pain point support a bottom-up model.",
+        "source_status": "Requires completed interviews, source-matched denominator, and pilot ROI."
+      },
+      {
+        "scenario": "Bull",
+        "model_output": "Regulated moat or network workflow",
+        "logic": "Regulatory capability, payer/provider integration, and repeatable implementation create defensibility.",
+        "source_status": "Requires regulatory memo, QMS/validation budget, and retention proof."
+      }
+    ],
+    "driver_rows": [
+      {
+        "driver": "Wedge definition",
+        "why_it_matters": "Hospital RCM, practice billing, registries, labs, and SaMD have different buyers and economics."
+      },
+      {
+        "driver": "Denial/recovery dollars or reimbursed test volume",
+        "why_it_matters": "Sets revenue pool and ROI, not generic healthcare spend."
+      },
+      {
+        "driver": "Integration and implementation weeks",
+        "why_it_matters": "Controls gross margin, sales cycle, and capacity to scale."
+      },
+      {
+        "driver": "Regulatory pathway",
+        "why_it_matters": "Can become an existential launch and capital-burn gate."
+      },
+      {
+        "driver": "Buyer validation",
+        "why_it_matters": "Funding-ready models require CFO/RCM/lab/registry/payer interviews, not unrelated ecommerce or SMB proxies."
+      }
+    ],
+    "source_gate_rows": [
+      {
+        "claim_type": "TAM",
+        "minimum_evidence": "source-backed denominator plus wedge-specific price or recovery formula",
+        "allowed_output": "wedge-specific range only"
+      },
+      {
+        "claim_type": "Regulatory timeline",
+        "minimum_evidence": "FDA/EU/CDSCO/CMS source plus product classification memo",
+        "allowed_output": "pathway and burn model, not generic timeline"
+      },
+      {
+        "claim_type": "Willingness to pay",
+        "minimum_evidence": "completed buyer interviews or signed pilot/quote evidence",
+        "allowed_output": "hypothesis until buyer validation exists"
+      }
+    ],
+    "methodology_notes": [
+      "The model refuses a single medical billing TAM.",
+      "Public surveys can validate pain but do not replace completed buyer interviews.",
+      "Regulatory scope is modeled as a launch gate and burn driver whenever product claims affect clinical decisions, diagnostics, or device pathways."
+    ],
+    "stored_2026_financial_model_id": "7a15171bff373b2d",
+    "stored_2026_financial_model_status": "ESTIMATED",
+    "stored_2026_financial_model_source_status": "Uses source-backed macro denominators where available plus IIDATECH domain assumptions; not a verified market-size claim.",
+    "evidence_namespace": "SYNTHETIC MODEL",
+    "citation_allowed": false,
+    "not_investor_citable": true,
+    "provenance_claims": [
+      {
+        "id": "5a0fe70b-7adb-49a9-bb90-9851fa8ebb35",
+        "source_type": "derived_formula",
+        "metric_name": "TAM 2026",
+        "value": 0,
+        "unit": "USD",
+        "derived_from_claim_ids": [],
+        "formula_expression": "GDP x industry_spend_share x topic_wedge_share x digital_readiness_factor",
+        "formula_inputs": {
+          "gdp_current_usd": 0.0,
+          "industry_spend_share": 0.115,
+          "topic_wedge_share": 0.018
+        },
+        "formula_type": "tam_bottom_up",
+        "confidence": 0.54
+      },
+      {
+        "id": "875a8ca1-1a24-40f7-ac01-642ae7d2bf0b",
+        "source_type": "derived_formula",
+        "metric_name": "SAM 2026",
+        "value": 0,
+        "unit": "USD",
+        "derived_from_claim_ids": [
+          "5a0fe70b-7adb-49a9-bb90-9851fa8ebb35"
+        ],
+        "formula_expression": "TAM x serviceable_share",
+        "formula_inputs": {
+          "tam_2026": 0,
+          "sam_share_assumption": 0.24
+        },
+        "formula_type": "sam_filter",
+        "confidence": 0.459
+      },
+      {
+        "id": "0ff5eeb0-a30a-43b4-b3d9-153c850745da",
+        "source_type": "derived_formula",
+        "metric_name": "SOM 2026",
+        "value": 0,
+        "unit": "USD",
+        "derived_from_claim_ids": [
+          "875a8ca1-1a24-40f7-ac01-642ae7d2bf0b"
+        ],
+        "formula_expression": "SAM x obtainable_capture_share",
+        "formula_inputs": {
+          "sam_2026": 0,
+          "som_capture_share_assumption": 0.01
+        },
+        "formula_type": "som_capture",
+        "confidence": 0.3672
+      }
+    ]
+  },
+  "employees_team_tasks": {},
+  "exports": [
+    "Founder business plan",
+    "Investor memo",
+    "GTM plan",
+    "Financial model CSV/XLSX",
+    "Lead list CSV",
+    "Team task plan",
+    "Source ledger"
+  ],
+  "scope_assessment": {
+    "ok": true,
+    "domain": "saas_software",
+    "issues": [],
+    "suggestions": [
+      "One product category for one buyer segment in India",
+      "One workflow or use case inside Healthcare SaaS for a named customer type in India",
+      "One channel-led business model with price band, buyer, and geography specified"
+    ]
+  }
+}

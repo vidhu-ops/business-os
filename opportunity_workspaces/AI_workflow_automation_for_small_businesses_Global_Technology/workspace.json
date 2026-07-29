@@ -1,0 +1,46 @@
+{
+  "workspace_id": "AI_workflow_automation_for_small_businesses_Global_Technology",
+  "workspace_dir": "C:\\Users\\weewee\\iida\\opportunity_workspaces\\AI_workflow_automation_for_small_businesses_Global_Technology",
+  "updated_at": "2026-06-21T13:46:27.725163Z",
+  "idea": "AI workflow automation for small businesses",
+  "country": "Global",
+  "industry": "Technology",
+  "current_path": "Research a market",
+  "uploaded_files": [],
+  "uploaded_file_context": [],
+  "source_ledger": [],
+  "research_report": {
+    "available": false,
+    "topic": "",
+    "geography": "",
+    "section_count": 0
+  },
+  "business_plan": {
+    "available": false,
+    "quality": {},
+    "founder_readable_available": false
+  },
+  "ICP": {},
+  "leads": [],
+  "financial_model": {},
+  "employees_team_tasks": {},
+  "exports": [
+    "Founder business plan",
+    "Investor memo",
+    "GTM plan",
+    "Financial model CSV/XLSX",
+    "Lead list CSV",
+    "Team task plan",
+    "Source ledger"
+  ],
+  "scope_assessment": {
+    "ok": true,
+    "domain": "ai_workflow_automation",
+    "issues": [],
+    "suggestions": [
+      "AI invoice follow-up automation for 10-100 employee service SMBs in India",
+      "AI customer-support workflow automation for Shopify merchants in India",
+      "No-code AI lead-routing automation for real estate brokerages in India"
+    ]
+  }
+}

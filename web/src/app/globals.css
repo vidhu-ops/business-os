@@ -1,0 +1,97 @@
+@import "tailwindcss";
+
+:root {
+  --iid-ink: #05070f;
+  --iid-navy: #0a1020;
+  --iid-panel: #101828;
+  --iid-panel-2: #162033;
+  --iid-blue: #0b5fff;
+  --iid-blue-dark: #0846b7;
+  --iid-text: #f7f9ff;
+  --iid-muted: #9aa8c2;
+  --iid-line: #243049;
+  --font-display: var(--font-syne);
+  --font-body: var(--font-jakarta);
+}
+
+@theme inline {
+  --font-sans: var(--font-jakarta);
+  --font-display: var(--font-syne);
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  min-height: 100vh;
+  background: radial-gradient(1200px 600px at 10% -10%, rgba(11, 95, 255, 0.18), transparent 55%),
+    radial-gradient(900px 500px at 90% 0%, rgba(168, 192, 255, 0.08), transparent 50%),
+    var(--iid-ink);
+  color: var(--iid-text);
+  font-family: var(--font-body), system-ui, sans-serif;
+}
+
+.font-display {
+  font-family: var(--font-display), system-ui, sans-serif;
+}
+
+.iid-card {
+  border: 1px solid var(--iid-line);
+  background: linear-gradient(180deg, rgba(16, 24, 40, 0.95), rgba(10, 16, 32, 0.92));
+  border-radius: 20px;
+  padding: 1.25rem;
+}
+
+.iid-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 999px;
+  padding: 0.8rem 1.25rem;
+  font-size: 0.78rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  transition: 0.15s ease;
+}
+
+.iid-btn-primary {
+  background: var(--iid-blue);
+  color: white;
+}
+
+.iid-btn-primary:hover {
+  background: var(--iid-blue-dark);
+}
+
+.iid-btn-ghost {
+  border: 1px solid var(--iid-line);
+  color: var(--iid-text);
+}
+
+.iid-input {
+  width: 100%;
+  border-radius: 12px;
+  border: 1px solid var(--iid-line);
+  background: rgba(5, 7, 15, 0.6);
+  color: var(--iid-text);
+  padding: 0.85rem 1rem;
+}
+
+.iid-input:focus {
+  outline: 2px solid rgba(11, 95, 255, 0.45);
+}
+
+.prose-report {
+  max-width: none;
+  line-height: 1.7;
+  color: var(--iid-text);
+}
+
+.prose-report h1,
+.prose-report h2,
+.prose-report h3 {
+  font-family: var(--font-display);
+  margin-top: 1.5rem;
+}

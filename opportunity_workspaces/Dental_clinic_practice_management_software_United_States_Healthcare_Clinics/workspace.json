@@ -1,0 +1,492 @@
+{
+  "workspace_id": "Dental_clinic_practice_management_software_United_States_Healthcare_Clinics",
+  "workspace_dir": "C:\\Users\\weewee\\iida\\opportunity_workspaces\\Dental_clinic_practice_management_software_United_States_Healthcare_Clinics",
+  "updated_at": "2026-07-05T23:20:08.368632Z",
+  "idea": "Dental clinic practice management software",
+  "country": "United States",
+  "industry": "Healthcare / Clinics",
+  "current_path": "Research a market",
+  "uploaded_files": [],
+  "uploaded_file_context": [],
+  "source_ledger": [
+    {
+      "id": 1,
+      "grade": "C",
+      "evidence_label": "ESTIMATED / PROXY",
+      "publisher": "Crossref / Elsevier BV",
+      "title": "Artificial Intelligence and Augmented Intelligence as Tools for Dental Practice Management",
+      "source_family": "academic_research",
+      "metric": "On-demand peer-reviewed literature route: topic-relevant journal article source",
+      "url": "https://doi.org/10.1016/j.cden.2025.11.017",
+      "decision_use": "Qualitative signal only; useful for hypotheses, buyer language, and field intelligence, not hard claims."
+    },
+    {
+      "id": 2,
+      "grade": "C",
+      "evidence_label": "ESTIMATED / PROXY",
+      "publisher": "Crossref / Elsevier BV",
+      "title": "Practice Management",
+      "source_family": "academic_research",
+      "metric": "On-demand peer-reviewed literature route: topic-relevant journal article source",
+      "url": "https://doi.org/10.1016/j.cden.2025.05.004",
+      "decision_use": "Qualitative signal only; useful for hypotheses, buyer language, and field intelligence, not hard claims."
+    },
+    {
+      "id": 3,
+      "grade": "C",
+      "evidence_label": "ESTIMATED / PROXY",
+      "publisher": "Crossref / Elsevier BV",
+      "title": "United States Dental School Deans’ Characteristics Through an Inclusive Lens",
+      "source_family": "academic_research",
+      "metric": "On-demand peer-reviewed literature route: topic-relevant journal article source",
+      "url": "https://doi.org/10.1016/j.cden.2024.08.004",
+      "decision_use": "Qualitative signal only; useful for hypotheses, buyer language, and field intelligence, not hard claims."
+    },
+    {
+      "id": 4,
+      "grade": "C",
+      "evidence_label": "ESTIMATED / PROXY",
+      "publisher": "Crossref / MDPI AG",
+      "title": "Addressing Healthcare Disparities Among the Homeless: Insights from a Student-Run Clinic in Houston, TX",
+      "source_family": "academic_research",
+      "metric": "On-demand peer-reviewed literature route: topic-relevant journal article source",
+      "url": "https://doi.org/10.3390/clinpract15090161",
+      "decision_use": "Qualitative signal only; useful for hypotheses, buyer language, and field intelligence, not hard claims."
+    },
+    {
+      "id": 5,
+      "grade": "C",
+      "evidence_label": "ESTIMATED / PROXY",
+      "publisher": "Crossref / Scientific Research and Community Ltd",
+      "title": "Emergencies-They can be Practice Builders",
+      "source_family": "academic_research",
+      "metric": "On-demand peer-reviewed literature route: topic-relevant journal article source",
+      "url": "https://doi.org/10.47363/jdsr/2023(5)153",
+      "decision_use": "Qualitative signal only; useful for hypotheses, buyer language, and field intelligence, not hard claims."
+    },
+    {
+      "id": 6,
+      "grade": "C",
+      "evidence_label": "ESTIMATED / PROXY",
+      "publisher": "OpenAlex / IEEE Access",
+      "title": "Healthcare in Metaverse: A Survey on Current Metaverse Applications in Healthcare",
+      "source_family": "academic_research",
+      "metric": "On-demand academic research: topic-relevant research paper source",
+      "url": "https://doi.org/10.1109/access.2022.3219845",
+      "decision_use": "Qualitative signal only; useful for hypotheses, buyer language, and field intelligence, not hard claims."
+    },
+    {
+      "id": 7,
+      "grade": "C",
+      "evidence_label": "ESTIMATED / PROXY",
+      "publisher": "OpenAlex / npj Digital Medicine",
+      "title": "The imperative for regulatory oversight of large language models (or generative AI) in healthcare",
+      "source_family": "academic_research",
+      "metric": "On-demand academic research: topic-relevant research paper source",
+      "url": "https://doi.org/10.1038/s41746-023-00873-0",
+      "decision_use": "Qualitative signal only; useful for hypotheses, buyer language, and field intelligence, not hard claims."
+    },
+    {
+      "id": 8,
+      "grade": "C",
+      "evidence_label": "UNVERIFIED",
+      "publisher": "towardshealthcare.com",
+      "title": "Dental Practice Management Software Market to Grow at 8.64% CAGR till 2035",
+      "source_family": "local_operator_listing",
+      "metric": "On-demand credible web source: topic/geography-matched local operator, booking, listing, or pricing page; use for competitor/pricing evidence only source",
+      "url": "https://www.towardshealthcare.com/insights/dental-practice-management-software-market-sizing",
+      "decision_use": "Qualitative signal only; useful for hypotheses, buyer language, and field intelligence, not hard claims."
+    },
+    {
+      "grade": "B",
+      "title": "Dentrix",
+      "url": "https://www.certifyhealth.com/blog/top-10-dental-practice-management-software-2026/",
+      "source_family": "serp_competitor",
+      "publisher": "Dentrix",
+      "year": "",
+      "metric": "",
+      "use_in_report": "serp_live_discovery"
+    },
+    {
+      "grade": "B",
+      "title": "Open Dental",
+      "url": "https://community.spiceworks.com/t/whats-your-experience-w-dental-practice-management-software-curve-vs-open-dental-vs-dentrix/1245570",
+      "source_family": "serp_competitor",
+      "publisher": "Open Dental",
+      "year": "",
+      "metric": "",
+      "use_in_report": "serp_live_discovery"
+    },
+    {
+      "grade": "B",
+      "title": "Curve Dental",
+      "url": "https://www.grandviewresearch.com/industry-analysis/dental-practice-management-software-market",
+      "source_family": "serp_competitor",
+      "publisher": "Curve Dental",
+      "year": "",
+      "metric": "",
+      "use_in_report": "serp_live_discovery"
+    },
+    {
+      "grade": "B",
+      "title": "CareStack",
+      "url": "https://www.grandviewresearch.com/industry-analysis/dental-practice-management-software-market",
+      "source_family": "serp_competitor",
+      "publisher": "CareStack",
+      "year": "",
+      "metric": "",
+      "use_in_report": "serp_live_discovery"
+    },
+    {
+      "grade": "B",
+      "title": "tab32",
+      "url": "https://www.nexhealth.com/resources/dental-practice-management-software",
+      "source_family": "serp_competitor",
+      "publisher": "tab32",
+      "year": "",
+      "metric": "$2/mo",
+      "use_in_report": "serp_live_discovery"
+    },
+    {
+      "grade": "B",
+      "title": "CERTIFY Health",
+      "url": "https://www.certifyhealth.com/blog/top-10-dental-practice-management-software-2026/",
+      "source_family": "serp_competitor",
+      "publisher": "CERTIFY Health",
+      "year": "",
+      "metric": "",
+      "use_in_report": "serp_live_discovery"
+    },
+    {
+      "grade": "B",
+      "title": "NextGen Healthcare (Dental)",
+      "url": "https://www.certifyhealth.com/blog/top-10-dental-practice-management-software-2026/",
+      "source_family": "serp_competitor",
+      "publisher": "NextGen Healthcare (Dental)",
+      "year": "",
+      "metric": "",
+      "use_in_report": "serp_live_discovery"
+    },
+    {
+      "grade": "B",
+      "title": "Tebra (Kareo)",
+      "url": "https://www.certifyhealth.com/blog/top-10-dental-practice-management-software-2026/",
+      "source_family": "serp_competitor",
+      "publisher": "Tebra (Kareo)",
+      "year": "",
+      "metric": "",
+      "use_in_report": "serp_live_discovery"
+    },
+    {
+      "grade": "B",
+      "title": "ACE Dental",
+      "url": "https://www.grandviewresearch.com/industry-analysis/dental-practice-management-software-market",
+      "source_family": "serp_competitor",
+      "publisher": "ACE Dental",
+      "year": "",
+      "metric": "",
+      "use_in_report": "serp_live_discovery"
+    },
+    {
+      "grade": "B",
+      "title": "buyer sentiment",
+      "url": "",
+      "source_family": "serp_buyer_voice",
+      "publisher": "buyer sentiment",
+      "year": "",
+      "metric": "",
+      "use_in_report": "serp_live_discovery"
+    }
+  ],
+  "research_report": {
+    "available": true,
+    "topic": "Dental clinic practice management software",
+    "geography": "United States",
+    "section_count": 4
+  },
+  "business_plan": {
+    "available": false,
+    "quality": {},
+    "founder_readable_available": false
+  },
+  "ICP": {},
+  "leads": [],
+  "financial_model": {
+    "topic": "Dental clinic practice management software",
+    "industry": "Healthcare / Clinics",
+    "target": "United States",
+    "horizon": "2026-2031",
+    "domain": "healthcare",
+    "dashboard_mode": "evidence_first",
+    "headline": {
+      "tam_base": 0,
+      "tam_base_fmt": "ESTIMATED $0",
+      "tam_range": "ESTIMATED $0 base; 2031 scenario $0",
+      "sam": 0,
+      "sam_fmt": "ESTIMATED $0",
+      "som_range": "ESTIMATED $0",
+      "forecast_cagr_2026_2031": 0.11,
+      "forecast_cagr_2026_2031_fmt": "ESTIMATED 11.0%"
+    },
+    "industry_model_name": "Healthcare Billing / RCM Evidence Model",
+    "assumptions": {
+      "model_status": "No blended healthcare TAM applied.",
+      "required_scope": "one wedge: hospital RCM, physician-practice billing, clinical registry compliance, diagnostic lab reimbursement, or regulated CDS/SaMD",
+      "selected_wedge": "physician-practice billing",
+      "sizing_rule": "TAM = addressable practices x claims/month x fee per claim or billing fee percent, filtered by specialty, payer mix, PM/EHR integration, and staff workflow."
+    },
+    "executive_metrics": [
+      {
+        "label": "TAM 2026",
+        "value": "ESTIMATED $0",
+        "source": "IIDATECH 2026 Financial Model Bank",
+        "confidence": "Estimated",
+        "note": "Uses source-backed macro denominators where available plus IIDATECH domain assumptions; not a verified market-size claim.",
+        "evidence_namespace": "SYNTHETIC MODEL",
+        "citation_allowed": false,
+        "not_investor_citable": true
+      },
+      {
+        "label": "SAM 2026",
+        "value": "ESTIMATED $0",
+        "source": "IIDATECH 2026 Financial Model Bank",
+        "confidence": "Estimated",
+        "note": "SAM formula: TAM x serviceable_share.",
+        "evidence_namespace": "SYNTHETIC MODEL",
+        "citation_allowed": false,
+        "not_investor_citable": true
+      },
+      {
+        "label": "SOM 2026",
+        "value": "ESTIMATED $0",
+        "source": "IIDATECH 2026 Financial Model Bank",
+        "confidence": "Estimated",
+        "note": "SOM formula: SAM x obtainable_capture_share.",
+        "evidence_namespace": "SYNTHETIC MODEL",
+        "citation_allowed": false,
+        "not_investor_citable": true
+      },
+      {
+        "label": "2026-2031 CAGR",
+        "value": "ESTIMATED 11.0%",
+        "source": "IIDATECH 2026 Financial Model Bank",
+        "confidence": "Scenario",
+        "note": "Scenario assumption, not a verified analyst CAGR.",
+        "evidence_namespace": "SYNTHETIC MODEL",
+        "citation_allowed": false,
+        "not_investor_citable": true
+      },
+      {
+        "label": "Hospital denominator",
+        "value": "6,093 U.S. hospitals; 5,112 community hospitals",
+        "source": "American Hospital Association Fast Facts 2025",
+        "confidence": "High",
+        "note": "Use for hospital RCM account-count filters, not whole-market TAM."
+      },
+      {
+        "label": "Hospital spending denominator",
+        "value": "$1,634.7B U.S. hospital expenditures in 2024",
+        "source": "CMS National Health Expenditure Accounts",
+        "confidence": "High",
+        "note": "Use only as a denominator before applying denial/workflow/software spend filters."
+      },
+      {
+        "label": "RCM pain survey",
+        "value": "48.2% cite commercial denial volume as greatest revenue-cycle threat",
+        "source": "HFMA / Knowtion Health 2025 survey",
+        "confidence": "Medium-High",
+        "note": "Use as hospital RCM buyer-pain evidence with sponsor/sample disclosure."
+      },
+      {
+        "label": "Practice denial survey",
+        "value": "8% first-submission denial rate; 60% report higher denial rates",
+        "source": "MGMA 2024 Stat poll",
+        "confidence": "Medium-High",
+        "note": "Use for physician-practice billing, not hospital CFO validation."
+      },
+      {
+        "label": "Diagnostic lab reimbursement source",
+        "value": "2026 Q2 CLFS file has 2,179 records",
+        "source": "CMS Clinical Laboratory Fee Schedule",
+        "confidence": "High",
+        "note": "Use for diagnostic lab reimbursement/test-menu analysis."
+      },
+      {
+        "label": "Regulatory gate",
+        "value": "510(k) goal 90 FDA days after submission; pathway may require QMS and validation before submission",
+        "source": "FDA 510(k) / CDS guidance",
+        "confidence": "High",
+        "note": "Use as a launch gate only when product is regulated CDS/SaMD or diagnostic software."
+      }
+    ],
+    "formula_rows": [
+      {
+        "model_part": "Hospital RCM",
+        "formula": "eligible hospitals x net patient revenue affected x denial/recovery opportunity x ACV or recovery fee",
+        "required_data": "hospital count, NPR, denial rate/category, recoverable amount, price model, implementation capacity"
+      },
+      {
+        "model_part": "Practice billing",
+        "formula": "eligible practices x claims/month x fee/claim or billing fee %",
+        "required_data": "specialty/practice count, claim volume, denial rate, payer portal burden, billing fee"
+      },
+      {
+        "model_part": "Clinical registry",
+        "formula": "reporting facilities x annual registry/compliance software or service fee",
+        "required_data": "registry mandate, facility count, abstraction hours, audit/compliance cost"
+      },
+      {
+        "model_part": "Diagnostic lab",
+        "formula": "tests or labs x reimbursed price x billing/recovery fee or workflow ACV",
+        "required_data": "CLFS/CPT/test menu, test volume, payer mix, CLIA status, denial categories"
+      },
+      {
+        "model_part": "Regulated software",
+        "formula": "eligible approved sites x license/usage price after regulatory clearance",
+        "required_data": "FDA/EU/CDSCO classification, QMS cost, validation evidence, sales cycle, post-market cost"
+      }
+    ],
+    "scenario_rows": [
+      {
+        "scenario": "Bear",
+        "model_output": "Admin workflow only",
+        "logic": "Product avoids clinical claims but buyer pain or budget is not validated; procurement and integration slow adoption.",
+        "source_status": "Requires CFO/RCM director calls and implementation quotes."
+      },
+      {
+        "scenario": "Base",
+        "model_output": "One RCM/lab/registry wedge validated",
+        "logic": "One buyer type, workflow, price model, and source-backed pain point support a bottom-up model.",
+        "source_status": "Requires completed interviews, source-matched denominator, and pilot ROI."
+      },
+      {
+        "scenario": "Bull",
+        "model_output": "Regulated moat or network workflow",
+        "logic": "Regulatory capability, payer/provider integration, and repeatable implementation create defensibility.",
+        "source_status": "Requires regulatory memo, QMS/validation budget, and retention proof."
+      }
+    ],
+    "driver_rows": [
+      {
+        "driver": "Wedge definition",
+        "why_it_matters": "Hospital RCM, practice billing, registries, labs, and SaMD have different buyers and economics."
+      },
+      {
+        "driver": "Denial/recovery dollars or reimbursed test volume",
+        "why_it_matters": "Sets revenue pool and ROI, not generic healthcare spend."
+      },
+      {
+        "driver": "Integration and implementation weeks",
+        "why_it_matters": "Controls gross margin, sales cycle, and capacity to scale."
+      },
+      {
+        "driver": "Regulatory pathway",
+        "why_it_matters": "Can become an existential launch and capital-burn gate."
+      },
+      {
+        "driver": "Buyer validation",
+        "why_it_matters": "Funding-ready models require CFO/RCM/lab/registry/payer interviews, not unrelated ecommerce or SMB proxies."
+      }
+    ],
+    "source_gate_rows": [
+      {
+        "claim_type": "TAM",
+        "minimum_evidence": "source-backed denominator plus wedge-specific price or recovery formula",
+        "allowed_output": "wedge-specific range only"
+      },
+      {
+        "claim_type": "Regulatory timeline",
+        "minimum_evidence": "FDA/EU/CDSCO/CMS source plus product classification memo",
+        "allowed_output": "pathway and burn model, not generic timeline"
+      },
+      {
+        "claim_type": "Willingness to pay",
+        "minimum_evidence": "completed buyer interviews or signed pilot/quote evidence",
+        "allowed_output": "hypothesis until buyer validation exists"
+      }
+    ],
+    "methodology_notes": [
+      "The model refuses a single medical billing TAM.",
+      "Public surveys can validate pain but do not replace completed buyer interviews.",
+      "Regulatory scope is modeled as a launch gate and burn driver whenever product claims affect clinical decisions, diagnostics, or device pathways."
+    ],
+    "stored_2026_financial_model_id": "22d09cd4eda519d6",
+    "stored_2026_financial_model_status": "ESTIMATED",
+    "stored_2026_financial_model_source_status": "Uses source-backed macro denominators where available plus IIDATECH domain assumptions; not a verified market-size claim.",
+    "evidence_namespace": "SYNTHETIC MODEL",
+    "citation_allowed": false,
+    "not_investor_citable": true,
+    "provenance_claims": [
+      {
+        "id": "878d1899-7d36-4349-8b49-95c54e6b2538",
+        "source_type": "derived_formula",
+        "metric_name": "TAM 2026",
+        "value": 0,
+        "unit": "USD",
+        "derived_from_claim_ids": [],
+        "formula_expression": "GDP x industry_spend_share x topic_wedge_share x digital_readiness_factor",
+        "formula_inputs": {
+          "gdp_current_usd": 0.0,
+          "industry_spend_share": 0.115,
+          "topic_wedge_share": 0.018
+        },
+        "formula_type": "tam_bottom_up",
+        "confidence": 0.54
+      },
+      {
+        "id": "9308cf57-99ba-4f89-91a3-a9cdde044959",
+        "source_type": "derived_formula",
+        "metric_name": "SAM 2026",
+        "value": 0,
+        "unit": "USD",
+        "derived_from_claim_ids": [
+          "878d1899-7d36-4349-8b49-95c54e6b2538"
+        ],
+        "formula_expression": "TAM x serviceable_share",
+        "formula_inputs": {
+          "tam_2026": 0,
+          "sam_share_assumption": 0.24
+        },
+        "formula_type": "sam_filter",
+        "confidence": 0.459
+      },
+      {
+        "id": "10a6b34d-d161-4f95-8a24-e21d47adaa73",
+        "source_type": "derived_formula",
+        "metric_name": "SOM 2026",
+        "value": 0,
+        "unit": "USD",
+        "derived_from_claim_ids": [
+          "9308cf57-99ba-4f89-91a3-a9cdde044959"
+        ],
+        "formula_expression": "SAM x obtainable_capture_share",
+        "formula_inputs": {
+          "sam_2026": 0,
+          "som_capture_share_assumption": 0.01
+        },
+        "formula_type": "som_capture",
+        "confidence": 0.3672
+      }
+    ]
+  },
+  "employees_team_tasks": {},
+  "exports": [
+    "Founder business plan",
+    "Investor memo",
+    "GTM plan",
+    "Financial model CSV/XLSX",
+    "Lead list CSV",
+    "Team task plan",
+    "Source ledger"
+  ],
+  "scope_assessment": {
+    "ok": true,
+    "domain": "dental_saas",
+    "issues": [],
+    "suggestions": [
+      "One product category for one buyer segment in United States",
+      "One workflow or use case inside Healthcare / Clinics for a named customer type in United States",
+      "One channel-led business model with price band, buyer, and geography specified"
+    ]
+  }
+}

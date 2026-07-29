@@ -1,0 +1,542 @@
+{
+  "workspace_id": "research_and_business_planning_service_India_service",
+  "workspace_dir": "C:\\Users\\weewee\\iida\\opportunity_workspaces\\research_and_business_planning_service_India_service",
+  "updated_at": "2026-06-26T21:10:53.027214Z",
+  "idea": "research and business planning service",
+  "country": "India",
+  "industry": "service",
+  "current_path": "Research a market",
+  "uploaded_files": [],
+  "uploaded_file_context": [],
+  "source_ledger": [],
+  "research_report": {
+    "available": false,
+    "topic": "",
+    "geography": "",
+    "section_count": 0
+  },
+  "business_plan": {
+    "available": true,
+    "quality": {},
+    "founder_readable_available": true
+  },
+  "ICP": {
+    "status": "locally supported",
+    "risk": "High if scaled outreach starts before the named buyer profile is validated.",
+    "why_this_exists": "Prevents generic outreach and prevents the strategy agent from depending on report evidence that does not exist for the selected geography.",
+    "idea_intelligence": {
+      "idea": "eco-friendly Ganesh Chaturthi and Diwali decoration kits for apartment societies",
+      "industry": "retail",
+      "geography": "india",
+      "launch_geography": {
+        "research_scope": "india",
+        "execution_scope": "india",
+        "sequence": [
+          "india"
+        ],
+        "rule": "The selected geography is both research scope and launch scope."
+      },
+      "classified_domain": "festive_retail",
+      "detected_terms": [
+        "eco-friendly",
+        "ganesh",
+        "chaturthi",
+        "diwali",
+        "decoration",
+        "kits",
+        "apartment",
+        "societies",
+        "retail",
+        "india"
+      ],
+      "market_boundary": "eco-friendly Ganesh Chaturthi and Diwali decoration kits for apartment societies should be treated as a retail business for apartment societies in india, focused first on slow manual process. Do not analyze the whole retail market until this wedge is validated.",
+      "likely_customer": "apartment societies",
+      "likely_pain": "slow manual process",
+      "decision_makers": [
+        "Founder/operator",
+        "operations lead",
+        "budget owner"
+      ],
+      "observable_triggers": [
+        "recent growth",
+        "new regulation",
+        "new hiring",
+        "visible customer complaints",
+        "budget allocated to the category"
+      ],
+      "proof_metrics": [
+        "time saved",
+        "conversion lift",
+        "gross margin",
+        "retention",
+        "payback period"
+      ],
+      "pricing_logic": "Start with a paid pilot or first purchase; set price from buyer ROI, margin, and comparable alternatives.",
+      "capabilities_to_build": [
+        "research synthesis",
+        "customer validation",
+        "offer design",
+        "sales execution",
+        "financial control"
+      ],
+      "innovation_themes": [
+        "AI-assisted research and operations",
+        "data-driven niche selection",
+        "faster creator/content testing",
+        "automation with human approval"
+      ],
+      "compliance_focus": [
+        "privacy",
+        "contract terms",
+        "advertising claims",
+        "customer data handling"
+      ],
+      "uploaded_evidence_summary": [],
+      "report_context_used": false,
+      "source_signals": [
+        "amazon.in - Unknown vendor pricing: from ₹999.00",
+        "youtube.com - Easy DIY Diwali Decor Ideas with Household Items - YouTube",
+        "reddit.com - Are Indians actually ready for sustainable decor and interiors? : r/architecture",
+        "reddit.com - Happy ganesh chaturthi everyone! Took an environment friendly ganesha this time… : r/indiasocial",
+        "xboom.in - Audi competitor intelligence",
+        "amazon.in - Audi competitor intelligence"
+      ],
+      "broadness_flags": [
+        "No uploaded/report evidence is available; the builder can create a starting hypothesis but not claim validation."
+      ],
+      "domain_playbook": {
+        "category": "retail business",
+        "buyer_segments": [
+          "apartment societies",
+          "retail operators in india",
+          "buyers already spending on retail",
+          "early adopters with visible urgency"
+        ],
+        "decision_makers": [
+          "Founder/operator",
+          "operations lead",
+          "budget owner"
+        ],
+        "pain_domains": [
+          "slow manual process",
+          "unclear buying decision",
+          "expensive coordination",
+          "poor visibility"
+        ],
+        "observable_triggers": [
+          "recent growth",
+          "new regulation",
+          "new hiring",
+          "visible customer complaints",
+          "budget allocated to the category"
+        ],
+        "proof_metrics": [
+          "time saved",
+          "conversion lift",
+          "gross margin",
+          "retention",
+          "payback period"
+        ],
+        "pricing_logic": "Start with a paid pilot or first purchase; set price from buyer ROI, margin, and comparable alternatives.",
+        "product_moves": [
+          "Create one sharply scoped offer",
+          "Build a proof asset before scaling",
+          "Validate price with buyer conversations"
+        ],
+        "innovation_themes": [
+          "AI-assisted research and operations",
+          "data-driven niche selection",
+          "faster creator/content testing",
+          "automation with human approval"
+        ],
+        "alternatives": [
+          "status quo/manual process",
+          "existing category vendor",
+          "agency/consultant",
+          "hiring internal staff"
+        ],
+        "capabilities": [
+          "research synthesis",
+          "customer validation",
+          "offer design",
+          "sales execution",
+          "financial control"
+        ],
+        "compliance_focus": [
+          "privacy",
+          "contract terms",
+          "advertising claims",
+          "customer data handling"
+        ],
+        "broad_scope_warning": "Narrow this to one buyer segment and one monetization wedge inside retail.",
+        "detected_terms": [
+          "eco-friendly",
+          "ganesh",
+          "chaturthi",
+          "diwali",
+          "decoration",
+          "kits",
+          "apartment",
+          "societies",
+          "retail"
+        ]
+      }
+    },
+    "market_boundary": "eco-friendly Ganesh Chaturthi and Diwali decoration kits for apartment societies should be treated as a retail business for apartment societies in india, focused first on slow manual process. Do not analyze the whole retail market until this wedge is validated.",
+    "evidence_gate": {
+      "geography": "india",
+      "local_evidence_count": 6,
+      "report_geography": "no report context",
+      "report_matches_geography": false,
+      "uploaded_evidence_matches_geography": false,
+      "idea_intelligence": {
+        "idea": "eco-friendly Ganesh Chaturthi and Diwali decoration kits for apartment societies",
+        "industry": "retail",
+        "geography": "india",
+        "launch_geography": {
+          "research_scope": "india",
+          "execution_scope": "india",
+          "sequence": [
+            "india"
+          ],
+          "rule": "The selected geography is both research scope and launch scope."
+        },
+        "classified_domain": "festive_retail",
+        "detected_terms": [
+          "eco-friendly",
+          "ganesh",
+          "chaturthi",
+          "diwali",
+          "decoration",
+          "kits",
+          "apartment",
+          "societies",
+          "retail",
+          "india"
+        ],
+        "market_boundary": "eco-friendly Ganesh Chaturthi and Diwali decoration kits for apartment societies should be treated as a retail business for apartment societies in india, focused first on slow manual process. Do not analyze the whole retail market until this wedge is validated.",
+        "likely_customer": "apartment societies",
+        "likely_pain": "slow manual process",
+        "decision_makers": [
+          "Founder/operator",
+          "operations lead",
+          "budget owner"
+        ],
+        "observable_triggers": [
+          "recent growth",
+          "new regulation",
+          "new hiring",
+          "visible customer complaints",
+          "budget allocated to the category"
+        ],
+        "proof_metrics": [
+          "time saved",
+          "conversion lift",
+          "gross margin",
+          "retention",
+          "payback period"
+        ],
+        "pricing_logic": "Start with a paid pilot or first purchase; set price from buyer ROI, margin, and comparable alternatives.",
+        "capabilities_to_build": [
+          "research synthesis",
+          "customer validation",
+          "offer design",
+          "sales execution",
+          "financial control"
+        ],
+        "innovation_themes": [
+          "AI-assisted research and operations",
+          "data-driven niche selection",
+          "faster creator/content testing",
+          "automation with human approval"
+        ],
+        "compliance_focus": [
+          "privacy",
+          "contract terms",
+          "advertising claims",
+          "customer data handling"
+        ],
+        "uploaded_evidence_summary": [],
+        "report_context_used": false,
+        "source_signals": [
+          "amazon.in - Unknown vendor pricing: from ₹999.00",
+          "youtube.com - Easy DIY Diwali Decor Ideas with Household Items - YouTube",
+          "reddit.com - Are Indians actually ready for sustainable decor and interiors? : r/architecture",
+          "reddit.com - Happy ganesh chaturthi everyone! Took an environment friendly ganesha this time… : r/indiasocial",
+          "xboom.in - Audi competitor intelligence",
+          "amazon.in - Audi competitor intelligence"
+        ],
+        "broadness_flags": [
+          "No uploaded/report evidence is available; the builder can create a starting hypothesis but not claim validation."
+        ],
+        "domain_playbook": {
+          "category": "retail business",
+          "buyer_segments": [
+            "apartment societies",
+            "retail operators in india",
+            "buyers already spending on retail",
+            "early adopters with visible urgency"
+          ],
+          "decision_makers": [
+            "Founder/operator",
+            "operations lead",
+            "budget owner"
+          ],
+          "pain_domains": [
+            "slow manual process",
+            "unclear buying decision",
+            "expensive coordination",
+            "poor visibility"
+          ],
+          "observable_triggers": [
+            "recent growth",
+            "new regulation",
+            "new hiring",
+            "visible customer complaints",
+            "budget allocated to the category"
+          ],
+          "proof_metrics": [
+            "time saved",
+            "conversion lift",
+            "gross margin",
+            "retention",
+            "payback period"
+          ],
+          "pricing_logic": "Start with a paid pilot or first purchase; set price from buyer ROI, margin, and comparable alternatives.",
+          "product_moves": [
+            "Create one sharply scoped offer",
+            "Build a proof asset before scaling",
+            "Validate price with buyer conversations"
+          ],
+          "innovation_themes": [
+            "AI-assisted research and operations",
+            "data-driven niche selection",
+            "faster creator/content testing",
+            "automation with human approval"
+          ],
+          "alternatives": [
+            "status quo/manual process",
+            "existing category vendor",
+            "agency/consultant",
+            "hiring internal staff"
+          ],
+          "capabilities": [
+            "research synthesis",
+            "customer validation",
+            "offer design",
+            "sales execution",
+            "financial control"
+          ],
+          "compliance_focus": [
+            "privacy",
+            "contract terms",
+            "advertising claims",
+            "customer data handling"
+          ],
+          "broad_scope_warning": "Narrow this to one buyer segment and one monetization wedge inside retail.",
+          "detected_terms": [
+            "eco-friendly",
+            "ganesh",
+            "chaturthi",
+            "diwali",
+            "decoration",
+            "kits",
+            "apartment",
+            "societies",
+            "retail"
+          ]
+        }
+      },
+      "source_records": [
+        {
+          "publisher": "amazon.in",
+          "title": "Unknown vendor pricing: from ₹999.00",
+          "url": "https://www.amazon.in/dp/B0C9JPPB5X/ref=emc_bcc_2_i",
+          "geography": "India",
+          "metric": "Unknown vendor pricing evidence from ₹999.00",
+          "source_family": "pricing_reference"
+        },
+        {
+          "publisher": "youtube.com",
+          "title": "Easy DIY Diwali Decor Ideas with Household Items - YouTube",
+          "url": "https://www.youtube.com/watch?v=PjJTp-rsC-E",
+          "geography": "India",
+          "metric": "Buyer interviews / proxy surveys accepted from youtube_transcript; original gate: published practitioner signal only; qualitative buyer/operator evidence, not hard financial proof",
+          "source_family": "youtube_transcript"
+        },
+        {
+          "publisher": "reddit.com",
+          "title": "Are Indians actually ready for sustainable decor and interiors? : r/architecture",
+          "url": "https://www.reddit.com/r/architecture/comments/1lf3u8h/are_indians_actually_ready_for_sustainable_decor",
+          "geography": "India",
+          "metric": "Buyer interviews / proxy surveys accepted from reddit_practitioner; original gate: published practitioner signal only; qualitative buyer/operator evidence, not hard financial proof",
+          "source_family": "reddit_practitioner"
+        },
+        {
+          "publisher": "reddit.com",
+          "title": "Happy ganesh chaturthi everyone! Took an environment friendly ganesha this time… : r/indiasocial",
+          "url": "https://www.reddit.com/r/indiasocial/comments/1n1d5bm/happy_ganesh_chaturthi_everyone_took_an",
+          "geography": "India",
+          "metric": "Buyer interviews / proxy surveys accepted from reddit_practitioner; original gate: published practitioner signal only; qualitative buyer/operator evidence, not hard financial proof",
+          "source_family": "reddit_practitioner"
+        },
+        {
+          "publisher": "xboom.in",
+          "title": "Audi competitor intelligence",
+          "url": "https://www.xboom.in/drone-show/",
+          "geography": "India",
+          "metric": "Audi identified in source text for drone light show packages for Indian wedding sangeet nights and city festivals",
+          "source_family": "competitor_intelligence"
+        },
+        {
+          "publisher": "amazon.in",
+          "title": "Audi competitor intelligence",
+          "url": "https://www.amazon.in/Lazybeee-Backdrop-Decoration-Janmashtami-Varalakshmi/dp/B0DB5Q8NHJ",
+          "geography": "India",
+          "metric": "Audi identified in source text for eco-friendly Ganesh Chaturthi and Diwali decoration kits for apartment societies",
+          "source_family": "competitor_intelligence"
+        }
+      ],
+      "validation_status": "locally supported",
+      "execution_rule": "Outreach can proceed after founder approval, with source-backed positioning and opt-out language."
+    },
+    "named_buyer_profiles": [
+      {
+        "rank": 1,
+        "vertical": "apartment societies in india with 10-250 employees or equivalent demand volume, a named bu",
+        "named_buyer_profile": "apartment societies in india with 10-250 employees or equivalent demand volume, a named budget owner, existing category spend, and one measurable weekly pain where slow manual process is a budget-owned buying pain",
+        "company_size_filter": "Select a narrow company-size band before scaled outreach.",
+        "tool_stack_filter": [
+          "Shopify/WooCommerce",
+          "payments",
+          "CRM/email",
+          "inventory/order system"
+        ],
+        "pain": "slow manual process creates measurable cost, delay, churn, compliance exposure, or missed revenue for this specific segment.",
+        "willingness_to_pay": "Set one INR pilot price and one recurring price after 10 buyer calls; do not use a wide unvalidated range.",
+        "buyer_trigger": "recent growth",
+        "decision_maker": "Founder/operator, operations lead, budget owner",
+        "lead_filters": [
+          "india",
+          "retail",
+          "apartment societies in india with 10-250 employees or equivalent demand volume, a named budget owner, existing category spend, and one measurable weekly pain",
+          "recent growth",
+          "eco-friendly",
+          "ganesh",
+          "chaturthi",
+          "diwali"
+        ],
+        "diagnostic_cta": "Should I send a 5-question diagnostic to quantify slow manual process against time saved, conversion lift?",
+        "outreach_angle": "Use eco-friendly Ganesh Chaturthi and Diwali decoration kits for apartment societies to improve slow manual process and prove it with time saved, conversion lift, gross margin.",
+        "evidence_status": "locally supported",
+        "first_validation_test": "Interview 10 apartment societies in india with 10-250 employees or equivalent demand volume, a named budget owner, existing category spend, and one measurable weekly pain prospects in india; require 3 to confirm slow manual process and 2 to confirm budget or purchase intent."
+      },
+      {
+        "rank": 2,
+        "vertical": "retail operators in india in india with 10-250 employees or equivalent demand volume, a na",
+        "named_buyer_profile": "retail operators in india in india with 10-250 employees or equivalent demand volume, a named budget owner, existing category spend, and one measurable weekly pain where unclear buying decision is a budget-owned buying pain",
+        "company_size_filter": "Select a narrow company-size band before scaled outreach.",
+        "tool_stack_filter": [
+          "Shopify/WooCommerce",
+          "payments",
+          "CRM/email",
+          "inventory/order system"
+        ],
+        "pain": "unclear buying decision creates measurable cost, delay, churn, compliance exposure, or missed revenue for this specific segment.",
+        "willingness_to_pay": "Set one INR pilot price and one recurring price after 10 buyer calls; do not use a wide unvalidated range.",
+        "buyer_trigger": "new regulation",
+        "decision_maker": "Founder/operator, operations lead, budget owner",
+        "lead_filters": [
+          "india",
+          "retail",
+          "retail operators in india in india with 10-250 employees or equivalent demand volume, a named budget owner, existing category spend, and one measurable weekly pain",
+          "new regulation",
+          "eco-friendly",
+          "ganesh",
+          "chaturthi",
+          "diwali"
+        ],
+        "diagnostic_cta": "Should I send a 5-question diagnostic to quantify unclear buying decision against time saved, conversion lift?",
+        "outreach_angle": "Use eco-friendly Ganesh Chaturthi and Diwali decoration kits for apartment societies to improve unclear buying decision and prove it with time saved, conversion lift, gross margin.",
+        "evidence_status": "locally supported",
+        "first_validation_test": "Interview 10 retail operators in india in india with 10-250 employees or equivalent demand volume, a named budget owner, existing category spend, and one measurable weekly pain prospects in india; require 3 to confirm unclear buying decision and 2 to confirm budget or purchase intent."
+      },
+      {
+        "rank": 3,
+        "vertical": "buyers already spending on retail in india with 10-250 employees or equivalent demand volu",
+        "named_buyer_profile": "buyers already spending on retail in india with 10-250 employees or equivalent demand volume, a named budget owner, existing category spend, and one measurable weekly pain where expensive coordination is a budget-owned buying pain",
+        "company_size_filter": "Select a narrow company-size band before scaled outreach.",
+        "tool_stack_filter": [
+          "Shopify/WooCommerce",
+          "payments",
+          "CRM/email",
+          "inventory/order system"
+        ],
+        "pain": "expensive coordination creates measurable cost, delay, churn, compliance exposure, or missed revenue for this specific segment.",
+        "willingness_to_pay": "Set one INR pilot price and one recurring price after 10 buyer calls; do not use a wide unvalidated range.",
+        "buyer_trigger": "new hiring",
+        "decision_maker": "Founder/operator, operations lead, budget owner",
+        "lead_filters": [
+          "india",
+          "retail",
+          "buyers already spending on retail in india with 10-250 employees or equivalent demand volume, a named budget owner, existing category spend, and one measurable weekly pain",
+          "new hiring",
+          "eco-friendly",
+          "ganesh",
+          "chaturthi",
+          "diwali"
+        ],
+        "diagnostic_cta": "Should I send a 5-question diagnostic to quantify expensive coordination against time saved, conversion lift?",
+        "outreach_angle": "Use eco-friendly Ganesh Chaturthi and Diwali decoration kits for apartment societies to improve expensive coordination and prove it with time saved, conversion lift, gross margin.",
+        "evidence_status": "locally supported",
+        "first_validation_test": "Interview 10 buyers already spending on retail in india with 10-250 employees or equivalent demand volume, a named budget owner, existing category spend, and one measurable weekly pain prospects in india; require 3 to confirm expensive coordination and 2 to confirm budget or purchase intent."
+      }
+    ],
+    "do_not_execute_until": [
+      "At least one named buyer profile is selected.",
+      "Minimum 10 buyer interviews or 3 direct local evidence records support the profile.",
+      "Willingness-to-pay is confirmed by at least 2 paid pilots, LOIs, or strong verbal budget confirmations.",
+      "Buyer trigger can be detected through Apollo/Hunter/manual lead filters before outbound."
+    ]
+  },
+  "leads": [],
+  "financial_model": {},
+  "employees_team_tasks": {
+    "created_at": "2026-06-27 02:32:45",
+    "business": {
+      "idea": "eco-friendly Ganesh Chaturthi and Diwali decoration kits for apartment societies",
+      "industry": "retail",
+      "geography": "india",
+      "buyer": "apartment societies in india with 10-250 employees or equivalent demand volume, a named budget owner, existing category spend, and one measurable weekly pain where slow manual process is a budget-owned buying pain",
+      "trigger": "recent growth",
+      "cta": "ask for a validation call"
+    },
+    "execution_rules": [
+      "Employees create internal files, briefs, dashboards, task boards, scripts, images, video storyboards, lead tables, and system specs.",
+      "Employees may prepare external-action payloads, but emails, posts, purchases, hires, tool changes, payments, and customer contact require explicit approval.",
+      "Every employee uses the same current marketing plan, ICP, geography, leads, financial assumptions, and combined company memory.",
+      "Unsupported claims, mismatched geography, missing buyer, and missing approval are blockers."
+    ],
+    "tasks_by_employee": [],
+    "handoff_model": "Marketing creates message and assets; Sales/CRM qualifies leads; Systems builds workflows; Legal/QA approve risks; Finance/Data score economics; Operations runs cadence; Success captures retention proof."
+  },
+  "exports": [
+    "Founder business plan",
+    "Investor memo",
+    "GTM plan",
+    "Financial model CSV/XLSX",
+    "Lead list CSV",
+    "Team task plan",
+    "Source ledger"
+  ],
+  "scope_assessment": {
+    "ok": true,
+    "domain": "general_market",
+    "issues": [],
+    "suggestions": [
+      "One product category for one buyer segment in India",
+      "One workflow or use case inside service for a named customer type in India",
+      "One channel-led business model with price band, buyer, and geography specified"
+    ]
+  }
+}

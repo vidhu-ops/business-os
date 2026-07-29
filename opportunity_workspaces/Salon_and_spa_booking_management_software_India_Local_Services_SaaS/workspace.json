@@ -1,0 +1,440 @@
+{
+  "workspace_id": "Salon_and_spa_booking_management_software_India_Local_Services_SaaS",
+  "workspace_dir": "C:\\Users\\weewee\\iida\\opportunity_workspaces\\Salon_and_spa_booking_management_software_India_Local_Services_SaaS",
+  "updated_at": "2026-07-05T22:43:00.275295Z",
+  "idea": "Salon and spa booking/management software",
+  "country": "India",
+  "industry": "Local Services SaaS",
+  "current_path": "Research a market",
+  "uploaded_files": [],
+  "uploaded_file_context": [],
+  "source_ledger": [
+    {
+      "id": 1,
+      "grade": "C",
+      "evidence_label": "ESTIMATED / PROXY",
+      "publisher": "Crossref / Edtech Publishers (OPC) Private Limited",
+      "title": "A study on Optimizing supply chain management to ensure efficient delivery of salon products and equipment to all locations in Groom India salon and spa private limited",
+      "source_family": "academic_research",
+      "metric": "On-demand peer-reviewed literature route: topic-relevant journal article source",
+      "url": "https://doi.org/10.55041/ijsrem31959",
+      "decision_use": "Qualitative signal only; useful for hypotheses, buyer language, and field intelligence, not hard claims."
+    },
+    {
+      "id": 2,
+      "grade": "C",
+      "evidence_label": "ESTIMATED / PROXY",
+      "publisher": "Crossref / International Journal of Progressive Research in Engineering Management and Science",
+      "title": "SOFTWARE AS A SERVICE (SAAS) AT TATA CONSULTANCY SERVICES",
+      "source_family": "academic_research",
+      "metric": "On-demand peer-reviewed literature route: topic-relevant journal article source",
+      "url": "https://doi.org/10.58257/ijprems34977",
+      "decision_use": "Qualitative signal only; useful for hypotheses, buyer language, and field intelligence, not hard claims."
+    },
+    {
+      "id": 3,
+      "grade": "C",
+      "evidence_label": "ESTIMATED / PROXY",
+      "publisher": "Crossref / Lembaga KITA",
+      "title": "Implementation of Android-Based Salon Booking Application for Customer Service Optimization",
+      "source_family": "academic_research",
+      "metric": "On-demand peer-reviewed literature route: topic-relevant journal article source",
+      "url": "https://doi.org/10.35870/ijsecs.v4i3.3279",
+      "decision_use": "Qualitative signal only; useful for hypotheses, buyer language, and field intelligence, not hard claims."
+    },
+    {
+      "id": 4,
+      "grade": "B+",
+      "evidence_label": "VERIFIED BENCHMARK",
+      "publisher": "content.urbancompany.com",
+      "title": "Unknown vendor pricing: ₹ 14,710",
+      "source_family": "pricing_reference",
+      "metric": "Pricing signal: ₹ 14,710: Unknown vendor pricing evidence ₹ 14,710 pricing",
+      "url": "https://content.urbancompany.com/pdfs/supply/partner-app-supply/1745898316041-eb8db0.pdf",
+      "decision_use": "Can support financial benchmarking, pricing, implementation, or procurement evidence when the vendor/buyer segment matches; disclose proxy limits."
+    },
+    {
+      "id": 5,
+      "grade": "B+",
+      "evidence_label": "VERIFIED BENCHMARK",
+      "publisher": "urbancompany.com",
+      "title": "Unknown vendor pricing: ₹1,319",
+      "source_family": "pricing_reference",
+      "metric": "Pricing signal: ₹1,319: Unknown vendor pricing evidence ₹1,319 pricing",
+      "url": "https://www.urbancompany.com/mumbai-spa-at-home",
+      "decision_use": "Can support financial benchmarking, pricing, implementation, or procurement evidence when the vendor/buyer segment matches; disclose proxy limits."
+    },
+    {
+      "id": 6,
+      "grade": "C",
+      "evidence_label": "UNVERIFIED",
+      "publisher": "justdial.com",
+      "title": "justdial.com",
+      "source_family": "local_operator_listing",
+      "metric": "On-demand credible web source: topic-local operator, vendor directory, pricing, or booking source; use for competitor/pricing evidence only source",
+      "url": "https://www.justdial.com/",
+      "decision_use": "Qualitative signal only; useful for hypotheses, buyer language, and field intelligence, not hard claims."
+    },
+    {
+      "grade": "B",
+      "title": "Invoay",
+      "url": "https://invoay.com/salon-software-india/",
+      "source_family": "serp_competitor",
+      "publisher": "Invoay",
+      "year": "",
+      "metric": "",
+      "use_in_report": "serp_live_discovery"
+    },
+    {
+      "grade": "B",
+      "title": "Salonify",
+      "url": "https://www.salonify.in",
+      "source_family": "serp_competitor",
+      "publisher": "Salonify",
+      "year": "",
+      "metric": "",
+      "use_in_report": "serp_live_discovery"
+    },
+    {
+      "grade": "B",
+      "title": "Zenoti",
+      "url": "https://technologycounter.com/spa-and-salon-software",
+      "source_family": "serp_competitor",
+      "publisher": "Zenoti",
+      "year": "",
+      "metric": "Custom pricing, positioned for larger salon and spa businesses rather than small independents.[6]",
+      "use_in_report": "serp_live_discovery"
+    },
+    {
+      "grade": "B",
+      "title": "Fresha (formerly Shedul)",
+      "url": "https://www.fresha.com/for-business",
+      "source_family": "serp_competitor",
+      "publisher": "Fresha (formerly Shedul)",
+      "year": "",
+      "metric": "Free to set up for salon owners, with fees charged on new clients acquired via the platform according to user feedback.[4][8]",
+      "use_in_report": "serp_live_discovery"
+    },
+    {
+      "grade": "B",
+      "title": "MINDBODY",
+      "url": "https://technologycounter.com/spa-and-salon-software",
+      "source_family": "serp_competitor",
+      "publisher": "MINDBODY",
+      "year": "",
+      "metric": "",
+      "use_in_report": "serp_live_discovery"
+    },
+    {
+      "grade": "B",
+      "title": "Rosy",
+      "url": "https://rosysalonsoftware.com",
+      "source_family": "serp_competitor",
+      "publisher": "Rosy",
+      "year": "",
+      "metric": "",
+      "use_in_report": "serp_live_discovery"
+    },
+    {
+      "grade": "B",
+      "title": "Salonist",
+      "url": "https://salonist.io",
+      "source_family": "serp_competitor",
+      "publisher": "Salonist",
+      "year": "",
+      "metric": "",
+      "use_in_report": "serp_live_discovery"
+    },
+    {
+      "grade": "B",
+      "title": "pricing benchmarks",
+      "url": "",
+      "source_family": "serp_market_signal",
+      "publisher": "pricing benchmarks",
+      "year": "",
+      "metric": "",
+      "use_in_report": "serp_live_discovery"
+    },
+    {
+      "grade": "B",
+      "title": "buyer sentiment",
+      "url": "",
+      "source_family": "serp_buyer_voice",
+      "publisher": "buyer sentiment",
+      "year": "",
+      "metric": "",
+      "use_in_report": "serp_live_discovery"
+    }
+  ],
+  "research_report": {
+    "available": true,
+    "topic": "Salon and spa booking/management software",
+    "geography": "India",
+    "section_count": 4
+  },
+  "business_plan": {
+    "available": false,
+    "quality": {},
+    "founder_readable_available": false
+  },
+  "ICP": {},
+  "leads": [],
+  "financial_model": {
+    "topic": "Salon and spa booking/management software",
+    "industry": "Local Services SaaS",
+    "target": "India",
+    "horizon": "2026-2031",
+    "domain": "hospitality",
+    "dashboard_mode": "evidence_first",
+    "headline": {
+      "tam_base": 0,
+      "tam_base_fmt": "ESTIMATED $0",
+      "tam_range": "ESTIMATED $0 base; 2031 scenario $0",
+      "sam": 0,
+      "sam_fmt": "ESTIMATED $0",
+      "som_range": "ESTIMATED $0",
+      "forecast_cagr_2026_2031": 0.08,
+      "forecast_cagr_2026_2031_fmt": "ESTIMATED 8.0%"
+    },
+    "industry_model_name": "General Evidence Model",
+    "assumptions": {
+      "model_status": "No generic TAM model applied.",
+      "required_scope": "product/use case + buyer segment + geography + channel",
+      "sizing_rule": "TAM/SAM/SOM can be shown only after topic-specific source evidence and explicit formulas are populated."
+    },
+    "executive_metrics": [
+      {
+        "label": "TAM 2026",
+        "value": "ESTIMATED $0",
+        "source": "IIDATECH 2026 Financial Model Bank",
+        "confidence": "Estimated",
+        "note": "Uses source-backed macro denominators where available plus IIDATECH domain assumptions; not a verified market-size claim.",
+        "evidence_namespace": "SYNTHETIC MODEL",
+        "citation_allowed": false,
+        "not_investor_citable": true
+      },
+      {
+        "label": "SAM 2026",
+        "value": "ESTIMATED $0",
+        "source": "IIDATECH 2026 Financial Model Bank",
+        "confidence": "Estimated",
+        "note": "SAM formula: TAM x serviceable_share.",
+        "evidence_namespace": "SYNTHETIC MODEL",
+        "citation_allowed": false,
+        "not_investor_citable": true
+      },
+      {
+        "label": "SOM 2026",
+        "value": "ESTIMATED $0",
+        "source": "IIDATECH 2026 Financial Model Bank",
+        "confidence": "Estimated",
+        "note": "SOM formula: SAM x obtainable_capture_share.",
+        "evidence_namespace": "SYNTHETIC MODEL",
+        "citation_allowed": false,
+        "not_investor_citable": true
+      },
+      {
+        "label": "2026-2031 CAGR",
+        "value": "ESTIMATED 8.0%",
+        "source": "IIDATECH 2026 Financial Model Bank",
+        "confidence": "Scenario",
+        "note": "Scenario assumption, not a verified analyst CAGR.",
+        "evidence_namespace": "SYNTHETIC MODEL",
+        "citation_allowed": false,
+        "not_investor_citable": true
+      },
+      {
+        "label": "Sizing status",
+        "value": "Source-gated",
+        "source": "official statistics/company filings/analyst sources",
+        "confidence": "High",
+        "note": "No generic TAM is shown until domain-specific evidence is attached."
+      },
+      {
+        "label": "Model requirement",
+        "value": "Bottom-up wedge",
+        "source": "IIDATECH formula gate",
+        "confidence": "High",
+        "note": "Define customers, price, frequency, and channel before modeling."
+      },
+      {
+        "label": "Competitive basis",
+        "value": "Source-gated",
+        "source": "filings/pricing pages/channel checks",
+        "confidence": "Medium",
+        "note": "Competitor share requires disclosed data or proxy methodology."
+      },
+      {
+        "label": "Evidence gap",
+        "value": "Primary validation needed",
+        "source": "customer/interview plan",
+        "confidence": "Medium",
+        "note": "Needs buyer calls and pricing/channel checks."
+      }
+    ],
+    "formula_rows": [
+      {
+        "model_part": "TAM",
+        "formula": "eligible customers or volume x price/frequency",
+        "required_data": "official or audited market volume and topic-specific price"
+      },
+      {
+        "model_part": "SAM",
+        "formula": "TAM x reachable geography/channel/use-case share",
+        "required_data": "distribution constraints and buyer eligibility"
+      },
+      {
+        "model_part": "SOM",
+        "formula": "SAM x realistic penetration over period",
+        "required_data": "sales capacity, conversion, churn/retention, competitor response"
+      },
+      {
+        "model_part": "Unit economics",
+        "formula": "revenue - COGS - acquisition - service/compliance costs",
+        "required_data": "cost stack and cohort behavior"
+      }
+    ],
+    "scenario_rows": [
+      {
+        "scenario": "Bear",
+        "model_output": "Validation incomplete",
+        "logic": "Weak source coverage or unclear buyer economics blocks a numeric model.",
+        "source_status": "Needs official/filing/primary data."
+      },
+      {
+        "scenario": "Base",
+        "model_output": "Narrow wedge validated",
+        "logic": "A defined buyer/use case supports explicit bottom-up sizing.",
+        "source_status": "Needs price, volume, and adoption evidence."
+      },
+      {
+        "scenario": "Bull",
+        "model_output": "Repeatable expansion",
+        "logic": "Evidence supports expansion into adjacent customer segments or regions.",
+        "source_status": "Needs cohort and competitive proof."
+      }
+    ],
+    "driver_rows": [
+      {
+        "driver": "Customer/volume base",
+        "why_it_matters": "Defines the addressable universe."
+      },
+      {
+        "driver": "Price or take rate",
+        "why_it_matters": "Translates volume into revenue pool."
+      },
+      {
+        "driver": "Adoption/penetration",
+        "why_it_matters": "Converts TAM/SAM into realistic obtainable revenue."
+      },
+      {
+        "driver": "Churn/retention",
+        "why_it_matters": "Determines lifetime value and forecast durability."
+      },
+      {
+        "driver": "Cost to serve",
+        "why_it_matters": "Controls contribution margin and valuation quality."
+      }
+    ],
+    "source_gate_rows": [
+      {
+        "claim_type": "Market size",
+        "minimum_evidence": "two domain-matched sources or one official source plus bottom-up model",
+        "allowed_output": "range with assumptions"
+      },
+      {
+        "claim_type": "Forecast",
+        "minimum_evidence": "historical time series or named adoption drivers",
+        "allowed_output": "scenario forecast"
+      },
+      {
+        "claim_type": "Valuation",
+        "minimum_evidence": "unit economics and comparable company/transaction evidence",
+        "allowed_output": "sensitivity table"
+      }
+    ],
+    "methodology_notes": [
+      "Generic market assumptions were intentionally disabled.",
+      "The dashboard shows validation gates until domain-specific data is sufficient.",
+      "This prevents cross-industry metric contamination and unsupported TAM/CAGR claims."
+    ],
+    "stored_2026_financial_model_id": "1eac269b7c687241",
+    "stored_2026_financial_model_status": "ESTIMATED",
+    "stored_2026_financial_model_source_status": "Uses source-backed macro denominators where available plus IIDATECH domain assumptions; not a verified market-size claim.",
+    "evidence_namespace": "SYNTHETIC MODEL",
+    "citation_allowed": false,
+    "not_investor_citable": true,
+    "provenance_claims": [
+      {
+        "id": "2e3ca6a3-6f52-4a90-b8db-af096dee8359",
+        "source_type": "derived_formula",
+        "metric_name": "TAM 2026",
+        "value": 0,
+        "unit": "USD",
+        "derived_from_claim_ids": [],
+        "formula_expression": "GDP x industry_spend_share x topic_wedge_share x digital_readiness_factor",
+        "formula_inputs": {
+          "gdp_current_usd": 0.0,
+          "industry_spend_share": 0.035,
+          "topic_wedge_share": 0.025
+        },
+        "formula_type": "tam_bottom_up",
+        "confidence": 0.54
+      },
+      {
+        "id": "0a12c454-fb32-4385-8dc6-271fe5699689",
+        "source_type": "derived_formula",
+        "metric_name": "SAM 2026",
+        "value": 0,
+        "unit": "USD",
+        "derived_from_claim_ids": [
+          "2e3ca6a3-6f52-4a90-b8db-af096dee8359"
+        ],
+        "formula_expression": "TAM x serviceable_share",
+        "formula_inputs": {
+          "tam_2026": 0,
+          "sam_share_assumption": 0.22
+        },
+        "formula_type": "sam_filter",
+        "confidence": 0.459
+      },
+      {
+        "id": "c52b2154-5bfd-4955-a95b-50d207ae9d6c",
+        "source_type": "derived_formula",
+        "metric_name": "SOM 2026",
+        "value": 0,
+        "unit": "USD",
+        "derived_from_claim_ids": [
+          "0a12c454-fb32-4385-8dc6-271fe5699689"
+        ],
+        "formula_expression": "SAM x obtainable_capture_share",
+        "formula_inputs": {
+          "sam_2026": 0,
+          "som_capture_share_assumption": 0.01
+        },
+        "formula_type": "som_capture",
+        "confidence": 0.3672
+      }
+    ]
+  },
+  "employees_team_tasks": {},
+  "exports": [
+    "Founder business plan",
+    "Investor memo",
+    "GTM plan",
+    "Financial model CSV/XLSX",
+    "Lead list CSV",
+    "Team task plan",
+    "Source ledger"
+  ],
+  "scope_assessment": {
+    "ok": true,
+    "domain": "local_services",
+    "issues": [],
+    "suggestions": [
+      "One product category for one buyer segment in India",
+      "One workflow or use case inside Local Services SaaS for a named customer type in India",
+      "One channel-led business model with price band, buyer, and geography specified"
+    ]
+  }
+}

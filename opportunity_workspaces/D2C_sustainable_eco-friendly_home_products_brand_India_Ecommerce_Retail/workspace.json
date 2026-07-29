@@ -1,0 +1,654 @@
+{
+  "workspace_id": "D2C_sustainable_eco-friendly_home_products_brand_India_Ecommerce_Retail",
+  "workspace_dir": "C:\\Users\\weewee\\iida\\opportunity_workspaces\\D2C_sustainable_eco-friendly_home_products_brand_India_Ecommerce_Retail",
+  "updated_at": "2026-07-05T23:43:36.221133Z",
+  "idea": "D2C sustainable/eco-friendly home products brand",
+  "country": "India",
+  "industry": "Ecommerce / Retail",
+  "current_path": "Research a market",
+  "uploaded_files": [],
+  "uploaded_file_context": [],
+  "source_ledger": [
+    {
+      "id": 1,
+      "grade": "A",
+      "evidence_label": "VERIFIED",
+      "publisher": "mospi.gov.in",
+      "title": "1 Total number of establishments by broad activity, sector (Rural/Urban/Combined) and type of establishment (without hired workers, with at least one hired worker and total)",
+      "source_family": "government_data",
+      "metric": "On-demand credible web source: country pack official source domain source",
+      "url": "https://www.mospi.gov.in/sites/default/files/economic-census/sixth_economic_census/all_india/15_List_Tables-e-Publication_6ecRep.pdf",
+      "decision_use": "Can support factual market intelligence and sizing inputs if the metric matches the claim."
+    },
+    {
+      "id": 2,
+      "grade": "A",
+      "evidence_label": "VERIFIED",
+      "publisher": "mospi.gov.in",
+      "title": "CHAPTER IV",
+      "source_family": "government_data",
+      "metric": "On-demand credible web source: country pack official source domain source",
+      "url": "https://www.mospi.gov.in/sites/default/files/economic-census/sixth_economic_census/all_india/9_ChapterIV_6ecRep.pdf",
+      "decision_use": "Can support factual market intelligence and sizing inputs if the metric matches the claim."
+    },
+    {
+      "id": 3,
+      "grade": "A",
+      "evidence_label": "VERIFIED",
+      "publisher": "mospi.gov.in",
+      "title": "In the 20th century, the old modes of transport, the cart and the carriage were still used",
+      "source_family": "government_data",
+      "metric": "On-demand credible web source: country pack official source domain source",
+      "url": "https://www.mospi.gov.in/sites/default/files/Statistical_year_book_india_chapters/ch20.pdf",
+      "decision_use": "Can support factual market intelligence and sizing inputs if the metric matches the claim."
+    },
+    {
+      "id": 4,
+      "grade": "A",
+      "evidence_label": "VERIFIED",
+      "publisher": "mospi.gov.in",
+      "title": "[PDF] NATIONAL ACCOUNTS STATISTICS - MoSPI",
+      "source_family": "government_data",
+      "metric": "On-demand credible web source: country pack official source domain source",
+      "url": "https://www.mospi.gov.in/sites/default/files/publication_reports/sources_method_2012%20%281%29.pdf",
+      "decision_use": "Can support factual market intelligence and sizing inputs if the metric matches the claim."
+    },
+    {
+      "id": 5,
+      "grade": "A",
+      "evidence_label": "VERIFIED",
+      "publisher": "mospi.gov.in",
+      "title": "doc-0aee0026-bf32-4213-ae4f-c5308088444e.pdf",
+      "source_family": "government_data",
+      "metric": "On-demand credible web source: country pack official source domain source",
+      "url": "https://www.mospi.gov.in/uploads/Marquee/doc-0aee0026-bf32-4213-ae4f-c5308088444e.pdf",
+      "decision_use": "Can support factual market intelligence and sizing inputs if the metric matches the claim."
+    },
+    {
+      "id": 6,
+      "grade": "A",
+      "evidence_label": "VERIFIED",
+      "publisher": "mospi.gov.in",
+      "title": "publications_reports1763457214315_c3e5d4f3-8e25-4775-85e3-ad42d571652f_NIC_2025_Final.pdf",
+      "source_family": "government_data",
+      "metric": "On-demand credible web source: country pack official source domain source",
+      "url": "https://www.mospi.gov.in/uploads/publications_reports/publications_reports1763457214315_c3e5d4f3-8e25-4775-85e3-ad42d571652f_NIC_2025_Final.pdf",
+      "decision_use": "Can support factual market intelligence and sizing inputs if the metric matches the claim."
+    },
+    {
+      "id": 7,
+      "grade": "A",
+      "evidence_label": "VERIFIED",
+      "publisher": "rbi.org.in",
+      "title": "Press Releases - Reserve Bank of India",
+      "source_family": "government_data",
+      "metric": "On-demand credible web source: country pack official source domain source",
+      "url": "https://www.rbi.org.in/Scripts/BS_PressReleaseDisplay.aspx?prid=52373",
+      "decision_use": "Can support factual market intelligence and sizing inputs if the metric matches the claim."
+    },
+    {
+      "id": 8,
+      "grade": "A",
+      "evidence_label": "VERIFIED",
+      "publisher": "rbi.org.in",
+      "title": "Publications - Reserve Bank of India",
+      "source_family": "government_data",
+      "metric": "On-demand credible web source: country pack official source domain source",
+      "url": "https://www.rbi.org.in/scripts/PublicationsView.aspx?id=23205",
+      "decision_use": "Can support factual market intelligence and sizing inputs if the metric matches the claim."
+    },
+    {
+      "id": 9,
+      "grade": "A",
+      "evidence_label": "VERIFIED",
+      "publisher": "rbi.org.in",
+      "title": "Reserve Bank of India",
+      "source_family": "government_data",
+      "metric": "On-demand credible web source: country pack official source domain source",
+      "url": "https://www.rbi.org.in/commonperson/english/Scripts/Notification.aspx",
+      "decision_use": "Can support factual market intelligence and sizing inputs if the metric matches the claim."
+    },
+    {
+      "id": 10,
+      "grade": "A",
+      "evidence_label": "VERIFIED",
+      "publisher": "rbidocs.rbi.org.in",
+      "title": "RESERVE BANK OF INDIA",
+      "source_family": "government_data",
+      "metric": "On-demand credible web source: country pack official source domain source",
+      "url": "https://rbidocs.rbi.org.in/rdocs/Forms/PDFs/SIOS17102016.pdf",
+      "decision_use": "Can support factual market intelligence and sizing inputs if the metric matches the claim."
+    },
+    {
+      "id": 11,
+      "grade": "C",
+      "evidence_label": "ESTIMATED / PROXY",
+      "publisher": "Crossref / Asian Scholars Network",
+      "title": "Understanding Generation Z’s Purchase Intention Towards Green Skincare Products in Kingston Upon Hull, United Kingdom",
+      "source_family": "academic_research",
+      "metric": "On-demand peer-reviewed literature route: topic-relevant journal article source",
+      "url": "https://doi.org/10.55057/aje.2022.3.3.9",
+      "decision_use": "Qualitative signal only; useful for hypotheses, buyer language, and field intelligence, not hard claims."
+    },
+    {
+      "id": 12,
+      "grade": "C",
+      "evidence_label": "ESTIMATED / PROXY",
+      "publisher": "Crossref / Centre for Business and Economic Research",
+      "title": "Staff motivators in organised retail sector",
+      "source_family": "academic_research",
+      "metric": "On-demand peer-reviewed literature route: topic-relevant journal article source",
+      "url": "https://doi.org/10.24052/jbrmr/v15is02/art-05",
+      "decision_use": "Qualitative signal only; useful for hypotheses, buyer language, and field intelligence, not hard claims."
+    },
+    {
+      "id": 13,
+      "grade": "C",
+      "evidence_label": "ESTIMATED / PROXY",
+      "publisher": "Crossref / Dean & Francis Press",
+      "title": "Integrating AI-Based Chatbots for Automated Customer Support in E-Commerce: Using NLP Models like GPT for Real-Time Customer Service Automation",
+      "source_family": "academic_research",
+      "metric": "On-demand peer-reviewed literature route: topic-relevant journal article source",
+      "url": "https://doi.org/10.61173/b3mmvc75",
+      "decision_use": "Qualitative signal only; useful for hypotheses, buyer language, and field intelligence, not hard claims."
+    },
+    {
+      "id": 14,
+      "grade": "C",
+      "evidence_label": "ESTIMATED / PROXY",
+      "publisher": "Crossref / Edtech Publishers (OPC) Private Limited",
+      "title": "A study on Optimizing supply chain management to ensure efficient delivery of salon products and equipment to all locations in Groom India salon and spa private limited",
+      "source_family": "academic_research",
+      "metric": "On-demand peer-reviewed literature route: topic-relevant journal article source",
+      "url": "https://doi.org/10.55041/ijsrem31959",
+      "decision_use": "Qualitative signal only; useful for hypotheses, buyer language, and field intelligence, not hard claims."
+    },
+    {
+      "id": 15,
+      "grade": "C",
+      "evidence_label": "ESTIMATED / PROXY",
+      "publisher": "Crossref / Elsevier BV",
+      "title": "<div> The Mediating Effect of Customer Satisfaction on the Relationship Between Brand Loyalty, Brand Awareness, and Customer Repurchase Intention with Reference to a D2C Brand </div>",
+      "source_family": "academic_research",
+      "metric": "On-demand peer-reviewed literature route: topic-relevant journal article source",
+      "url": "https://doi.org/10.2139/ssrn.6025454",
+      "decision_use": "Qualitative signal only; useful for hypotheses, buyer language, and field intelligence, not hard claims."
+    },
+    {
+      "id": 16,
+      "grade": "C",
+      "evidence_label": "ESTIMATED / PROXY",
+      "publisher": "Crossref / Genesis Global Publication",
+      "title": "FACTORS INFLUENCING CONSUMER BUYING BEHAVIOUR FOR ECO-FRIENDLY PRODUCTS",
+      "source_family": "academic_research",
+      "metric": "On-demand peer-reviewed literature route: topic-relevant journal article source",
+      "url": "https://doi.org/10.55248/gengpi.07.0326.30710",
+      "decision_use": "Qualitative signal only; useful for hypotheses, buyer language, and field intelligence, not hard claims."
+    },
+    {
+      "id": 17,
+      "grade": "C",
+      "evidence_label": "ESTIMATED / PROXY",
+      "publisher": "Crossref / International Journal for Multidisciplinary Research (IJFMR)",
+      "title": "Retail Audit of Nature’s Basket: Insights into Premium Grocery Retail Strategy and Customer Psychology in India",
+      "source_family": "academic_research",
+      "metric": "On-demand peer-reviewed literature route: topic-relevant journal article source",
+      "url": "https://doi.org/10.36948/ijfmr.2025.v07i05.56877",
+      "decision_use": "Qualitative signal only; useful for hypotheses, buyer language, and field intelligence, not hard claims."
+    },
+    {
+      "id": 18,
+      "grade": "C",
+      "evidence_label": "ESTIMATED / PROXY",
+      "publisher": "Crossref / International Journal of Science and Research",
+      "title": "Consumer Preferences for Eco-Friendly Products to Support Environmental Sustainability",
+      "source_family": "academic_research",
+      "metric": "On-demand peer-reviewed literature route: topic-relevant journal article source",
+      "url": "https://doi.org/10.21275/sr251222153609",
+      "decision_use": "Qualitative signal only; useful for hypotheses, buyer language, and field intelligence, not hard claims."
+    },
+    {
+      "id": 19,
+      "grade": "C",
+      "evidence_label": "ESTIMATED / PROXY",
+      "publisher": "Crossref / Ninety Nine Publication",
+      "title": "A Discriminant Analysis Of High End And Budget Stores In Apparel Retail In India Using Retail Service Quality Scale Model",
+      "source_family": "academic_research",
+      "metric": "On-demand peer-reviewed literature route: topic-relevant journal article source",
+      "url": "https://doi.org/10.17762/turcomat.v12i4.581",
+      "decision_use": "Qualitative signal only; useful for hypotheses, buyer language, and field intelligence, not hard claims."
+    },
+    {
+      "id": 20,
+      "grade": "C",
+      "evidence_label": "ESTIMATED / PROXY",
+      "publisher": "Crossref / Universitas Nahdlatul Ulama Surabaya",
+      "title": "Effect of Brand Ambassador, Brand Image, Brand Trust and E- WOM on Purchase Intention for Halal Skincare Product. (Study on Avoskin Skincare in Surabaya)",
+      "source_family": "academic_research",
+      "metric": "On-demand peer-reviewed literature route: topic-relevant journal article source",
+      "url": "https://doi.org/10.33086/jhrpi.v2i2.5450",
+      "decision_use": "Qualitative signal only; useful for hypotheses, buyer language, and field intelligence, not hard claims."
+    },
+    {
+      "id": 21,
+      "grade": "C",
+      "evidence_label": "ESTIMATED / PROXY",
+      "publisher": "Crossref / Universitas Nahdlatul Ulama Surabaya",
+      "title": "Influence of Brand Ambassador, Brand Awareness, and Price on Brand Image and Purchasing Decision in Halal Skincare Product (Study on MS Glow Skincare Products in Surabaya)",
+      "source_family": "academic_research",
+      "metric": "On-demand peer-reviewed literature route: topic-relevant journal article source",
+      "url": "https://doi.org/10.33086/jhrpi.v2i2.5449",
+      "decision_use": "Qualitative signal only; useful for hypotheses, buyer language, and field intelligence, not hard claims."
+    },
+    {
+      "id": 22,
+      "grade": "C",
+      "evidence_label": "ESTIMATED / PROXY",
+      "publisher": "OpenAlex / International Journal of Management Technology and Social Sciences",
+      "title": "Open Network for Digital Commerce -ONDC (E-Commerce) Infrastructure: To Promote SME/ MSME Sector for Inclusive and Sustainable Digital Economic growth",
+      "source_family": "academic_research",
+      "metric": "On-demand academic research: topic-relevant research paper source",
+      "url": "https://doi.org/10.47992/ijmts.2581.6012.0223",
+      "decision_use": "Qualitative signal only; useful for hypotheses, buyer language, and field intelligence, not hard claims."
+    },
+    {
+      "id": 23,
+      "grade": "C",
+      "evidence_label": "ESTIMATED / PROXY",
+      "publisher": "OpenAlex / International Journal of Social Science and Economic Research",
+      "title": "The Modern Market Segmentation – India A | B | C",
+      "source_family": "academic_research",
+      "metric": "On-demand academic research: topic-relevant research paper source",
+      "url": "https://doi.org/10.46609/ijsser.2025.v10i06.005",
+      "decision_use": "Qualitative signal only; useful for hypotheses, buyer language, and field intelligence, not hard claims."
+    },
+    {
+      "id": 24,
+      "grade": "C",
+      "evidence_label": "ESTIMATED / PROXY",
+      "publisher": "OpenAlex / OpenAlex",
+      "title": "Deciphering the shift: Exploring key factors influencing contemporary D2C beauty products buying preferences through online channel",
+      "source_family": "academic_research",
+      "metric": "On-demand academic research: topic-relevant research paper source",
+      "url": "https://doi.org/10.52783/eel.v15i1.2723",
+      "decision_use": "Qualitative signal only; useful for hypotheses, buyer language, and field intelligence, not hard claims."
+    },
+    {
+      "id": 25,
+      "grade": "C",
+      "evidence_label": "ESTIMATED / PROXY",
+      "publisher": "OpenAlex / Sustainability",
+      "title": "Innovation and E-Commerce Models, the Technology Catalysts for Sustainable Development: The Emirate of Dubai Case Study",
+      "source_family": "academic_research",
+      "metric": "On-demand academic research: topic-relevant research paper source",
+      "url": "https://doi.org/10.3390/su15043419",
+      "decision_use": "Qualitative signal only; useful for hypotheses, buyer language, and field intelligence, not hard claims."
+    },
+    {
+      "id": 26,
+      "grade": "C",
+      "evidence_label": "ESTIMATED / PROXY",
+      "publisher": "OpenAlex / Voice of the Publisher",
+      "title": "AI-Driven Personalization in E-Commerce: The Case of Amazon and Shopify&#8217;s Impact on Consumer Behavior",
+      "source_family": "academic_research",
+      "metric": "On-demand academic research: topic-relevant research paper source",
+      "url": "https://doi.org/10.4236/vp.2025.111009",
+      "decision_use": "Qualitative signal only; useful for hypotheses, buyer language, and field intelligence, not hard claims."
+    },
+    {
+      "id": 27,
+      "grade": "B+",
+      "evidence_label": "VERIFIED BENCHMARK",
+      "publisher": "dataintelo.com",
+      "title": "Unknown vendor pricing: $3,200",
+      "source_family": "pricing_reference",
+      "metric": "Pricing signal: $3,200: Unknown vendor pricing evidence $3,200 pricing",
+      "url": "https://dataintelo.com/report/event-decoration-service-market",
+      "decision_use": "Can support financial benchmarking, pricing, implementation, or procurement evidence when the vendor/buyer segment matches; disclose proxy limits."
+    },
+    {
+      "id": 28,
+      "grade": "B+",
+      "evidence_label": "VERIFIED BENCHMARK",
+      "publisher": "leadsquared.com",
+      "title": "Unknown vendor pricing: $11.3",
+      "source_family": "pricing_reference",
+      "metric": "Pricing signal: $11.3: Unknown vendor pricing evidence $11.3 pricing",
+      "url": "https://www.leadsquared.com/industries/edtech/edtech-companies-in-india",
+      "decision_use": "Can support financial benchmarking, pricing, implementation, or procurement evidence when the vendor/buyer segment matches; disclose proxy limits."
+    },
+    {
+      "id": 29,
+      "grade": "B+",
+      "evidence_label": "VERIFIED BENCHMARK",
+      "publisher": "nykaa.com",
+      "title": "Nykaa pricing: 4\nRs",
+      "source_family": "pricing_reference",
+      "metric": "Pricing signal: 4\nRs: Nykaa pricing evidence 4\nRs pricing",
+      "url": "https://www.nykaa.com/media/wysiwyg/uiTools/2026-2/Investor-Presentation-Q3.pdf",
+      "decision_use": "Can support financial benchmarking, pricing, implementation, or procurement evidence when the vendor/buyer segment matches; disclose proxy limits."
+    },
+    {
+      "id": 30,
+      "grade": "B+",
+      "evidence_label": "VERIFIED BENCHMARK",
+      "publisher": "nykaa.com",
+      "title": "Nykaa pricing: rs\n\n566.1654135338345888",
+      "source_family": "pricing_reference",
+      "metric": "Pricing signal: rs\n\n566.1654135338345888: Nykaa pricing evidence rs\n\n566.1654135338345888 pricing",
+      "url": "https://www.nykaa.com/suganda-total-defence-sunscreen-spf-50-pa/p/12674121",
+      "decision_use": "Can support financial benchmarking, pricing, implementation, or procurement evidence when the vendor/buyer segment matches; disclose proxy limits."
+    },
+    {
+      "grade": "B",
+      "title": "Beco",
+      "url": "https://inc42.com/web-stories/7-home-and-decor-d2c-startups-disrupting-indias-consumer-market/",
+      "source_family": "serp_competitor",
+      "publisher": "Beco",
+      "year": "",
+      "metric": "",
+      "use_in_report": "serp_live_discovery"
+    },
+    {
+      "grade": "B",
+      "title": "EcoSoul Home",
+      "url": "https://inc42.com/web-stories/7-home-and-decor-d2c-startups-disrupting-indias-consumer-market/",
+      "source_family": "serp_competitor",
+      "publisher": "EcoSoul Home",
+      "year": "",
+      "metric": "",
+      "use_in_report": "serp_live_discovery"
+    },
+    {
+      "grade": "B",
+      "title": "Brown Living",
+      "url": "https://brownliving.in",
+      "source_family": "serp_competitor",
+      "publisher": "Brown Living",
+      "year": "",
+      "metric": "",
+      "use_in_report": "serp_live_discovery"
+    },
+    {
+      "grade": "B",
+      "title": "ONEarth",
+      "url": "https://suspire.in/blogs/blog/7-best-sustainable-home-decor-brands-in-india-for-an-eco-friendly-living-space-2026",
+      "source_family": "serp_competitor",
+      "publisher": "ONEarth",
+      "year": "",
+      "metric": "",
+      "use_in_report": "serp_live_discovery"
+    }
+  ],
+  "research_report": {
+    "available": true,
+    "topic": "D2C sustainable/eco-friendly home products brand",
+    "geography": "India",
+    "section_count": 4
+  },
+  "business_plan": {
+    "available": false,
+    "quality": {},
+    "founder_readable_available": false
+  },
+  "ICP": {},
+  "leads": [],
+  "financial_model": {
+    "topic": "D2C sustainable/eco-friendly home products brand",
+    "industry": "Ecommerce / Retail",
+    "target": "India",
+    "horizon": "2026-2031",
+    "domain": "consumer",
+    "dashboard_mode": "evidence_first",
+    "headline": {
+      "tam_base": 0,
+      "tam_base_fmt": "ESTIMATED $0",
+      "tam_range": "ESTIMATED $0 base; 2031 scenario $0",
+      "sam": 0,
+      "sam_fmt": "ESTIMATED $0",
+      "som_range": "ESTIMATED $0",
+      "forecast_cagr_2026_2031": 0.08,
+      "forecast_cagr_2026_2031_fmt": "ESTIMATED 8.0%"
+    },
+    "industry_model_name": "General Evidence Model",
+    "assumptions": {
+      "model_status": "No generic TAM model applied.",
+      "required_scope": "product/use case + buyer segment + geography + channel",
+      "sizing_rule": "TAM/SAM/SOM can be shown only after topic-specific source evidence and explicit formulas are populated."
+    },
+    "executive_metrics": [
+      {
+        "label": "TAM 2026",
+        "value": "ESTIMATED $0",
+        "source": "IIDATECH 2026 Financial Model Bank",
+        "confidence": "Estimated",
+        "note": "Uses source-backed macro denominators where available plus IIDATECH domain assumptions; not a verified market-size claim.",
+        "evidence_namespace": "SYNTHETIC MODEL",
+        "citation_allowed": false,
+        "not_investor_citable": true
+      },
+      {
+        "label": "SAM 2026",
+        "value": "ESTIMATED $0",
+        "source": "IIDATECH 2026 Financial Model Bank",
+        "confidence": "Estimated",
+        "note": "SAM formula: TAM x serviceable_share.",
+        "evidence_namespace": "SYNTHETIC MODEL",
+        "citation_allowed": false,
+        "not_investor_citable": true
+      },
+      {
+        "label": "SOM 2026",
+        "value": "ESTIMATED $0",
+        "source": "IIDATECH 2026 Financial Model Bank",
+        "confidence": "Estimated",
+        "note": "SOM formula: SAM x obtainable_capture_share.",
+        "evidence_namespace": "SYNTHETIC MODEL",
+        "citation_allowed": false,
+        "not_investor_citable": true
+      },
+      {
+        "label": "2026-2031 CAGR",
+        "value": "ESTIMATED 8.0%",
+        "source": "IIDATECH 2026 Financial Model Bank",
+        "confidence": "Scenario",
+        "note": "Scenario assumption, not a verified analyst CAGR.",
+        "evidence_namespace": "SYNTHETIC MODEL",
+        "citation_allowed": false,
+        "not_investor_citable": true
+      },
+      {
+        "label": "Sizing status",
+        "value": "Source-gated",
+        "source": "official statistics/company filings/analyst sources",
+        "confidence": "High",
+        "note": "No generic TAM is shown until domain-specific evidence is attached."
+      },
+      {
+        "label": "Model requirement",
+        "value": "Bottom-up wedge",
+        "source": "IIDATECH formula gate",
+        "confidence": "High",
+        "note": "Define customers, price, frequency, and channel before modeling."
+      },
+      {
+        "label": "Competitive basis",
+        "value": "Source-gated",
+        "source": "filings/pricing pages/channel checks",
+        "confidence": "Medium",
+        "note": "Competitor share requires disclosed data or proxy methodology."
+      },
+      {
+        "label": "Evidence gap",
+        "value": "Primary validation needed",
+        "source": "customer/interview plan",
+        "confidence": "Medium",
+        "note": "Needs buyer calls and pricing/channel checks."
+      }
+    ],
+    "formula_rows": [
+      {
+        "model_part": "TAM",
+        "formula": "eligible customers or volume x price/frequency",
+        "required_data": "official or audited market volume and topic-specific price"
+      },
+      {
+        "model_part": "SAM",
+        "formula": "TAM x reachable geography/channel/use-case share",
+        "required_data": "distribution constraints and buyer eligibility"
+      },
+      {
+        "model_part": "SOM",
+        "formula": "SAM x realistic penetration over period",
+        "required_data": "sales capacity, conversion, churn/retention, competitor response"
+      },
+      {
+        "model_part": "Unit economics",
+        "formula": "revenue - COGS - acquisition - service/compliance costs",
+        "required_data": "cost stack and cohort behavior"
+      }
+    ],
+    "scenario_rows": [
+      {
+        "scenario": "Bear",
+        "model_output": "Validation incomplete",
+        "logic": "Weak source coverage or unclear buyer economics blocks a numeric model.",
+        "source_status": "Needs official/filing/primary data."
+      },
+      {
+        "scenario": "Base",
+        "model_output": "Narrow wedge validated",
+        "logic": "A defined buyer/use case supports explicit bottom-up sizing.",
+        "source_status": "Needs price, volume, and adoption evidence."
+      },
+      {
+        "scenario": "Bull",
+        "model_output": "Repeatable expansion",
+        "logic": "Evidence supports expansion into adjacent customer segments or regions.",
+        "source_status": "Needs cohort and competitive proof."
+      }
+    ],
+    "driver_rows": [
+      {
+        "driver": "Customer/volume base",
+        "why_it_matters": "Defines the addressable universe."
+      },
+      {
+        "driver": "Price or take rate",
+        "why_it_matters": "Translates volume into revenue pool."
+      },
+      {
+        "driver": "Adoption/penetration",
+        "why_it_matters": "Converts TAM/SAM into realistic obtainable revenue."
+      },
+      {
+        "driver": "Churn/retention",
+        "why_it_matters": "Determines lifetime value and forecast durability."
+      },
+      {
+        "driver": "Cost to serve",
+        "why_it_matters": "Controls contribution margin and valuation quality."
+      }
+    ],
+    "source_gate_rows": [
+      {
+        "claim_type": "Market size",
+        "minimum_evidence": "two domain-matched sources or one official source plus bottom-up model",
+        "allowed_output": "range with assumptions"
+      },
+      {
+        "claim_type": "Forecast",
+        "minimum_evidence": "historical time series or named adoption drivers",
+        "allowed_output": "scenario forecast"
+      },
+      {
+        "claim_type": "Valuation",
+        "minimum_evidence": "unit economics and comparable company/transaction evidence",
+        "allowed_output": "sensitivity table"
+      }
+    ],
+    "methodology_notes": [
+      "Generic market assumptions were intentionally disabled.",
+      "The dashboard shows validation gates until domain-specific data is sufficient.",
+      "This prevents cross-industry metric contamination and unsupported TAM/CAGR claims."
+    ],
+    "stored_2026_financial_model_id": "68ae760d41c343a8",
+    "stored_2026_financial_model_status": "ESTIMATED",
+    "stored_2026_financial_model_source_status": "Uses source-backed macro denominators where available plus IIDATECH domain assumptions; not a verified market-size claim.",
+    "evidence_namespace": "SYNTHETIC MODEL",
+    "citation_allowed": false,
+    "not_investor_citable": true,
+    "provenance_claims": [
+      {
+        "id": "2f838c68-9d82-460b-b380-a7420bde8d74",
+        "source_type": "derived_formula",
+        "metric_name": "TAM 2026",
+        "value": 0,
+        "unit": "USD",
+        "derived_from_claim_ids": [],
+        "formula_expression": "GDP x industry_spend_share x topic_wedge_share x digital_readiness_factor",
+        "formula_inputs": {
+          "gdp_current_usd": 0.0,
+          "industry_spend_share": 0.055,
+          "topic_wedge_share": 0.02
+        },
+        "formula_type": "tam_bottom_up",
+        "confidence": 0.54
+      },
+      {
+        "id": "989becec-8473-4c1c-b825-16f27bb7a140",
+        "source_type": "derived_formula",
+        "metric_name": "SAM 2026",
+        "value": 0,
+        "unit": "USD",
+        "derived_from_claim_ids": [
+          "2f838c68-9d82-460b-b380-a7420bde8d74"
+        ],
+        "formula_expression": "TAM x serviceable_share",
+        "formula_inputs": {
+          "tam_2026": 0,
+          "sam_share_assumption": 0.22
+        },
+        "formula_type": "sam_filter",
+        "confidence": 0.459
+      },
+      {
+        "id": "d05c3fa8-df14-4190-8037-073fea7c108f",
+        "source_type": "derived_formula",
+        "metric_name": "SOM 2026",
+        "value": 0,
+        "unit": "USD",
+        "derived_from_claim_ids": [
+          "989becec-8473-4c1c-b825-16f27bb7a140"
+        ],
+        "formula_expression": "SAM x obtainable_capture_share",
+        "formula_inputs": {
+          "sam_2026": 0,
+          "som_capture_share_assumption": 0.01
+        },
+        "formula_type": "som_capture",
+        "confidence": 0.3672
+      }
+    ]
+  },
+  "employees_team_tasks": {},
+  "exports": [
+    "Founder business plan",
+    "Investor memo",
+    "GTM plan",
+    "Financial model CSV/XLSX",
+    "Lead list CSV",
+    "Team task plan",
+    "Source ledger"
+  ],
+  "scope_assessment": {
+    "ok": true,
+    "domain": "consumer",
+    "issues": [],
+    "suggestions": [
+      "Local kids activity marketplace for urban parents in India",
+      "Subscription home-services bundle for apartment households in India",
+      "Premium pet grooming and wellness membership in India"
+    ]
+  }
+}

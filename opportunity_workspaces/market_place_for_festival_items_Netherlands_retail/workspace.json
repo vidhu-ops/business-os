@@ -1,0 +1,575 @@
+{
+  "workspace_id": "market_place_for_festival_items_Netherlands_retail",
+  "workspace_dir": "C:\\Users\\weewee\\iida\\opportunity_workspaces\\market_place_for_festival_items_Netherlands_retail",
+  "updated_at": "2026-07-10T11:30:13.228397Z",
+  "idea": "market place for festival items",
+  "country": "Netherlands",
+  "industry": "retail",
+  "current_path": "Understand your market",
+  "uploaded_files": [],
+  "uploaded_file_context": [],
+  "source_ledger": [],
+  "research_report": {
+    "available": false,
+    "topic": "",
+    "geography": "",
+    "section_count": 0
+  },
+  "business_plan": {
+    "available": true,
+    "quality": {},
+    "founder_readable_available": false
+  },
+  "ICP": {
+    "status": "hypothesis only; local buyer validation required before scaled outreach",
+    "risk": "High if scaled outreach starts before the named buyer profile is validated.",
+    "why_this_exists": "Prevents generic outreach and prevents the strategy agent from depending on report evidence that does not exist for the selected geography.",
+    "idea_intelligence": {
+      "idea": "mobile apps for service and product",
+      "industry": "service",
+      "geography": "Netherlands",
+      "launch_geography": {
+        "research_scope": "Netherlands",
+        "execution_scope": "Netherlands",
+        "sequence": [
+          "Netherlands"
+        ],
+        "rule": "The selected geography is both research scope and launch scope."
+      },
+      "classified_domain": "general_market",
+      "detected_terms": [
+        "mobile",
+        "apps",
+        "service",
+        "product",
+        "netherlands",
+        "iidatech",
+        "app",
+        "growth",
+        "industry",
+        "geography",
+        "sections",
+        "requested",
+        "completeness",
+        "score",
+        "rationale",
+        "start",
+        "subtract",
+        "point"
+      ],
+      "market_boundary": "mobile apps for service and product should be treated as a service business for service and product in Netherlands, focused first on slow manual process. Do not analyze the whole service market until this wedge is validated.",
+      "likely_customer": "service and product",
+      "likely_pain": "slow manual process",
+      "decision_makers": [
+        "Founder/operator",
+        "operations lead",
+        "budget owner"
+      ],
+      "observable_triggers": [
+        "recent growth",
+        "new regulation",
+        "new hiring",
+        "visible customer complaints",
+        "budget allocated to the category"
+      ],
+      "proof_metrics": [
+        "time saved",
+        "conversion lift",
+        "gross margin",
+        "retention",
+        "payback period"
+      ],
+      "pricing_logic": "Start with a paid pilot or first purchase; set price from buyer ROI, margin, and comparable alternatives.",
+      "capabilities_to_build": [
+        "research synthesis",
+        "customer validation",
+        "offer design",
+        "sales execution",
+        "financial control"
+      ],
+      "innovation_themes": [
+        "AI-assisted research and operations",
+        "data-driven niche selection",
+        "faster creator/content testing",
+        "automation with human approval"
+      ],
+      "compliance_focus": [
+        "privacy",
+        "contract terms",
+        "advertising claims",
+        "customer data handling"
+      ],
+      "uploaded_evidence_summary": [
+        {
+          "name": "IIDATECH_MarketResearch_Mobile_app_growth_for_service_and_produc.md",
+          "kind": "text",
+          "text_available": true,
+          "useful_extract": "# IIDATECH Market Research Report - Mobile app growth for service and product - **Industry:** service - **Geography:** Netherlands - **Sections:** 26 / 25 requested - **Completeness score:** 5.0/10 - **Score rationale:** Start at 10. Subtract 1 point for each of 6 unresolved funding-grade data gaps (TAM and revenue series, VC/PE deal data, M&A series, valuation multiples, bottom-up usage metrics, "
+        }
+      ],
+      "report_context_used": false,
+      "source_signals": [
+        "Crossref / Bulent Evcevit University - SOFTWARE AS A SERVICE (SAAS) ADOPTION AS A DISRUPTIVE TECHNOLOGY: UNDERSTANDING THE CHALLENGES AND THE OBSTACLES OF NON-SAAS ADOPTERS YENİLİKÇİ TEKNOLOJİ OLARAK HİZMET İÇİN YAZILIM (SaaS): SaaS KULLANMAYANLARIN ZORLUKLARINI VE ENGELLERİNİ ARAŞTIRMAK",
+        "Crossref / Genesis Global Publication - FACTORS INFLUENCING CONSUMER BUYING BEHAVIOUR FOR ECO-FRIENDLY PRODUCTS",
+        "Crossref / GSC Online Press - Autonomous CI/CD Pipelines: The Future of Software Development Automation",
+        "OpenAlex / Voice of the Publisher - AI-Driven Personalization in E-Commerce: The Case of Amazon and Shopify&#8217;s Impact on Consumer Behavior",
+        "Crossref / International Journal for Multidisciplinary Research (IJFMR) - Retail Audit of Nature’s Basket: Insights into Premium Grocery Retail Strategy and Customer Psychology in India",
+        "Crossref / International Journal of Science and Research - Consumer Preferences for Eco-Friendly Products to Support Environmental Sustainability",
+        "reddit.com - Unknown vendor pricing: $120",
+        "mckinsey.com - [PDF] Digital America: A Tale of the Haves and Have-Mores - McKinsey"
+      ],
+      "broadness_flags": [],
+      "domain_playbook": {
+        "category": "service business",
+        "buyer_segments": [
+          "service and product",
+          "service operators in Netherlands",
+          "buyers already spending on service",
+          "early adopters with visible urgency"
+        ],
+        "decision_makers": [
+          "Founder/operator",
+          "operations lead",
+          "budget owner"
+        ],
+        "pain_domains": [
+          "slow manual process",
+          "unclear buying decision",
+          "expensive coordination",
+          "poor visibility"
+        ],
+        "observable_triggers": [
+          "recent growth",
+          "new regulation",
+          "new hiring",
+          "visible customer complaints",
+          "budget allocated to the category"
+        ],
+        "proof_metrics": [
+          "time saved",
+          "conversion lift",
+          "gross margin",
+          "retention",
+          "payback period"
+        ],
+        "pricing_logic": "Start with a paid pilot or first purchase; set price from buyer ROI, margin, and comparable alternatives.",
+        "product_moves": [
+          "Create one sharply scoped offer",
+          "Build a proof asset before scaling",
+          "Validate price with buyer conversations"
+        ],
+        "innovation_themes": [
+          "AI-assisted research and operations",
+          "data-driven niche selection",
+          "faster creator/content testing",
+          "automation with human approval"
+        ],
+        "alternatives": [
+          "status quo/manual process",
+          "existing category vendor",
+          "agency/consultant",
+          "hiring internal staff"
+        ],
+        "capabilities": [
+          "research synthesis",
+          "customer validation",
+          "offer design",
+          "sales execution",
+          "financial control"
+        ],
+        "compliance_focus": [
+          "privacy",
+          "contract terms",
+          "advertising claims",
+          "customer data handling"
+        ],
+        "broad_scope_warning": "Narrow this to one buyer segment and one monetization wedge inside service.",
+        "detected_terms": [
+          "mobile",
+          "apps",
+          "service",
+          "product"
+        ]
+      }
+    },
+    "market_boundary": "mobile apps for service and product should be treated as a service business for service and product in Netherlands, focused first on slow manual process. Do not analyze the whole service market until this wedge is validated.",
+    "evidence_gate": {
+      "geography": "Netherlands",
+      "local_evidence_count": 1,
+      "report_geography": "no report context",
+      "report_matches_geography": false,
+      "uploaded_evidence_matches_geography": true,
+      "idea_intelligence": {
+        "idea": "mobile apps for service and product",
+        "industry": "service",
+        "geography": "Netherlands",
+        "launch_geography": {
+          "research_scope": "Netherlands",
+          "execution_scope": "Netherlands",
+          "sequence": [
+            "Netherlands"
+          ],
+          "rule": "The selected geography is both research scope and launch scope."
+        },
+        "classified_domain": "general_market",
+        "detected_terms": [
+          "mobile",
+          "apps",
+          "service",
+          "product",
+          "netherlands",
+          "iidatech",
+          "app",
+          "growth",
+          "industry",
+          "geography",
+          "sections",
+          "requested",
+          "completeness",
+          "score",
+          "rationale",
+          "start",
+          "subtract",
+          "point"
+        ],
+        "market_boundary": "mobile apps for service and product should be treated as a service business for service and product in Netherlands, focused first on slow manual process. Do not analyze the whole service market until this wedge is validated.",
+        "likely_customer": "service and product",
+        "likely_pain": "slow manual process",
+        "decision_makers": [
+          "Founder/operator",
+          "operations lead",
+          "budget owner"
+        ],
+        "observable_triggers": [
+          "recent growth",
+          "new regulation",
+          "new hiring",
+          "visible customer complaints",
+          "budget allocated to the category"
+        ],
+        "proof_metrics": [
+          "time saved",
+          "conversion lift",
+          "gross margin",
+          "retention",
+          "payback period"
+        ],
+        "pricing_logic": "Start with a paid pilot or first purchase; set price from buyer ROI, margin, and comparable alternatives.",
+        "capabilities_to_build": [
+          "research synthesis",
+          "customer validation",
+          "offer design",
+          "sales execution",
+          "financial control"
+        ],
+        "innovation_themes": [
+          "AI-assisted research and operations",
+          "data-driven niche selection",
+          "faster creator/content testing",
+          "automation with human approval"
+        ],
+        "compliance_focus": [
+          "privacy",
+          "contract terms",
+          "advertising claims",
+          "customer data handling"
+        ],
+        "uploaded_evidence_summary": [
+          {
+            "name": "IIDATECH_MarketResearch_Mobile_app_growth_for_service_and_produc.md",
+            "kind": "text",
+            "text_available": true,
+            "useful_extract": "# IIDATECH Market Research Report - Mobile app growth for service and product - **Industry:** service - **Geography:** Netherlands - **Sections:** 26 / 25 requested - **Completeness score:** 5.0/10 - **Score rationale:** Start at 10. Subtract 1 point for each of 6 unresolved funding-grade data gaps (TAM and revenue series, VC/PE deal data, M&A series, valuation multiples, bottom-up usage metrics, "
+          }
+        ],
+        "report_context_used": false,
+        "source_signals": [
+          "Crossref / Bulent Evcevit University - SOFTWARE AS A SERVICE (SAAS) ADOPTION AS A DISRUPTIVE TECHNOLOGY: UNDERSTANDING THE CHALLENGES AND THE OBSTACLES OF NON-SAAS ADOPTERS YENİLİKÇİ TEKNOLOJİ OLARAK HİZMET İÇİN YAZILIM (SaaS): SaaS KULLANMAYANLARIN ZORLUKLARINI VE ENGELLERİNİ ARAŞTIRMAK",
+          "Crossref / Genesis Global Publication - FACTORS INFLUENCING CONSUMER BUYING BEHAVIOUR FOR ECO-FRIENDLY PRODUCTS",
+          "Crossref / GSC Online Press - Autonomous CI/CD Pipelines: The Future of Software Development Automation",
+          "OpenAlex / Voice of the Publisher - AI-Driven Personalization in E-Commerce: The Case of Amazon and Shopify&#8217;s Impact on Consumer Behavior",
+          "Crossref / International Journal for Multidisciplinary Research (IJFMR) - Retail Audit of Nature’s Basket: Insights into Premium Grocery Retail Strategy and Customer Psychology in India",
+          "Crossref / International Journal of Science and Research - Consumer Preferences for Eco-Friendly Products to Support Environmental Sustainability",
+          "reddit.com - Unknown vendor pricing: $120",
+          "mckinsey.com - [PDF] Digital America: A Tale of the Haves and Have-Mores - McKinsey"
+        ],
+        "broadness_flags": [],
+        "domain_playbook": {
+          "category": "service business",
+          "buyer_segments": [
+            "service and product",
+            "service operators in Netherlands",
+            "buyers already spending on service",
+            "early adopters with visible urgency"
+          ],
+          "decision_makers": [
+            "Founder/operator",
+            "operations lead",
+            "budget owner"
+          ],
+          "pain_domains": [
+            "slow manual process",
+            "unclear buying decision",
+            "expensive coordination",
+            "poor visibility"
+          ],
+          "observable_triggers": [
+            "recent growth",
+            "new regulation",
+            "new hiring",
+            "visible customer complaints",
+            "budget allocated to the category"
+          ],
+          "proof_metrics": [
+            "time saved",
+            "conversion lift",
+            "gross margin",
+            "retention",
+            "payback period"
+          ],
+          "pricing_logic": "Start with a paid pilot or first purchase; set price from buyer ROI, margin, and comparable alternatives.",
+          "product_moves": [
+            "Create one sharply scoped offer",
+            "Build a proof asset before scaling",
+            "Validate price with buyer conversations"
+          ],
+          "innovation_themes": [
+            "AI-assisted research and operations",
+            "data-driven niche selection",
+            "faster creator/content testing",
+            "automation with human approval"
+          ],
+          "alternatives": [
+            "status quo/manual process",
+            "existing category vendor",
+            "agency/consultant",
+            "hiring internal staff"
+          ],
+          "capabilities": [
+            "research synthesis",
+            "customer validation",
+            "offer design",
+            "sales execution",
+            "financial control"
+          ],
+          "compliance_focus": [
+            "privacy",
+            "contract terms",
+            "advertising claims",
+            "customer data handling"
+          ],
+          "broad_scope_warning": "Narrow this to one buyer segment and one monetization wedge inside service.",
+          "detected_terms": [
+            "mobile",
+            "apps",
+            "service",
+            "product"
+          ]
+        }
+      },
+      "source_records": [
+        {
+          "publisher": "Crossref / Bulent Evcevit University",
+          "title": "SOFTWARE AS A SERVICE (SAAS) ADOPTION AS A DISRUPTIVE TECHNOLOGY: UNDERSTANDING THE CHALLENGES AND THE OBSTACLES OF NON-SAAS ADOPTERS YENİLİKÇİ TEKNOLOJİ OLARAK HİZMET İÇİN YAZILIM (SaaS): SaaS KULLANMAYANLARIN ZORLUKLARINI VE ENGELLERİNİ ARAŞTIRMAK",
+          "url": "https://doi.org/10.17130/ijmeb.1249540",
+          "geography": "Global",
+          "metric": "topic-relevant journal article",
+          "source_family": "academic_research"
+        },
+        {
+          "publisher": "Crossref / Genesis Global Publication",
+          "title": "FACTORS INFLUENCING CONSUMER BUYING BEHAVIOUR FOR ECO-FRIENDLY PRODUCTS",
+          "url": "https://doi.org/10.55248/gengpi.07.0326.30710",
+          "geography": "Global",
+          "metric": "topic-relevant journal article",
+          "source_family": "academic_research"
+        },
+        {
+          "publisher": "Crossref / GSC Online Press",
+          "title": "Autonomous CI/CD Pipelines: The Future of Software Development Automation",
+          "url": "https://doi.org/10.30574/gjeta.2025.23.1.0126",
+          "geography": "Global",
+          "metric": "topic-relevant journal article",
+          "source_family": "academic_research"
+        },
+        {
+          "publisher": "OpenAlex / Voice of the Publisher",
+          "title": "AI-Driven Personalization in E-Commerce: The Case of Amazon and Shopify&#8217;s Impact on Consumer Behavior",
+          "url": "https://doi.org/10.4236/vp.2025.111009",
+          "geography": "Global",
+          "metric": "topic-relevant research paper",
+          "source_family": "academic_research"
+        },
+        {
+          "publisher": "Crossref / International Journal for Multidisciplinary Research (IJFMR)",
+          "title": "Retail Audit of Nature’s Basket: Insights into Premium Grocery Retail Strategy and Customer Psychology in India",
+          "url": "https://doi.org/10.36948/ijfmr.2025.v07i05.56877",
+          "geography": "Global",
+          "metric": "topic-relevant journal article",
+          "source_family": "academic_research"
+        },
+        {
+          "publisher": "Crossref / International Journal of Science and Research",
+          "title": "Consumer Preferences for Eco-Friendly Products to Support Environmental Sustainability",
+          "url": "https://doi.org/10.21275/sr251222153609",
+          "geography": "Global",
+          "metric": "topic-relevant journal article",
+          "source_family": "academic_research"
+        },
+        {
+          "publisher": "reddit.com",
+          "title": "Unknown vendor pricing: $120",
+          "url": "https://www.reddit.com/r/SaaS",
+          "geography": "Global",
+          "metric": "Supplier quotes / input costs accepted from pricing_reference; original gate: Unknown vendor pricing evidence $120",
+          "source_family": "pricing_reference"
+        },
+        {
+          "publisher": "mckinsey.com",
+          "title": "[PDF] Digital America: A Tale of the Haves and Have-Mores - McKinsey",
+          "url": "https://www.mckinsey.com/~/media/mckinsey/industries/technology%20media%20and%20telecommunications/high%20tech/our%20insights/digital%20america%20a%20tale%20of%20the%20haves%20and%20have%20mores/digital%20america%20full%20report%20december%202015.pdf",
+          "geography": "Global",
+          "metric": "recognized analyst, consulting, think tank, or research publisher (public_or_mixed)",
+          "source_family": "analyst_report"
+        }
+      ],
+      "validation_status": "hypothesis only; local buyer validation required before scaled outreach",
+      "execution_rule": "Allow small manual interview outreach only until local ICP evidence reaches at least 3 direct records or 10 completed buyer interviews."
+    },
+    "named_buyer_profiles": [
+      {
+        "rank": 1,
+        "vertical": "service and product in Netherlands with 10-250 employees or equivalent demand volume, a na",
+        "named_buyer_profile": "service and product in Netherlands with 10-250 employees or equivalent demand volume, a named budget owner, existing category spend, and one measurable weekly pain where slow manual process is a budget-owned buying pain",
+        "company_size_filter": "Select a narrow company-size band before scaled outreach.",
+        "tool_stack_filter": [
+          "CRM/spreadsheet",
+          "email/calendar",
+          "accounting or operations software",
+          "manual reporting workflow"
+        ],
+        "pain": "slow manual process creates measurable cost, delay, churn, compliance exposure, or missed revenue for this specific segment.",
+        "willingness_to_pay": "Set one USD pilot price and one recurring price after 10 buyer calls; do not use a wide unvalidated range.",
+        "buyer_trigger": "recent growth",
+        "decision_maker": "Founder/operator, operations lead, budget owner",
+        "lead_filters": [
+          "Netherlands",
+          "service",
+          "service and product in Netherlands with 10-250 employees or equivalent demand volume, a named budget owner, existing category spend, and one measurable weekly pain",
+          "recent growth",
+          "mobile",
+          "apps",
+          "product"
+        ],
+        "diagnostic_cta": "Should I send a 5-question diagnostic to quantify slow manual process against time saved, conversion lift?",
+        "outreach_angle": "Use mobile apps for service and product to improve slow manual process and prove it with time saved, conversion lift, gross margin.",
+        "evidence_status": "hypothesis only; local buyer validation required before scaled outreach",
+        "first_validation_test": "Interview 10 service and product in Netherlands with 10-250 employees or equivalent demand volume, a named budget owner, existing category spend, and one measurable weekly pain prospects in Netherlands; require 3 to confirm slow manual process and 2 to confirm budget or purchase intent."
+      },
+      {
+        "rank": 2,
+        "vertical": "service operators in Netherlands in Netherlands with 10-250 employees or equivalent demand",
+        "named_buyer_profile": "service operators in Netherlands in Netherlands with 10-250 employees or equivalent demand volume, a named budget owner, existing category spend, and one measurable weekly pain where unclear buying decision is a budget-owned buying pain",
+        "company_size_filter": "Select a narrow company-size band before scaled outreach.",
+        "tool_stack_filter": [
+          "CRM/spreadsheet",
+          "email/calendar",
+          "accounting or operations software",
+          "manual reporting workflow"
+        ],
+        "pain": "unclear buying decision creates measurable cost, delay, churn, compliance exposure, or missed revenue for this specific segment.",
+        "willingness_to_pay": "Set one USD pilot price and one recurring price after 10 buyer calls; do not use a wide unvalidated range.",
+        "buyer_trigger": "new regulation",
+        "decision_maker": "Founder/operator, operations lead, budget owner",
+        "lead_filters": [
+          "Netherlands",
+          "service",
+          "service operators in Netherlands in Netherlands with 10-250 employees or equivalent demand volume, a named budget owner, existing category spend, and one measurable weekly pain",
+          "new regulation",
+          "mobile",
+          "apps",
+          "product"
+        ],
+        "diagnostic_cta": "Should I send a 5-question diagnostic to quantify unclear buying decision against time saved, conversion lift?",
+        "outreach_angle": "Use mobile apps for service and product to improve unclear buying decision and prove it with time saved, conversion lift, gross margin.",
+        "evidence_status": "hypothesis only; local buyer validation required before scaled outreach",
+        "first_validation_test": "Interview 10 service operators in Netherlands in Netherlands with 10-250 employees or equivalent demand volume, a named budget owner, existing category spend, and one measurable weekly pain prospects in Netherlands; require 3 to confirm unclear buying decision and 2 to confirm budget or purchase intent."
+      },
+      {
+        "rank": 3,
+        "vertical": "buyers already spending on service in Netherlands with 10-250 employees or equivalent dema",
+        "named_buyer_profile": "buyers already spending on service in Netherlands with 10-250 employees or equivalent demand volume, a named budget owner, existing category spend, and one measurable weekly pain where expensive coordination is a budget-owned buying pain",
+        "company_size_filter": "Select a narrow company-size band before scaled outreach.",
+        "tool_stack_filter": [
+          "CRM/spreadsheet",
+          "email/calendar",
+          "accounting or operations software",
+          "manual reporting workflow"
+        ],
+        "pain": "expensive coordination creates measurable cost, delay, churn, compliance exposure, or missed revenue for this specific segment.",
+        "willingness_to_pay": "Set one USD pilot price and one recurring price after 10 buyer calls; do not use a wide unvalidated range.",
+        "buyer_trigger": "new hiring",
+        "decision_maker": "Founder/operator, operations lead, budget owner",
+        "lead_filters": [
+          "Netherlands",
+          "service",
+          "buyers already spending on service in Netherlands with 10-250 employees or equivalent demand volume, a named budget owner, existing category spend, and one measurable weekly pain",
+          "new hiring",
+          "mobile",
+          "apps",
+          "product"
+        ],
+        "diagnostic_cta": "Should I send a 5-question diagnostic to quantify expensive coordination against time saved, conversion lift?",
+        "outreach_angle": "Use mobile apps for service and product to improve expensive coordination and prove it with time saved, conversion lift, gross margin.",
+        "evidence_status": "hypothesis only; local buyer validation required before scaled outreach",
+        "first_validation_test": "Interview 10 buyers already spending on service in Netherlands with 10-250 employees or equivalent demand volume, a named budget owner, existing category spend, and one measurable weekly pain prospects in Netherlands; require 3 to confirm expensive coordination and 2 to confirm budget or purchase intent."
+      }
+    ],
+    "do_not_execute_until": [
+      "At least one named buyer profile is selected.",
+      "Minimum 10 buyer interviews or 3 direct local evidence records support the profile.",
+      "Willingness-to-pay is confirmed by at least 2 paid pilots, LOIs, or strong verbal budget confirmations.",
+      "Buyer trigger can be detected through Apollo/Hunter/manual lead filters before outbound."
+    ]
+  },
+  "leads": [],
+  "financial_model": {},
+  "employees_team_tasks": {
+    "created_at": "2026-07-10 16:49:27",
+    "business": {
+      "idea": "mobile apps for service and product",
+      "industry": "service",
+      "geography": "Netherlands",
+      "buyer": "service and product in Netherlands with 10-250 employees or equivalent demand volume, a named budget owner, existing category spend, and one measurable weekly pain where slow manual process is a budget-owned buying pain",
+      "trigger": "recent growth",
+      "cta": "ask for a validation call"
+    },
+    "execution_rules": [
+      "Employees create internal files, briefs, dashboards, task boards, scripts, images, video storyboards, lead tables, and system specs.",
+      "Employees may prepare external-action payloads, but emails, posts, purchases, hires, tool changes, payments, and customer contact require explicit approval.",
+      "Every employee uses the same current marketing plan, ICP, geography, leads, financial assumptions, and combined company memory.",
+      "Unsupported claims, mismatched geography, missing buyer, and missing approval are blockers."
+    ],
+    "tasks_by_employee": [],
+    "handoff_model": "Marketing creates message and assets; Sales/CRM qualifies leads; Systems builds workflows; Legal/QA approve risks; Finance/Data score economics; Operations runs cadence; Success captures retention proof."
+  },
+  "exports": [
+    "Founder business plan",
+    "Investor memo",
+    "GTM plan",
+    "Financial model CSV/XLSX",
+    "Lead list CSV",
+    "Team task plan",
+    "Source ledger"
+  ],
+  "scope_assessment": {
+    "ok": true,
+    "domain": "consumer",
+    "issues": [],
+    "suggestions": [
+      "Local kids activity marketplace for urban parents in Netherlands",
+      "Subscription home-services bundle for apartment households in Netherlands",
+      "Premium pet grooming and wellness membership in Netherlands"
+    ]
+  }
+}

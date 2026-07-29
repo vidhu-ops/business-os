@@ -1,0 +1,582 @@
+{
+  "workspace_id": "market_research_application_for_founders_and_SME_s_india_technology",
+  "workspace_dir": "C:\\Users\\weewee\\iida\\opportunity_workspaces\\market_research_application_for_founders_and_SME_s_india_technology",
+  "updated_at": "2026-07-25T16:18:09.470739Z",
+  "idea": "market research application for founders and SME's",
+  "country": "india",
+  "industry": "technology",
+  "current_path": "Turn idea into business plan",
+  "uploaded_files": [],
+  "uploaded_file_context": [
+    {
+      "name": "IIDATECH_MarketReport_market_research_application_for_founders.md",
+      "kind": "text",
+      "mime": "application/octet-stream",
+      "bytes": 36897,
+      "text_preview": "# market research application for founders and SME's - **Industry:** SaaS - **Market:** India - **Generated:** 2026-07-25 16:01 UTC - **Runtime:** 201.7s · **Est. cost:** $0.319 (budget cap $0.50) --- # Market Research Application for Founders and SMEs: India SaaS Market ## Executive Summary ### Key Findings India's startup ecosystem has reached 159,157 DPIIT-recognised startups as of January 15, 2025[1], with financial year 2025–26 recording the highest single-year additions (over 55,200 startups)[2] since the Startup India initiative launched in 2016. This sustained pipeline growth establish",
+      "notes": []
+    }
+  ],
+  "source_ledger": [],
+  "research_report": {
+    "available": false,
+    "topic": "",
+    "geography": "",
+    "section_count": 0
+  },
+  "business_plan": {
+    "available": true,
+    "quality": {},
+    "founder_readable_available": true
+  },
+  "ICP": {
+    "status": "locally supported",
+    "risk": "High if scaled outreach starts before the named buyer profile is validated.",
+    "why_this_exists": "Prevents generic outreach and prevents the strategy agent from depending on report evidence that does not exist for the selected geography.",
+    "idea_intelligence": {
+      "idea": "market research application for founders and SME's",
+      "industry": "technology",
+      "geography": "india",
+      "launch_geography": {
+        "research_scope": "india",
+        "execution_scope": "india",
+        "sequence": [
+          "india"
+        ],
+        "rule": "The selected geography is both research scope and launch scope."
+      },
+      "classified_domain": "general_market",
+      "detected_terms": [
+        "application",
+        "founders",
+        "sme",
+        "technology",
+        "india",
+        "industry",
+        "saas",
+        "generated",
+        "utc",
+        "runtime",
+        "est",
+        "cost",
+        "budget",
+        "cap",
+        "smes",
+        "executive",
+        "summary",
+        "key"
+      ],
+      "market_boundary": "market research application for founders and SME's should be treated as a technology business for founders and SME's in india, focused first on slow manual process. Do not analyze the whole technology market until this wedge is validated.",
+      "likely_customer": "founders and SME's",
+      "likely_pain": "slow manual process",
+      "decision_makers": [
+        "Founder/operator",
+        "operations lead",
+        "budget owner"
+      ],
+      "observable_triggers": [
+        "recent growth",
+        "new regulation",
+        "new hiring",
+        "visible customer complaints",
+        "budget allocated to the category"
+      ],
+      "proof_metrics": [
+        "time saved",
+        "conversion lift",
+        "gross margin",
+        "retention",
+        "payback period"
+      ],
+      "pricing_logic": "Start with a paid pilot or first purchase; set price from buyer ROI, margin, and comparable alternatives.",
+      "capabilities_to_build": [
+        "research synthesis",
+        "customer validation",
+        "offer design",
+        "sales execution",
+        "financial control"
+      ],
+      "innovation_themes": [
+        "AI-assisted research and operations",
+        "data-driven niche selection",
+        "faster creator/content testing",
+        "automation with human approval"
+      ],
+      "compliance_focus": [
+        "privacy",
+        "contract terms",
+        "advertising claims",
+        "customer data handling"
+      ],
+      "uploaded_evidence_summary": [
+        {
+          "name": "IIDATECH_MarketReport_market_research_application_for_founders.md",
+          "kind": "text",
+          "text_available": true,
+          "useful_extract": "# market research application for founders and SME's - **Industry:** SaaS - **Market:** India - **Generated:** 2026-07-25 16:01 UTC - **Runtime:** 201.7s · **Est. cost:** $0.319 (budget cap $0.50) --- # Market Research Application for Founders and SMEs: India SaaS Market ## Executive Summary ### Key Findings India's startup ecosystem has reached 159,157 DPIIT-recognised startups as of January 15, "
+        }
+      ],
+      "report_context_used": false,
+      "source_signals": [
+        "aimnlaunch.com - Meta Ads ROAS Benchmarks India 2026 | D2C Data",
+        "hcpwellness.in - Cosmetic Manufacturer in India for Private Label Cosmetic",
+        "hitechformulations.com - Hitech | Skincare Research and Manufacturing Partner",
+        "coherentmarketinsights.com - Major Players - Cloud Kitchen Industry",
+        "culturaleventrentals.com - Cultural Event Rentals - Indian Weddings Rentals",
+        "makspay.com - MAKSPay Fintech",
+        "mospi.gov.in - CHAPTER IV"
+      ],
+      "broadness_flags": [],
+      "domain_playbook": {
+        "category": "technology business",
+        "buyer_segments": [
+          "founders and SME's",
+          "technology operators in india",
+          "buyers already spending on technology",
+          "early adopters with visible urgency"
+        ],
+        "decision_makers": [
+          "Founder/operator",
+          "operations lead",
+          "budget owner"
+        ],
+        "pain_domains": [
+          "slow manual process",
+          "unclear buying decision",
+          "expensive coordination",
+          "poor visibility"
+        ],
+        "observable_triggers": [
+          "recent growth",
+          "new regulation",
+          "new hiring",
+          "visible customer complaints",
+          "budget allocated to the category"
+        ],
+        "proof_metrics": [
+          "time saved",
+          "conversion lift",
+          "gross margin",
+          "retention",
+          "payback period"
+        ],
+        "pricing_logic": "Start with a paid pilot or first purchase; set price from buyer ROI, margin, and comparable alternatives.",
+        "product_moves": [
+          "Create one sharply scoped offer",
+          "Build a proof asset before scaling",
+          "Validate price with buyer conversations"
+        ],
+        "innovation_themes": [
+          "AI-assisted research and operations",
+          "data-driven niche selection",
+          "faster creator/content testing",
+          "automation with human approval"
+        ],
+        "alternatives": [
+          "status quo/manual process",
+          "existing category vendor",
+          "agency/consultant",
+          "hiring internal staff"
+        ],
+        "capabilities": [
+          "research synthesis",
+          "customer validation",
+          "offer design",
+          "sales execution",
+          "financial control"
+        ],
+        "compliance_focus": [
+          "privacy",
+          "contract terms",
+          "advertising claims",
+          "customer data handling"
+        ],
+        "broad_scope_warning": "Narrow this to one buyer segment and one monetization wedge inside technology.",
+        "detected_terms": [
+          "application",
+          "founders",
+          "sme",
+          "technology"
+        ]
+      }
+    },
+    "market_boundary": "market research application for founders and SME's should be treated as a technology business for founders and SME's in india, focused first on slow manual process. Do not analyze the whole technology market until this wedge is validated.",
+    "evidence_gate": {
+      "geography": "india",
+      "local_evidence_count": 14,
+      "report_geography": "no report context",
+      "report_matches_geography": false,
+      "uploaded_evidence_matches_geography": true,
+      "idea_intelligence": {
+        "idea": "market research application for founders and SME's",
+        "industry": "technology",
+        "geography": "india",
+        "launch_geography": {
+          "research_scope": "india",
+          "execution_scope": "india",
+          "sequence": [
+            "india"
+          ],
+          "rule": "The selected geography is both research scope and launch scope."
+        },
+        "classified_domain": "general_market",
+        "detected_terms": [
+          "application",
+          "founders",
+          "sme",
+          "technology",
+          "india",
+          "industry",
+          "saas",
+          "generated",
+          "utc",
+          "runtime",
+          "est",
+          "cost",
+          "budget",
+          "cap",
+          "smes",
+          "executive",
+          "summary",
+          "key"
+        ],
+        "market_boundary": "market research application for founders and SME's should be treated as a technology business for founders and SME's in india, focused first on slow manual process. Do not analyze the whole technology market until this wedge is validated.",
+        "likely_customer": "founders and SME's",
+        "likely_pain": "slow manual process",
+        "decision_makers": [
+          "Founder/operator",
+          "operations lead",
+          "budget owner"
+        ],
+        "observable_triggers": [
+          "recent growth",
+          "new regulation",
+          "new hiring",
+          "visible customer complaints",
+          "budget allocated to the category"
+        ],
+        "proof_metrics": [
+          "time saved",
+          "conversion lift",
+          "gross margin",
+          "retention",
+          "payback period"
+        ],
+        "pricing_logic": "Start with a paid pilot or first purchase; set price from buyer ROI, margin, and comparable alternatives.",
+        "capabilities_to_build": [
+          "research synthesis",
+          "customer validation",
+          "offer design",
+          "sales execution",
+          "financial control"
+        ],
+        "innovation_themes": [
+          "AI-assisted research and operations",
+          "data-driven niche selection",
+          "faster creator/content testing",
+          "automation with human approval"
+        ],
+        "compliance_focus": [
+          "privacy",
+          "contract terms",
+          "advertising claims",
+          "customer data handling"
+        ],
+        "uploaded_evidence_summary": [
+          {
+            "name": "IIDATECH_MarketReport_market_research_application_for_founders.md",
+            "kind": "text",
+            "text_available": true,
+            "useful_extract": "# market research application for founders and SME's - **Industry:** SaaS - **Market:** India - **Generated:** 2026-07-25 16:01 UTC - **Runtime:** 201.7s · **Est. cost:** $0.319 (budget cap $0.50) --- # Market Research Application for Founders and SMEs: India SaaS Market ## Executive Summary ### Key Findings India's startup ecosystem has reached 159,157 DPIIT-recognised startups as of January 15, "
+          }
+        ],
+        "report_context_used": false,
+        "source_signals": [
+          "aimnlaunch.com - Meta Ads ROAS Benchmarks India 2026 | D2C Data",
+          "hcpwellness.in - Cosmetic Manufacturer in India for Private Label Cosmetic",
+          "hitechformulations.com - Hitech | Skincare Research and Manufacturing Partner",
+          "coherentmarketinsights.com - Major Players - Cloud Kitchen Industry",
+          "culturaleventrentals.com - Cultural Event Rentals - Indian Weddings Rentals",
+          "makspay.com - MAKSPay Fintech",
+          "mospi.gov.in - CHAPTER IV"
+        ],
+        "broadness_flags": [],
+        "domain_playbook": {
+          "category": "technology business",
+          "buyer_segments": [
+            "founders and SME's",
+            "technology operators in india",
+            "buyers already spending on technology",
+            "early adopters with visible urgency"
+          ],
+          "decision_makers": [
+            "Founder/operator",
+            "operations lead",
+            "budget owner"
+          ],
+          "pain_domains": [
+            "slow manual process",
+            "unclear buying decision",
+            "expensive coordination",
+            "poor visibility"
+          ],
+          "observable_triggers": [
+            "recent growth",
+            "new regulation",
+            "new hiring",
+            "visible customer complaints",
+            "budget allocated to the category"
+          ],
+          "proof_metrics": [
+            "time saved",
+            "conversion lift",
+            "gross margin",
+            "retention",
+            "payback period"
+          ],
+          "pricing_logic": "Start with a paid pilot or first purchase; set price from buyer ROI, margin, and comparable alternatives.",
+          "product_moves": [
+            "Create one sharply scoped offer",
+            "Build a proof asset before scaling",
+            "Validate price with buyer conversations"
+          ],
+          "innovation_themes": [
+            "AI-assisted research and operations",
+            "data-driven niche selection",
+            "faster creator/content testing",
+            "automation with human approval"
+          ],
+          "alternatives": [
+            "status quo/manual process",
+            "existing category vendor",
+            "agency/consultant",
+            "hiring internal staff"
+          ],
+          "capabilities": [
+            "research synthesis",
+            "customer validation",
+            "offer design",
+            "sales execution",
+            "financial control"
+          ],
+          "compliance_focus": [
+            "privacy",
+            "contract terms",
+            "advertising claims",
+            "customer data handling"
+          ],
+          "broad_scope_warning": "Narrow this to one buyer segment and one monetization wedge inside technology.",
+          "detected_terms": [
+            "application",
+            "founders",
+            "sme",
+            "technology"
+          ]
+        }
+      },
+      "source_records": [
+        {
+          "publisher": "aimnlaunch.com",
+          "title": "Meta Ads ROAS Benchmarks India 2026 | D2C Data",
+          "url": "https://aimnlaunch.com/how-to-launch-a-d2c-brand-in-india-in-2026-the-complete-playbook-from-zero-to-rs-10l-month",
+          "geography": "India",
+          "metric": "topic/geography-matched local operator, booking, listing, or pricing page; use for competitor/pricing evidence only",
+          "source_family": "local_operator_listing"
+        },
+        {
+          "publisher": "aimnlaunch.com",
+          "title": "Meta Ads ROAS Benchmarks India 2026 | D2C Data",
+          "url": "https://aimnlaunch.com/how-to-launch-a-d2c-brand-in-india-in-2026-the-complete-playbook-from-zero-to-rs-10l-month/",
+          "geography": "India",
+          "metric": "topic/geography-matched local operator, booking, listing, or pricing page; use for competitor/pricing evidence only",
+          "source_family": "local_operator_listing"
+        },
+        {
+          "publisher": "hcpwellness.in",
+          "title": "Cosmetic Manufacturer in India for Private Label Cosmetic",
+          "url": "https://hcpwellness.in/",
+          "geography": "India",
+          "metric": "Supplier quotes / input costs accepted from local_operator_listing; original gate: topic/geography-matched local operator, booking, listing, or pricing page; use for competitor/pricing evidence only",
+          "source_family": "local_operator_listing"
+        },
+        {
+          "publisher": "hitechformulations.com",
+          "title": "Hitech | Skincare Research and Manufacturing Partner",
+          "url": "https://hitechformulations.com/",
+          "geography": "India",
+          "metric": "Supplier quotes / input costs accepted from local_operator_listing; original gate: topic/geography-matched local operator, booking, listing, or pricing page; use for competitor/pricing evidence only",
+          "source_family": "local_operator_listing"
+        },
+        {
+          "publisher": "coherentmarketinsights.com",
+          "title": "Major Players - Cloud Kitchen Industry",
+          "url": "https://www.coherentmarketinsights.com/blog/insights/major-players-cloud-kitchen-industry-2206",
+          "geography": "India",
+          "metric": "topic/geography-matched local operator, booking, listing, or pricing page; use for competitor/pricing evidence only",
+          "source_family": "local_operator_listing"
+        },
+        {
+          "publisher": "culturaleventrentals.com",
+          "title": "Cultural Event Rentals - Indian Weddings Rentals",
+          "url": "https://culturaleventrentals.com",
+          "geography": "India",
+          "metric": "topic/geography-matched local operator, booking, listing, or pricing page; use for competitor/pricing evidence only",
+          "source_family": "local_operator_listing"
+        },
+        {
+          "publisher": "makspay.com",
+          "title": "MAKSPay Fintech",
+          "url": "https://makspay.com/",
+          "geography": "India",
+          "metric": "topic/geography-matched local operator, booking, listing, or pricing page; use for competitor/pricing evidence only",
+          "source_family": "local_operator_listing"
+        },
+        {
+          "publisher": "mospi.gov.in",
+          "title": "CHAPTER IV",
+          "url": "https://www.mospi.gov.in/sites/default/files/economic-census/sixth_economic_census/all_india/9_ChapterIV_6ecRep.pdf",
+          "geography": "India",
+          "metric": "country pack official source domain",
+          "source_family": "government_data"
+        }
+      ],
+      "validation_status": "locally supported",
+      "execution_rule": "Outreach can proceed after founder approval, with source-backed positioning and opt-out language."
+    },
+    "named_buyer_profiles": [
+      {
+        "rank": 1,
+        "vertical": "founders and SME's in india with 10-250 employees or equivalent demand volume, a named bud",
+        "named_buyer_profile": "founders and SME's in india with 10-250 employees or equivalent demand volume, a named budget owner, existing category spend, and one measurable weekly pain where slow manual process is a budget-owned buying pain",
+        "company_size_filter": "Select a narrow company-size band before scaled outreach.",
+        "tool_stack_filter": [
+          "CRM/spreadsheet",
+          "email/calendar",
+          "accounting or operations software",
+          "manual reporting workflow"
+        ],
+        "pain": "slow manual process creates measurable cost, delay, churn, compliance exposure, or missed revenue for this specific segment.",
+        "willingness_to_pay": "Set one INR pilot price and one recurring price after 10 buyer calls; do not use a wide unvalidated range.",
+        "buyer_trigger": "recent growth",
+        "decision_maker": "Founder/operator, operations lead, budget owner",
+        "lead_filters": [
+          "india",
+          "technology",
+          "founders and SME's in india with 10-250 employees or equivalent demand volume, a named budget owner, existing category spend, and one measurable weekly pain",
+          "recent growth",
+          "application",
+          "founders",
+          "sme"
+        ],
+        "diagnostic_cta": "Should I send a 5-question diagnostic to quantify slow manual process against time saved, conversion lift?",
+        "outreach_angle": "Use market research application for founders and SME's to improve slow manual process and prove it with time saved, conversion lift, gross margin.",
+        "evidence_status": "locally supported",
+        "first_validation_test": "Interview 10 founders and SME's in india with 10-250 employees or equivalent demand volume, a named budget owner, existing category spend, and one measurable weekly pain prospects in india; require 3 to confirm slow manual process and 2 to confirm budget or purchase intent."
+      },
+      {
+        "rank": 2,
+        "vertical": "technology operators in india in india with 10-250 employees or equivalent demand volume, ",
+        "named_buyer_profile": "technology operators in india in india with 10-250 employees or equivalent demand volume, a named budget owner, existing category spend, and one measurable weekly pain where unclear buying decision is a budget-owned buying pain",
+        "company_size_filter": "Select a narrow company-size band before scaled outreach.",
+        "tool_stack_filter": [
+          "CRM/spreadsheet",
+          "email/calendar",
+          "accounting or operations software",
+          "manual reporting workflow"
+        ],
+        "pain": "unclear buying decision creates measurable cost, delay, churn, compliance exposure, or missed revenue for this specific segment.",
+        "willingness_to_pay": "Set one INR pilot price and one recurring price after 10 buyer calls; do not use a wide unvalidated range.",
+        "buyer_trigger": "new regulation",
+        "decision_maker": "Founder/operator, operations lead, budget owner",
+        "lead_filters": [
+          "india",
+          "technology",
+          "technology operators in india in india with 10-250 employees or equivalent demand volume, a named budget owner, existing category spend, and one measurable weekly pain",
+          "new regulation",
+          "application",
+          "founders",
+          "sme"
+        ],
+        "diagnostic_cta": "Should I send a 5-question diagnostic to quantify unclear buying decision against time saved, conversion lift?",
+        "outreach_angle": "Use market research application for founders and SME's to improve unclear buying decision and prove it with time saved, conversion lift, gross margin.",
+        "evidence_status": "locally supported",
+        "first_validation_test": "Interview 10 technology operators in india in india with 10-250 employees or equivalent demand volume, a named budget owner, existing category spend, and one measurable weekly pain prospects in india; require 3 to confirm unclear buying decision and 2 to confirm budget or purchase intent."
+      },
+      {
+        "rank": 3,
+        "vertical": "buyers already spending on technology in india with 10-250 employees or equivalent demand ",
+        "named_buyer_profile": "buyers already spending on technology in india with 10-250 employees or equivalent demand volume, a named budget owner, existing category spend, and one measurable weekly pain where expensive coordination is a budget-owned buying pain",
+        "company_size_filter": "Select a narrow company-size band before scaled outreach.",
+        "tool_stack_filter": [
+          "CRM/spreadsheet",
+          "email/calendar",
+          "accounting or operations software",
+          "manual reporting workflow"
+        ],
+        "pain": "expensive coordination creates measurable cost, delay, churn, compliance exposure, or missed revenue for this specific segment.",
+        "willingness_to_pay": "Set one INR pilot price and one recurring price after 10 buyer calls; do not use a wide unvalidated range.",
+        "buyer_trigger": "new hiring",
+        "decision_maker": "Founder/operator, operations lead, budget owner",
+        "lead_filters": [
+          "india",
+          "technology",
+          "buyers already spending on technology in india with 10-250 employees or equivalent demand volume, a named budget owner, existing category spend, and one measurable weekly pain",
+          "new hiring",
+          "application",
+          "founders",
+          "sme"
+        ],
+        "diagnostic_cta": "Should I send a 5-question diagnostic to quantify expensive coordination against time saved, conversion lift?",
+        "outreach_angle": "Use market research application for founders and SME's to improve expensive coordination and prove it with time saved, conversion lift, gross margin.",
+        "evidence_status": "locally supported",
+        "first_validation_test": "Interview 10 buyers already spending on technology in india with 10-250 employees or equivalent demand volume, a named budget owner, existing category spend, and one measurable weekly pain prospects in india; require 3 to confirm expensive coordination and 2 to confirm budget or purchase intent."
+      }
+    ],
+    "do_not_execute_until": [
+      "At least one named buyer profile is selected.",
+      "Minimum 10 buyer interviews or 3 direct local evidence records support the profile.",
+      "Willingness-to-pay is confirmed by at least 2 paid pilots, LOIs, or strong verbal budget confirmations.",
+      "Buyer trigger can be detected through Apollo/Hunter/manual lead filters before outbound."
+    ]
+  },
+  "leads": [],
+  "financial_model": {},
+  "employees_team_tasks": {
+    "created_at": "2026-07-25 21:43:03",
+    "business": {
+      "idea": "market research application for founders and SME's",
+      "industry": "technology",
+      "geography": "india",
+      "buyer": "founders and SME's in india with 10-250 employees or equivalent demand volume, a named budget owner, existing category spend, and one measurable weekly pain where slow manual process is a budget-owned buying pain",
+      "trigger": "recent growth",
+      "cta": "ask for a validation call"
+    },
+    "execution_rules": [
+      "Employees create internal files, briefs, dashboards, task boards, scripts, images, video storyboards, lead tables, and system specs.",
+      "Employees may prepare external-action payloads, but emails, posts, purchases, hires, tool changes, payments, and customer contact require explicit approval.",
+      "Every employee uses the same current marketing plan, ICP, geography, leads, financial assumptions, and combined company memory.",
+      "Unsupported claims, mismatched geography, missing buyer, and missing approval are blockers."
+    ],
+    "tasks_by_employee": [],
+    "handoff_model": "Marketing creates message and assets; Sales/CRM qualifies leads; Systems builds workflows; Legal/QA approve risks; Finance/Data score economics; Operations runs cadence; Success captures retention proof."
+  },
+  "exports": [
+    "Founder business plan",
+    "Investor memo",
+    "GTM plan",
+    "Financial model CSV/XLSX",
+    "Lead list CSV",
+    "Team task plan",
+    "Source ledger"
+  ],
+  "scope_assessment": {
+    "ok": true,
+    "domain": "general_market",
+    "issues": [],
+    "suggestions": [
+      "One product category for one buyer segment in india",
+      "One workflow or use case inside technology for a named customer type in india",
+      "One channel-led business model with price band, buyer, and geography specified"
+    ]
+  }
+}

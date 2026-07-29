@@ -1,0 +1,484 @@
+{"industry": "crm_automation", "metric": "CAC", "value": 80.0, "unit": "USD", "geography": "Global", "source_type": "analyst_report", "trust_score": 0.85, "year": 2025}
+{"industry": "crm_automation", "metric": "CAC", "value": 453.33, "unit": "USD", "geography": "US", "source_type": "g2", "trust_score": 0.8, "year": 2025}
+{"industry": "crm_automation", "metric": "CAC", "value": 826.67, "unit": "USD", "geography": "India", "source_type": "capterra", "trust_score": 0.75, "year": 2025}
+{"industry": "crm_automation", "metric": "CAC", "value": 1200.0, "unit": "USD", "geography": "EU", "source_type": "public_filing", "trust_score": 0.7, "year": 2025}
+{"industry": "crm_automation", "metric": "churn", "value": 1.5, "unit": "percent_monthly", "geography": "Global", "source_type": "analyst_report", "trust_score": 0.85, "year": 2025}
+{"industry": "crm_automation", "metric": "churn", "value": 3.67, "unit": "percent_monthly", "geography": "US", "source_type": "g2", "trust_score": 0.8, "year": 2025}
+{"industry": "crm_automation", "metric": "churn", "value": 5.83, "unit": "percent_monthly", "geography": "India", "source_type": "capterra", "trust_score": 0.75, "year": 2025}
+{"industry": "crm_automation", "metric": "churn", "value": 8.0, "unit": "percent_monthly", "geography": "EU", "source_type": "public_filing", "trust_score": 0.7, "year": 2025}
+{"industry": "crm_automation", "metric": "LTV", "value": 400.0, "unit": "USD", "geography": "Global", "source_type": "analyst_report", "trust_score": 0.85, "year": 2025}
+{"industry": "crm_automation", "metric": "LTV", "value": 4266.67, "unit": "USD", "geography": "US", "source_type": "g2", "trust_score": 0.8, "year": 2025}
+{"industry": "crm_automation", "metric": "LTV", "value": 8133.33, "unit": "USD", "geography": "India", "source_type": "capterra", "trust_score": 0.75, "year": 2025}
+{"industry": "crm_automation", "metric": "LTV", "value": 12000.0, "unit": "USD", "geography": "EU", "source_type": "public_filing", "trust_score": 0.7, "year": 2025}
+{"industry": "crm_automation", "metric": "gross margin", "value": 55.0, "unit": "percent", "geography": "Global", "source_type": "analyst_report", "trust_score": 0.85, "year": 2025}
+{"industry": "crm_automation", "metric": "gross margin", "value": 65.0, "unit": "percent", "geography": "US", "source_type": "g2", "trust_score": 0.8, "year": 2025}
+{"industry": "crm_automation", "metric": "gross margin", "value": 75.0, "unit": "percent", "geography": "India", "source_type": "capterra", "trust_score": 0.75, "year": 2025}
+{"industry": "crm_automation", "metric": "gross margin", "value": 85.0, "unit": "percent", "geography": "EU", "source_type": "public_filing", "trust_score": 0.7, "year": 2025}
+{"industry": "crm_automation", "metric": "contribution margin", "value": 20.0, "unit": "percent", "geography": "Global", "source_type": "analyst_report", "trust_score": 0.85, "year": 2025}
+{"industry": "crm_automation", "metric": "contribution margin", "value": 31.67, "unit": "percent", "geography": "US", "source_type": "g2", "trust_score": 0.8, "year": 2025}
+{"industry": "crm_automation", "metric": "contribution margin", "value": 43.33, "unit": "percent", "geography": "India", "source_type": "capterra", "trust_score": 0.75, "year": 2025}
+{"industry": "crm_automation", "metric": "contribution margin", "value": 55.0, "unit": "percent", "geography": "EU", "source_type": "public_filing", "trust_score": 0.7, "year": 2025}
+{"industry": "crm_automation", "metric": "conversion rate", "value": 1.5, "unit": "percent", "geography": "Global", "source_type": "analyst_report", "trust_score": 0.85, "year": 2025}
+{"industry": "crm_automation", "metric": "conversion rate", "value": 5.0, "unit": "percent", "geography": "US", "source_type": "g2", "trust_score": 0.8, "year": 2025}
+{"industry": "crm_automation", "metric": "conversion rate", "value": 8.5, "unit": "percent", "geography": "India", "source_type": "capterra", "trust_score": 0.75, "year": 2025}
+{"industry": "crm_automation", "metric": "conversion rate", "value": 12.0, "unit": "percent", "geography": "EU", "source_type": "public_filing", "trust_score": 0.7, "year": 2025}
+{"industry": "crm_automation", "metric": "retention", "value": 65.0, "unit": "percent_annual", "geography": "Global", "source_type": "analyst_report", "trust_score": 0.85, "year": 2025}
+{"industry": "crm_automation", "metric": "retention", "value": 75.0, "unit": "percent_annual", "geography": "US", "source_type": "g2", "trust_score": 0.8, "year": 2025}
+{"industry": "crm_automation", "metric": "retention", "value": 85.0, "unit": "percent_annual", "geography": "India", "source_type": "capterra", "trust_score": 0.75, "year": 2025}
+{"industry": "crm_automation", "metric": "retention", "value": 95.0, "unit": "percent_annual", "geography": "EU", "source_type": "public_filing", "trust_score": 0.7, "year": 2025}
+{"industry": "crm_automation", "metric": "repeat purchase", "value": 15.0, "unit": "percent", "geography": "Global", "source_type": "analyst_report", "trust_score": 0.85, "year": 2025}
+{"industry": "crm_automation", "metric": "repeat purchase", "value": 25.0, "unit": "percent", "geography": "US", "source_type": "g2", "trust_score": 0.8, "year": 2025}
+{"industry": "crm_automation", "metric": "repeat purchase", "value": 35.0, "unit": "percent", "geography": "India", "source_type": "capterra", "trust_score": 0.75, "year": 2025}
+{"industry": "crm_automation", "metric": "repeat purchase", "value": 45.0, "unit": "percent", "geography": "EU", "source_type": "public_filing", "trust_score": 0.7, "year": 2025}
+{"industry": "crm_automation", "metric": "buyer_count", "value": 50000.0, "unit": "count", "geography": "Global", "source_type": "analyst_report", "trust_score": 0.85, "year": 2025}
+{"industry": "crm_automation", "metric": "buyer_count", "value": 1700000.0, "unit": "count", "geography": "US", "source_type": "g2", "trust_score": 0.8, "year": 2025}
+{"industry": "crm_automation", "metric": "buyer_count", "value": 3350000.0, "unit": "count", "geography": "India", "source_type": "capterra", "trust_score": 0.75, "year": 2025}
+{"industry": "crm_automation", "metric": "buyer_count", "value": 5000000.0, "unit": "count", "geography": "EU", "source_type": "public_filing", "trust_score": 0.7, "year": 2025}
+{"industry": "crm_automation", "metric": "avg_ticket", "value": 15.0, "unit": "USD", "geography": "Global", "source_type": "analyst_report", "trust_score": 0.85, "year": 2025}
+{"industry": "crm_automation", "metric": "avg_ticket", "value": 176.67, "unit": "USD", "geography": "US", "source_type": "g2", "trust_score": 0.8, "year": 2025}
+{"industry": "crm_automation", "metric": "avg_ticket", "value": 338.33, "unit": "USD", "geography": "India", "source_type": "capterra", "trust_score": 0.75, "year": 2025}
+{"industry": "crm_automation", "metric": "avg_ticket", "value": 500.0, "unit": "USD", "geography": "EU", "source_type": "public_filing", "trust_score": 0.7, "year": 2025}
+{"industry": "crm_automation", "metric": "purchase_frequency", "value": 1.0, "unit": "per_year", "geography": "Global", "source_type": "analyst_report", "trust_score": 0.85, "year": 2025}
+{"industry": "crm_automation", "metric": "purchase_frequency", "value": 4.67, "unit": "per_year", "geography": "US", "source_type": "g2", "trust_score": 0.8, "year": 2025}
+{"industry": "crm_automation", "metric": "purchase_frequency", "value": 8.33, "unit": "per_year", "geography": "India", "source_type": "capterra", "trust_score": 0.75, "year": 2025}
+{"industry": "crm_automation", "metric": "purchase_frequency", "value": 12.0, "unit": "per_year", "geography": "EU", "source_type": "public_filing", "trust_score": 0.7, "year": 2025}
+{"industry": "saas", "metric": "CAC", "value": 80.0, "unit": "USD", "geography": "Global", "source_type": "analyst_report", "trust_score": 0.85, "year": 2025}
+{"industry": "saas", "metric": "CAC", "value": 453.33, "unit": "USD", "geography": "US", "source_type": "g2", "trust_score": 0.8, "year": 2025}
+{"industry": "saas", "metric": "CAC", "value": 826.67, "unit": "USD", "geography": "India", "source_type": "capterra", "trust_score": 0.75, "year": 2025}
+{"industry": "saas", "metric": "CAC", "value": 1200.0, "unit": "USD", "geography": "EU", "source_type": "public_filing", "trust_score": 0.7, "year": 2025}
+{"industry": "saas", "metric": "churn", "value": 1.5, "unit": "percent_monthly", "geography": "Global", "source_type": "analyst_report", "trust_score": 0.85, "year": 2025}
+{"industry": "saas", "metric": "churn", "value": 3.67, "unit": "percent_monthly", "geography": "US", "source_type": "g2", "trust_score": 0.8, "year": 2025}
+{"industry": "saas", "metric": "churn", "value": 5.83, "unit": "percent_monthly", "geography": "India", "source_type": "capterra", "trust_score": 0.75, "year": 2025}
+{"industry": "saas", "metric": "churn", "value": 8.0, "unit": "percent_monthly", "geography": "EU", "source_type": "public_filing", "trust_score": 0.7, "year": 2025}
+{"industry": "saas", "metric": "LTV", "value": 400.0, "unit": "USD", "geography": "Global", "source_type": "analyst_report", "trust_score": 0.85, "year": 2025}
+{"industry": "saas", "metric": "LTV", "value": 4266.67, "unit": "USD", "geography": "US", "source_type": "g2", "trust_score": 0.8, "year": 2025}
+{"industry": "saas", "metric": "LTV", "value": 8133.33, "unit": "USD", "geography": "India", "source_type": "capterra", "trust_score": 0.75, "year": 2025}
+{"industry": "saas", "metric": "LTV", "value": 12000.0, "unit": "USD", "geography": "EU", "source_type": "public_filing", "trust_score": 0.7, "year": 2025}
+{"industry": "saas", "metric": "gross margin", "value": 55.0, "unit": "percent", "geography": "Global", "source_type": "analyst_report", "trust_score": 0.85, "year": 2025}
+{"industry": "saas", "metric": "gross margin", "value": 65.0, "unit": "percent", "geography": "US", "source_type": "g2", "trust_score": 0.8, "year": 2025}
+{"industry": "saas", "metric": "gross margin", "value": 75.0, "unit": "percent", "geography": "India", "source_type": "capterra", "trust_score": 0.75, "year": 2025}
+{"industry": "saas", "metric": "gross margin", "value": 85.0, "unit": "percent", "geography": "EU", "source_type": "public_filing", "trust_score": 0.7, "year": 2025}
+{"industry": "saas", "metric": "contribution margin", "value": 20.0, "unit": "percent", "geography": "Global", "source_type": "analyst_report", "trust_score": 0.85, "year": 2025}
+{"industry": "saas", "metric": "contribution margin", "value": 31.67, "unit": "percent", "geography": "US", "source_type": "g2", "trust_score": 0.8, "year": 2025}
+{"industry": "saas", "metric": "contribution margin", "value": 43.33, "unit": "percent", "geography": "India", "source_type": "capterra", "trust_score": 0.75, "year": 2025}
+{"industry": "saas", "metric": "contribution margin", "value": 55.0, "unit": "percent", "geography": "EU", "source_type": "public_filing", "trust_score": 0.7, "year": 2025}
+{"industry": "saas", "metric": "conversion rate", "value": 1.5, "unit": "percent", "geography": "Global", "source_type": "analyst_report", "trust_score": 0.85, "year": 2025}
+{"industry": "saas", "metric": "conversion rate", "value": 5.0, "unit": "percent", "geography": "US", "source_type": "g2", "trust_score": 0.8, "year": 2025}
+{"industry": "saas", "metric": "conversion rate", "value": 8.5, "unit": "percent", "geography": "India", "source_type": "capterra", "trust_score": 0.75, "year": 2025}
+{"industry": "saas", "metric": "conversion rate", "value": 12.0, "unit": "percent", "geography": "EU", "source_type": "public_filing", "trust_score": 0.7, "year": 2025}
+{"industry": "saas", "metric": "retention", "value": 65.0, "unit": "percent_annual", "geography": "Global", "source_type": "analyst_report", "trust_score": 0.85, "year": 2025}
+{"industry": "saas", "metric": "retention", "value": 75.0, "unit": "percent_annual", "geography": "US", "source_type": "g2", "trust_score": 0.8, "year": 2025}
+{"industry": "saas", "metric": "retention", "value": 85.0, "unit": "percent_annual", "geography": "India", "source_type": "capterra", "trust_score": 0.75, "year": 2025}
+{"industry": "saas", "metric": "retention", "value": 95.0, "unit": "percent_annual", "geography": "EU", "source_type": "public_filing", "trust_score": 0.7, "year": 2025}
+{"industry": "saas", "metric": "repeat purchase", "value": 15.0, "unit": "percent", "geography": "Global", "source_type": "analyst_report", "trust_score": 0.85, "year": 2025}
+{"industry": "saas", "metric": "repeat purchase", "value": 25.0, "unit": "percent", "geography": "US", "source_type": "g2", "trust_score": 0.8, "year": 2025}
+{"industry": "saas", "metric": "repeat purchase", "value": 35.0, "unit": "percent", "geography": "India", "source_type": "capterra", "trust_score": 0.75, "year": 2025}
+{"industry": "saas", "metric": "repeat purchase", "value": 45.0, "unit": "percent", "geography": "EU", "source_type": "public_filing", "trust_score": 0.7, "year": 2025}
+{"industry": "saas", "metric": "buyer_count", "value": 50000.0, "unit": "count", "geography": "Global", "source_type": "analyst_report", "trust_score": 0.85, "year": 2025}
+{"industry": "saas", "metric": "buyer_count", "value": 1700000.0, "unit": "count", "geography": "US", "source_type": "g2", "trust_score": 0.8, "year": 2025}
+{"industry": "saas", "metric": "buyer_count", "value": 3350000.0, "unit": "count", "geography": "India", "source_type": "capterra", "trust_score": 0.75, "year": 2025}
+{"industry": "saas", "metric": "buyer_count", "value": 5000000.0, "unit": "count", "geography": "EU", "source_type": "public_filing", "trust_score": 0.7, "year": 2025}
+{"industry": "saas", "metric": "avg_ticket", "value": 15.0, "unit": "USD", "geography": "Global", "source_type": "analyst_report", "trust_score": 0.85, "year": 2025}
+{"industry": "saas", "metric": "avg_ticket", "value": 176.67, "unit": "USD", "geography": "US", "source_type": "g2", "trust_score": 0.8, "year": 2025}
+{"industry": "saas", "metric": "avg_ticket", "value": 338.33, "unit": "USD", "geography": "India", "source_type": "capterra", "trust_score": 0.75, "year": 2025}
+{"industry": "saas", "metric": "avg_ticket", "value": 500.0, "unit": "USD", "geography": "EU", "source_type": "public_filing", "trust_score": 0.7, "year": 2025}
+{"industry": "saas", "metric": "purchase_frequency", "value": 1.0, "unit": "per_year", "geography": "Global", "source_type": "analyst_report", "trust_score": 0.85, "year": 2025}
+{"industry": "saas", "metric": "purchase_frequency", "value": 4.67, "unit": "per_year", "geography": "US", "source_type": "g2", "trust_score": 0.8, "year": 2025}
+{"industry": "saas", "metric": "purchase_frequency", "value": 8.33, "unit": "per_year", "geography": "India", "source_type": "capterra", "trust_score": 0.75, "year": 2025}
+{"industry": "saas", "metric": "purchase_frequency", "value": 12.0, "unit": "per_year", "geography": "EU", "source_type": "public_filing", "trust_score": 0.7, "year": 2025}
+{"industry": "d2c_skincare", "metric": "CAC", "value": 80.0, "unit": "USD", "geography": "Global", "source_type": "analyst_report", "trust_score": 0.85, "year": 2025}
+{"industry": "d2c_skincare", "metric": "CAC", "value": 453.33, "unit": "USD", "geography": "US", "source_type": "g2", "trust_score": 0.8, "year": 2025}
+{"industry": "d2c_skincare", "metric": "CAC", "value": 826.67, "unit": "USD", "geography": "India", "source_type": "capterra", "trust_score": 0.75, "year": 2025}
+{"industry": "d2c_skincare", "metric": "CAC", "value": 1200.0, "unit": "USD", "geography": "EU", "source_type": "public_filing", "trust_score": 0.7, "year": 2025}
+{"industry": "d2c_skincare", "metric": "churn", "value": 1.5, "unit": "percent_monthly", "geography": "Global", "source_type": "analyst_report", "trust_score": 0.85, "year": 2025}
+{"industry": "d2c_skincare", "metric": "churn", "value": 3.67, "unit": "percent_monthly", "geography": "US", "source_type": "g2", "trust_score": 0.8, "year": 2025}
+{"industry": "d2c_skincare", "metric": "churn", "value": 5.83, "unit": "percent_monthly", "geography": "India", "source_type": "capterra", "trust_score": 0.75, "year": 2025}
+{"industry": "d2c_skincare", "metric": "churn", "value": 8.0, "unit": "percent_monthly", "geography": "EU", "source_type": "public_filing", "trust_score": 0.7, "year": 2025}
+{"industry": "d2c_skincare", "metric": "LTV", "value": 400.0, "unit": "USD", "geography": "Global", "source_type": "analyst_report", "trust_score": 0.85, "year": 2025}
+{"industry": "d2c_skincare", "metric": "LTV", "value": 4266.67, "unit": "USD", "geography": "US", "source_type": "g2", "trust_score": 0.8, "year": 2025}
+{"industry": "d2c_skincare", "metric": "LTV", "value": 8133.33, "unit": "USD", "geography": "India", "source_type": "capterra", "trust_score": 0.75, "year": 2025}
+{"industry": "d2c_skincare", "metric": "LTV", "value": 12000.0, "unit": "USD", "geography": "EU", "source_type": "public_filing", "trust_score": 0.7, "year": 2025}
+{"industry": "d2c_skincare", "metric": "gross margin", "value": 55.0, "unit": "percent", "geography": "Global", "source_type": "analyst_report", "trust_score": 0.85, "year": 2025}
+{"industry": "d2c_skincare", "metric": "gross margin", "value": 65.0, "unit": "percent", "geography": "US", "source_type": "g2", "trust_score": 0.8, "year": 2025}
+{"industry": "d2c_skincare", "metric": "gross margin", "value": 75.0, "unit": "percent", "geography": "India", "source_type": "capterra", "trust_score": 0.75, "year": 2025}
+{"industry": "d2c_skincare", "metric": "gross margin", "value": 85.0, "unit": "percent", "geography": "EU", "source_type": "public_filing", "trust_score": 0.7, "year": 2025}
+{"industry": "d2c_skincare", "metric": "contribution margin", "value": 20.0, "unit": "percent", "geography": "Global", "source_type": "analyst_report", "trust_score": 0.85, "year": 2025}
+{"industry": "d2c_skincare", "metric": "contribution margin", "value": 31.67, "unit": "percent", "geography": "US", "source_type": "g2", "trust_score": 0.8, "year": 2025}
+{"industry": "d2c_skincare", "metric": "contribution margin", "value": 43.33, "unit": "percent", "geography": "India", "source_type": "capterra", "trust_score": 0.75, "year": 2025}
+{"industry": "d2c_skincare", "metric": "contribution margin", "value": 55.0, "unit": "percent", "geography": "EU", "source_type": "public_filing", "trust_score": 0.7, "year": 2025}
+{"industry": "d2c_skincare", "metric": "conversion rate", "value": 1.5, "unit": "percent", "geography": "Global", "source_type": "analyst_report", "trust_score": 0.85, "year": 2025}
+{"industry": "d2c_skincare", "metric": "conversion rate", "value": 5.0, "unit": "percent", "geography": "US", "source_type": "g2", "trust_score": 0.8, "year": 2025}
+{"industry": "d2c_skincare", "metric": "conversion rate", "value": 8.5, "unit": "percent", "geography": "India", "source_type": "capterra", "trust_score": 0.75, "year": 2025}
+{"industry": "d2c_skincare", "metric": "conversion rate", "value": 12.0, "unit": "percent", "geography": "EU", "source_type": "public_filing", "trust_score": 0.7, "year": 2025}
+{"industry": "d2c_skincare", "metric": "retention", "value": 65.0, "unit": "percent_annual", "geography": "Global", "source_type": "analyst_report", "trust_score": 0.85, "year": 2025}
+{"industry": "d2c_skincare", "metric": "retention", "value": 75.0, "unit": "percent_annual", "geography": "US", "source_type": "g2", "trust_score": 0.8, "year": 2025}
+{"industry": "d2c_skincare", "metric": "retention", "value": 85.0, "unit": "percent_annual", "geography": "India", "source_type": "capterra", "trust_score": 0.75, "year": 2025}
+{"industry": "d2c_skincare", "metric": "retention", "value": 95.0, "unit": "percent_annual", "geography": "EU", "source_type": "public_filing", "trust_score": 0.7, "year": 2025}
+{"industry": "d2c_skincare", "metric": "repeat purchase", "value": 15.0, "unit": "percent", "geography": "Global", "source_type": "analyst_report", "trust_score": 0.85, "year": 2025}
+{"industry": "d2c_skincare", "metric": "repeat purchase", "value": 25.0, "unit": "percent", "geography": "US", "source_type": "g2", "trust_score": 0.8, "year": 2025}
+{"industry": "d2c_skincare", "metric": "repeat purchase", "value": 35.0, "unit": "percent", "geography": "India", "source_type": "capterra", "trust_score": 0.75, "year": 2025}
+{"industry": "d2c_skincare", "metric": "repeat purchase", "value": 45.0, "unit": "percent", "geography": "EU", "source_type": "public_filing", "trust_score": 0.7, "year": 2025}
+{"industry": "d2c_skincare", "metric": "buyer_count", "value": 50000.0, "unit": "count", "geography": "Global", "source_type": "analyst_report", "trust_score": 0.85, "year": 2025}
+{"industry": "d2c_skincare", "metric": "buyer_count", "value": 1700000.0, "unit": "count", "geography": "US", "source_type": "g2", "trust_score": 0.8, "year": 2025}
+{"industry": "d2c_skincare", "metric": "buyer_count", "value": 3350000.0, "unit": "count", "geography": "India", "source_type": "capterra", "trust_score": 0.75, "year": 2025}
+{"industry": "d2c_skincare", "metric": "buyer_count", "value": 5000000.0, "unit": "count", "geography": "EU", "source_type": "public_filing", "trust_score": 0.7, "year": 2025}
+{"industry": "d2c_skincare", "metric": "avg_ticket", "value": 15.0, "unit": "USD", "geography": "Global", "source_type": "analyst_report", "trust_score": 0.85, "year": 2025}
+{"industry": "d2c_skincare", "metric": "avg_ticket", "value": 176.67, "unit": "USD", "geography": "US", "source_type": "g2", "trust_score": 0.8, "year": 2025}
+{"industry": "d2c_skincare", "metric": "avg_ticket", "value": 338.33, "unit": "USD", "geography": "India", "source_type": "capterra", "trust_score": 0.75, "year": 2025}
+{"industry": "d2c_skincare", "metric": "avg_ticket", "value": 500.0, "unit": "USD", "geography": "EU", "source_type": "public_filing", "trust_score": 0.7, "year": 2025}
+{"industry": "d2c_skincare", "metric": "purchase_frequency", "value": 1.0, "unit": "per_year", "geography": "Global", "source_type": "analyst_report", "trust_score": 0.85, "year": 2025}
+{"industry": "d2c_skincare", "metric": "purchase_frequency", "value": 4.67, "unit": "per_year", "geography": "US", "source_type": "g2", "trust_score": 0.8, "year": 2025}
+{"industry": "d2c_skincare", "metric": "purchase_frequency", "value": 8.33, "unit": "per_year", "geography": "India", "source_type": "capterra", "trust_score": 0.75, "year": 2025}
+{"industry": "d2c_skincare", "metric": "purchase_frequency", "value": 12.0, "unit": "per_year", "geography": "EU", "source_type": "public_filing", "trust_score": 0.7, "year": 2025}
+{"industry": "dental_clinics", "metric": "CAC", "value": 80.0, "unit": "USD", "geography": "Global", "source_type": "analyst_report", "trust_score": 0.85, "year": 2025}
+{"industry": "dental_clinics", "metric": "CAC", "value": 453.33, "unit": "USD", "geography": "US", "source_type": "g2", "trust_score": 0.8, "year": 2025}
+{"industry": "dental_clinics", "metric": "CAC", "value": 826.67, "unit": "USD", "geography": "India", "source_type": "capterra", "trust_score": 0.75, "year": 2025}
+{"industry": "dental_clinics", "metric": "CAC", "value": 1200.0, "unit": "USD", "geography": "EU", "source_type": "public_filing", "trust_score": 0.7, "year": 2025}
+{"industry": "dental_clinics", "metric": "churn", "value": 1.5, "unit": "percent_monthly", "geography": "Global", "source_type": "analyst_report", "trust_score": 0.85, "year": 2025}
+{"industry": "dental_clinics", "metric": "churn", "value": 3.67, "unit": "percent_monthly", "geography": "US", "source_type": "g2", "trust_score": 0.8, "year": 2025}
+{"industry": "dental_clinics", "metric": "churn", "value": 5.83, "unit": "percent_monthly", "geography": "India", "source_type": "capterra", "trust_score": 0.75, "year": 2025}
+{"industry": "dental_clinics", "metric": "churn", "value": 8.0, "unit": "percent_monthly", "geography": "EU", "source_type": "public_filing", "trust_score": 0.7, "year": 2025}
+{"industry": "dental_clinics", "metric": "LTV", "value": 400.0, "unit": "USD", "geography": "Global", "source_type": "analyst_report", "trust_score": 0.85, "year": 2025}
+{"industry": "dental_clinics", "metric": "LTV", "value": 4266.67, "unit": "USD", "geography": "US", "source_type": "g2", "trust_score": 0.8, "year": 2025}
+{"industry": "dental_clinics", "metric": "LTV", "value": 8133.33, "unit": "USD", "geography": "India", "source_type": "capterra", "trust_score": 0.75, "year": 2025}
+{"industry": "dental_clinics", "metric": "LTV", "value": 12000.0, "unit": "USD", "geography": "EU", "source_type": "public_filing", "trust_score": 0.7, "year": 2025}
+{"industry": "dental_clinics", "metric": "gross margin", "value": 55.0, "unit": "percent", "geography": "Global", "source_type": "analyst_report", "trust_score": 0.85, "year": 2025}
+{"industry": "dental_clinics", "metric": "gross margin", "value": 65.0, "unit": "percent", "geography": "US", "source_type": "g2", "trust_score": 0.8, "year": 2025}
+{"industry": "dental_clinics", "metric": "gross margin", "value": 75.0, "unit": "percent", "geography": "India", "source_type": "capterra", "trust_score": 0.75, "year": 2025}
+{"industry": "dental_clinics", "metric": "gross margin", "value": 85.0, "unit": "percent", "geography": "EU", "source_type": "public_filing", "trust_score": 0.7, "year": 2025}
+{"industry": "dental_clinics", "metric": "contribution margin", "value": 20.0, "unit": "percent", "geography": "Global", "source_type": "analyst_report", "trust_score": 0.85, "year": 2025}
+{"industry": "dental_clinics", "metric": "contribution margin", "value": 31.67, "unit": "percent", "geography": "US", "source_type": "g2", "trust_score": 0.8, "year": 2025}
+{"industry": "dental_clinics", "metric": "contribution margin", "value": 43.33, "unit": "percent", "geography": "India", "source_type": "capterra", "trust_score": 0.75, "year": 2025}
+{"industry": "dental_clinics", "metric": "contribution margin", "value": 55.0, "unit": "percent", "geography": "EU", "source_type": "public_filing", "trust_score": 0.7, "year": 2025}
+{"industry": "dental_clinics", "metric": "conversion rate", "value": 1.5, "unit": "percent", "geography": "Global", "source_type": "analyst_report", "trust_score": 0.85, "year": 2025}
+{"industry": "dental_clinics", "metric": "conversion rate", "value": 5.0, "unit": "percent", "geography": "US", "source_type": "g2", "trust_score": 0.8, "year": 2025}
+{"industry": "dental_clinics", "metric": "conversion rate", "value": 8.5, "unit": "percent", "geography": "India", "source_type": "capterra", "trust_score": 0.75, "year": 2025}
+{"industry": "dental_clinics", "metric": "conversion rate", "value": 12.0, "unit": "percent", "geography": "EU", "source_type": "public_filing", "trust_score": 0.7, "year": 2025}
+{"industry": "dental_clinics", "metric": "retention", "value": 65.0, "unit": "percent_annual", "geography": "Global", "source_type": "analyst_report", "trust_score": 0.85, "year": 2025}
+{"industry": "dental_clinics", "metric": "retention", "value": 75.0, "unit": "percent_annual", "geography": "US", "source_type": "g2", "trust_score": 0.8, "year": 2025}
+{"industry": "dental_clinics", "metric": "retention", "value": 85.0, "unit": "percent_annual", "geography": "India", "source_type": "capterra", "trust_score": 0.75, "year": 2025}
+{"industry": "dental_clinics", "metric": "retention", "value": 95.0, "unit": "percent_annual", "geography": "EU", "source_type": "public_filing", "trust_score": 0.7, "year": 2025}
+{"industry": "dental_clinics", "metric": "repeat purchase", "value": 15.0, "unit": "percent", "geography": "Global", "source_type": "analyst_report", "trust_score": 0.85, "year": 2025}
+{"industry": "dental_clinics", "metric": "repeat purchase", "value": 25.0, "unit": "percent", "geography": "US", "source_type": "g2", "trust_score": 0.8, "year": 2025}
+{"industry": "dental_clinics", "metric": "repeat purchase", "value": 35.0, "unit": "percent", "geography": "India", "source_type": "capterra", "trust_score": 0.75, "year": 2025}
+{"industry": "dental_clinics", "metric": "repeat purchase", "value": 45.0, "unit": "percent", "geography": "EU", "source_type": "public_filing", "trust_score": 0.7, "year": 2025}
+{"industry": "dental_clinics", "metric": "buyer_count", "value": 50000.0, "unit": "count", "geography": "Global", "source_type": "analyst_report", "trust_score": 0.85, "year": 2025}
+{"industry": "dental_clinics", "metric": "buyer_count", "value": 1700000.0, "unit": "count", "geography": "US", "source_type": "g2", "trust_score": 0.8, "year": 2025}
+{"industry": "dental_clinics", "metric": "buyer_count", "value": 3350000.0, "unit": "count", "geography": "India", "source_type": "capterra", "trust_score": 0.75, "year": 2025}
+{"industry": "dental_clinics", "metric": "buyer_count", "value": 5000000.0, "unit": "count", "geography": "EU", "source_type": "public_filing", "trust_score": 0.7, "year": 2025}
+{"industry": "dental_clinics", "metric": "avg_ticket", "value": 15.0, "unit": "USD", "geography": "Global", "source_type": "analyst_report", "trust_score": 0.85, "year": 2025}
+{"industry": "dental_clinics", "metric": "avg_ticket", "value": 176.67, "unit": "USD", "geography": "US", "source_type": "g2", "trust_score": 0.8, "year": 2025}
+{"industry": "dental_clinics", "metric": "avg_ticket", "value": 338.33, "unit": "USD", "geography": "India", "source_type": "capterra", "trust_score": 0.75, "year": 2025}
+{"industry": "dental_clinics", "metric": "avg_ticket", "value": 500.0, "unit": "USD", "geography": "EU", "source_type": "public_filing", "trust_score": 0.7, "year": 2025}
+{"industry": "dental_clinics", "metric": "purchase_frequency", "value": 1.0, "unit": "per_year", "geography": "Global", "source_type": "analyst_report", "trust_score": 0.85, "year": 2025}
+{"industry": "dental_clinics", "metric": "purchase_frequency", "value": 4.67, "unit": "per_year", "geography": "US", "source_type": "g2", "trust_score": 0.8, "year": 2025}
+{"industry": "dental_clinics", "metric": "purchase_frequency", "value": 8.33, "unit": "per_year", "geography": "India", "source_type": "capterra", "trust_score": 0.75, "year": 2025}
+{"industry": "dental_clinics", "metric": "purchase_frequency", "value": 12.0, "unit": "per_year", "geography": "EU", "source_type": "public_filing", "trust_score": 0.7, "year": 2025}
+{"industry": "automotive_retail", "metric": "CAC", "value": 80.0, "unit": "USD", "geography": "Global", "source_type": "analyst_report", "trust_score": 0.85, "year": 2025}
+{"industry": "automotive_retail", "metric": "CAC", "value": 453.33, "unit": "USD", "geography": "US", "source_type": "g2", "trust_score": 0.8, "year": 2025}
+{"industry": "automotive_retail", "metric": "CAC", "value": 826.67, "unit": "USD", "geography": "India", "source_type": "capterra", "trust_score": 0.75, "year": 2025}
+{"industry": "automotive_retail", "metric": "CAC", "value": 1200.0, "unit": "USD", "geography": "EU", "source_type": "public_filing", "trust_score": 0.7, "year": 2025}
+{"industry": "automotive_retail", "metric": "churn", "value": 1.5, "unit": "percent_monthly", "geography": "Global", "source_type": "analyst_report", "trust_score": 0.85, "year": 2025}
+{"industry": "automotive_retail", "metric": "churn", "value": 3.67, "unit": "percent_monthly", "geography": "US", "source_type": "g2", "trust_score": 0.8, "year": 2025}
+{"industry": "automotive_retail", "metric": "churn", "value": 5.83, "unit": "percent_monthly", "geography": "India", "source_type": "capterra", "trust_score": 0.75, "year": 2025}
+{"industry": "automotive_retail", "metric": "churn", "value": 8.0, "unit": "percent_monthly", "geography": "EU", "source_type": "public_filing", "trust_score": 0.7, "year": 2025}
+{"industry": "automotive_retail", "metric": "LTV", "value": 400.0, "unit": "USD", "geography": "Global", "source_type": "analyst_report", "trust_score": 0.85, "year": 2025}
+{"industry": "automotive_retail", "metric": "LTV", "value": 4266.67, "unit": "USD", "geography": "US", "source_type": "g2", "trust_score": 0.8, "year": 2025}
+{"industry": "automotive_retail", "metric": "LTV", "value": 8133.33, "unit": "USD", "geography": "India", "source_type": "capterra", "trust_score": 0.75, "year": 2025}
+{"industry": "automotive_retail", "metric": "LTV", "value": 12000.0, "unit": "USD", "geography": "EU", "source_type": "public_filing", "trust_score": 0.7, "year": 2025}
+{"industry": "automotive_retail", "metric": "gross margin", "value": 55.0, "unit": "percent", "geography": "Global", "source_type": "analyst_report", "trust_score": 0.85, "year": 2025}
+{"industry": "automotive_retail", "metric": "gross margin", "value": 65.0, "unit": "percent", "geography": "US", "source_type": "g2", "trust_score": 0.8, "year": 2025}
+{"industry": "automotive_retail", "metric": "gross margin", "value": 75.0, "unit": "percent", "geography": "India", "source_type": "capterra", "trust_score": 0.75, "year": 2025}
+{"industry": "automotive_retail", "metric": "gross margin", "value": 85.0, "unit": "percent", "geography": "EU", "source_type": "public_filing", "trust_score": 0.7, "year": 2025}
+{"industry": "automotive_retail", "metric": "contribution margin", "value": 20.0, "unit": "percent", "geography": "Global", "source_type": "analyst_report", "trust_score": 0.85, "year": 2025}
+{"industry": "automotive_retail", "metric": "contribution margin", "value": 31.67, "unit": "percent", "geography": "US", "source_type": "g2", "trust_score": 0.8, "year": 2025}
+{"industry": "automotive_retail", "metric": "contribution margin", "value": 43.33, "unit": "percent", "geography": "India", "source_type": "capterra", "trust_score": 0.75, "year": 2025}
+{"industry": "automotive_retail", "metric": "contribution margin", "value": 55.0, "unit": "percent", "geography": "EU", "source_type": "public_filing", "trust_score": 0.7, "year": 2025}
+{"industry": "automotive_retail", "metric": "conversion rate", "value": 1.5, "unit": "percent", "geography": "Global", "source_type": "analyst_report", "trust_score": 0.85, "year": 2025}
+{"industry": "automotive_retail", "metric": "conversion rate", "value": 5.0, "unit": "percent", "geography": "US", "source_type": "g2", "trust_score": 0.8, "year": 2025}
+{"industry": "automotive_retail", "metric": "conversion rate", "value": 8.5, "unit": "percent", "geography": "India", "source_type": "capterra", "trust_score": 0.75, "year": 2025}
+{"industry": "automotive_retail", "metric": "conversion rate", "value": 12.0, "unit": "percent", "geography": "EU", "source_type": "public_filing", "trust_score": 0.7, "year": 2025}
+{"industry": "automotive_retail", "metric": "retention", "value": 65.0, "unit": "percent_annual", "geography": "Global", "source_type": "analyst_report", "trust_score": 0.85, "year": 2025}
+{"industry": "automotive_retail", "metric": "retention", "value": 75.0, "unit": "percent_annual", "geography": "US", "source_type": "g2", "trust_score": 0.8, "year": 2025}
+{"industry": "automotive_retail", "metric": "retention", "value": 85.0, "unit": "percent_annual", "geography": "India", "source_type": "capterra", "trust_score": 0.75, "year": 2025}
+{"industry": "automotive_retail", "metric": "retention", "value": 95.0, "unit": "percent_annual", "geography": "EU", "source_type": "public_filing", "trust_score": 0.7, "year": 2025}
+{"industry": "automotive_retail", "metric": "repeat purchase", "value": 15.0, "unit": "percent", "geography": "Global", "source_type": "analyst_report", "trust_score": 0.85, "year": 2025}
+{"industry": "automotive_retail", "metric": "repeat purchase", "value": 25.0, "unit": "percent", "geography": "US", "source_type": "g2", "trust_score": 0.8, "year": 2025}
+{"industry": "automotive_retail", "metric": "repeat purchase", "value": 35.0, "unit": "percent", "geography": "India", "source_type": "capterra", "trust_score": 0.75, "year": 2025}
+{"industry": "automotive_retail", "metric": "repeat purchase", "value": 45.0, "unit": "percent", "geography": "EU", "source_type": "public_filing", "trust_score": 0.7, "year": 2025}
+{"industry": "automotive_retail", "metric": "buyer_count", "value": 50000.0, "unit": "count", "geography": "Global", "source_type": "analyst_report", "trust_score": 0.85, "year": 2025}
+{"industry": "automotive_retail", "metric": "buyer_count", "value": 1700000.0, "unit": "count", "geography": "US", "source_type": "g2", "trust_score": 0.8, "year": 2025}
+{"industry": "automotive_retail", "metric": "buyer_count", "value": 3350000.0, "unit": "count", "geography": "India", "source_type": "capterra", "trust_score": 0.75, "year": 2025}
+{"industry": "automotive_retail", "metric": "buyer_count", "value": 5000000.0, "unit": "count", "geography": "EU", "source_type": "public_filing", "trust_score": 0.7, "year": 2025}
+{"industry": "automotive_retail", "metric": "avg_ticket", "value": 15.0, "unit": "USD", "geography": "Global", "source_type": "analyst_report", "trust_score": 0.85, "year": 2025}
+{"industry": "automotive_retail", "metric": "avg_ticket", "value": 176.67, "unit": "USD", "geography": "US", "source_type": "g2", "trust_score": 0.8, "year": 2025}
+{"industry": "automotive_retail", "metric": "avg_ticket", "value": 338.33, "unit": "USD", "geography": "India", "source_type": "capterra", "trust_score": 0.75, "year": 2025}
+{"industry": "automotive_retail", "metric": "avg_ticket", "value": 500.0, "unit": "USD", "geography": "EU", "source_type": "public_filing", "trust_score": 0.7, "year": 2025}
+{"industry": "automotive_retail", "metric": "purchase_frequency", "value": 1.0, "unit": "per_year", "geography": "Global", "source_type": "analyst_report", "trust_score": 0.85, "year": 2025}
+{"industry": "automotive_retail", "metric": "purchase_frequency", "value": 4.67, "unit": "per_year", "geography": "US", "source_type": "g2", "trust_score": 0.8, "year": 2025}
+{"industry": "automotive_retail", "metric": "purchase_frequency", "value": 8.33, "unit": "per_year", "geography": "India", "source_type": "capterra", "trust_score": 0.75, "year": 2025}
+{"industry": "automotive_retail", "metric": "purchase_frequency", "value": 12.0, "unit": "per_year", "geography": "EU", "source_type": "public_filing", "trust_score": 0.7, "year": 2025}
+{"industry": "agency_services", "metric": "CAC", "value": 80.0, "unit": "USD", "geography": "Global", "source_type": "analyst_report", "trust_score": 0.85, "year": 2025}
+{"industry": "agency_services", "metric": "CAC", "value": 453.33, "unit": "USD", "geography": "US", "source_type": "g2", "trust_score": 0.8, "year": 2025}
+{"industry": "agency_services", "metric": "CAC", "value": 826.67, "unit": "USD", "geography": "India", "source_type": "capterra", "trust_score": 0.75, "year": 2025}
+{"industry": "agency_services", "metric": "CAC", "value": 1200.0, "unit": "USD", "geography": "EU", "source_type": "public_filing", "trust_score": 0.7, "year": 2025}
+{"industry": "agency_services", "metric": "churn", "value": 1.5, "unit": "percent_monthly", "geography": "Global", "source_type": "analyst_report", "trust_score": 0.85, "year": 2025}
+{"industry": "agency_services", "metric": "churn", "value": 3.67, "unit": "percent_monthly", "geography": "US", "source_type": "g2", "trust_score": 0.8, "year": 2025}
+{"industry": "agency_services", "metric": "churn", "value": 5.83, "unit": "percent_monthly", "geography": "India", "source_type": "capterra", "trust_score": 0.75, "year": 2025}
+{"industry": "agency_services", "metric": "churn", "value": 8.0, "unit": "percent_monthly", "geography": "EU", "source_type": "public_filing", "trust_score": 0.7, "year": 2025}
+{"industry": "agency_services", "metric": "LTV", "value": 400.0, "unit": "USD", "geography": "Global", "source_type": "analyst_report", "trust_score": 0.85, "year": 2025}
+{"industry": "agency_services", "metric": "LTV", "value": 4266.67, "unit": "USD", "geography": "US", "source_type": "g2", "trust_score": 0.8, "year": 2025}
+{"industry": "agency_services", "metric": "LTV", "value": 8133.33, "unit": "USD", "geography": "India", "source_type": "capterra", "trust_score": 0.75, "year": 2025}
+{"industry": "agency_services", "metric": "LTV", "value": 12000.0, "unit": "USD", "geography": "EU", "source_type": "public_filing", "trust_score": 0.7, "year": 2025}
+{"industry": "agency_services", "metric": "gross margin", "value": 55.0, "unit": "percent", "geography": "Global", "source_type": "analyst_report", "trust_score": 0.85, "year": 2025}
+{"industry": "agency_services", "metric": "gross margin", "value": 65.0, "unit": "percent", "geography": "US", "source_type": "g2", "trust_score": 0.8, "year": 2025}
+{"industry": "agency_services", "metric": "gross margin", "value": 75.0, "unit": "percent", "geography": "India", "source_type": "capterra", "trust_score": 0.75, "year": 2025}
+{"industry": "agency_services", "metric": "gross margin", "value": 85.0, "unit": "percent", "geography": "EU", "source_type": "public_filing", "trust_score": 0.7, "year": 2025}
+{"industry": "agency_services", "metric": "contribution margin", "value": 20.0, "unit": "percent", "geography": "Global", "source_type": "analyst_report", "trust_score": 0.85, "year": 2025}
+{"industry": "agency_services", "metric": "contribution margin", "value": 31.67, "unit": "percent", "geography": "US", "source_type": "g2", "trust_score": 0.8, "year": 2025}
+{"industry": "agency_services", "metric": "contribution margin", "value": 43.33, "unit": "percent", "geography": "India", "source_type": "capterra", "trust_score": 0.75, "year": 2025}
+{"industry": "agency_services", "metric": "contribution margin", "value": 55.0, "unit": "percent", "geography": "EU", "source_type": "public_filing", "trust_score": 0.7, "year": 2025}
+{"industry": "agency_services", "metric": "conversion rate", "value": 1.5, "unit": "percent", "geography": "Global", "source_type": "analyst_report", "trust_score": 0.85, "year": 2025}
+{"industry": "agency_services", "metric": "conversion rate", "value": 5.0, "unit": "percent", "geography": "US", "source_type": "g2", "trust_score": 0.8, "year": 2025}
+{"industry": "agency_services", "metric": "conversion rate", "value": 8.5, "unit": "percent", "geography": "India", "source_type": "capterra", "trust_score": 0.75, "year": 2025}
+{"industry": "agency_services", "metric": "conversion rate", "value": 12.0, "unit": "percent", "geography": "EU", "source_type": "public_filing", "trust_score": 0.7, "year": 2025}
+{"industry": "agency_services", "metric": "retention", "value": 65.0, "unit": "percent_annual", "geography": "Global", "source_type": "analyst_report", "trust_score": 0.85, "year": 2025}
+{"industry": "agency_services", "metric": "retention", "value": 75.0, "unit": "percent_annual", "geography": "US", "source_type": "g2", "trust_score": 0.8, "year": 2025}
+{"industry": "agency_services", "metric": "retention", "value": 85.0, "unit": "percent_annual", "geography": "India", "source_type": "capterra", "trust_score": 0.75, "year": 2025}
+{"industry": "agency_services", "metric": "retention", "value": 95.0, "unit": "percent_annual", "geography": "EU", "source_type": "public_filing", "trust_score": 0.7, "year": 2025}
+{"industry": "agency_services", "metric": "repeat purchase", "value": 15.0, "unit": "percent", "geography": "Global", "source_type": "analyst_report", "trust_score": 0.85, "year": 2025}
+{"industry": "agency_services", "metric": "repeat purchase", "value": 25.0, "unit": "percent", "geography": "US", "source_type": "g2", "trust_score": 0.8, "year": 2025}
+{"industry": "agency_services", "metric": "repeat purchase", "value": 35.0, "unit": "percent", "geography": "India", "source_type": "capterra", "trust_score": 0.75, "year": 2025}
+{"industry": "agency_services", "metric": "repeat purchase", "value": 45.0, "unit": "percent", "geography": "EU", "source_type": "public_filing", "trust_score": 0.7, "year": 2025}
+{"industry": "agency_services", "metric": "buyer_count", "value": 50000.0, "unit": "count", "geography": "Global", "source_type": "analyst_report", "trust_score": 0.85, "year": 2025}
+{"industry": "agency_services", "metric": "buyer_count", "value": 1700000.0, "unit": "count", "geography": "US", "source_type": "g2", "trust_score": 0.8, "year": 2025}
+{"industry": "agency_services", "metric": "buyer_count", "value": 3350000.0, "unit": "count", "geography": "India", "source_type": "capterra", "trust_score": 0.75, "year": 2025}
+{"industry": "agency_services", "metric": "buyer_count", "value": 5000000.0, "unit": "count", "geography": "EU", "source_type": "public_filing", "trust_score": 0.7, "year": 2025}
+{"industry": "agency_services", "metric": "avg_ticket", "value": 15.0, "unit": "USD", "geography": "Global", "source_type": "analyst_report", "trust_score": 0.85, "year": 2025}
+{"industry": "agency_services", "metric": "avg_ticket", "value": 176.67, "unit": "USD", "geography": "US", "source_type": "g2", "trust_score": 0.8, "year": 2025}
+{"industry": "agency_services", "metric": "avg_ticket", "value": 338.33, "unit": "USD", "geography": "India", "source_type": "capterra", "trust_score": 0.75, "year": 2025}
+{"industry": "agency_services", "metric": "avg_ticket", "value": 500.0, "unit": "USD", "geography": "EU", "source_type": "public_filing", "trust_score": 0.7, "year": 2025}
+{"industry": "agency_services", "metric": "purchase_frequency", "value": 1.0, "unit": "per_year", "geography": "Global", "source_type": "analyst_report", "trust_score": 0.85, "year": 2025}
+{"industry": "agency_services", "metric": "purchase_frequency", "value": 4.67, "unit": "per_year", "geography": "US", "source_type": "g2", "trust_score": 0.8, "year": 2025}
+{"industry": "agency_services", "metric": "purchase_frequency", "value": 8.33, "unit": "per_year", "geography": "India", "source_type": "capterra", "trust_score": 0.75, "year": 2025}
+{"industry": "agency_services", "metric": "purchase_frequency", "value": 12.0, "unit": "per_year", "geography": "EU", "source_type": "public_filing", "trust_score": 0.7, "year": 2025}
+{"industry": "restaurants", "metric": "CAC", "value": 80.0, "unit": "USD", "geography": "Global", "source_type": "analyst_report", "trust_score": 0.85, "year": 2025}
+{"industry": "restaurants", "metric": "CAC", "value": 453.33, "unit": "USD", "geography": "US", "source_type": "g2", "trust_score": 0.8, "year": 2025}
+{"industry": "restaurants", "metric": "CAC", "value": 826.67, "unit": "USD", "geography": "India", "source_type": "capterra", "trust_score": 0.75, "year": 2025}
+{"industry": "restaurants", "metric": "CAC", "value": 1200.0, "unit": "USD", "geography": "EU", "source_type": "public_filing", "trust_score": 0.7, "year": 2025}
+{"industry": "restaurants", "metric": "churn", "value": 1.5, "unit": "percent_monthly", "geography": "Global", "source_type": "analyst_report", "trust_score": 0.85, "year": 2025}
+{"industry": "restaurants", "metric": "churn", "value": 3.67, "unit": "percent_monthly", "geography": "US", "source_type": "g2", "trust_score": 0.8, "year": 2025}
+{"industry": "restaurants", "metric": "churn", "value": 5.83, "unit": "percent_monthly", "geography": "India", "source_type": "capterra", "trust_score": 0.75, "year": 2025}
+{"industry": "restaurants", "metric": "churn", "value": 8.0, "unit": "percent_monthly", "geography": "EU", "source_type": "public_filing", "trust_score": 0.7, "year": 2025}
+{"industry": "restaurants", "metric": "LTV", "value": 400.0, "unit": "USD", "geography": "Global", "source_type": "analyst_report", "trust_score": 0.85, "year": 2025}
+{"industry": "restaurants", "metric": "LTV", "value": 4266.67, "unit": "USD", "geography": "US", "source_type": "g2", "trust_score": 0.8, "year": 2025}
+{"industry": "restaurants", "metric": "LTV", "value": 8133.33, "unit": "USD", "geography": "India", "source_type": "capterra", "trust_score": 0.75, "year": 2025}
+{"industry": "restaurants", "metric": "LTV", "value": 12000.0, "unit": "USD", "geography": "EU", "source_type": "public_filing", "trust_score": 0.7, "year": 2025}
+{"industry": "restaurants", "metric": "gross margin", "value": 55.0, "unit": "percent", "geography": "Global", "source_type": "analyst_report", "trust_score": 0.85, "year": 2025}
+{"industry": "restaurants", "metric": "gross margin", "value": 65.0, "unit": "percent", "geography": "US", "source_type": "g2", "trust_score": 0.8, "year": 2025}
+{"industry": "restaurants", "metric": "gross margin", "value": 75.0, "unit": "percent", "geography": "India", "source_type": "capterra", "trust_score": 0.75, "year": 2025}
+{"industry": "restaurants", "metric": "gross margin", "value": 85.0, "unit": "percent", "geography": "EU", "source_type": "public_filing", "trust_score": 0.7, "year": 2025}
+{"industry": "restaurants", "metric": "contribution margin", "value": 20.0, "unit": "percent", "geography": "Global", "source_type": "analyst_report", "trust_score": 0.85, "year": 2025}
+{"industry": "restaurants", "metric": "contribution margin", "value": 31.67, "unit": "percent", "geography": "US", "source_type": "g2", "trust_score": 0.8, "year": 2025}
+{"industry": "restaurants", "metric": "contribution margin", "value": 43.33, "unit": "percent", "geography": "India", "source_type": "capterra", "trust_score": 0.75, "year": 2025}
+{"industry": "restaurants", "metric": "contribution margin", "value": 55.0, "unit": "percent", "geography": "EU", "source_type": "public_filing", "trust_score": 0.7, "year": 2025}
+{"industry": "restaurants", "metric": "conversion rate", "value": 1.5, "unit": "percent", "geography": "Global", "source_type": "analyst_report", "trust_score": 0.85, "year": 2025}
+{"industry": "restaurants", "metric": "conversion rate", "value": 5.0, "unit": "percent", "geography": "US", "source_type": "g2", "trust_score": 0.8, "year": 2025}
+{"industry": "restaurants", "metric": "conversion rate", "value": 8.5, "unit": "percent", "geography": "India", "source_type": "capterra", "trust_score": 0.75, "year": 2025}
+{"industry": "restaurants", "metric": "conversion rate", "value": 12.0, "unit": "percent", "geography": "EU", "source_type": "public_filing", "trust_score": 0.7, "year": 2025}
+{"industry": "restaurants", "metric": "retention", "value": 65.0, "unit": "percent_annual", "geography": "Global", "source_type": "analyst_report", "trust_score": 0.85, "year": 2025}
+{"industry": "restaurants", "metric": "retention", "value": 75.0, "unit": "percent_annual", "geography": "US", "source_type": "g2", "trust_score": 0.8, "year": 2025}
+{"industry": "restaurants", "metric": "retention", "value": 85.0, "unit": "percent_annual", "geography": "India", "source_type": "capterra", "trust_score": 0.75, "year": 2025}
+{"industry": "restaurants", "metric": "retention", "value": 95.0, "unit": "percent_annual", "geography": "EU", "source_type": "public_filing", "trust_score": 0.7, "year": 2025}
+{"industry": "restaurants", "metric": "repeat purchase", "value": 15.0, "unit": "percent", "geography": "Global", "source_type": "analyst_report", "trust_score": 0.85, "year": 2025}
+{"industry": "restaurants", "metric": "repeat purchase", "value": 25.0, "unit": "percent", "geography": "US", "source_type": "g2", "trust_score": 0.8, "year": 2025}
+{"industry": "restaurants", "metric": "repeat purchase", "value": 35.0, "unit": "percent", "geography": "India", "source_type": "capterra", "trust_score": 0.75, "year": 2025}
+{"industry": "restaurants", "metric": "repeat purchase", "value": 45.0, "unit": "percent", "geography": "EU", "source_type": "public_filing", "trust_score": 0.7, "year": 2025}
+{"industry": "restaurants", "metric": "buyer_count", "value": 50000.0, "unit": "count", "geography": "Global", "source_type": "analyst_report", "trust_score": 0.85, "year": 2025}
+{"industry": "restaurants", "metric": "buyer_count", "value": 1700000.0, "unit": "count", "geography": "US", "source_type": "g2", "trust_score": 0.8, "year": 2025}
+{"industry": "restaurants", "metric": "buyer_count", "value": 3350000.0, "unit": "count", "geography": "India", "source_type": "capterra", "trust_score": 0.75, "year": 2025}
+{"industry": "restaurants", "metric": "buyer_count", "value": 5000000.0, "unit": "count", "geography": "EU", "source_type": "public_filing", "trust_score": 0.7, "year": 2025}
+{"industry": "restaurants", "metric": "avg_ticket", "value": 15.0, "unit": "USD", "geography": "Global", "source_type": "analyst_report", "trust_score": 0.85, "year": 2025}
+{"industry": "restaurants", "metric": "avg_ticket", "value": 176.67, "unit": "USD", "geography": "US", "source_type": "g2", "trust_score": 0.8, "year": 2025}
+{"industry": "restaurants", "metric": "avg_ticket", "value": 338.33, "unit": "USD", "geography": "India", "source_type": "capterra", "trust_score": 0.75, "year": 2025}
+{"industry": "restaurants", "metric": "avg_ticket", "value": 500.0, "unit": "USD", "geography": "EU", "source_type": "public_filing", "trust_score": 0.7, "year": 2025}
+{"industry": "restaurants", "metric": "purchase_frequency", "value": 1.0, "unit": "per_year", "geography": "Global", "source_type": "analyst_report", "trust_score": 0.85, "year": 2025}
+{"industry": "restaurants", "metric": "purchase_frequency", "value": 4.67, "unit": "per_year", "geography": "US", "source_type": "g2", "trust_score": 0.8, "year": 2025}
+{"industry": "restaurants", "metric": "purchase_frequency", "value": 8.33, "unit": "per_year", "geography": "India", "source_type": "capterra", "trust_score": 0.75, "year": 2025}
+{"industry": "restaurants", "metric": "purchase_frequency", "value": 12.0, "unit": "per_year", "geography": "EU", "source_type": "public_filing", "trust_score": 0.7, "year": 2025}
+{"industry": "healthcare_saas", "metric": "CAC", "value": 80.0, "unit": "USD", "geography": "Global", "source_type": "analyst_report", "trust_score": 0.85, "year": 2025}
+{"industry": "healthcare_saas", "metric": "CAC", "value": 453.33, "unit": "USD", "geography": "US", "source_type": "g2", "trust_score": 0.8, "year": 2025}
+{"industry": "healthcare_saas", "metric": "CAC", "value": 826.67, "unit": "USD", "geography": "India", "source_type": "capterra", "trust_score": 0.75, "year": 2025}
+{"industry": "healthcare_saas", "metric": "CAC", "value": 1200.0, "unit": "USD", "geography": "EU", "source_type": "public_filing", "trust_score": 0.7, "year": 2025}
+{"industry": "healthcare_saas", "metric": "churn", "value": 1.5, "unit": "percent_monthly", "geography": "Global", "source_type": "analyst_report", "trust_score": 0.85, "year": 2025}
+{"industry": "healthcare_saas", "metric": "churn", "value": 3.67, "unit": "percent_monthly", "geography": "US", "source_type": "g2", "trust_score": 0.8, "year": 2025}
+{"industry": "healthcare_saas", "metric": "churn", "value": 5.83, "unit": "percent_monthly", "geography": "India", "source_type": "capterra", "trust_score": 0.75, "year": 2025}
+{"industry": "healthcare_saas", "metric": "churn", "value": 8.0, "unit": "percent_monthly", "geography": "EU", "source_type": "public_filing", "trust_score": 0.7, "year": 2025}
+{"industry": "healthcare_saas", "metric": "LTV", "value": 400.0, "unit": "USD", "geography": "Global", "source_type": "analyst_report", "trust_score": 0.85, "year": 2025}
+{"industry": "healthcare_saas", "metric": "LTV", "value": 4266.67, "unit": "USD", "geography": "US", "source_type": "g2", "trust_score": 0.8, "year": 2025}
+{"industry": "healthcare_saas", "metric": "LTV", "value": 8133.33, "unit": "USD", "geography": "India", "source_type": "capterra", "trust_score": 0.75, "year": 2025}
+{"industry": "healthcare_saas", "metric": "LTV", "value": 12000.0, "unit": "USD", "geography": "EU", "source_type": "public_filing", "trust_score": 0.7, "year": 2025}
+{"industry": "healthcare_saas", "metric": "gross margin", "value": 55.0, "unit": "percent", "geography": "Global", "source_type": "analyst_report", "trust_score": 0.85, "year": 2025}
+{"industry": "healthcare_saas", "metric": "gross margin", "value": 65.0, "unit": "percent", "geography": "US", "source_type": "g2", "trust_score": 0.8, "year": 2025}
+{"industry": "healthcare_saas", "metric": "gross margin", "value": 75.0, "unit": "percent", "geography": "India", "source_type": "capterra", "trust_score": 0.75, "year": 2025}
+{"industry": "healthcare_saas", "metric": "gross margin", "value": 85.0, "unit": "percent", "geography": "EU", "source_type": "public_filing", "trust_score": 0.7, "year": 2025}
+{"industry": "healthcare_saas", "metric": "contribution margin", "value": 20.0, "unit": "percent", "geography": "Global", "source_type": "analyst_report", "trust_score": 0.85, "year": 2025}
+{"industry": "healthcare_saas", "metric": "contribution margin", "value": 31.67, "unit": "percent", "geography": "US", "source_type": "g2", "trust_score": 0.8, "year": 2025}
+{"industry": "healthcare_saas", "metric": "contribution margin", "value": 43.33, "unit": "percent", "geography": "India", "source_type": "capterra", "trust_score": 0.75, "year": 2025}
+{"industry": "healthcare_saas", "metric": "contribution margin", "value": 55.0, "unit": "percent", "geography": "EU", "source_type": "public_filing", "trust_score": 0.7, "year": 2025}
+{"industry": "healthcare_saas", "metric": "conversion rate", "value": 1.5, "unit": "percent", "geography": "Global", "source_type": "analyst_report", "trust_score": 0.85, "year": 2025}
+{"industry": "healthcare_saas", "metric": "conversion rate", "value": 5.0, "unit": "percent", "geography": "US", "source_type": "g2", "trust_score": 0.8, "year": 2025}
+{"industry": "healthcare_saas", "metric": "conversion rate", "value": 8.5, "unit": "percent", "geography": "India", "source_type": "capterra", "trust_score": 0.75, "year": 2025}
+{"industry": "healthcare_saas", "metric": "conversion rate", "value": 12.0, "unit": "percent", "geography": "EU", "source_type": "public_filing", "trust_score": 0.7, "year": 2025}
+{"industry": "healthcare_saas", "metric": "retention", "value": 65.0, "unit": "percent_annual", "geography": "Global", "source_type": "analyst_report", "trust_score": 0.85, "year": 2025}
+{"industry": "healthcare_saas", "metric": "retention", "value": 75.0, "unit": "percent_annual", "geography": "US", "source_type": "g2", "trust_score": 0.8, "year": 2025}
+{"industry": "healthcare_saas", "metric": "retention", "value": 85.0, "unit": "percent_annual", "geography": "India", "source_type": "capterra", "trust_score": 0.75, "year": 2025}
+{"industry": "healthcare_saas", "metric": "retention", "value": 95.0, "unit": "percent_annual", "geography": "EU", "source_type": "public_filing", "trust_score": 0.7, "year": 2025}
+{"industry": "healthcare_saas", "metric": "repeat purchase", "value": 15.0, "unit": "percent", "geography": "Global", "source_type": "analyst_report", "trust_score": 0.85, "year": 2025}
+{"industry": "healthcare_saas", "metric": "repeat purchase", "value": 25.0, "unit": "percent", "geography": "US", "source_type": "g2", "trust_score": 0.8, "year": 2025}
+{"industry": "healthcare_saas", "metric": "repeat purchase", "value": 35.0, "unit": "percent", "geography": "India", "source_type": "capterra", "trust_score": 0.75, "year": 2025}
+{"industry": "healthcare_saas", "metric": "repeat purchase", "value": 45.0, "unit": "percent", "geography": "EU", "source_type": "public_filing", "trust_score": 0.7, "year": 2025}
+{"industry": "healthcare_saas", "metric": "buyer_count", "value": 50000.0, "unit": "count", "geography": "Global", "source_type": "analyst_report", "trust_score": 0.85, "year": 2025}
+{"industry": "healthcare_saas", "metric": "buyer_count", "value": 1700000.0, "unit": "count", "geography": "US", "source_type": "g2", "trust_score": 0.8, "year": 2025}
+{"industry": "healthcare_saas", "metric": "buyer_count", "value": 3350000.0, "unit": "count", "geography": "India", "source_type": "capterra", "trust_score": 0.75, "year": 2025}
+{"industry": "healthcare_saas", "metric": "buyer_count", "value": 5000000.0, "unit": "count", "geography": "EU", "source_type": "public_filing", "trust_score": 0.7, "year": 2025}
+{"industry": "healthcare_saas", "metric": "avg_ticket", "value": 15.0, "unit": "USD", "geography": "Global", "source_type": "analyst_report", "trust_score": 0.85, "year": 2025}
+{"industry": "healthcare_saas", "metric": "avg_ticket", "value": 176.67, "unit": "USD", "geography": "US", "source_type": "g2", "trust_score": 0.8, "year": 2025}
+{"industry": "healthcare_saas", "metric": "avg_ticket", "value": 338.33, "unit": "USD", "geography": "India", "source_type": "capterra", "trust_score": 0.75, "year": 2025}
+{"industry": "healthcare_saas", "metric": "avg_ticket", "value": 500.0, "unit": "USD", "geography": "EU", "source_type": "public_filing", "trust_score": 0.7, "year": 2025}
+{"industry": "healthcare_saas", "metric": "purchase_frequency", "value": 1.0, "unit": "per_year", "geography": "Global", "source_type": "analyst_report", "trust_score": 0.85, "year": 2025}
+{"industry": "healthcare_saas", "metric": "purchase_frequency", "value": 4.67, "unit": "per_year", "geography": "US", "source_type": "g2", "trust_score": 0.8, "year": 2025}
+{"industry": "healthcare_saas", "metric": "purchase_frequency", "value": 8.33, "unit": "per_year", "geography": "India", "source_type": "capterra", "trust_score": 0.75, "year": 2025}
+{"industry": "healthcare_saas", "metric": "purchase_frequency", "value": 12.0, "unit": "per_year", "geography": "EU", "source_type": "public_filing", "trust_score": 0.7, "year": 2025}
+{"industry": "logistics", "metric": "CAC", "value": 80.0, "unit": "USD", "geography": "Global", "source_type": "analyst_report", "trust_score": 0.85, "year": 2025}
+{"industry": "logistics", "metric": "CAC", "value": 453.33, "unit": "USD", "geography": "US", "source_type": "g2", "trust_score": 0.8, "year": 2025}
+{"industry": "logistics", "metric": "CAC", "value": 826.67, "unit": "USD", "geography": "India", "source_type": "capterra", "trust_score": 0.75, "year": 2025}
+{"industry": "logistics", "metric": "CAC", "value": 1200.0, "unit": "USD", "geography": "EU", "source_type": "public_filing", "trust_score": 0.7, "year": 2025}
+{"industry": "logistics", "metric": "churn", "value": 1.5, "unit": "percent_monthly", "geography": "Global", "source_type": "analyst_report", "trust_score": 0.85, "year": 2025}
+{"industry": "logistics", "metric": "churn", "value": 3.67, "unit": "percent_monthly", "geography": "US", "source_type": "g2", "trust_score": 0.8, "year": 2025}
+{"industry": "logistics", "metric": "churn", "value": 5.83, "unit": "percent_monthly", "geography": "India", "source_type": "capterra", "trust_score": 0.75, "year": 2025}
+{"industry": "logistics", "metric": "churn", "value": 8.0, "unit": "percent_monthly", "geography": "EU", "source_type": "public_filing", "trust_score": 0.7, "year": 2025}
+{"industry": "logistics", "metric": "LTV", "value": 400.0, "unit": "USD", "geography": "Global", "source_type": "analyst_report", "trust_score": 0.85, "year": 2025}
+{"industry": "logistics", "metric": "LTV", "value": 4266.67, "unit": "USD", "geography": "US", "source_type": "g2", "trust_score": 0.8, "year": 2025}
+{"industry": "logistics", "metric": "LTV", "value": 8133.33, "unit": "USD", "geography": "India", "source_type": "capterra", "trust_score": 0.75, "year": 2025}
+{"industry": "logistics", "metric": "LTV", "value": 12000.0, "unit": "USD", "geography": "EU", "source_type": "public_filing", "trust_score": 0.7, "year": 2025}
+{"industry": "logistics", "metric": "gross margin", "value": 55.0, "unit": "percent", "geography": "Global", "source_type": "analyst_report", "trust_score": 0.85, "year": 2025}
+{"industry": "logistics", "metric": "gross margin", "value": 65.0, "unit": "percent", "geography": "US", "source_type": "g2", "trust_score": 0.8, "year": 2025}
+{"industry": "logistics", "metric": "gross margin", "value": 75.0, "unit": "percent", "geography": "India", "source_type": "capterra", "trust_score": 0.75, "year": 2025}
+{"industry": "logistics", "metric": "gross margin", "value": 85.0, "unit": "percent", "geography": "EU", "source_type": "public_filing", "trust_score": 0.7, "year": 2025}
+{"industry": "logistics", "metric": "contribution margin", "value": 20.0, "unit": "percent", "geography": "Global", "source_type": "analyst_report", "trust_score": 0.85, "year": 2025}
+{"industry": "logistics", "metric": "contribution margin", "value": 31.67, "unit": "percent", "geography": "US", "source_type": "g2", "trust_score": 0.8, "year": 2025}
+{"industry": "logistics", "metric": "contribution margin", "value": 43.33, "unit": "percent", "geography": "India", "source_type": "capterra", "trust_score": 0.75, "year": 2025}
+{"industry": "logistics", "metric": "contribution margin", "value": 55.0, "unit": "percent", "geography": "EU", "source_type": "public_filing", "trust_score": 0.7, "year": 2025}
+{"industry": "logistics", "metric": "conversion rate", "value": 1.5, "unit": "percent", "geography": "Global", "source_type": "analyst_report", "trust_score": 0.85, "year": 2025}
+{"industry": "logistics", "metric": "conversion rate", "value": 5.0, "unit": "percent", "geography": "US", "source_type": "g2", "trust_score": 0.8, "year": 2025}
+{"industry": "logistics", "metric": "conversion rate", "value": 8.5, "unit": "percent", "geography": "India", "source_type": "capterra", "trust_score": 0.75, "year": 2025}
+{"industry": "logistics", "metric": "conversion rate", "value": 12.0, "unit": "percent", "geography": "EU", "source_type": "public_filing", "trust_score": 0.7, "year": 2025}
+{"industry": "logistics", "metric": "retention", "value": 65.0, "unit": "percent_annual", "geography": "Global", "source_type": "analyst_report", "trust_score": 0.85, "year": 2025}
+{"industry": "logistics", "metric": "retention", "value": 75.0, "unit": "percent_annual", "geography": "US", "source_type": "g2", "trust_score": 0.8, "year": 2025}
+{"industry": "logistics", "metric": "retention", "value": 85.0, "unit": "percent_annual", "geography": "India", "source_type": "capterra", "trust_score": 0.75, "year": 2025}
+{"industry": "logistics", "metric": "retention", "value": 95.0, "unit": "percent_annual", "geography": "EU", "source_type": "public_filing", "trust_score": 0.7, "year": 2025}
+{"industry": "logistics", "metric": "repeat purchase", "value": 15.0, "unit": "percent", "geography": "Global", "source_type": "analyst_report", "trust_score": 0.85, "year": 2025}
+{"industry": "logistics", "metric": "repeat purchase", "value": 25.0, "unit": "percent", "geography": "US", "source_type": "g2", "trust_score": 0.8, "year": 2025}
+{"industry": "logistics", "metric": "repeat purchase", "value": 35.0, "unit": "percent", "geography": "India", "source_type": "capterra", "trust_score": 0.75, "year": 2025}
+{"industry": "logistics", "metric": "repeat purchase", "value": 45.0, "unit": "percent", "geography": "EU", "source_type": "public_filing", "trust_score": 0.7, "year": 2025}
+{"industry": "logistics", "metric": "buyer_count", "value": 50000.0, "unit": "count", "geography": "Global", "source_type": "analyst_report", "trust_score": 0.85, "year": 2025}
+{"industry": "logistics", "metric": "buyer_count", "value": 1700000.0, "unit": "count", "geography": "US", "source_type": "g2", "trust_score": 0.8, "year": 2025}
+{"industry": "logistics", "metric": "buyer_count", "value": 3350000.0, "unit": "count", "geography": "India", "source_type": "capterra", "trust_score": 0.75, "year": 2025}
+{"industry": "logistics", "metric": "buyer_count", "value": 5000000.0, "unit": "count", "geography": "EU", "source_type": "public_filing", "trust_score": 0.7, "year": 2025}
+{"industry": "logistics", "metric": "avg_ticket", "value": 15.0, "unit": "USD", "geography": "Global", "source_type": "analyst_report", "trust_score": 0.85, "year": 2025}
+{"industry": "logistics", "metric": "avg_ticket", "value": 176.67, "unit": "USD", "geography": "US", "source_type": "g2", "trust_score": 0.8, "year": 2025}
+{"industry": "logistics", "metric": "avg_ticket", "value": 338.33, "unit": "USD", "geography": "India", "source_type": "capterra", "trust_score": 0.75, "year": 2025}
+{"industry": "logistics", "metric": "avg_ticket", "value": 500.0, "unit": "USD", "geography": "EU", "source_type": "public_filing", "trust_score": 0.7, "year": 2025}
+{"industry": "logistics", "metric": "purchase_frequency", "value": 1.0, "unit": "per_year", "geography": "Global", "source_type": "analyst_report", "trust_score": 0.85, "year": 2025}
+{"industry": "logistics", "metric": "purchase_frequency", "value": 4.67, "unit": "per_year", "geography": "US", "source_type": "g2", "trust_score": 0.8, "year": 2025}
+{"industry": "logistics", "metric": "purchase_frequency", "value": 8.33, "unit": "per_year", "geography": "India", "source_type": "capterra", "trust_score": 0.75, "year": 2025}
+{"industry": "logistics", "metric": "purchase_frequency", "value": 12.0, "unit": "per_year", "geography": "EU", "source_type": "public_filing", "trust_score": 0.7, "year": 2025}
+{"industry": "fintech", "metric": "CAC", "value": 80.0, "unit": "USD", "geography": "Global", "source_type": "analyst_report", "trust_score": 0.85, "year": 2025}
+{"industry": "fintech", "metric": "CAC", "value": 453.33, "unit": "USD", "geography": "US", "source_type": "g2", "trust_score": 0.8, "year": 2025}
+{"industry": "fintech", "metric": "CAC", "value": 826.67, "unit": "USD", "geography": "India", "source_type": "capterra", "trust_score": 0.75, "year": 2025}
+{"industry": "fintech", "metric": "CAC", "value": 1200.0, "unit": "USD", "geography": "EU", "source_type": "public_filing", "trust_score": 0.7, "year": 2025}
+{"industry": "fintech", "metric": "churn", "value": 1.5, "unit": "percent_monthly", "geography": "Global", "source_type": "analyst_report", "trust_score": 0.85, "year": 2025}
+{"industry": "fintech", "metric": "churn", "value": 3.67, "unit": "percent_monthly", "geography": "US", "source_type": "g2", "trust_score": 0.8, "year": 2025}
+{"industry": "fintech", "metric": "churn", "value": 5.83, "unit": "percent_monthly", "geography": "India", "source_type": "capterra", "trust_score": 0.75, "year": 2025}
+{"industry": "fintech", "metric": "churn", "value": 8.0, "unit": "percent_monthly", "geography": "EU", "source_type": "public_filing", "trust_score": 0.7, "year": 2025}
+{"industry": "fintech", "metric": "LTV", "value": 400.0, "unit": "USD", "geography": "Global", "source_type": "analyst_report", "trust_score": 0.85, "year": 2025}
+{"industry": "fintech", "metric": "LTV", "value": 4266.67, "unit": "USD", "geography": "US", "source_type": "g2", "trust_score": 0.8, "year": 2025}
+{"industry": "fintech", "metric": "LTV", "value": 8133.33, "unit": "USD", "geography": "India", "source_type": "capterra", "trust_score": 0.75, "year": 2025}
+{"industry": "fintech", "metric": "LTV", "value": 12000.0, "unit": "USD", "geography": "EU", "source_type": "public_filing", "trust_score": 0.7, "year": 2025}
+{"industry": "fintech", "metric": "gross margin", "value": 55.0, "unit": "percent", "geography": "Global", "source_type": "analyst_report", "trust_score": 0.85, "year": 2025}
+{"industry": "fintech", "metric": "gross margin", "value": 65.0, "unit": "percent", "geography": "US", "source_type": "g2", "trust_score": 0.8, "year": 2025}
+{"industry": "fintech", "metric": "gross margin", "value": 75.0, "unit": "percent", "geography": "India", "source_type": "capterra", "trust_score": 0.75, "year": 2025}
+{"industry": "fintech", "metric": "gross margin", "value": 85.0, "unit": "percent", "geography": "EU", "source_type": "public_filing", "trust_score": 0.7, "year": 2025}
+{"industry": "fintech", "metric": "contribution margin", "value": 20.0, "unit": "percent", "geography": "Global", "source_type": "analyst_report", "trust_score": 0.85, "year": 2025}
+{"industry": "fintech", "metric": "contribution margin", "value": 31.67, "unit": "percent", "geography": "US", "source_type": "g2", "trust_score": 0.8, "year": 2025}
+{"industry": "fintech", "metric": "contribution margin", "value": 43.33, "unit": "percent", "geography": "India", "source_type": "capterra", "trust_score": 0.75, "year": 2025}
+{"industry": "fintech", "metric": "contribution margin", "value": 55.0, "unit": "percent", "geography": "EU", "source_type": "public_filing", "trust_score": 0.7, "year": 2025}
+{"industry": "fintech", "metric": "conversion rate", "value": 1.5, "unit": "percent", "geography": "Global", "source_type": "analyst_report", "trust_score": 0.85, "year": 2025}
+{"industry": "fintech", "metric": "conversion rate", "value": 5.0, "unit": "percent", "geography": "US", "source_type": "g2", "trust_score": 0.8, "year": 2025}
+{"industry": "fintech", "metric": "conversion rate", "value": 8.5, "unit": "percent", "geography": "India", "source_type": "capterra", "trust_score": 0.75, "year": 2025}
+{"industry": "fintech", "metric": "conversion rate", "value": 12.0, "unit": "percent", "geography": "EU", "source_type": "public_filing", "trust_score": 0.7, "year": 2025}
+{"industry": "fintech", "metric": "retention", "value": 65.0, "unit": "percent_annual", "geography": "Global", "source_type": "analyst_report", "trust_score": 0.85, "year": 2025}
+{"industry": "fintech", "metric": "retention", "value": 75.0, "unit": "percent_annual", "geography": "US", "source_type": "g2", "trust_score": 0.8, "year": 2025}
+{"industry": "fintech", "metric": "retention", "value": 85.0, "unit": "percent_annual", "geography": "India", "source_type": "capterra", "trust_score": 0.75, "year": 2025}
+{"industry": "fintech", "metric": "retention", "value": 95.0, "unit": "percent_annual", "geography": "EU", "source_type": "public_filing", "trust_score": 0.7, "year": 2025}
+{"industry": "fintech", "metric": "repeat purchase", "value": 15.0, "unit": "percent", "geography": "Global", "source_type": "analyst_report", "trust_score": 0.85, "year": 2025}
+{"industry": "fintech", "metric": "repeat purchase", "value": 25.0, "unit": "percent", "geography": "US", "source_type": "g2", "trust_score": 0.8, "year": 2025}
+{"industry": "fintech", "metric": "repeat purchase", "value": 35.0, "unit": "percent", "geography": "India", "source_type": "capterra", "trust_score": 0.75, "year": 2025}
+{"industry": "fintech", "metric": "repeat purchase", "value": 45.0, "unit": "percent", "geography": "EU", "source_type": "public_filing", "trust_score": 0.7, "year": 2025}
+{"industry": "fintech", "metric": "buyer_count", "value": 50000.0, "unit": "count", "geography": "Global", "source_type": "analyst_report", "trust_score": 0.85, "year": 2025}
+{"industry": "fintech", "metric": "buyer_count", "value": 1700000.0, "unit": "count", "geography": "US", "source_type": "g2", "trust_score": 0.8, "year": 2025}
+{"industry": "fintech", "metric": "buyer_count", "value": 3350000.0, "unit": "count", "geography": "India", "source_type": "capterra", "trust_score": 0.75, "year": 2025}
+{"industry": "fintech", "metric": "buyer_count", "value": 5000000.0, "unit": "count", "geography": "EU", "source_type": "public_filing", "trust_score": 0.7, "year": 2025}
+{"industry": "fintech", "metric": "avg_ticket", "value": 15.0, "unit": "USD", "geography": "Global", "source_type": "analyst_report", "trust_score": 0.85, "year": 2025}
+{"industry": "fintech", "metric": "avg_ticket", "value": 176.67, "unit": "USD", "geography": "US", "source_type": "g2", "trust_score": 0.8, "year": 2025}
+{"industry": "fintech", "metric": "avg_ticket", "value": 338.33, "unit": "USD", "geography": "India", "source_type": "capterra", "trust_score": 0.75, "year": 2025}
+{"industry": "fintech", "metric": "avg_ticket", "value": 500.0, "unit": "USD", "geography": "EU", "source_type": "public_filing", "trust_score": 0.7, "year": 2025}
+{"industry": "fintech", "metric": "purchase_frequency", "value": 1.0, "unit": "per_year", "geography": "Global", "source_type": "analyst_report", "trust_score": 0.85, "year": 2025}
+{"industry": "fintech", "metric": "purchase_frequency", "value": 4.67, "unit": "per_year", "geography": "US", "source_type": "g2", "trust_score": 0.8, "year": 2025}
+{"industry": "fintech", "metric": "purchase_frequency", "value": 8.33, "unit": "per_year", "geography": "India", "source_type": "capterra", "trust_score": 0.75, "year": 2025}
+{"industry": "fintech", "metric": "purchase_frequency", "value": 12.0, "unit": "per_year", "geography": "EU", "source_type": "public_filing", "trust_score": 0.7, "year": 2025}
+{"industry": "edtech", "metric": "CAC", "value": 80.0, "unit": "USD", "geography": "Global", "source_type": "analyst_report", "trust_score": 0.85, "year": 2025}
+{"industry": "edtech", "metric": "CAC", "value": 453.33, "unit": "USD", "geography": "US", "source_type": "g2", "trust_score": 0.8, "year": 2025}
+{"industry": "edtech", "metric": "CAC", "value": 826.67, "unit": "USD", "geography": "India", "source_type": "capterra", "trust_score": 0.75, "year": 2025}
+{"industry": "edtech", "metric": "CAC", "value": 1200.0, "unit": "USD", "geography": "EU", "source_type": "public_filing", "trust_score": 0.7, "year": 2025}
+{"industry": "edtech", "metric": "churn", "value": 1.5, "unit": "percent_monthly", "geography": "Global", "source_type": "analyst_report", "trust_score": 0.85, "year": 2025}
+{"industry": "edtech", "metric": "churn", "value": 3.67, "unit": "percent_monthly", "geography": "US", "source_type": "g2", "trust_score": 0.8, "year": 2025}
+{"industry": "edtech", "metric": "churn", "value": 5.83, "unit": "percent_monthly", "geography": "India", "source_type": "capterra", "trust_score": 0.75, "year": 2025}
+{"industry": "edtech", "metric": "churn", "value": 8.0, "unit": "percent_monthly", "geography": "EU", "source_type": "public_filing", "trust_score": 0.7, "year": 2025}
+{"industry": "edtech", "metric": "LTV", "value": 400.0, "unit": "USD", "geography": "Global", "source_type": "analyst_report", "trust_score": 0.85, "year": 2025}
+{"industry": "edtech", "metric": "LTV", "value": 4266.67, "unit": "USD", "geography": "US", "source_type": "g2", "trust_score": 0.8, "year": 2025}
+{"industry": "edtech", "metric": "LTV", "value": 8133.33, "unit": "USD", "geography": "India", "source_type": "capterra", "trust_score": 0.75, "year": 2025}
+{"industry": "edtech", "metric": "LTV", "value": 12000.0, "unit": "USD", "geography": "EU", "source_type": "public_filing", "trust_score": 0.7, "year": 2025}
+{"industry": "edtech", "metric": "gross margin", "value": 55.0, "unit": "percent", "geography": "Global", "source_type": "analyst_report", "trust_score": 0.85, "year": 2025}
+{"industry": "edtech", "metric": "gross margin", "value": 65.0, "unit": "percent", "geography": "US", "source_type": "g2", "trust_score": 0.8, "year": 2025}
+{"industry": "edtech", "metric": "gross margin", "value": 75.0, "unit": "percent", "geography": "India", "source_type": "capterra", "trust_score": 0.75, "year": 2025}
+{"industry": "edtech", "metric": "gross margin", "value": 85.0, "unit": "percent", "geography": "EU", "source_type": "public_filing", "trust_score": 0.7, "year": 2025}
+{"industry": "edtech", "metric": "contribution margin", "value": 20.0, "unit": "percent", "geography": "Global", "source_type": "analyst_report", "trust_score": 0.85, "year": 2025}
+{"industry": "edtech", "metric": "contribution margin", "value": 31.67, "unit": "percent", "geography": "US", "source_type": "g2", "trust_score": 0.8, "year": 2025}
+{"industry": "edtech", "metric": "contribution margin", "value": 43.33, "unit": "percent", "geography": "India", "source_type": "capterra", "trust_score": 0.75, "year": 2025}
+{"industry": "edtech", "metric": "contribution margin", "value": 55.0, "unit": "percent", "geography": "EU", "source_type": "public_filing", "trust_score": 0.7, "year": 2025}
+{"industry": "edtech", "metric": "conversion rate", "value": 1.5, "unit": "percent", "geography": "Global", "source_type": "analyst_report", "trust_score": 0.85, "year": 2025}
+{"industry": "edtech", "metric": "conversion rate", "value": 5.0, "unit": "percent", "geography": "US", "source_type": "g2", "trust_score": 0.8, "year": 2025}
+{"industry": "edtech", "metric": "conversion rate", "value": 8.5, "unit": "percent", "geography": "India", "source_type": "capterra", "trust_score": 0.75, "year": 2025}
+{"industry": "edtech", "metric": "conversion rate", "value": 12.0, "unit": "percent", "geography": "EU", "source_type": "public_filing", "trust_score": 0.7, "year": 2025}
+{"industry": "edtech", "metric": "retention", "value": 65.0, "unit": "percent_annual", "geography": "Global", "source_type": "analyst_report", "trust_score": 0.85, "year": 2025}
+{"industry": "edtech", "metric": "retention", "value": 75.0, "unit": "percent_annual", "geography": "US", "source_type": "g2", "trust_score": 0.8, "year": 2025}
+{"industry": "edtech", "metric": "retention", "value": 85.0, "unit": "percent_annual", "geography": "India", "source_type": "capterra", "trust_score": 0.75, "year": 2025}
+{"industry": "edtech", "metric": "retention", "value": 95.0, "unit": "percent_annual", "geography": "EU", "source_type": "public_filing", "trust_score": 0.7, "year": 2025}
+{"industry": "edtech", "metric": "repeat purchase", "value": 15.0, "unit": "percent", "geography": "Global", "source_type": "analyst_report", "trust_score": 0.85, "year": 2025}
+{"industry": "edtech", "metric": "repeat purchase", "value": 25.0, "unit": "percent", "geography": "US", "source_type": "g2", "trust_score": 0.8, "year": 2025}
+{"industry": "edtech", "metric": "repeat purchase", "value": 35.0, "unit": "percent", "geography": "India", "source_type": "capterra", "trust_score": 0.75, "year": 2025}
+{"industry": "edtech", "metric": "repeat purchase", "value": 45.0, "unit": "percent", "geography": "EU", "source_type": "public_filing", "trust_score": 0.7, "year": 2025}
+{"industry": "edtech", "metric": "buyer_count", "value": 50000.0, "unit": "count", "geography": "Global", "source_type": "analyst_report", "trust_score": 0.85, "year": 2025}
+{"industry": "edtech", "metric": "buyer_count", "value": 1700000.0, "unit": "count", "geography": "US", "source_type": "g2", "trust_score": 0.8, "year": 2025}
+{"industry": "edtech", "metric": "buyer_count", "value": 3350000.0, "unit": "count", "geography": "India", "source_type": "capterra", "trust_score": 0.75, "year": 2025}
+{"industry": "edtech", "metric": "buyer_count", "value": 5000000.0, "unit": "count", "geography": "EU", "source_type": "public_filing", "trust_score": 0.7, "year": 2025}
+{"industry": "edtech", "metric": "avg_ticket", "value": 15.0, "unit": "USD", "geography": "Global", "source_type": "analyst_report", "trust_score": 0.85, "year": 2025}
+{"industry": "edtech", "metric": "avg_ticket", "value": 176.67, "unit": "USD", "geography": "US", "source_type": "g2", "trust_score": 0.8, "year": 2025}
+{"industry": "edtech", "metric": "avg_ticket", "value": 338.33, "unit": "USD", "geography": "India", "source_type": "capterra", "trust_score": 0.75, "year": 2025}
+{"industry": "edtech", "metric": "avg_ticket", "value": 500.0, "unit": "USD", "geography": "EU", "source_type": "public_filing", "trust_score": 0.7, "year": 2025}
+{"industry": "edtech", "metric": "purchase_frequency", "value": 1.0, "unit": "per_year", "geography": "Global", "source_type": "analyst_report", "trust_score": 0.85, "year": 2025}
+{"industry": "edtech", "metric": "purchase_frequency", "value": 4.67, "unit": "per_year", "geography": "US", "source_type": "g2", "trust_score": 0.8, "year": 2025}
+{"industry": "edtech", "metric": "purchase_frequency", "value": 8.33, "unit": "per_year", "geography": "India", "source_type": "capterra", "trust_score": 0.75, "year": 2025}
+{"industry": "edtech", "metric": "purchase_frequency", "value": 12.0, "unit": "per_year", "geography": "EU", "source_type": "public_filing", "trust_score": 0.7, "year": 2025}

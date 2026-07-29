@@ -1,0 +1,704 @@
+{
+  "workspace_id": "D2C_baby_and_kids_care_products_brand_India_Ecommerce_Retail",
+  "workspace_dir": "C:\\Users\\weewee\\iida\\opportunity_workspaces\\D2C_baby_and_kids_care_products_brand_India_Ecommerce_Retail",
+  "updated_at": "2026-07-05T23:50:25.274366Z",
+  "idea": "D2C baby and kids care products brand",
+  "country": "India",
+  "industry": "Ecommerce / Retail",
+  "current_path": "Research a market",
+  "uploaded_files": [],
+  "uploaded_file_context": [],
+  "source_ledger": [
+    {
+      "id": 1,
+      "grade": "A",
+      "evidence_label": "VERIFIED",
+      "publisher": "mospi.gov.in",
+      "title": "CHAPTER IV",
+      "source_family": "government_data",
+      "metric": "On-demand credible web source: country pack official source domain source",
+      "url": "https://www.mospi.gov.in/sites/default/files/economic-census/sixth_economic_census/all_india/9_ChapterIV_6ecRep.pdf",
+      "decision_use": "Can support factual market intelligence and sizing inputs if the metric matches the claim."
+    },
+    {
+      "id": 2,
+      "grade": "A",
+      "evidence_label": "VERIFIED",
+      "publisher": "rbidocs.rbi.org.in",
+      "title": "RESERVE BANK OF INDIA",
+      "source_family": "government_data",
+      "metric": "On-demand credible web source: country pack official source domain source",
+      "url": "https://rbidocs.rbi.org.in/rdocs/Forms/PDFs/SIOS17102016.pdf",
+      "decision_use": "Can support factual market intelligence and sizing inputs if the metric matches the claim."
+    },
+    {
+      "id": 3,
+      "grade": "C",
+      "evidence_label": "ESTIMATED / PROXY",
+      "publisher": "Crossref / American Diabetes Association",
+      "title": "2742-LB: The Diabetes Garage: Improving Hispanic Men's Self-Care by Leveraging Car Culture and Using Automotive Maintenance Comparisons for Diabetes Education",
+      "source_family": "academic_research",
+      "metric": "On-demand peer-reviewed literature route: topic-relevant journal article source",
+      "url": "https://doi.org/10.2337/db26-2742-lb",
+      "decision_use": "Qualitative signal only; useful for hypotheses, buyer language, and field intelligence, not hard claims."
+    },
+    {
+      "id": 4,
+      "grade": "C",
+      "evidence_label": "ESTIMATED / PROXY",
+      "publisher": "Crossref / Diva Enterprises Private Limited",
+      "title": "Service sector employment in India- an overview",
+      "source_family": "academic_research",
+      "metric": "On-demand peer-reviewed literature route: topic-relevant journal article source",
+      "url": "https://doi.org/10.5958/2249-7307.2021.00032.3",
+      "decision_use": "Qualitative signal only; useful for hypotheses, buyer language, and field intelligence, not hard claims."
+    },
+    {
+      "id": 5,
+      "grade": "C",
+      "evidence_label": "ESTIMATED / PROXY",
+      "publisher": "Crossref / Elsevier BV",
+      "title": "EdTech - Kids",
+      "source_family": "academic_research",
+      "metric": "On-demand peer-reviewed literature route: topic-relevant journal article source",
+      "url": "https://doi.org/10.2139/ssrn.3850473",
+      "decision_use": "Qualitative signal only; useful for hypotheses, buyer language, and field intelligence, not hard claims."
+    },
+    {
+      "id": 6,
+      "grade": "C",
+      "evidence_label": "ESTIMATED / PROXY",
+      "publisher": "Crossref / Informa UK Limited",
+      "title": "The role of digital technology in facilitating epistemic fluency in professional education",
+      "source_family": "academic_research",
+      "metric": "On-demand peer-reviewed literature route: topic-relevant journal article source",
+      "url": "https://doi.org/10.1080/19415257.2024.2421489",
+      "decision_use": "Qualitative signal only; useful for hypotheses, buyer language, and field intelligence, not hard claims."
+    },
+    {
+      "id": 7,
+      "grade": "C",
+      "evidence_label": "ESTIMATED / PROXY",
+      "publisher": "Crossref / International Research Journal of Education and Technology",
+      "title": "CRM INTEGRATION AND AUTOMATION",
+      "source_family": "academic_research",
+      "metric": "On-demand peer-reviewed literature route: topic-relevant journal article source",
+      "url": "https://doi.org/10.70127/irjedt.vol.7.issue03.1083",
+      "decision_use": "Qualitative signal only; useful for hypotheses, buyer language, and field intelligence, not hard claims."
+    },
+    {
+      "id": 8,
+      "grade": "C",
+      "evidence_label": "ESTIMATED / PROXY",
+      "publisher": "Crossref / Ninety Nine Publication",
+      "title": "A Discriminant Analysis Of High End And Budget Stores In Apparel Retail In India Using Retail Service Quality Scale Model",
+      "source_family": "academic_research",
+      "metric": "On-demand peer-reviewed literature route: topic-relevant journal article source",
+      "url": "https://doi.org/10.17762/turcomat.v12i4.581",
+      "decision_use": "Qualitative signal only; useful for hypotheses, buyer language, and field intelligence, not hard claims."
+    },
+    {
+      "id": 9,
+      "grade": "C",
+      "evidence_label": "ESTIMATED / PROXY",
+      "publisher": "Crossref / SAGE Publications",
+      "title": "Kids and Diabetes in Schools (KiDS) intervention in India: Participants’ perspectives",
+      "source_family": "academic_research",
+      "metric": "On-demand peer-reviewed literature route: topic-relevant journal article source",
+      "url": "https://doi.org/10.1177/00178969211005499",
+      "decision_use": "Qualitative signal only; useful for hypotheses, buyer language, and field intelligence, not hard claims."
+    },
+    {
+      "id": 10,
+      "grade": "C",
+      "evidence_label": "ESTIMATED / PROXY",
+      "publisher": "Crossref / Soegijapranata Catholic University",
+      "title": "Ecommerce Website Development for Melisa Baby and Kids Shop",
+      "source_family": "academic_research",
+      "metric": "On-demand peer-reviewed literature route: topic-relevant journal article source",
+      "url": "https://doi.org/10.24167/jbt.v3i1.6438",
+      "decision_use": "Qualitative signal only; useful for hypotheses, buyer language, and field intelligence, not hard claims."
+    },
+    {
+      "id": 11,
+      "grade": "C",
+      "evidence_label": "ESTIMATED / PROXY",
+      "publisher": "OpenAlex / ACM Transactions on Computer-Human Interaction",
+      "title": "Emerging Technologies in K–12 Education: A Future HCI Research Agenda",
+      "source_family": "academic_research",
+      "metric": "On-demand academic research: topic-relevant research paper source",
+      "url": "https://doi.org/10.1145/3569897",
+      "decision_use": "Qualitative signal only; useful for hypotheses, buyer language, and field intelligence, not hard claims."
+    },
+    {
+      "id": 12,
+      "grade": "C",
+      "evidence_label": "ESTIMATED / PROXY",
+      "publisher": "OpenAlex / Education Sciences",
+      "title": "Artificial Intelligence and Learning Analytics in Teacher Education: A Systematic Review",
+      "source_family": "academic_research",
+      "metric": "On-demand academic research: topic-relevant research paper source",
+      "url": "https://doi.org/10.3390/educsci12080569",
+      "decision_use": "Qualitative signal only; useful for hypotheses, buyer language, and field intelligence, not hard claims."
+    },
+    {
+      "id": 13,
+      "grade": "C",
+      "evidence_label": "ESTIMATED / PROXY",
+      "publisher": "OpenAlex / IEEE Access",
+      "title": "Healthcare in Metaverse: A Survey on Current Metaverse Applications in Healthcare",
+      "source_family": "academic_research",
+      "metric": "On-demand academic research: topic-relevant research paper source",
+      "url": "https://doi.org/10.1109/access.2022.3219845",
+      "decision_use": "Qualitative signal only; useful for hypotheses, buyer language, and field intelligence, not hard claims."
+    },
+    {
+      "id": 14,
+      "grade": "C",
+      "evidence_label": "ESTIMATED / PROXY",
+      "publisher": "OpenAlex / International Journal of Educational Technology in Higher Education",
+      "title": "A meta systematic review of artificial intelligence in higher education: a call for increased ethics, collaboration, and rigour",
+      "source_family": "academic_research",
+      "metric": "On-demand academic research: topic-relevant research paper source",
+      "url": "https://doi.org/10.1186/s41239-023-00436-z",
+      "decision_use": "Qualitative signal only; useful for hypotheses, buyer language, and field intelligence, not hard claims."
+    },
+    {
+      "id": 15,
+      "grade": "C",
+      "evidence_label": "ESTIMATED / PROXY",
+      "publisher": "OpenAlex / Learning Media and Technology",
+      "title": "Data as asset, data as rent? Rentiership practices in EdTech startups",
+      "source_family": "academic_research",
+      "metric": "On-demand academic research: topic-relevant research paper source",
+      "url": "https://doi.org/10.1080/17439884.2024.2405850",
+      "decision_use": "Qualitative signal only; useful for hypotheses, buyer language, and field intelligence, not hard claims."
+    },
+    {
+      "id": 16,
+      "grade": "C",
+      "evidence_label": "ESTIMATED / PROXY",
+      "publisher": "OpenAlex / SN Computer Science",
+      "title": "Innovations and Strategies During Online Teaching in an EdTech Low-Resourced University",
+      "source_family": "academic_research",
+      "metric": "On-demand academic research: topic-relevant research paper source",
+      "url": "https://doi.org/10.1007/s42979-023-01729-w",
+      "decision_use": "Qualitative signal only; useful for hypotheses, buyer language, and field intelligence, not hard claims."
+    },
+    {
+      "id": 17,
+      "grade": "B+",
+      "evidence_label": "VERIFIED BENCHMARK",
+      "publisher": "2bft.in",
+      "title": "Unknown vendor pricing: ₹2,500",
+      "source_family": "pricing_reference",
+      "metric": "Pricing signal: ₹2,500: Unknown vendor pricing evidence ₹2,500 pricing",
+      "url": "https://2bft.in/cohort/",
+      "decision_use": "Can support financial benchmarking, pricing, implementation, or procurement evidence when the vendor/buyer segment matches; disclose proxy limits."
+    },
+    {
+      "id": 18,
+      "grade": "B+",
+      "evidence_label": "VERIFIED BENCHMARK",
+      "publisher": "babyorgano.com",
+      "title": "Unknown vendor pricing: ₹ 100.00",
+      "source_family": "pricing_reference",
+      "metric": "Pricing signal: ₹ 100.00: Unknown vendor pricing evidence ₹ 100.00 pricing",
+      "url": "https://www.babyorgano.com/",
+      "decision_use": "Can support financial benchmarking, pricing, implementation, or procurement evidence when the vendor/buyer segment matches; disclose proxy limits."
+    },
+    {
+      "id": 19,
+      "grade": "B+",
+      "evidence_label": "VERIFIED BENCHMARK",
+      "publisher": "cohort.lapaas.com",
+      "title": "Unknown vendor pricing: ₹1",
+      "source_family": "pricing_reference",
+      "metric": "Pricing signal: ₹1: Unknown vendor pricing evidence ₹1 pricing",
+      "url": "https://cohort.lapaas.com/",
+      "decision_use": "Can support financial benchmarking, pricing, implementation, or procurement evidence when the vendor/buyer segment matches; disclose proxy limits."
+    },
+    {
+      "id": 20,
+      "grade": "B+",
+      "evidence_label": "VERIFIED BENCHMARK",
+      "publisher": "d2cbazaar.com",
+      "title": "Unknown vendor pricing: ₹1,500",
+      "source_family": "pricing_reference",
+      "metric": "Pricing signal: ₹1,500: Unknown vendor pricing evidence ₹1,500 pricing",
+      "url": "https://d2cbazaar.com/blog/indian-baby-and-kids-d2c-brands-part-1/",
+      "decision_use": "Can support financial benchmarking, pricing, implementation, or procurement evidence when the vendor/buyer segment matches; disclose proxy limits."
+    },
+    {
+      "id": 21,
+      "grade": "B+",
+      "evidence_label": "VERIFIED BENCHMARK",
+      "publisher": "deccanbill.com",
+      "title": "Unknown vendor pricing: ₹0",
+      "source_family": "pricing_reference",
+      "metric": "Pricing signal: ₹0: Unknown vendor pricing evidence ₹0 pricing",
+      "url": "https://deccanbill.com/",
+      "decision_use": "Can support financial benchmarking, pricing, implementation, or procurement evidence when the vendor/buyer segment matches; disclose proxy limits."
+    },
+    {
+      "id": 22,
+      "grade": "B+",
+      "evidence_label": "VERIFIED BENCHMARK",
+      "publisher": "leadsquared.com",
+      "title": "Unknown vendor pricing: $11.3",
+      "source_family": "pricing_reference",
+      "metric": "Pricing signal: $11.3: Unknown vendor pricing evidence $11.3 pricing",
+      "url": "https://www.leadsquared.com/industries/edtech/edtech-companies-in-india",
+      "decision_use": "Can support financial benchmarking, pricing, implementation, or procurement evidence when the vendor/buyer segment matches; disclose proxy limits."
+    },
+    {
+      "id": 23,
+      "grade": "B+",
+      "evidence_label": "VERIFIED BENCHMARK",
+      "publisher": "marketresearchfuture.com",
+      "title": "Unknown vendor pricing: $ 258.6",
+      "source_family": "pricing_reference",
+      "metric": "Pricing signal: $ 258.6: Unknown vendor pricing evidence $ 258.6 pricing",
+      "url": "https://www.marketresearchfuture.com/reports/india-dental-software-market-49199",
+      "decision_use": "Can support financial benchmarking, pricing, implementation, or procurement evidence when the vendor/buyer segment matches; disclose proxy limits."
+    },
+    {
+      "id": 24,
+      "grade": "B+",
+      "evidence_label": "VERIFIED BENCHMARK",
+      "publisher": "reddit.com",
+      "title": "Unknown vendor pricing: $4.7",
+      "source_family": "pricing_reference",
+      "metric": "Funding diligence evidence: Supplier quotes / input costs: Supplier quotes / input costs accepted from pricing_reference; original gate: Unknown vendor pricing evidence $4.7 pricing",
+      "url": "https://www.reddit.com/r/indianstartups/comments/1fy4x9u/can_edtech_in_india_finds_its_footing_again",
+      "decision_use": "Can support financial benchmarking, pricing, implementation, or procurement evidence when the vendor/buyer segment matches; disclose proxy limits."
+    },
+    {
+      "id": 25,
+      "grade": "B+",
+      "evidence_label": "VERIFIED BENCHMARK",
+      "publisher": "reddit.com",
+      "title": "Unknown vendor pricing: $600",
+      "source_family": "pricing_reference",
+      "metric": "Funding diligence evidence: Supplier quotes / input costs: Supplier quotes / input costs accepted from pricing_reference; original gate: Unknown vendor pricing evidence $600 pricing",
+      "url": "https://www.reddit.com/r/weddingplanning",
+      "decision_use": "Can support financial benchmarking, pricing, implementation, or procurement evidence when the vendor/buyer segment matches; disclose proxy limits."
+    },
+    {
+      "id": 26,
+      "grade": "B+",
+      "evidence_label": "VERIFIED BENCHMARK",
+      "publisher": "reddit.com",
+      "title": "Unknown vendor pricing: 40rs",
+      "source_family": "pricing_reference",
+      "metric": "Funding diligence evidence: Supplier quotes / input costs: Supplier quotes / input costs accepted from pricing_reference; original gate: Unknown vendor pricing evidence 40rs pricing",
+      "url": "https://www.reddit.com/r/IndiaNostalgia/comments/sq0rr0/anybody_had_these_art_kit_sell_at_their_school",
+      "decision_use": "Can support financial benchmarking, pricing, implementation, or procurement evidence when the vendor/buyer segment matches; disclose proxy limits."
+    },
+    {
+      "id": 27,
+      "grade": "B+",
+      "evidence_label": "VERIFIED BENCHMARK",
+      "publisher": "stuteach.com",
+      "title": "Unknown vendor pricing: From ₹200",
+      "source_family": "pricing_reference",
+      "metric": "Pricing signal: From ₹200: Unknown vendor pricing evidence From ₹200 pricing",
+      "url": "https://stuteach.com/",
+      "decision_use": "Can support financial benchmarking, pricing, implementation, or procurement evidence when the vendor/buyer segment matches; disclose proxy limits."
+    },
+    {
+      "id": 28,
+      "grade": "B+",
+      "evidence_label": "VERIFIED BENCHMARK",
+      "publisher": "youtube.com",
+      "title": "Unknown vendor pricing: $30",
+      "source_family": "pricing_reference",
+      "metric": "Funding diligence evidence: Supplier quotes / input costs: Supplier quotes / input costs accepted from pricing_reference; original gate: Unknown vendor pricing evidence $30 pricing",
+      "url": "https://www.youtube.com/watch?v=4tJqLGeCZ2o",
+      "decision_use": "Can support financial benchmarking, pricing, implementation, or procurement evidence when the vendor/buyer segment matches; disclose proxy limits."
+    },
+    {
+      "id": 29,
+      "grade": "B+",
+      "evidence_label": "VERIFIED BENCHMARK",
+      "publisher": "youtube.com",
+      "title": "Unknown vendor pricing: rs 10",
+      "source_family": "pricing_reference",
+      "metric": "Funding diligence evidence: Supplier quotes / input costs: Supplier quotes / input costs accepted from pricing_reference; original gate: Unknown vendor pricing evidence rs 10 pricing",
+      "url": "https://www.youtube.com/watch?v=rYep8lmzkwU",
+      "decision_use": "Can support financial benchmarking, pricing, implementation, or procurement evidence when the vendor/buyer segment matches; disclose proxy limits."
+    },
+    {
+      "id": 30,
+      "grade": "B+",
+      "evidence_label": "VERIFIED BENCHMARK",
+      "publisher": "youtube.com",
+      "title": "Unknown vendor pricing: rs 12",
+      "source_family": "pricing_reference",
+      "metric": "Funding diligence evidence: Supplier quotes / input costs: Supplier quotes / input costs accepted from pricing_reference; original gate: Unknown vendor pricing evidence rs 12 pricing",
+      "url": "https://www.youtube.com/watch?v=9u7e69HLKUc",
+      "decision_use": "Can support financial benchmarking, pricing, implementation, or procurement evidence when the vendor/buyer segment matches; disclose proxy limits."
+    },
+    {
+      "grade": "B",
+      "title": "R for Rabbit (Pure & Beyond baby care range)",
+      "url": "https://www.business-standard.com/content/press-releases-ani/india-s-leading-d2c-baby-products-brand-r-for-rabbit-strengthens-its-baby-care-segment-with-the-launch-of-pure-beyond-122101101016_1.html",
+      "source_family": "serp_competitor",
+      "publisher": "R for Rabbit (Pure & Beyond baby care range)",
+      "year": "",
+      "metric": "Newly launched baby skincare products priced from INR 149 onwards, available via R for Rabbit’s website, major ecommerce channels, and 100+ premium offline stores in India.",
+      "use_in_report": "serp_live_discovery"
+    },
+    {
+      "grade": "B",
+      "title": "Mamaearth (Honasa Consumer Ltd)",
+      "url": "https://www.6wresearch.com/market-takeaways-view/top-29-baby-product-market-companies-in-india",
+      "source_family": "serp_competitor",
+      "publisher": "Mamaearth (Honasa Consumer Ltd)",
+      "year": "",
+      "metric": "",
+      "use_in_report": "serp_live_discovery"
+    },
+    {
+      "grade": "B",
+      "title": "Mother Sparsh",
+      "url": "https://www.6wresearch.com/market-takeaways-view/top-29-baby-product-market-companies-in-india",
+      "source_family": "serp_competitor",
+      "publisher": "Mother Sparsh",
+      "year": "",
+      "metric": "",
+      "use_in_report": "serp_live_discovery"
+    },
+    {
+      "grade": "B",
+      "title": "The Moms Co (Amishi Consumer Technologies Pvt. Ltd.)",
+      "url": "https://www.6wresearch.com/market-takeaways-view/top-29-baby-product-market-companies-in-india",
+      "source_family": "serp_competitor",
+      "publisher": "The Moms Co (Amishi Consumer Technologies Pvt. Ltd.)",
+      "year": "",
+      "metric": "",
+      "use_in_report": "serp_live_discovery"
+    },
+    {
+      "grade": "B",
+      "title": "Maate",
+      "url": "https://maate.in",
+      "source_family": "serp_competitor",
+      "publisher": "Maate",
+      "year": "",
+      "metric": "",
+      "use_in_report": "serp_live_discovery"
+    },
+    {
+      "grade": "B",
+      "title": "Forest Essentials Baby Care",
+      "url": "https://www.forestessentialsindia.com/mother-s-baby-care/baby-care.html",
+      "source_family": "serp_competitor",
+      "publisher": "Forest Essentials Baby Care",
+      "year": "",
+      "metric": "",
+      "use_in_report": "serp_live_discovery"
+    },
+    {
+      "grade": "B",
+      "title": "Mothercare India",
+      "url": "https://mothercare.in",
+      "source_family": "serp_competitor",
+      "publisher": "Mothercare India",
+      "year": "",
+      "metric": "",
+      "use_in_report": "serp_live_discovery"
+    },
+    {
+      "grade": "B",
+      "title": "market size estimate",
+      "url": "",
+      "source_family": "serp_market_signal",
+      "publisher": "market size estimate",
+      "year": "",
+      "metric": "",
+      "use_in_report": "serp_live_discovery"
+    },
+    {
+      "grade": "B",
+      "title": "pricing benchmarks",
+      "url": "",
+      "source_family": "serp_market_signal",
+      "publisher": "pricing benchmarks",
+      "year": "",
+      "metric": "",
+      "use_in_report": "serp_live_discovery"
+    }
+  ],
+  "research_report": {
+    "available": true,
+    "topic": "D2C baby and kids care products brand",
+    "geography": "India",
+    "section_count": 4
+  },
+  "business_plan": {
+    "available": false,
+    "quality": {},
+    "founder_readable_available": false
+  },
+  "ICP": {},
+  "leads": [],
+  "financial_model": {
+    "topic": "D2C baby and kids care products brand",
+    "industry": "Ecommerce / Retail",
+    "target": "India",
+    "horizon": "2026-2031",
+    "domain": "consumer",
+    "dashboard_mode": "evidence_first",
+    "headline": {
+      "tam_base": 0,
+      "tam_base_fmt": "ESTIMATED $0",
+      "tam_range": "ESTIMATED $0 base; 2031 scenario $0",
+      "sam": 0,
+      "sam_fmt": "ESTIMATED $0",
+      "som_range": "ESTIMATED $0",
+      "forecast_cagr_2026_2031": 0.08,
+      "forecast_cagr_2026_2031_fmt": "ESTIMATED 8.0%"
+    },
+    "industry_model_name": "General Evidence Model",
+    "assumptions": {
+      "model_status": "No generic TAM model applied.",
+      "required_scope": "product/use case + buyer segment + geography + channel",
+      "sizing_rule": "TAM/SAM/SOM can be shown only after topic-specific source evidence and explicit formulas are populated."
+    },
+    "executive_metrics": [
+      {
+        "label": "TAM 2026",
+        "value": "ESTIMATED $0",
+        "source": "IIDATECH 2026 Financial Model Bank",
+        "confidence": "Estimated",
+        "note": "Uses source-backed macro denominators where available plus IIDATECH domain assumptions; not a verified market-size claim.",
+        "evidence_namespace": "SYNTHETIC MODEL",
+        "citation_allowed": false,
+        "not_investor_citable": true
+      },
+      {
+        "label": "SAM 2026",
+        "value": "ESTIMATED $0",
+        "source": "IIDATECH 2026 Financial Model Bank",
+        "confidence": "Estimated",
+        "note": "SAM formula: TAM x serviceable_share.",
+        "evidence_namespace": "SYNTHETIC MODEL",
+        "citation_allowed": false,
+        "not_investor_citable": true
+      },
+      {
+        "label": "SOM 2026",
+        "value": "ESTIMATED $0",
+        "source": "IIDATECH 2026 Financial Model Bank",
+        "confidence": "Estimated",
+        "note": "SOM formula: SAM x obtainable_capture_share.",
+        "evidence_namespace": "SYNTHETIC MODEL",
+        "citation_allowed": false,
+        "not_investor_citable": true
+      },
+      {
+        "label": "2026-2031 CAGR",
+        "value": "ESTIMATED 8.0%",
+        "source": "IIDATECH 2026 Financial Model Bank",
+        "confidence": "Scenario",
+        "note": "Scenario assumption, not a verified analyst CAGR.",
+        "evidence_namespace": "SYNTHETIC MODEL",
+        "citation_allowed": false,
+        "not_investor_citable": true
+      },
+      {
+        "label": "Sizing status",
+        "value": "Source-gated",
+        "source": "official statistics/company filings/analyst sources",
+        "confidence": "High",
+        "note": "No generic TAM is shown until domain-specific evidence is attached."
+      },
+      {
+        "label": "Model requirement",
+        "value": "Bottom-up wedge",
+        "source": "IIDATECH formula gate",
+        "confidence": "High",
+        "note": "Define customers, price, frequency, and channel before modeling."
+      },
+      {
+        "label": "Competitive basis",
+        "value": "Source-gated",
+        "source": "filings/pricing pages/channel checks",
+        "confidence": "Medium",
+        "note": "Competitor share requires disclosed data or proxy methodology."
+      },
+      {
+        "label": "Evidence gap",
+        "value": "Primary validation needed",
+        "source": "customer/interview plan",
+        "confidence": "Medium",
+        "note": "Needs buyer calls and pricing/channel checks."
+      }
+    ],
+    "formula_rows": [
+      {
+        "model_part": "TAM",
+        "formula": "eligible customers or volume x price/frequency",
+        "required_data": "official or audited market volume and topic-specific price"
+      },
+      {
+        "model_part": "SAM",
+        "formula": "TAM x reachable geography/channel/use-case share",
+        "required_data": "distribution constraints and buyer eligibility"
+      },
+      {
+        "model_part": "SOM",
+        "formula": "SAM x realistic penetration over period",
+        "required_data": "sales capacity, conversion, churn/retention, competitor response"
+      },
+      {
+        "model_part": "Unit economics",
+        "formula": "revenue - COGS - acquisition - service/compliance costs",
+        "required_data": "cost stack and cohort behavior"
+      }
+    ],
+    "scenario_rows": [
+      {
+        "scenario": "Bear",
+        "model_output": "Validation incomplete",
+        "logic": "Weak source coverage or unclear buyer economics blocks a numeric model.",
+        "source_status": "Needs official/filing/primary data."
+      },
+      {
+        "scenario": "Base",
+        "model_output": "Narrow wedge validated",
+        "logic": "A defined buyer/use case supports explicit bottom-up sizing.",
+        "source_status": "Needs price, volume, and adoption evidence."
+      },
+      {
+        "scenario": "Bull",
+        "model_output": "Repeatable expansion",
+        "logic": "Evidence supports expansion into adjacent customer segments or regions.",
+        "source_status": "Needs cohort and competitive proof."
+      }
+    ],
+    "driver_rows": [
+      {
+        "driver": "Customer/volume base",
+        "why_it_matters": "Defines the addressable universe."
+      },
+      {
+        "driver": "Price or take rate",
+        "why_it_matters": "Translates volume into revenue pool."
+      },
+      {
+        "driver": "Adoption/penetration",
+        "why_it_matters": "Converts TAM/SAM into realistic obtainable revenue."
+      },
+      {
+        "driver": "Churn/retention",
+        "why_it_matters": "Determines lifetime value and forecast durability."
+      },
+      {
+        "driver": "Cost to serve",
+        "why_it_matters": "Controls contribution margin and valuation quality."
+      }
+    ],
+    "source_gate_rows": [
+      {
+        "claim_type": "Market size",
+        "minimum_evidence": "two domain-matched sources or one official source plus bottom-up model",
+        "allowed_output": "range with assumptions"
+      },
+      {
+        "claim_type": "Forecast",
+        "minimum_evidence": "historical time series or named adoption drivers",
+        "allowed_output": "scenario forecast"
+      },
+      {
+        "claim_type": "Valuation",
+        "minimum_evidence": "unit economics and comparable company/transaction evidence",
+        "allowed_output": "sensitivity table"
+      }
+    ],
+    "methodology_notes": [
+      "Generic market assumptions were intentionally disabled.",
+      "The dashboard shows validation gates until domain-specific data is sufficient.",
+      "This prevents cross-industry metric contamination and unsupported TAM/CAGR claims."
+    ],
+    "stored_2026_financial_model_id": "68ae760d41c343a8",
+    "stored_2026_financial_model_status": "ESTIMATED",
+    "stored_2026_financial_model_source_status": "Uses source-backed macro denominators where available plus IIDATECH domain assumptions; not a verified market-size claim.",
+    "evidence_namespace": "SYNTHETIC MODEL",
+    "citation_allowed": false,
+    "not_investor_citable": true,
+    "provenance_claims": [
+      {
+        "id": "c71ff096-6450-4ff7-bb69-7c72e11413af",
+        "source_type": "derived_formula",
+        "metric_name": "TAM 2026",
+        "value": 0,
+        "unit": "USD",
+        "derived_from_claim_ids": [],
+        "formula_expression": "GDP x industry_spend_share x topic_wedge_share x digital_readiness_factor",
+        "formula_inputs": {
+          "gdp_current_usd": 0.0,
+          "industry_spend_share": 0.055,
+          "topic_wedge_share": 0.02
+        },
+        "formula_type": "tam_bottom_up",
+        "confidence": 0.54
+      },
+      {
+        "id": "90ae0d14-99be-4621-b550-0258d759fd3b",
+        "source_type": "derived_formula",
+        "metric_name": "SAM 2026",
+        "value": 0,
+        "unit": "USD",
+        "derived_from_claim_ids": [
+          "c71ff096-6450-4ff7-bb69-7c72e11413af"
+        ],
+        "formula_expression": "TAM x serviceable_share",
+        "formula_inputs": {
+          "tam_2026": 0,
+          "sam_share_assumption": 0.22
+        },
+        "formula_type": "sam_filter",
+        "confidence": 0.459
+      },
+      {
+        "id": "8f619583-01a3-401a-a21f-7ee5b3339f6c",
+        "source_type": "derived_formula",
+        "metric_name": "SOM 2026",
+        "value": 0,
+        "unit": "USD",
+        "derived_from_claim_ids": [
+          "90ae0d14-99be-4621-b550-0258d759fd3b"
+        ],
+        "formula_expression": "SAM x obtainable_capture_share",
+        "formula_inputs": {
+          "sam_2026": 0,
+          "som_capture_share_assumption": 0.01
+        },
+        "formula_type": "som_capture",
+        "confidence": 0.3672
+      }
+    ]
+  },
+  "employees_team_tasks": {},
+  "exports": [
+    "Founder business plan",
+    "Investor memo",
+    "GTM plan",
+    "Financial model CSV/XLSX",
+    "Lead list CSV",
+    "Team task plan",
+    "Source ledger"
+  ],
+  "scope_assessment": {
+    "ok": true,
+    "domain": "education",
+    "issues": [],
+    "suggestions": [
+      "Art-based summer camp for preschool and kindergarten-age children in India",
+      "After-school STEM enrichment classes for 6-10 year-olds in India",
+      "Premium early-childhood activity center for dual-income families in India"
+    ]
+  }
+}

@@ -1,0 +1,714 @@
+{
+  "workspace_id": "Restaurant_cloud_kitchen_India_Food_service",
+  "workspace_dir": "C:\\Users\\weewee\\iida\\opportunity_workspaces\\Restaurant_cloud_kitchen_India_Food_service",
+  "updated_at": "2026-07-04T08:40:04.958754Z",
+  "idea": "Restaurant cloud kitchen",
+  "country": "India",
+  "industry": "Food service",
+  "current_path": "Research a market",
+  "uploaded_files": [],
+  "uploaded_file_context": [],
+  "source_ledger": [
+    {
+      "id": 1,
+      "grade": "A",
+      "evidence_label": "VERIFIED",
+      "publisher": "mospi.gov.in",
+      "title": "CHAPTER IV",
+      "source_family": "government_data",
+      "metric": "On-demand credible web source: country pack official source domain source",
+      "url": "https://www.mospi.gov.in/sites/default/files/economic-census/sixth_economic_census/all_india/9_ChapterIV_6ecRep.pdf",
+      "decision_use": "Can support factual market intelligence and sizing inputs if the metric matches the claim."
+    },
+    {
+      "id": 2,
+      "grade": "A",
+      "evidence_label": "VERIFIED",
+      "publisher": "rbidocs.rbi.org.in",
+      "title": "RESERVE BANK OF INDIA",
+      "source_family": "government_data",
+      "metric": "On-demand credible web source: country pack official source domain source",
+      "url": "https://rbidocs.rbi.org.in/rdocs/Forms/PDFs/SIOS17102016.pdf",
+      "decision_use": "Can support factual market intelligence and sizing inputs if the metric matches the claim."
+    },
+    {
+      "id": 3,
+      "grade": "C",
+      "evidence_label": "ESTIMATED / PROXY",
+      "publisher": "Crossref / Emerald",
+      "title": "Digital disruption: the hyperlocal delivery and cloud kitchen driven future of food services in post-COVID India",
+      "source_family": "academic_research",
+      "metric": "On-demand peer-reviewed literature route: topic-relevant journal article source",
+      "url": "https://doi.org/10.1108/ihr-06-2021-0045",
+      "decision_use": "Qualitative signal only; useful for hypotheses, buyer language, and field intelligence, not hard claims."
+    },
+    {
+      "id": 4,
+      "grade": "C",
+      "evidence_label": "ESTIMATED / PROXY",
+      "publisher": "Crossref / IUPUI University Library",
+      "title": "Segmentation of Local Agricultural Festivals for Collaborative Marketing",
+      "source_family": "academic_research",
+      "metric": "On-demand peer-reviewed literature route: topic-relevant journal article source",
+      "url": "https://doi.org/10.18060/28150",
+      "decision_use": "Qualitative signal only; useful for hypotheses, buyer language, and field intelligence, not hard claims."
+    },
+    {
+      "id": 5,
+      "grade": "C",
+      "evidence_label": "ESTIMATED / PROXY",
+      "publisher": "Crossref / Ukrainian Assembly of Doctors of Science in Public Administration",
+      "title": "ANALYSIS OF BUSINESS MODELS OF RESTAURANT ENTERPRISES UTILIZING CLOUD KITCHEN TECHNOLOGY",
+      "source_family": "academic_research",
+      "metric": "On-demand peer-reviewed literature route: topic-relevant journal article source",
+      "url": "https://doi.org/10.52058/2786-6300-2024-7(25)-38-49",
+      "decision_use": "Qualitative signal only; useful for hypotheses, buyer language, and field intelligence, not hard claims."
+    },
+    {
+      "id": 6,
+      "grade": "C",
+      "evidence_label": "ESTIMATED / PROXY",
+      "publisher": "Crossref / Wiley",
+      "title": "Elaborate Drone Show Highlights University's Homecoming",
+      "source_family": "academic_research",
+      "metric": "On-demand peer-reviewed literature route: topic-relevant journal article source",
+      "url": "https://doi.org/10.1002/speg.32068",
+      "decision_use": "Qualitative signal only; useful for hypotheses, buyer language, and field intelligence, not hard claims."
+    },
+    {
+      "id": 7,
+      "grade": "C",
+      "evidence_label": "ESTIMATED / PROXY",
+      "publisher": "OpenAlex / International Research Journal on Advanced Science Hub",
+      "title": "Cloud Kitchens and its impact on the restaurant industry",
+      "source_family": "academic_research",
+      "metric": "On-demand academic research: topic-relevant research paper source",
+      "url": "https://doi.org/10.47392/irjash.2022.076",
+      "decision_use": "Qualitative signal only; useful for hypotheses, buyer language, and field intelligence, not hard claims."
+    },
+    {
+      "id": 8,
+      "grade": "B+",
+      "evidence_label": "VERIFIED BENCHMARK",
+      "publisher": "agnifly.in",
+      "title": "Unknown vendor pricing: ₹30",
+      "source_family": "pricing_reference",
+      "metric": "Pricing signal: ₹30: Unknown vendor pricing evidence ₹30 pricing",
+      "url": "https://agnifly.in/",
+      "decision_use": "Can support financial benchmarking, pricing, implementation, or procurement evidence when the vendor/buyer segment matches; disclose proxy limits."
+    },
+    {
+      "id": 9,
+      "grade": "B+",
+      "evidence_label": "VERIFIED BENCHMARK",
+      "publisher": "dataintelo.com",
+      "title": "Unknown vendor pricing: $3,200",
+      "source_family": "pricing_reference",
+      "metric": "Pricing signal: $3,200: Unknown vendor pricing evidence $3,200 pricing",
+      "url": "https://dataintelo.com/report/event-decoration-service-market",
+      "decision_use": "Can support financial benchmarking, pricing, implementation, or procurement evidence when the vendor/buyer segment matches; disclose proxy limits."
+    },
+    {
+      "id": 10,
+      "grade": "B+",
+      "evidence_label": "VERIFIED BENCHMARK",
+      "publisher": "goaeventplanners.com",
+      "title": "Unknown vendor pricing: ₹0.00",
+      "source_family": "pricing_reference",
+      "metric": "Pricing signal: ₹0.00: Unknown vendor pricing evidence ₹0.00 pricing",
+      "url": "https://goaeventplanners.com/packages/beach-celebration-setup-day-night/",
+      "decision_use": "Can support financial benchmarking, pricing, implementation, or procurement evidence when the vendor/buyer segment matches; disclose proxy limits."
+    },
+    {
+      "id": 11,
+      "grade": "B+",
+      "evidence_label": "VERIFIED BENCHMARK",
+      "publisher": "growkitchen.in",
+      "title": "Unknown vendor pricing: ₹35,000",
+      "source_family": "pricing_reference",
+      "metric": "Pricing signal: ₹35,000: Unknown vendor pricing evidence ₹35,000 pricing",
+      "url": "https://growkitchen.in/",
+      "decision_use": "Can support financial benchmarking, pricing, implementation, or procurement evidence when the vendor/buyer segment matches; disclose proxy limits."
+    },
+    {
+      "id": 12,
+      "grade": "B+",
+      "evidence_label": "VERIFIED BENCHMARK",
+      "publisher": "menuhelper.in",
+      "title": "Unknown vendor pricing: ₹100",
+      "source_family": "pricing_reference",
+      "metric": "Pricing signal: ₹100: Unknown vendor pricing evidence ₹100 pricing",
+      "url": "https://www.menuhelper.in/blog/25-percent-food-cost-rule-cloud-kitchen",
+      "decision_use": "Can support financial benchmarking, pricing, implementation, or procurement evidence when the vendor/buyer segment matches; disclose proxy limits."
+    },
+    {
+      "id": 13,
+      "grade": "B+",
+      "evidence_label": "VERIFIED BENCHMARK",
+      "publisher": "reddit.com",
+      "title": "Audi pricing: $30",
+      "source_family": "pricing_reference",
+      "metric": "Funding diligence evidence: Supplier quotes / input costs: Supplier quotes / input costs accepted from pricing_reference; original gate: Audi pricing evidence $30 pricing",
+      "url": "https://www.reddit.com/r/EventProduction/comments/1eaxpsv/most_effective_marketing_strategies_for_events",
+      "decision_use": "Can support financial benchmarking, pricing, implementation, or procurement evidence when the vendor/buyer segment matches; disclose proxy limits."
+    },
+    {
+      "id": 14,
+      "grade": "B+",
+      "evidence_label": "VERIFIED BENCHMARK",
+      "publisher": "reddit.com",
+      "title": "Unknown vendor pricing: $600",
+      "source_family": "pricing_reference",
+      "metric": "Funding diligence evidence: Supplier quotes / input costs: Supplier quotes / input costs accepted from pricing_reference; original gate: Unknown vendor pricing evidence $600 pricing",
+      "url": "https://www.reddit.com/r/weddingplanning",
+      "decision_use": "Can support financial benchmarking, pricing, implementation, or procurement evidence when the vendor/buyer segment matches; disclose proxy limits."
+    },
+    {
+      "id": 15,
+      "grade": "B+",
+      "evidence_label": "VERIFIED BENCHMARK",
+      "publisher": "researchandmarkets.com",
+      "title": "Unknown vendor pricing: $3,500",
+      "source_family": "pricing_reference",
+      "metric": "Pricing signal: $3,500: Unknown vendor pricing evidence $3,500 pricing",
+      "url": "https://www.researchandmarkets.com/report/india-cloud-kitchen-market",
+      "decision_use": "Can support financial benchmarking, pricing, implementation, or procurement evidence when the vendor/buyer segment matches; disclose proxy limits."
+    },
+    {
+      "id": 16,
+      "grade": "B+",
+      "evidence_label": "VERIFIED BENCHMARK",
+      "publisher": "youtube.com",
+      "title": "Audi pricing: rs 6",
+      "source_family": "pricing_reference",
+      "metric": "Funding diligence evidence: Supplier quotes / input costs: Supplier quotes / input costs accepted from pricing_reference; original gate: Audi pricing evidence rs 6 pricing",
+      "url": "https://www.youtube.com/watch?v=jQrVnRadevc",
+      "decision_use": "Can support financial benchmarking, pricing, implementation, or procurement evidence when the vendor/buyer segment matches; disclose proxy limits."
+    },
+    {
+      "id": 17,
+      "grade": "B+",
+      "evidence_label": "VERIFIED BENCHMARK",
+      "publisher": "youtube.com",
+      "title": "Unknown vendor pricing: $15",
+      "source_family": "pricing_reference",
+      "metric": "Funding diligence evidence: Supplier quotes / input costs: Supplier quotes / input costs accepted from pricing_reference; original gate: Unknown vendor pricing evidence $15 pricing",
+      "url": "https://www.youtube.com/watch?v=_Xuup5P-1m8",
+      "decision_use": "Can support financial benchmarking, pricing, implementation, or procurement evidence when the vendor/buyer segment matches; disclose proxy limits."
+    },
+    {
+      "id": 18,
+      "grade": "B+",
+      "evidence_label": "VERIFIED BENCHMARK",
+      "publisher": "youtube.com",
+      "title": "Unknown vendor pricing: $803",
+      "source_family": "pricing_reference",
+      "metric": "Funding diligence evidence: Supplier quotes / input costs: Supplier quotes / input costs accepted from pricing_reference; original gate: Unknown vendor pricing evidence $803 pricing",
+      "url": "https://www.youtube.com/watch?v=8sBdl2N58OE",
+      "decision_use": "Can support financial benchmarking, pricing, implementation, or procurement evidence when the vendor/buyer segment matches; disclose proxy limits."
+    },
+    {
+      "id": 19,
+      "grade": "B+",
+      "evidence_label": "VERIFIED BENCHMARK",
+      "publisher": "youtube.com",
+      "title": "Unknown vendor pricing: rs\n2",
+      "source_family": "pricing_reference",
+      "metric": "Funding diligence evidence: Supplier quotes / input costs: Supplier quotes / input costs accepted from pricing_reference; original gate: Unknown vendor pricing evidence rs\n2 pricing",
+      "url": "https://www.youtube.com/watch?v=D9nq1bHqo2k",
+      "decision_use": "Can support financial benchmarking, pricing, implementation, or procurement evidence when the vendor/buyer segment matches; disclose proxy limits."
+    },
+    {
+      "id": 20,
+      "grade": "B+",
+      "evidence_label": "VERIFIED BENCHMARK",
+      "publisher": "youtube.com",
+      "title": "Unknown vendor pricing: rs\n4",
+      "source_family": "pricing_reference",
+      "metric": "Funding diligence evidence: Supplier quotes / input costs: Supplier quotes / input costs accepted from pricing_reference; original gate: Unknown vendor pricing evidence rs\n4 pricing",
+      "url": "https://www.youtube.com/watch?v=p21vWXeqMv8",
+      "decision_use": "Can support financial benchmarking, pricing, implementation, or procurement evidence when the vendor/buyer segment matches; disclose proxy limits."
+    },
+    {
+      "id": 21,
+      "grade": "B+",
+      "evidence_label": "VERIFIED BENCHMARK",
+      "publisher": "youtube.com",
+      "title": "Unknown vendor pricing: rs 291",
+      "source_family": "pricing_reference",
+      "metric": "Funding diligence evidence: Supplier quotes / input costs: Supplier quotes / input costs accepted from pricing_reference; original gate: Unknown vendor pricing evidence rs 291 pricing",
+      "url": "https://www.youtube.com/watch?v=zK2fRIfNAz8",
+      "decision_use": "Can support financial benchmarking, pricing, implementation, or procurement evidence when the vendor/buyer segment matches; disclose proxy limits."
+    },
+    {
+      "id": 22,
+      "grade": "B+",
+      "evidence_label": "VERIFIED BENCHMARK",
+      "publisher": "youtube.com",
+      "title": "Unknown vendor pricing: rs.\n5",
+      "source_family": "pricing_reference",
+      "metric": "Funding diligence evidence: Supplier quotes / input costs: Supplier quotes / input costs accepted from pricing_reference; original gate: Unknown vendor pricing evidence rs.\n5 pricing",
+      "url": "https://www.youtube.com/watch?v=3Yv5Q7XkZMg",
+      "decision_use": "Can support financial benchmarking, pricing, implementation, or procurement evidence when the vendor/buyer segment matches; disclose proxy limits."
+    },
+    {
+      "id": 23,
+      "grade": "B+",
+      "evidence_label": "VERIFIED BENCHMARK",
+      "publisher": "zestpos.com",
+      "title": "Unknown vendor pricing: rs 24",
+      "source_family": "pricing_reference",
+      "metric": "Pricing signal: rs 24: Unknown vendor pricing evidence rs 24 pricing",
+      "url": "https://zestpos.com/",
+      "decision_use": "Can support financial benchmarking, pricing, implementation, or procurement evidence when the vendor/buyer segment matches; disclose proxy limits."
+    },
+    {
+      "id": 24,
+      "grade": "C",
+      "evidence_label": "QUALITATIVE ONLY",
+      "publisher": "reddit.com",
+      "title": "Are restaurant interactions just very curt and short in India? : r/AskIndia",
+      "source_family": "reddit_practitioner",
+      "metric": "Funding diligence evidence: Buyer interviews / proxy surveys: Buyer interviews / proxy surveys accepted from reddit_practitioner; original gate: published practitioner signal only; qualitative buyer/operator evidence, not hard financial proof source",
+      "url": "https://www.reddit.com/r/AskIndia/comments/1gdk5iw/are_restaurant_interactions_just_very_curt_and",
+      "decision_use": "Qualitative signal only; useful for hypotheses, buyer language, and field intelligence, not hard claims."
+    },
+    {
+      "id": 25,
+      "grade": "C",
+      "evidence_label": "QUALITATIVE ONLY",
+      "publisher": "reddit.com",
+      "title": "Have Indian diners become more \"experience-driven\" than \"food ...",
+      "source_family": "reddit_practitioner",
+      "metric": "Funding diligence evidence: Buyer interviews / proxy surveys: Buyer interviews / proxy surveys accepted from reddit_practitioner; original gate: published practitioner signal only; qualitative buyer/operator evidence, not hard financial proof source",
+      "url": "https://www.reddit.com/r/FoodEntrepreneurIndia/comments/1oeyqxo/have_indian_diners_become_more_experiencedriven",
+      "decision_use": "Qualitative signal only; useful for hypotheses, buyer language, and field intelligence, not hard claims."
+    },
+    {
+      "id": 26,
+      "grade": "C",
+      "evidence_label": "QUALITATIVE ONLY",
+      "publisher": "youtube.com",
+      "title": "Aakar expo 2026 Tent Decore Asia Catering Asia 2026 Aakar Exhibition India Expo Mart Greater Noida",
+      "source_family": "youtube_transcript",
+      "metric": "Funding diligence evidence: Buyer interviews / proxy surveys: Buyer interviews / proxy surveys accepted from youtube_transcript; original gate: published practitioner signal only; qualitative buyer/operator evidence, not hard financial proof source",
+      "url": "https://www.youtube.com/watch?v=Uhn0dNVC0nc",
+      "decision_use": "Qualitative signal only; useful for hypotheses, buyer language, and field intelligence, not hard claims."
+    },
+    {
+      "id": 27,
+      "grade": "C",
+      "evidence_label": "QUALITATIVE ONLY",
+      "publisher": "youtube.com",
+      "title": "Biggest Drone Show & Fireworks in Cricket History! 💥 #ipl2026",
+      "source_family": "youtube_transcript",
+      "metric": "Funding diligence evidence: Buyer interviews / proxy surveys: Buyer interviews / proxy surveys accepted from youtube_transcript; original gate: published practitioner signal only; qualitative buyer/operator evidence, not hard financial proof source",
+      "url": "https://www.youtube.com/watch?v=IbEeV3Qub6s",
+      "decision_use": "Qualitative signal only; useful for hypotheses, buyer language, and field intelligence, not hard claims."
+    },
+    {
+      "id": 28,
+      "grade": "C",
+      "evidence_label": "QUALITATIVE ONLY",
+      "publisher": "youtube.com",
+      "title": "How to build a Biryani Business | The story of Mani's Dum Biryani | Decode with UrbanPiper Episode 1",
+      "source_family": "youtube_transcript",
+      "metric": "Funding diligence evidence: Buyer interviews / proxy surveys: Buyer interviews / proxy surveys accepted from youtube_transcript; original gate: published practitioner signal only; qualitative buyer/operator evidence, not hard financial proof source",
+      "url": "https://www.youtube.com/watch?v=bq9ubrL2FC4",
+      "decision_use": "Qualitative signal only; useful for hypotheses, buyer language, and field intelligence, not hard claims."
+    },
+    {
+      "id": 29,
+      "grade": "C",
+      "evidence_label": "QUALITATIVE ONLY",
+      "publisher": "youtube.com",
+      "title": "Sagar FRT Industries Shares Their Exhibition Experience | Client Testimonial | BrainADZ Exhibits",
+      "source_family": "youtube_transcript",
+      "metric": "Funding diligence evidence: Buyer interviews / proxy surveys: Buyer interviews / proxy surveys accepted from youtube_transcript; original gate: published practitioner signal only; qualitative buyer/operator evidence, not hard financial proof source",
+      "url": "https://www.youtube.com/watch?v=ZRHjF1PZhPM",
+      "decision_use": "Qualitative signal only; useful for hypotheses, buyer language, and field intelligence, not hard claims."
+    },
+    {
+      "id": 30,
+      "grade": "C",
+      "evidence_label": "QUALITATIVE ONLY",
+      "publisher": "youtube.com",
+      "title": "The Future of Cloud Kitchens in India | #DCConversations With Shoyu Founder Varun Tripuraneni",
+      "source_family": "youtube_transcript",
+      "metric": "Funding diligence evidence: Buyer interviews / proxy surveys: Buyer interviews / proxy surveys accepted from youtube_transcript; original gate: published practitioner signal only; qualitative buyer/operator evidence, not hard financial proof source",
+      "url": "https://www.youtube.com/watch?v=zSEoaJ3riLs",
+      "decision_use": "Qualitative signal only; useful for hypotheses, buyer language, and field intelligence, not hard claims."
+    },
+    {
+      "grade": "B",
+      "title": "Cloud Kitchen Menu",
+      "url": "https://www.instagram.com/popular/cloud-kitchen-menu/?hl=en",
+      "source_family": "serp_competitor",
+      "publisher": "Cloud Kitchen Menu",
+      "year": "",
+      "metric": "",
+      "use_in_report": "serp_live_discovery"
+    },
+    {
+      "grade": "B",
+      "title": "Cloud",
+      "url": "https://www.instagram.com/popular/cloud-kitchen-menu/?hl=en",
+      "source_family": "serp_competitor",
+      "publisher": "Cloud",
+      "year": "",
+      "metric": "",
+      "use_in_report": "serp_live_discovery"
+    },
+    {
+      "grade": "B",
+      "title": "India",
+      "url": "https://www.instagram.com/popular/cloud-kitchen-menu/?hl=en",
+      "source_family": "serp_competitor",
+      "publisher": "India",
+      "year": "",
+      "metric": "",
+      "use_in_report": "serp_live_discovery"
+    },
+    {
+      "grade": "B",
+      "title": "Bengali",
+      "url": "https://www.instagram.com/popular/cloud-kitchen-menu/?hl=en",
+      "source_family": "serp_competitor",
+      "publisher": "Bengali",
+      "year": "",
+      "metric": "",
+      "use_in_report": "serp_live_discovery"
+    },
+    {
+      "grade": "B",
+      "title": "Mughlai",
+      "url": "https://www.instagram.com/popular/cloud-kitchen-menu/?hl=en",
+      "source_family": "serp_competitor",
+      "publisher": "Mughlai",
+      "year": "",
+      "metric": "",
+      "use_in_report": "serp_live_discovery"
+    },
+    {
+      "grade": "B",
+      "title": "Chinese",
+      "url": "https://www.instagram.com/popular/cloud-kitchen-menu/?hl=en",
+      "source_family": "serp_competitor",
+      "publisher": "Chinese",
+      "year": "",
+      "metric": "",
+      "use_in_report": "serp_live_discovery"
+    },
+    {
+      "grade": "B",
+      "title": "Navratri",
+      "url": "https://www.instagram.com/popular/cloud-kitchen-menu/?hl=en",
+      "source_family": "serp_competitor",
+      "publisher": "Navratri",
+      "year": "",
+      "metric": "",
+      "use_in_report": "serp_live_discovery"
+    },
+    {
+      "grade": "B",
+      "title": "Magizham Cloud Kitchen",
+      "url": "https://www.scribd.com/document/751113008/MagizhamFoods-cloud-Kitchen-Menu",
+      "source_family": "serp_competitor",
+      "publisher": "Magizham Cloud Kitchen",
+      "year": "",
+      "metric": "",
+      "use_in_report": "serp_live_discovery"
+    },
+    {
+      "grade": "B",
+      "title": "Menu",
+      "url": "https://www.scribd.com/document/751113008/MagizhamFoods-cloud-Kitchen-Menu",
+      "source_family": "serp_competitor",
+      "publisher": "Menu",
+      "year": "",
+      "metric": "",
+      "use_in_report": "serp_live_discovery"
+    },
+    {
+      "grade": "B",
+      "title": "Cuisine",
+      "url": "https://www.scribd.com/document/751113008/MagizhamFoods-cloud-Kitchen-Menu",
+      "source_family": "serp_competitor",
+      "publisher": "Cuisine",
+      "year": "",
+      "metric": "",
+      "use_in_report": "serp_live_discovery"
+    }
+  ],
+  "research_report": {
+    "available": true,
+    "topic": "Restaurant cloud kitchen",
+    "geography": "India",
+    "section_count": 3
+  },
+  "business_plan": {
+    "available": false,
+    "quality": {},
+    "founder_readable_available": false
+  },
+  "ICP": {},
+  "leads": [],
+  "financial_model": {
+    "topic": "Restaurant cloud kitchen",
+    "industry": "Food service",
+    "target": "India",
+    "horizon": "2026-2031",
+    "domain": "hospitality",
+    "dashboard_mode": "evidence_first",
+    "headline": {
+      "tam_base": 0,
+      "tam_base_fmt": "ESTIMATED $0",
+      "tam_range": "ESTIMATED $0 base; 2031 scenario $0",
+      "sam": 0,
+      "sam_fmt": "ESTIMATED $0",
+      "som_range": "ESTIMATED $0",
+      "forecast_cagr_2026_2031": 0.08,
+      "forecast_cagr_2026_2031_fmt": "ESTIMATED 8.0%"
+    },
+    "industry_model_name": "General Evidence Model",
+    "assumptions": {
+      "model_status": "No generic TAM model applied.",
+      "required_scope": "product/use case + buyer segment + geography + channel",
+      "sizing_rule": "TAM/SAM/SOM can be shown only after topic-specific source evidence and explicit formulas are populated."
+    },
+    "executive_metrics": [
+      {
+        "label": "TAM 2026",
+        "value": "ESTIMATED $0",
+        "source": "IIDATECH 2026 Financial Model Bank",
+        "confidence": "Estimated",
+        "note": "Uses source-backed macro denominators where available plus IIDATECH domain assumptions; not a verified market-size claim.",
+        "evidence_namespace": "SYNTHETIC MODEL",
+        "citation_allowed": false,
+        "not_investor_citable": true
+      },
+      {
+        "label": "SAM 2026",
+        "value": "ESTIMATED $0",
+        "source": "IIDATECH 2026 Financial Model Bank",
+        "confidence": "Estimated",
+        "note": "SAM formula: TAM x serviceable_share.",
+        "evidence_namespace": "SYNTHETIC MODEL",
+        "citation_allowed": false,
+        "not_investor_citable": true
+      },
+      {
+        "label": "SOM 2026",
+        "value": "ESTIMATED $0",
+        "source": "IIDATECH 2026 Financial Model Bank",
+        "confidence": "Estimated",
+        "note": "SOM formula: SAM x obtainable_capture_share.",
+        "evidence_namespace": "SYNTHETIC MODEL",
+        "citation_allowed": false,
+        "not_investor_citable": true
+      },
+      {
+        "label": "2026-2031 CAGR",
+        "value": "ESTIMATED 8.0%",
+        "source": "IIDATECH 2026 Financial Model Bank",
+        "confidence": "Scenario",
+        "note": "Scenario assumption, not a verified analyst CAGR.",
+        "evidence_namespace": "SYNTHETIC MODEL",
+        "citation_allowed": false,
+        "not_investor_citable": true
+      },
+      {
+        "label": "Sizing status",
+        "value": "Source-gated",
+        "source": "official statistics/company filings/analyst sources",
+        "confidence": "High",
+        "note": "No generic TAM is shown until domain-specific evidence is attached."
+      },
+      {
+        "label": "Model requirement",
+        "value": "Bottom-up wedge",
+        "source": "IIDATECH formula gate",
+        "confidence": "High",
+        "note": "Define customers, price, frequency, and channel before modeling."
+      },
+      {
+        "label": "Competitive basis",
+        "value": "Source-gated",
+        "source": "filings/pricing pages/channel checks",
+        "confidence": "Medium",
+        "note": "Competitor share requires disclosed data or proxy methodology."
+      },
+      {
+        "label": "Evidence gap",
+        "value": "Primary validation needed",
+        "source": "customer/interview plan",
+        "confidence": "Medium",
+        "note": "Needs buyer calls and pricing/channel checks."
+      }
+    ],
+    "formula_rows": [
+      {
+        "model_part": "TAM",
+        "formula": "eligible customers or volume x price/frequency",
+        "required_data": "official or audited market volume and topic-specific price"
+      },
+      {
+        "model_part": "SAM",
+        "formula": "TAM x reachable geography/channel/use-case share",
+        "required_data": "distribution constraints and buyer eligibility"
+      },
+      {
+        "model_part": "SOM",
+        "formula": "SAM x realistic penetration over period",
+        "required_data": "sales capacity, conversion, churn/retention, competitor response"
+      },
+      {
+        "model_part": "Unit economics",
+        "formula": "revenue - COGS - acquisition - service/compliance costs",
+        "required_data": "cost stack and cohort behavior"
+      }
+    ],
+    "scenario_rows": [
+      {
+        "scenario": "Bear",
+        "model_output": "Validation incomplete",
+        "logic": "Weak source coverage or unclear buyer economics blocks a numeric model.",
+        "source_status": "Needs official/filing/primary data."
+      },
+      {
+        "scenario": "Base",
+        "model_output": "Narrow wedge validated",
+        "logic": "A defined buyer/use case supports explicit bottom-up sizing.",
+        "source_status": "Needs price, volume, and adoption evidence."
+      },
+      {
+        "scenario": "Bull",
+        "model_output": "Repeatable expansion",
+        "logic": "Evidence supports expansion into adjacent customer segments or regions.",
+        "source_status": "Needs cohort and competitive proof."
+      }
+    ],
+    "driver_rows": [
+      {
+        "driver": "Customer/volume base",
+        "why_it_matters": "Defines the addressable universe."
+      },
+      {
+        "driver": "Price or take rate",
+        "why_it_matters": "Translates volume into revenue pool."
+      },
+      {
+        "driver": "Adoption/penetration",
+        "why_it_matters": "Converts TAM/SAM into realistic obtainable revenue."
+      },
+      {
+        "driver": "Churn/retention",
+        "why_it_matters": "Determines lifetime value and forecast durability."
+      },
+      {
+        "driver": "Cost to serve",
+        "why_it_matters": "Controls contribution margin and valuation quality."
+      }
+    ],
+    "source_gate_rows": [
+      {
+        "claim_type": "Market size",
+        "minimum_evidence": "two domain-matched sources or one official source plus bottom-up model",
+        "allowed_output": "range with assumptions"
+      },
+      {
+        "claim_type": "Forecast",
+        "minimum_evidence": "historical time series or named adoption drivers",
+        "allowed_output": "scenario forecast"
+      },
+      {
+        "claim_type": "Valuation",
+        "minimum_evidence": "unit economics and comparable company/transaction evidence",
+        "allowed_output": "sensitivity table"
+      }
+    ],
+    "methodology_notes": [
+      "Generic market assumptions were intentionally disabled.",
+      "The dashboard shows validation gates until domain-specific data is sufficient.",
+      "This prevents cross-industry metric contamination and unsupported TAM/CAGR claims."
+    ],
+    "stored_2026_financial_model_id": "1eac269b7c687241",
+    "stored_2026_financial_model_status": "ESTIMATED",
+    "stored_2026_financial_model_source_status": "Uses source-backed macro denominators where available plus IIDATECH domain assumptions; not a verified market-size claim.",
+    "evidence_namespace": "SYNTHETIC MODEL",
+    "citation_allowed": false,
+    "not_investor_citable": true,
+    "provenance_claims": [
+      {
+        "id": "7ce0ba1a-b594-456f-ac06-daddab7efaa1",
+        "source_type": "derived_formula",
+        "metric_name": "TAM 2026",
+        "value": 0,
+        "unit": "USD",
+        "derived_from_claim_ids": [],
+        "formula_expression": "GDP x industry_spend_share x topic_wedge_share x digital_readiness_factor",
+        "formula_inputs": {
+          "gdp_current_usd": 0.0,
+          "industry_spend_share": 0.035,
+          "topic_wedge_share": 0.025
+        },
+        "formula_type": "tam_bottom_up",
+        "confidence": 0.54
+      },
+      {
+        "id": "28ef8318-0851-46a6-a8c7-4156934dde03",
+        "source_type": "derived_formula",
+        "metric_name": "SAM 2026",
+        "value": 0,
+        "unit": "USD",
+        "derived_from_claim_ids": [
+          "7ce0ba1a-b594-456f-ac06-daddab7efaa1"
+        ],
+        "formula_expression": "TAM x serviceable_share",
+        "formula_inputs": {
+          "tam_2026": 0,
+          "sam_share_assumption": 0.22
+        },
+        "formula_type": "sam_filter",
+        "confidence": 0.459
+      },
+      {
+        "id": "cbaa21ac-3b22-4bf7-b937-982f2954f359",
+        "source_type": "derived_formula",
+        "metric_name": "SOM 2026",
+        "value": 0,
+        "unit": "USD",
+        "derived_from_claim_ids": [
+          "28ef8318-0851-46a6-a8c7-4156934dde03"
+        ],
+        "formula_expression": "SAM x obtainable_capture_share",
+        "formula_inputs": {
+          "sam_2026": 0,
+          "som_capture_share_assumption": 0.01
+        },
+        "formula_type": "som_capture",
+        "confidence": 0.3672
+      }
+    ]
+  },
+  "employees_team_tasks": {},
+  "exports": [
+    "Founder business plan",
+    "Investor memo",
+    "GTM plan",
+    "Financial model CSV/XLSX",
+    "Lead list CSV",
+    "Team task plan",
+    "Source ledger"
+  ],
+  "scope_assessment": {
+    "ok": true,
+    "domain": "hospitality",
+    "issues": [],
+    "suggestions": [
+      "One product category for one buyer segment in India",
+      "One workflow or use case inside Food service for a named customer type in India",
+      "One channel-led business model with price band, buyer, and geography specified"
+    ]
+  }
+}

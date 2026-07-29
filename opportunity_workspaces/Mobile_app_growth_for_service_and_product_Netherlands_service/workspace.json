@@ -1,0 +1,46 @@
+{
+  "workspace_id": "Mobile_app_growth_for_service_and_product_Netherlands_service",
+  "workspace_dir": "C:\\Users\\weewee\\iida\\opportunity_workspaces\\Mobile_app_growth_for_service_and_product_Netherlands_service",
+  "updated_at": "2026-07-10T11:13:44.255939Z",
+  "idea": "Mobile app growth for service and product",
+  "country": "Netherlands",
+  "industry": "service",
+  "current_path": "Understand your market",
+  "uploaded_files": [],
+  "uploaded_file_context": [],
+  "source_ledger": [],
+  "research_report": {
+    "available": false,
+    "topic": "",
+    "geography": "",
+    "section_count": 0
+  },
+  "business_plan": {
+    "available": false,
+    "quality": {},
+    "founder_readable_available": false
+  },
+  "ICP": {},
+  "leads": [],
+  "financial_model": {},
+  "employees_team_tasks": {},
+  "exports": [
+    "Founder business plan",
+    "Investor memo",
+    "GTM plan",
+    "Financial model CSV/XLSX",
+    "Lead list CSV",
+    "Team task plan",
+    "Source ledger"
+  ],
+  "scope_assessment": {
+    "ok": true,
+    "domain": "general_market",
+    "issues": [],
+    "suggestions": [
+      "One product category for one buyer segment in Netherlands",
+      "One workflow or use case inside service for a named customer type in Netherlands",
+      "One channel-led business model with price band, buyer, and geography specified"
+    ]
+  }
+}

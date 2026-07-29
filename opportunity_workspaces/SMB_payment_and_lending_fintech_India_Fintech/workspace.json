@@ -1,0 +1,704 @@
+{
+  "workspace_id": "SMB_payment_and_lending_fintech_India_Fintech",
+  "workspace_dir": "C:\\Users\\weewee\\iida\\opportunity_workspaces\\SMB_payment_and_lending_fintech_India_Fintech",
+  "updated_at": "2026-07-04T08:49:20.427317Z",
+  "idea": "SMB payment and lending fintech",
+  "country": "India",
+  "industry": "Fintech",
+  "current_path": "Research a market",
+  "uploaded_files": [],
+  "uploaded_file_context": [],
+  "source_ledger": [
+    {
+      "id": 1,
+      "grade": "A",
+      "evidence_label": "VERIFIED",
+      "publisher": "rbi.org.in",
+      "title": "Press Releases - Reserve Bank of India",
+      "source_family": "government_data",
+      "metric": "On-demand credible web source: country pack official source domain source",
+      "url": "https://www.rbi.org.in/Scripts/BS_PressReleaseDisplay.aspx?prid=52373",
+      "decision_use": "Can support factual market intelligence and sizing inputs if the metric matches the claim."
+    },
+    {
+      "id": 2,
+      "grade": "A",
+      "evidence_label": "VERIFIED",
+      "publisher": "rbi.org.in",
+      "title": "Reserve Bank of India",
+      "source_family": "government_data",
+      "metric": "On-demand credible web source: country pack official source domain source",
+      "url": "https://www.rbi.org.in/commonperson/english/Scripts/Notification.aspx",
+      "decision_use": "Can support factual market intelligence and sizing inputs if the metric matches the claim."
+    },
+    {
+      "id": 3,
+      "grade": "C",
+      "evidence_label": "ESTIMATED / PROXY",
+      "publisher": "Crossref / Everant Journals",
+      "title": "Intelligent Automation of Supply Audit Using Machine Learning in B2B Saas Platforms",
+      "source_family": "academic_research",
+      "metric": "On-demand peer-reviewed literature route: topic-relevant journal article source",
+      "url": "https://doi.org/10.47191/jefms/v8-i12-40",
+      "decision_use": "Qualitative signal only; useful for hypotheses, buyer language, and field intelligence, not hard claims."
+    },
+    {
+      "id": 4,
+      "grade": "C",
+      "evidence_label": "ESTIMATED / PROXY",
+      "publisher": "Crossref / Politeknik Caltex Riau",
+      "title": "Pengaruh Fintech Peer to Peer Lending dan Fintech Payment Terhadap Kinerja UMKM DiMediasi E-Commerce Pasca Covid-19",
+      "source_family": "academic_research",
+      "metric": "On-demand peer-reviewed literature route: topic-relevant journal article source",
+      "url": "https://doi.org/10.35143/jakb.v17i1.6160",
+      "decision_use": "Qualitative signal only; useful for hypotheses, buyer language, and field intelligence, not hard claims."
+    },
+    {
+      "id": 5,
+      "grade": "C",
+      "evidence_label": "ESTIMATED / PROXY",
+      "publisher": "Crossref / Universitas Maritim AMNI Semarang",
+      "title": "Pengaruh Fintech Payment Dan Fintech Lending Terhadap Kinerja Keuangan Perbankan Syariah Di Indonesia",
+      "source_family": "academic_research",
+      "metric": "On-demand peer-reviewed literature route: topic-relevant journal article source",
+      "url": "https://doi.org/10.58192/profit.v5i2.4256",
+      "decision_use": "Qualitative signal only; useful for hypotheses, buyer language, and field intelligence, not hard claims."
+    },
+    {
+      "id": 6,
+      "grade": "C",
+      "evidence_label": "ESTIMATED / PROXY",
+      "publisher": "Crossref / Yayasan Nuraini Ibrahim Mandiri",
+      "title": "PENGARUH DIGITAL BANKING, FINTECH PAYMENT, DAN FINTECH LENDING TERHADAP KINERJA KEUANGAN PERBANKAN KONVENSIONAL TAHUN 2018-2022 (Studi Pada Otoritas Jasa Keuangan)",
+      "source_family": "academic_research",
+      "metric": "On-demand peer-reviewed literature route: topic-relevant journal article source",
+      "url": "https://doi.org/10.70248/jakpt.v2i1.1064",
+      "decision_use": "Qualitative signal only; useful for hypotheses, buyer language, and field intelligence, not hard claims."
+    },
+    {
+      "id": 7,
+      "grade": "B+",
+      "evidence_label": "VERIFIED BENCHMARK",
+      "publisher": "glaas.co",
+      "title": "Unknown vendor pricing: $5",
+      "source_family": "pricing_reference",
+      "metric": "Pricing signal: $5: Unknown vendor pricing evidence $5 pricing",
+      "url": "https://glaas.co/",
+      "decision_use": "Can support financial benchmarking, pricing, implementation, or procurement evidence when the vendor/buyer segment matches; disclose proxy limits."
+    },
+    {
+      "id": 8,
+      "grade": "B+",
+      "evidence_label": "VERIFIED BENCHMARK",
+      "publisher": "youtube.com",
+      "title": "Audi pricing: rs 158",
+      "source_family": "pricing_reference",
+      "metric": "Funding diligence evidence: Supplier quotes / input costs: Supplier quotes / input costs accepted from pricing_reference; original gate: Audi pricing evidence rs 158 pricing",
+      "url": "https://www.youtube.com/watch?v=6pbJKdVt9Wc",
+      "decision_use": "Can support financial benchmarking, pricing, implementation, or procurement evidence when the vendor/buyer segment matches; disclose proxy limits."
+    },
+    {
+      "id": 9,
+      "grade": "B+",
+      "evidence_label": "VERIFIED BENCHMARK",
+      "publisher": "youtube.com",
+      "title": "Unknown vendor pricing: rs 12",
+      "source_family": "pricing_reference",
+      "metric": "Funding diligence evidence: Supplier quotes / input costs: Supplier quotes / input costs accepted from pricing_reference; original gate: Unknown vendor pricing evidence rs 12 pricing",
+      "url": "https://www.youtube.com/watch?v=9u7e69HLKUc",
+      "decision_use": "Can support financial benchmarking, pricing, implementation, or procurement evidence when the vendor/buyer segment matches; disclose proxy limits."
+    },
+    {
+      "id": 10,
+      "grade": "B+",
+      "evidence_label": "VERIFIED BENCHMARK",
+      "publisher": "youtube.com",
+      "title": "Unknown vendor pricing: rs 164",
+      "source_family": "pricing_reference",
+      "metric": "Funding diligence evidence: Supplier quotes / input costs: Supplier quotes / input costs accepted from pricing_reference; original gate: Unknown vendor pricing evidence rs 164 pricing",
+      "url": "https://www.youtube.com/watch?v=RT527ckTAmg",
+      "decision_use": "Can support financial benchmarking, pricing, implementation, or procurement evidence when the vendor/buyer segment matches; disclose proxy limits."
+    },
+    {
+      "id": 11,
+      "grade": "B+",
+      "evidence_label": "ESTIMATED / PROXY",
+      "publisher": "bcg.com",
+      "title": "B2B Customer Dynamics: The Weather Ahead | BCG",
+      "source_family": "analyst_report",
+      "metric": "On-demand credible web source: recognized analyst, consulting, think tank, or research publisher (public_or_mixed) source",
+      "url": "https://www.bcg.com/publications/2023/b2b-customer-experience-trends-in-uncertain-future",
+      "decision_use": "Can support market trend, investment, and benchmark context; verify underlying sample/methodology."
+    },
+    {
+      "id": 12,
+      "grade": "C",
+      "evidence_label": "QUALITATIVE ONLY",
+      "publisher": "reddit.com",
+      "title": "Why does business banking in India still feel stuck in the old era?",
+      "source_family": "reddit_practitioner",
+      "metric": "Funding diligence evidence: Buyer interviews / proxy surveys: Buyer interviews / proxy surveys accepted from reddit_practitioner; original gate: published practitioner signal only; qualitative buyer/operator evidence, not hard financial proof source",
+      "url": "https://www.reddit.com/r/indianstartups/comments/1ogex1b/why_does_business_banking_in_india_still_feel",
+      "decision_use": "Qualitative signal only; useful for hypotheses, buyer language, and field intelligence, not hard claims."
+    },
+    {
+      "id": 13,
+      "grade": "C",
+      "evidence_label": "QUALITATIVE ONLY",
+      "publisher": "youtube.com",
+      "title": "Ancillary Revenues in Auto Retail: Opportunity or Turf War for Dealers? | AP Dialogues | Indusind GI",
+      "source_family": "youtube_transcript",
+      "metric": "Funding diligence evidence: Buyer interviews / proxy surveys: Buyer interviews / proxy surveys accepted from youtube_transcript; original gate: published practitioner signal only; qualitative buyer/operator evidence, not hard financial proof source",
+      "url": "https://www.youtube.com/watch?v=cOlNHXulh4s",
+      "decision_use": "Qualitative signal only; useful for hypotheses, buyer language, and field intelligence, not hard claims."
+    },
+    {
+      "id": 14,
+      "grade": "C",
+      "evidence_label": "QUALITATIVE ONLY",
+      "publisher": "youtube.com",
+      "title": "BUSINESS FINTECH OS: THE FUTURE OF AI-POWERED ENTERPRISE FINANCE",
+      "source_family": "youtube_transcript",
+      "metric": "Funding diligence evidence: Buyer interviews / proxy surveys: Buyer interviews / proxy surveys accepted from youtube_transcript; original gate: published practitioner signal only; qualitative buyer/operator evidence, not hard financial proof source",
+      "url": "https://www.youtube.com/watch?v=gA8bG8ELw74",
+      "decision_use": "Qualitative signal only; useful for hypotheses, buyer language, and field intelligence, not hard claims."
+    },
+    {
+      "id": 15,
+      "grade": "C",
+      "evidence_label": "QUALITATIVE ONLY",
+      "publisher": "youtube.com",
+      "title": "Highlights from MSME Pulse Report April 2026",
+      "source_family": "youtube_transcript",
+      "metric": "Funding diligence evidence: Buyer interviews / proxy surveys: Buyer interviews / proxy surveys accepted from youtube_transcript; original gate: published practitioner signal only; qualitative buyer/operator evidence, not hard financial proof source",
+      "url": "https://www.youtube.com/watch?v=AML3dNbACSA",
+      "decision_use": "Qualitative signal only; useful for hypotheses, buyer language, and field intelligence, not hard claims."
+    },
+    {
+      "id": 16,
+      "grade": "C",
+      "evidence_label": "QUALITATIVE ONLY",
+      "publisher": "youtube.com",
+      "title": "Why Not to Visit Banks – How Digital Infrastructure Is Reaching the Last Mile",
+      "source_family": "youtube_transcript",
+      "metric": "Funding diligence evidence: Buyer interviews / proxy surveys: Buyer interviews / proxy surveys accepted from youtube_transcript; original gate: published practitioner signal only; qualitative buyer/operator evidence, not hard financial proof source",
+      "url": "https://www.youtube.com/watch?v=CiA8Y-KqIX0",
+      "decision_use": "Qualitative signal only; useful for hypotheses, buyer language, and field intelligence, not hard claims."
+    },
+    {
+      "id": 17,
+      "grade": "C",
+      "evidence_label": "VERIFIED BENCHMARK",
+      "publisher": "dir.indiamart.com",
+      "title": "Banking Software Service, Banking Software Solutions in India",
+      "source_family": "marketplace_pricing",
+      "metric": "Funding diligence evidence: Supplier quotes / input costs: Supplier quotes / input costs accepted from marketplace_pricing; original gate: marketplace/distributor pricing source; normalize SKU, unit, seller, geography, currency, and date source",
+      "url": "https://dir.indiamart.com/impcat/banking-software-service.html",
+      "decision_use": "Qualitative signal only; useful for hypotheses, buyer language, and field intelligence, not hard claims."
+    },
+    {
+      "id": 18,
+      "grade": "C",
+      "evidence_label": "VERIFIED BENCHMARK",
+      "publisher": "dir.indiamart.com",
+      "title": "Transaction Processing Services, Transaction Processing Work in India",
+      "source_family": "marketplace_pricing",
+      "metric": "Funding diligence evidence: Supplier quotes / input costs: Supplier quotes / input costs accepted from marketplace_pricing; original gate: marketplace/distributor pricing source; normalize SKU, unit, seller, geography, currency, and date source",
+      "url": "https://dir.indiamart.com/impcat/transaction-processing-services.html",
+      "decision_use": "Qualitative signal only; useful for hypotheses, buyer language, and field intelligence, not hard claims."
+    },
+    {
+      "id": 19,
+      "grade": "C",
+      "evidence_label": "UNVERIFIED",
+      "publisher": "makspay.com",
+      "title": "MAKSPay Fintech",
+      "source_family": "local_operator_listing",
+      "metric": "On-demand credible web source: topic/geography-matched local operator, booking, listing, or pricing page; use for competitor/pricing evidence only source",
+      "url": "https://makspay.com/",
+      "decision_use": "Qualitative signal only; useful for hypotheses, buyer language, and field intelligence, not hard claims."
+    },
+    {
+      "id": 20,
+      "grade": "C",
+      "evidence_label": "UNVERIFIED",
+      "publisher": "unpay.co",
+      "title": "UnPay",
+      "source_family": "local_operator_listing",
+      "metric": "Funding diligence evidence: Supplier quotes / input costs: Supplier quotes / input costs accepted from local_operator_listing; original gate: topic/geography-matched local operator, booking, listing, or pricing page; use for competitor/pricing evidence only source",
+      "url": "https://unpay.co/",
+      "decision_use": "Qualitative signal only; useful for hypotheses, buyer language, and field intelligence, not hard claims."
+    },
+    {
+      "grade": "B",
+      "title": "Lendingkart",
+      "url": "https://www.mayfield.com/news/lendingkart-indias-leading-digital-smb-fintech-lender/",
+      "source_family": "serp_competitor",
+      "publisher": "Lendingkart",
+      "year": "",
+      "metric": "",
+      "use_in_report": "serp_live_discovery"
+    },
+    {
+      "grade": "B",
+      "title": "India",
+      "url": "https://www.mayfield.com/news/lendingkart-indias-leading-digital-smb-fintech-lender/",
+      "source_family": "serp_competitor",
+      "publisher": "India",
+      "year": "",
+      "metric": "",
+      "use_in_report": "serp_live_discovery"
+    },
+    {
+      "grade": "B",
+      "title": "Leading Digital",
+      "url": "https://www.mayfield.com/news/lendingkart-indias-leading-digital-smb-fintech-lender/",
+      "source_family": "serp_competitor",
+      "publisher": "Leading Digital",
+      "year": "",
+      "metric": "",
+      "use_in_report": "serp_live_discovery"
+    },
+    {
+      "grade": "B",
+      "title": "Fintech Lender Lendingkart",
+      "url": "https://www.mayfield.com/news/lendingkart-indias-leading-digital-smb-fintech-lender/",
+      "source_family": "serp_competitor",
+      "publisher": "Fintech Lender Lendingkart",
+      "year": "",
+      "metric": "",
+      "use_in_report": "serp_live_discovery"
+    },
+    {
+      "grade": "B",
+      "title": "Payments",
+      "url": "https://www.linkedin.com/posts/anmol-jauhari-254935136_smb-payments-fintech-activity-7305315449099956224-t0Rf",
+      "source_family": "serp_competitor",
+      "publisher": "Payments",
+      "year": "",
+      "metric": "",
+      "use_in_report": "serp_live_discovery"
+    },
+    {
+      "grade": "B",
+      "title": "Small",
+      "url": "https://www.linkedin.com/posts/anmol-jauhari-254935136_smb-payments-fintech-activity-7305315449099956224-t0Rf",
+      "source_family": "serp_competitor",
+      "publisher": "Small",
+      "year": "",
+      "metric": "",
+      "use_in_report": "serp_live_discovery"
+    },
+    {
+      "grade": "B",
+      "title": "Medium Businesses",
+      "url": "https://www.linkedin.com/posts/anmol-jauhari-254935136_smb-payments-fintech-activity-7305315449099956224-t0Rf",
+      "source_family": "serp_competitor",
+      "publisher": "Medium Businesses",
+      "year": "",
+      "metric": "",
+      "use_in_report": "serp_live_discovery"
+    },
+    {
+      "grade": "B",
+      "title": "Many",
+      "url": "https://www.linkedin.com/posts/anmol-jauhari-254935136_smb-payments-fintech-activity-7305315449099956224-t0Rf",
+      "source_family": "serp_competitor",
+      "publisher": "Many",
+      "year": "",
+      "metric": "",
+      "use_in_report": "serp_live_discovery"
+    },
+    {
+      "grade": "B",
+      "title": "How SabPaisa is revolutionizing SMB payments in India",
+      "url": "https://www.linkedin.com/posts/anmol-jauhari-254935136_smb-payments-fintech-activity-7305315449099956224-t0Rf",
+      "source_family": "serp_buyer_voice",
+      "publisher": "How SabPaisa is revolutionizing SMB payments in India",
+      "year": "",
+      "metric": "",
+      "use_in_report": "serp_live_discovery"
+    },
+    {
+      "grade": "B",
+      "title": "Innovations",
+      "url": "https://www.mastercard.com/in/en/news-and-trends/Insights/2023/Mastercard-Open-Finance-is-transforming-main-street-with-innovations-for-small-businesses-in-the-US.html",
+      "source_family": "serp_competitor",
+      "publisher": "Innovations",
+      "year": "",
+      "metric": "",
+      "use_in_report": "serp_live_discovery"
+    },
+    {
+      "grade": "B",
+      "title": "Transforming",
+      "url": "https://www.mastercard.com/in/en/news-and-trends/Insights/2023/Mastercard-Open-Finance-is-transforming-main-street-with-innovations-for-small-businesses-in-the-US.html",
+      "source_family": "serp_competitor",
+      "publisher": "Transforming",
+      "year": "",
+      "metric": "",
+      "use_in_report": "serp_live_discovery"
+    },
+    {
+      "grade": "B",
+      "title": "Explore",
+      "url": "https://www.mastercard.com/in/en/news-and-trends/Insights/2023/Mastercard-Open-Finance-is-transforming-main-street-with-innovations-for-small-businesses-in-the-US.html",
+      "source_family": "serp_competitor",
+      "publisher": "Explore",
+      "year": "",
+      "metric": "",
+      "use_in_report": "serp_live_discovery"
+    },
+    {
+      "grade": "B",
+      "title": "Shopify",
+      "url": "https://plaid.com/resources/lending/embedded-lending-platforms-marketplaces/",
+      "source_family": "serp_competitor",
+      "publisher": "Shopify",
+      "year": "",
+      "metric": "$1.4",
+      "use_in_report": "serp_live_discovery"
+    },
+    {
+      "grade": "B",
+      "title": "Square",
+      "url": "https://plaid.com/resources/lending/embedded-lending-platforms-marketplaces/",
+      "source_family": "serp_competitor",
+      "publisher": "Square",
+      "year": "",
+      "metric": "$1.4",
+      "use_in_report": "serp_live_discovery"
+    },
+    {
+      "grade": "B",
+      "title": "How embedded lending and cashflow data unlock SMB ...",
+      "url": "https://plaid.com/resources/lending/embedded-lending-platforms-marketplaces/",
+      "source_family": "serp_buyer_voice",
+      "publisher": "How embedded lending and cashflow data unlock SMB ...",
+      "year": "",
+      "metric": "",
+      "use_in_report": "serp_live_discovery"
+    },
+    {
+      "grade": "B",
+      "title": "Building Digital Ecosystems",
+      "url": "https://www.tcs.com/content/dam/global-tcs/en/pdfs/insights/whitepapers/smb-sme-digital-transformation.pdf",
+      "source_family": "serp_competitor",
+      "publisher": "Building Digital Ecosystems",
+      "year": "",
+      "metric": "",
+      "use_in_report": "serp_live_discovery"
+    },
+    {
+      "grade": "B",
+      "title": "Transform",
+      "url": "https://www.tcs.com/content/dam/global-tcs/en/pdfs/insights/whitepapers/smb-sme-digital-transformation.pdf",
+      "source_family": "serp_competitor",
+      "publisher": "Transform",
+      "year": "",
+      "metric": "",
+      "use_in_report": "serp_live_discovery"
+    },
+    {
+      "grade": "B",
+      "title": "Banking",
+      "url": "https://www.tcs.com/content/dam/global-tcs/en/pdfs/insights/whitepapers/smb-sme-digital-transformation.pdf",
+      "source_family": "serp_competitor",
+      "publisher": "Banking",
+      "year": "",
+      "metric": "",
+      "use_in_report": "serp_live_discovery"
+    },
+    {
+      "grade": "B",
+      "title": "Embedding",
+      "url": "https://www.tcs.com/content/dam/global-tcs/en/pdfs/insights/whitepapers/smb-sme-digital-transformation.pdf",
+      "source_family": "serp_competitor",
+      "publisher": "Embedding",
+      "year": "",
+      "metric": "",
+      "use_in_report": "serp_live_discovery"
+    },
+    {
+      "grade": "B",
+      "title": "Fintech",
+      "url": "https://m2pfintech.com/",
+      "source_family": "serp_competitor",
+      "publisher": "Fintech",
+      "year": "",
+      "metric": "",
+      "use_in_report": "serp_live_discovery"
+    }
+  ],
+  "research_report": {
+    "available": true,
+    "topic": "SMB payment and lending fintech",
+    "geography": "India",
+    "section_count": 3
+  },
+  "business_plan": {
+    "available": false,
+    "quality": {},
+    "founder_readable_available": false
+  },
+  "ICP": {},
+  "leads": [],
+  "financial_model": {
+    "topic": "SMB payment and lending fintech",
+    "industry": "Fintech",
+    "target": "India",
+    "horizon": "2026-2031",
+    "domain": "finance",
+    "dashboard_mode": "evidence_first",
+    "headline": {
+      "tam_base": 0,
+      "tam_base_fmt": "ESTIMATED $0",
+      "tam_range": "ESTIMATED $0 base; 2031 scenario $0",
+      "sam": 0,
+      "sam_fmt": "ESTIMATED $0",
+      "som_range": "ESTIMATED $0",
+      "forecast_cagr_2026_2031": 0.13,
+      "forecast_cagr_2026_2031_fmt": "ESTIMATED 13.0%"
+    },
+    "industry_model_name": "Finance / Fintech Evidence Model",
+    "assumptions": {
+      "model_status": "No generic TAM model applied.",
+      "required_scope": "financial product + customer segment + regulatory market + distribution channel",
+      "sizing_rule": "TAM/SAM/SOM can be shown only after topic-specific source evidence and explicit formulas are populated."
+    },
+    "executive_metrics": [
+      {
+        "label": "TAM 2026",
+        "value": "ESTIMATED $0",
+        "source": "IIDATECH 2026 Financial Model Bank",
+        "confidence": "Estimated",
+        "note": "Uses source-backed macro denominators where available plus IIDATECH domain assumptions; not a verified market-size claim.",
+        "evidence_namespace": "SYNTHETIC MODEL",
+        "citation_allowed": false,
+        "not_investor_citable": true
+      },
+      {
+        "label": "SAM 2026",
+        "value": "ESTIMATED $0",
+        "source": "IIDATECH 2026 Financial Model Bank",
+        "confidence": "Estimated",
+        "note": "SAM formula: TAM x serviceable_share.",
+        "evidence_namespace": "SYNTHETIC MODEL",
+        "citation_allowed": false,
+        "not_investor_citable": true
+      },
+      {
+        "label": "SOM 2026",
+        "value": "ESTIMATED $0",
+        "source": "IIDATECH 2026 Financial Model Bank",
+        "confidence": "Estimated",
+        "note": "SOM formula: SAM x obtainable_capture_share.",
+        "evidence_namespace": "SYNTHETIC MODEL",
+        "citation_allowed": false,
+        "not_investor_citable": true
+      },
+      {
+        "label": "2026-2031 CAGR",
+        "value": "ESTIMATED 13.0%",
+        "source": "IIDATECH 2026 Financial Model Bank",
+        "confidence": "Scenario",
+        "note": "Scenario assumption, not a verified analyst CAGR.",
+        "evidence_namespace": "SYNTHETIC MODEL",
+        "citation_allowed": false,
+        "not_investor_citable": true
+      },
+      {
+        "label": "Sizing status",
+        "value": "Source-gated",
+        "source": "central bank/regulator/company filings",
+        "confidence": "High",
+        "note": "Use transaction volume, AUM, loan book, or fee pool matched to the topic."
+      },
+      {
+        "label": "Regulatory gate",
+        "value": "Required",
+        "source": "central bank/securities/insurance regulator",
+        "confidence": "High",
+        "note": "Licensing, KYC/AML, capital, and consumer protection shape the model."
+      },
+      {
+        "label": "Economic basis",
+        "value": "volume x take rate or spread",
+        "source": "IIDATECH formula gate",
+        "confidence": "Medium",
+        "note": "Final model needs loss, fraud, funding, and compliance costs."
+      },
+      {
+        "label": "Evidence gap",
+        "value": "Cohort and risk data needed",
+        "source": "primary diligence",
+        "confidence": "Medium",
+        "note": "Needs customer acquisition, default/fraud, retention, and unit-risk evidence."
+      }
+    ],
+    "formula_rows": [
+      {
+        "model_part": "TAM",
+        "formula": "eligible customers or volume x price/frequency",
+        "required_data": "official or audited market volume and topic-specific price"
+      },
+      {
+        "model_part": "SAM",
+        "formula": "TAM x reachable geography/channel/use-case share",
+        "required_data": "distribution constraints and buyer eligibility"
+      },
+      {
+        "model_part": "SOM",
+        "formula": "SAM x realistic penetration over period",
+        "required_data": "sales capacity, conversion, churn/retention, competitor response"
+      },
+      {
+        "model_part": "Unit economics",
+        "formula": "revenue - COGS - acquisition - service/compliance costs",
+        "required_data": "cost stack and cohort behavior"
+      }
+    ],
+    "scenario_rows": [
+      {
+        "scenario": "Bear",
+        "model_output": "Validation incomplete",
+        "logic": "Weak source coverage or unclear buyer economics blocks a numeric model.",
+        "source_status": "Needs official/filing/primary data."
+      },
+      {
+        "scenario": "Base",
+        "model_output": "Narrow wedge validated",
+        "logic": "A defined buyer/use case supports explicit bottom-up sizing.",
+        "source_status": "Needs price, volume, and adoption evidence."
+      },
+      {
+        "scenario": "Bull",
+        "model_output": "Repeatable expansion",
+        "logic": "Evidence supports expansion into adjacent customer segments or regions.",
+        "source_status": "Needs cohort and competitive proof."
+      }
+    ],
+    "driver_rows": [
+      {
+        "driver": "Customer/volume base",
+        "why_it_matters": "Defines the addressable universe."
+      },
+      {
+        "driver": "Price or take rate",
+        "why_it_matters": "Translates volume into revenue pool."
+      },
+      {
+        "driver": "Adoption/penetration",
+        "why_it_matters": "Converts TAM/SAM into realistic obtainable revenue."
+      },
+      {
+        "driver": "Churn/retention",
+        "why_it_matters": "Determines lifetime value and forecast durability."
+      },
+      {
+        "driver": "Cost to serve",
+        "why_it_matters": "Controls contribution margin and valuation quality."
+      }
+    ],
+    "source_gate_rows": [
+      {
+        "claim_type": "Market size",
+        "minimum_evidence": "two domain-matched sources or one official source plus bottom-up model",
+        "allowed_output": "range with assumptions"
+      },
+      {
+        "claim_type": "Forecast",
+        "minimum_evidence": "historical time series or named adoption drivers",
+        "allowed_output": "scenario forecast"
+      },
+      {
+        "claim_type": "Valuation",
+        "minimum_evidence": "unit economics and comparable company/transaction evidence",
+        "allowed_output": "sensitivity table"
+      }
+    ],
+    "methodology_notes": [
+      "Generic market assumptions were intentionally disabled.",
+      "The dashboard shows validation gates until domain-specific data is sufficient.",
+      "This prevents cross-industry metric contamination and unsupported TAM/CAGR claims."
+    ],
+    "stored_2026_financial_model_id": "147a73998553ce8e",
+    "stored_2026_financial_model_status": "ESTIMATED",
+    "stored_2026_financial_model_source_status": "Uses source-backed macro denominators where available plus IIDATECH domain assumptions; not a verified market-size claim.",
+    "evidence_namespace": "SYNTHETIC MODEL",
+    "citation_allowed": false,
+    "not_investor_citable": true,
+    "provenance_claims": [
+      {
+        "id": "7b30a3e1-dd1e-4958-bdf9-6820187b95e5",
+        "source_type": "derived_formula",
+        "metric_name": "TAM 2026",
+        "value": 0,
+        "unit": "USD",
+        "derived_from_claim_ids": [],
+        "formula_expression": "GDP x industry_spend_share x topic_wedge_share x digital_readiness_factor",
+        "formula_inputs": {
+          "gdp_current_usd": 0.0,
+          "industry_spend_share": 0.07,
+          "topic_wedge_share": 0.02
+        },
+        "formula_type": "tam_bottom_up",
+        "confidence": 0.54
+      },
+      {
+        "id": "45510bfb-b566-4fda-82c6-02e58c8de3dc",
+        "source_type": "derived_formula",
+        "metric_name": "SAM 2026",
+        "value": 0,
+        "unit": "USD",
+        "derived_from_claim_ids": [
+          "7b30a3e1-dd1e-4958-bdf9-6820187b95e5"
+        ],
+        "formula_expression": "TAM x serviceable_share",
+        "formula_inputs": {
+          "tam_2026": 0,
+          "sam_share_assumption": 0.26
+        },
+        "formula_type": "sam_filter",
+        "confidence": 0.459
+      },
+      {
+        "id": "9568c61a-334e-41ac-9dbe-552dc66bf225",
+        "source_type": "derived_formula",
+        "metric_name": "SOM 2026",
+        "value": 0,
+        "unit": "USD",
+        "derived_from_claim_ids": [
+          "45510bfb-b566-4fda-82c6-02e58c8de3dc"
+        ],
+        "formula_expression": "SAM x obtainable_capture_share",
+        "formula_inputs": {
+          "sam_2026": 0,
+          "som_capture_share_assumption": 0.012
+        },
+        "formula_type": "som_capture",
+        "confidence": 0.3672
+      }
+    ]
+  },
+  "employees_team_tasks": {},
+  "exports": [
+    "Founder business plan",
+    "Investor memo",
+    "GTM plan",
+    "Financial model CSV/XLSX",
+    "Lead list CSV",
+    "Team task plan",
+    "Source ledger"
+  ],
+  "scope_assessment": {
+    "ok": true,
+    "domain": "finance",
+    "issues": [],
+    "suggestions": [
+      "One product category for one buyer segment in India",
+      "One workflow or use case inside Fintech for a named customer type in India",
+      "One channel-led business model with price band, buyer, and geography specified"
+    ]
+  }
+}

@@ -1,0 +1,714 @@
+{
+  "workspace_id": "Edtech_cohort_courses_India_Edtech",
+  "workspace_dir": "C:\\Users\\weewee\\iida\\opportunity_workspaces\\Edtech_cohort_courses_India_Edtech",
+  "updated_at": "2026-07-04T08:33:35.209036Z",
+  "idea": "Edtech cohort courses",
+  "country": "India",
+  "industry": "Edtech",
+  "current_path": "Research a market",
+  "uploaded_files": [],
+  "uploaded_file_context": [],
+  "source_ledger": [
+    {
+      "id": 1,
+      "grade": "A",
+      "evidence_label": "VERIFIED",
+      "publisher": "mospi.gov.in",
+      "title": "CHAPTER IV",
+      "source_family": "government_data",
+      "metric": "On-demand credible web source: country pack official source domain source",
+      "url": "https://www.mospi.gov.in/sites/default/files/economic-census/sixth_economic_census/all_india/9_ChapterIV_6ecRep.pdf",
+      "decision_use": "Can support factual market intelligence and sizing inputs if the metric matches the claim."
+    },
+    {
+      "id": 2,
+      "grade": "A",
+      "evidence_label": "VERIFIED",
+      "publisher": "rbidocs.rbi.org.in",
+      "title": "RESERVE BANK OF INDIA",
+      "source_family": "government_data",
+      "metric": "On-demand credible web source: country pack official source domain source",
+      "url": "https://rbidocs.rbi.org.in/rdocs/Forms/PDFs/SIOS17102016.pdf",
+      "decision_use": "Can support factual market intelligence and sizing inputs if the metric matches the claim."
+    },
+    {
+      "id": 3,
+      "grade": "C",
+      "evidence_label": "ESTIMATED / PROXY",
+      "publisher": "Crossref / American Diabetes Association",
+      "title": "2742-LB: The Diabetes Garage: Improving Hispanic Men's Self-Care by Leveraging Car Culture and Using Automotive Maintenance Comparisons for Diabetes Education",
+      "source_family": "academic_research",
+      "metric": "On-demand peer-reviewed literature route: topic-relevant journal article source",
+      "url": "https://doi.org/10.2337/db26-2742-lb",
+      "decision_use": "Qualitative signal only; useful for hypotheses, buyer language, and field intelligence, not hard claims."
+    },
+    {
+      "id": 4,
+      "grade": "C",
+      "evidence_label": "ESTIMATED / PROXY",
+      "publisher": "Crossref / Diva Enterprises Private Limited",
+      "title": "Service sector employment in India- an overview",
+      "source_family": "academic_research",
+      "metric": "On-demand peer-reviewed literature route: topic-relevant journal article source",
+      "url": "https://doi.org/10.5958/2249-7307.2021.00032.3",
+      "decision_use": "Qualitative signal only; useful for hypotheses, buyer language, and field intelligence, not hard claims."
+    },
+    {
+      "id": 5,
+      "grade": "C",
+      "evidence_label": "ESTIMATED / PROXY",
+      "publisher": "Crossref / Elsevier BV",
+      "title": "EdTech - Kids",
+      "source_family": "academic_research",
+      "metric": "On-demand peer-reviewed literature route: topic-relevant journal article source",
+      "url": "https://doi.org/10.2139/ssrn.3850473",
+      "decision_use": "Qualitative signal only; useful for hypotheses, buyer language, and field intelligence, not hard claims."
+    },
+    {
+      "id": 6,
+      "grade": "C",
+      "evidence_label": "ESTIMATED / PROXY",
+      "publisher": "Crossref / Informa UK Limited",
+      "title": "The role of digital technology in facilitating epistemic fluency in professional education",
+      "source_family": "academic_research",
+      "metric": "On-demand peer-reviewed literature route: topic-relevant journal article source",
+      "url": "https://doi.org/10.1080/19415257.2024.2421489",
+      "decision_use": "Qualitative signal only; useful for hypotheses, buyer language, and field intelligence, not hard claims."
+    },
+    {
+      "id": 7,
+      "grade": "C",
+      "evidence_label": "ESTIMATED / PROXY",
+      "publisher": "Crossref / International Research Journal of Education and Technology",
+      "title": "CRM INTEGRATION AND AUTOMATION",
+      "source_family": "academic_research",
+      "metric": "On-demand peer-reviewed literature route: topic-relevant journal article source",
+      "url": "https://doi.org/10.70127/irjedt.vol.7.issue03.1083",
+      "decision_use": "Qualitative signal only; useful for hypotheses, buyer language, and field intelligence, not hard claims."
+    },
+    {
+      "id": 8,
+      "grade": "C",
+      "evidence_label": "ESTIMATED / PROXY",
+      "publisher": "Crossref / Ninety Nine Publication",
+      "title": "A Discriminant Analysis Of High End And Budget Stores In Apparel Retail In India Using Retail Service Quality Scale Model",
+      "source_family": "academic_research",
+      "metric": "On-demand peer-reviewed literature route: topic-relevant journal article source",
+      "url": "https://doi.org/10.17762/turcomat.v12i4.581",
+      "decision_use": "Qualitative signal only; useful for hypotheses, buyer language, and field intelligence, not hard claims."
+    },
+    {
+      "id": 9,
+      "grade": "C",
+      "evidence_label": "ESTIMATED / PROXY",
+      "publisher": "Crossref / SAGE Publications",
+      "title": "Kids and Diabetes in Schools (KiDS) intervention in India: Participants’ perspectives",
+      "source_family": "academic_research",
+      "metric": "On-demand peer-reviewed literature route: topic-relevant journal article source",
+      "url": "https://doi.org/10.1177/00178969211005499",
+      "decision_use": "Qualitative signal only; useful for hypotheses, buyer language, and field intelligence, not hard claims."
+    },
+    {
+      "id": 10,
+      "grade": "C",
+      "evidence_label": "ESTIMATED / PROXY",
+      "publisher": "OpenAlex / Learning Media and Technology",
+      "title": "Data as asset, data as rent? Rentiership practices in EdTech startups",
+      "source_family": "academic_research",
+      "metric": "On-demand academic research: topic-relevant research paper source",
+      "url": "https://doi.org/10.1080/17439884.2024.2405850",
+      "decision_use": "Qualitative signal only; useful for hypotheses, buyer language, and field intelligence, not hard claims."
+    },
+    {
+      "id": 11,
+      "grade": "C",
+      "evidence_label": "ESTIMATED / PROXY",
+      "publisher": "OpenAlex / SN Computer Science",
+      "title": "Innovations and Strategies During Online Teaching in an EdTech Low-Resourced University",
+      "source_family": "academic_research",
+      "metric": "On-demand academic research: topic-relevant research paper source",
+      "url": "https://doi.org/10.1007/s42979-023-01729-w",
+      "decision_use": "Qualitative signal only; useful for hypotheses, buyer language, and field intelligence, not hard claims."
+    },
+    {
+      "id": 12,
+      "grade": "B+",
+      "evidence_label": "VERIFIED BENCHMARK",
+      "publisher": "2bft.in",
+      "title": "Unknown vendor pricing: ₹2,500",
+      "source_family": "pricing_reference",
+      "metric": "Pricing signal: ₹2,500: Unknown vendor pricing evidence ₹2,500 pricing",
+      "url": "https://2bft.in/cohort/",
+      "decision_use": "Can support financial benchmarking, pricing, implementation, or procurement evidence when the vendor/buyer segment matches; disclose proxy limits."
+    },
+    {
+      "id": 13,
+      "grade": "B+",
+      "evidence_label": "VERIFIED BENCHMARK",
+      "publisher": "cohort.lapaas.com",
+      "title": "Unknown vendor pricing: ₹1",
+      "source_family": "pricing_reference",
+      "metric": "Pricing signal: ₹1: Unknown vendor pricing evidence ₹1 pricing",
+      "url": "https://cohort.lapaas.com/",
+      "decision_use": "Can support financial benchmarking, pricing, implementation, or procurement evidence when the vendor/buyer segment matches; disclose proxy limits."
+    },
+    {
+      "id": 14,
+      "grade": "B+",
+      "evidence_label": "VERIFIED BENCHMARK",
+      "publisher": "leadsquared.com",
+      "title": "Unknown vendor pricing: $11.3",
+      "source_family": "pricing_reference",
+      "metric": "Pricing signal: $11.3: Unknown vendor pricing evidence $11.3 pricing",
+      "url": "https://www.leadsquared.com/industries/edtech/edtech-companies-in-india",
+      "decision_use": "Can support financial benchmarking, pricing, implementation, or procurement evidence when the vendor/buyer segment matches; disclose proxy limits."
+    },
+    {
+      "id": 15,
+      "grade": "B+",
+      "evidence_label": "VERIFIED BENCHMARK",
+      "publisher": "marketresearchfuture.com",
+      "title": "Unknown vendor pricing: $ 258.6",
+      "source_family": "pricing_reference",
+      "metric": "Pricing signal: $ 258.6: Unknown vendor pricing evidence $ 258.6 pricing",
+      "url": "https://www.marketresearchfuture.com/reports/india-dental-software-market-49199",
+      "decision_use": "Can support financial benchmarking, pricing, implementation, or procurement evidence when the vendor/buyer segment matches; disclose proxy limits."
+    },
+    {
+      "id": 16,
+      "grade": "B+",
+      "evidence_label": "VERIFIED BENCHMARK",
+      "publisher": "reddit.com",
+      "title": "Unknown vendor pricing: $4.7",
+      "source_family": "pricing_reference",
+      "metric": "Funding diligence evidence: Supplier quotes / input costs: Supplier quotes / input costs accepted from pricing_reference; original gate: Unknown vendor pricing evidence $4.7 pricing",
+      "url": "https://www.reddit.com/r/indianstartups/comments/1fy4x9u/can_edtech_in_india_finds_its_footing_again",
+      "decision_use": "Can support financial benchmarking, pricing, implementation, or procurement evidence when the vendor/buyer segment matches; disclose proxy limits."
+    },
+    {
+      "id": 17,
+      "grade": "B+",
+      "evidence_label": "VERIFIED BENCHMARK",
+      "publisher": "reddit.com",
+      "title": "Unknown vendor pricing: 40rs",
+      "source_family": "pricing_reference",
+      "metric": "Funding diligence evidence: Supplier quotes / input costs: Supplier quotes / input costs accepted from pricing_reference; original gate: Unknown vendor pricing evidence 40rs pricing",
+      "url": "https://www.reddit.com/r/IndiaNostalgia/comments/sq0rr0/anybody_had_these_art_kit_sell_at_their_school",
+      "decision_use": "Can support financial benchmarking, pricing, implementation, or procurement evidence when the vendor/buyer segment matches; disclose proxy limits."
+    },
+    {
+      "id": 18,
+      "grade": "B+",
+      "evidence_label": "VERIFIED BENCHMARK",
+      "publisher": "youtube.com",
+      "title": "Unknown vendor pricing: $30",
+      "source_family": "pricing_reference",
+      "metric": "Funding diligence evidence: Supplier quotes / input costs: Supplier quotes / input costs accepted from pricing_reference; original gate: Unknown vendor pricing evidence $30 pricing",
+      "url": "https://www.youtube.com/watch?v=4tJqLGeCZ2o",
+      "decision_use": "Can support financial benchmarking, pricing, implementation, or procurement evidence when the vendor/buyer segment matches; disclose proxy limits."
+    },
+    {
+      "id": 19,
+      "grade": "B+",
+      "evidence_label": "VERIFIED BENCHMARK",
+      "publisher": "youtube.com",
+      "title": "Unknown vendor pricing: rs 12",
+      "source_family": "pricing_reference",
+      "metric": "Funding diligence evidence: Supplier quotes / input costs: Supplier quotes / input costs accepted from pricing_reference; original gate: Unknown vendor pricing evidence rs 12 pricing",
+      "url": "https://www.youtube.com/watch?v=9u7e69HLKUc",
+      "decision_use": "Can support financial benchmarking, pricing, implementation, or procurement evidence when the vendor/buyer segment matches; disclose proxy limits."
+    },
+    {
+      "id": 20,
+      "grade": "B+",
+      "evidence_label": "VERIFIED BENCHMARK",
+      "publisher": "youtube.com",
+      "title": "Unknown vendor pricing: ₹100",
+      "source_family": "pricing_reference",
+      "metric": "Funding diligence evidence: Supplier quotes / input costs: Supplier quotes / input costs accepted from pricing_reference; original gate: Unknown vendor pricing evidence ₹100 pricing",
+      "url": "https://www.youtube.com/watch?v=xZ7ZhBNK4W0",
+      "decision_use": "Can support financial benchmarking, pricing, implementation, or procurement evidence when the vendor/buyer segment matches; disclose proxy limits."
+    },
+    {
+      "id": 21,
+      "grade": "B+",
+      "evidence_label": "VERIFIED BENCHMARK",
+      "publisher": "youtube.com",
+      "title": "Unknown vendor pricing: ₹100",
+      "source_family": "pricing_reference",
+      "metric": "Funding diligence evidence: Supplier quotes / input costs: Supplier quotes / input costs accepted from pricing_reference; original gate: Unknown vendor pricing evidence ₹100 pricing",
+      "url": "https://www.youtube.com/watch?v=IVpCn5OgP9I",
+      "decision_use": "Can support financial benchmarking, pricing, implementation, or procurement evidence when the vendor/buyer segment matches; disclose proxy limits."
+    },
+    {
+      "id": 22,
+      "grade": "B+",
+      "evidence_label": "ESTIMATED / PROXY",
+      "publisher": "mckinsey.com",
+      "title": "[PDF] AUTOMATION, EMPLOYMENT, AND PRODUCTIVITY - McKinsey",
+      "source_family": "analyst_report",
+      "metric": "On-demand credible web source: recognized analyst, consulting, think tank, or research publisher (public_or_mixed) source",
+      "url": "https://www.mckinsey.com/~/media/mckinsey/featured%20insights/digital%20disruption/harnessing%20automation%20for%20a%20future%20that%20works/mgi-a-future-that-works-full-report-updated.pdf",
+      "decision_use": "Can support market trend, investment, and benchmark context; verify underlying sample/methodology."
+    },
+    {
+      "id": 23,
+      "grade": "C",
+      "evidence_label": "QUALITATIVE ONLY",
+      "publisher": "reddit.com",
+      "title": "Building something for school kids in India roast my thinking before I ...",
+      "source_family": "reddit_practitioner",
+      "metric": "Funding diligence evidence: Buyer interviews / proxy surveys: Buyer interviews / proxy surveys accepted from reddit_practitioner; original gate: published practitioner signal only; qualitative buyer/operator evidence, not hard financial proof source",
+      "url": "https://www.reddit.com/r/StartUpIndia/comments/1rj6cp0/building_something_for_school_kids_in_india_roast",
+      "decision_use": "Qualitative signal only; useful for hypotheses, buyer language, and field intelligence, not hard claims."
+    },
+    {
+      "id": 24,
+      "grade": "C",
+      "evidence_label": "QUALITATIVE ONLY",
+      "publisher": "youtube.com",
+      "title": "Aakar expo 2026 Tent Decore Asia Catering Asia 2026 Aakar Exhibition India Expo Mart Greater Noida",
+      "source_family": "youtube_transcript",
+      "metric": "Funding diligence evidence: Buyer interviews / proxy surveys: Buyer interviews / proxy surveys accepted from youtube_transcript; original gate: published practitioner signal only; qualitative buyer/operator evidence, not hard financial proof source",
+      "url": "https://www.youtube.com/watch?v=Uhn0dNVC0nc",
+      "decision_use": "Qualitative signal only; useful for hypotheses, buyer language, and field intelligence, not hard claims."
+    },
+    {
+      "id": 25,
+      "grade": "C",
+      "evidence_label": "QUALITATIVE ONLY",
+      "publisher": "youtube.com",
+      "title": "BUSINESS FINTECH OS: THE FUTURE OF AI-POWERED ENTERPRISE FINANCE",
+      "source_family": "youtube_transcript",
+      "metric": "Funding diligence evidence: Buyer interviews / proxy surveys: Buyer interviews / proxy surveys accepted from youtube_transcript; original gate: published practitioner signal only; qualitative buyer/operator evidence, not hard financial proof source",
+      "url": "https://www.youtube.com/watch?v=gA8bG8ELw74",
+      "decision_use": "Qualitative signal only; useful for hypotheses, buyer language, and field intelligence, not hard claims."
+    },
+    {
+      "id": 26,
+      "grade": "C",
+      "evidence_label": "QUALITATIVE ONLY",
+      "publisher": "youtube.com",
+      "title": "FREE MBA : How Minimalist Conquered India's D2C Beauty Market? - IBP EP32",
+      "source_family": "youtube_transcript",
+      "metric": "Funding diligence evidence: Buyer interviews / proxy surveys: Buyer interviews / proxy surveys accepted from youtube_transcript; original gate: published practitioner signal only; qualitative buyer/operator evidence, not hard financial proof source",
+      "url": "https://www.youtube.com/watch?v=zGIwnkU01X4",
+      "decision_use": "Qualitative signal only; useful for hypotheses, buyer language, and field intelligence, not hard claims."
+    },
+    {
+      "id": 27,
+      "grade": "C",
+      "evidence_label": "QUALITATIVE ONLY",
+      "publisher": "youtube.com",
+      "title": "From Temple Waste Flowers to Viral Hampers The Incredible Story of Phool",
+      "source_family": "youtube_transcript",
+      "metric": "Funding diligence evidence: Buyer interviews / proxy surveys: Buyer interviews / proxy surveys accepted from youtube_transcript; original gate: published practitioner signal only; qualitative buyer/operator evidence, not hard financial proof source",
+      "url": "https://www.youtube.com/watch?v=vnegzs6AEXQ",
+      "decision_use": "Qualitative signal only; useful for hypotheses, buyer language, and field intelligence, not hard claims."
+    },
+    {
+      "id": 28,
+      "grade": "C",
+      "evidence_label": "QUALITATIVE ONLY",
+      "publisher": "youtube.com",
+      "title": "Highlights from MSME Pulse Report April 2026",
+      "source_family": "youtube_transcript",
+      "metric": "Funding diligence evidence: Buyer interviews / proxy surveys: Buyer interviews / proxy surveys accepted from youtube_transcript; original gate: published practitioner signal only; qualitative buyer/operator evidence, not hard financial proof source",
+      "url": "https://www.youtube.com/watch?v=AML3dNbACSA",
+      "decision_use": "Qualitative signal only; useful for hypotheses, buyer language, and field intelligence, not hard claims."
+    },
+    {
+      "id": 29,
+      "grade": "C",
+      "evidence_label": "QUALITATIVE ONLY",
+      "publisher": "youtube.com",
+      "title": "India's First Organic Makeup Brand Gets ₹1 Crore on Shark Tank | Ruby’s | FOWR16 Ragini Varma",
+      "source_family": "youtube_transcript",
+      "metric": "Funding diligence evidence: Buyer interviews / proxy surveys: Buyer interviews / proxy surveys accepted from youtube_transcript; original gate: published practitioner signal only; qualitative buyer/operator evidence, not hard financial proof source",
+      "url": "https://www.youtube.com/watch?v=0e8OTS1xzT0",
+      "decision_use": "Qualitative signal only; useful for hypotheses, buyer language, and field intelligence, not hard claims."
+    },
+    {
+      "id": 30,
+      "grade": "C",
+      "evidence_label": "QUALITATIVE ONLY",
+      "publisher": "youtube.com",
+      "title": "Is EDIT Institute UI UX Design Course Worth It? Honest & Detailed Review (2026)",
+      "source_family": "youtube_transcript",
+      "metric": "Funding diligence evidence: Buyer interviews / proxy surveys: Buyer interviews / proxy surveys accepted from youtube_transcript; original gate: published practitioner signal only; qualitative buyer/operator evidence, not hard financial proof source",
+      "url": "https://www.youtube.com/watch?v=v65YOCAzqdI",
+      "decision_use": "Qualitative signal only; useful for hypotheses, buyer language, and field intelligence, not hard claims."
+    },
+    {
+      "grade": "B",
+      "title": "India",
+      "url": "https://www.linkedin.com/posts/analytics-india-magazine_over-the-past-decade-indias-edtech-sector-activity-7310164699835179008-qCos",
+      "source_family": "serp_competitor",
+      "publisher": "India",
+      "year": "",
+      "metric": "",
+      "use_in_report": "serp_live_discovery"
+    },
+    {
+      "grade": "B",
+      "title": "Over",
+      "url": "https://www.linkedin.com/posts/analytics-india-magazine_over-the-past-decade-indias-edtech-sector-activity-7310164699835179008-qCos",
+      "source_family": "serp_competitor",
+      "publisher": "Over",
+      "year": "",
+      "metric": "",
+      "use_in_report": "serp_live_discovery"
+    },
+    {
+      "grade": "B",
+      "title": "Cohort",
+      "url": "https://productgrowth.in/insights/edtech/cohort-based-courses/",
+      "source_family": "serp_competitor",
+      "publisher": "Cohort",
+      "year": "",
+      "metric": "₹15",
+      "use_in_report": "serp_live_discovery"
+    },
+    {
+      "grade": "B",
+      "title": "Based Course Design",
+      "url": "https://productgrowth.in/insights/edtech/cohort-based-courses/",
+      "source_family": "serp_competitor",
+      "publisher": "Based Course Design",
+      "year": "",
+      "metric": "₹15",
+      "use_in_report": "serp_live_discovery"
+    },
+    {
+      "grade": "B",
+      "title": "High Completion",
+      "url": "https://productgrowth.in/insights/edtech/cohort-based-courses/",
+      "source_family": "serp_competitor",
+      "publisher": "High Completion",
+      "year": "",
+      "metric": "₹15",
+      "use_in_report": "serp_live_discovery"
+    },
+    {
+      "grade": "B",
+      "title": "Cohort-Based Course Design: High Completion, ...",
+      "url": "https://productgrowth.in/insights/edtech/cohort-based-courses/",
+      "source_family": "serp_buyer_voice",
+      "publisher": "Cohort-Based Course Design: High Completion, ...",
+      "year": "",
+      "metric": "",
+      "use_in_report": "serp_live_discovery"
+    },
+    {
+      "grade": "B",
+      "title": "Education Startups",
+      "url": "https://www.ycombinator.com/companies/industry/education/india",
+      "source_family": "serp_competitor",
+      "publisher": "Education Startups",
+      "year": "",
+      "metric": "",
+      "use_in_report": "serp_live_discovery"
+    },
+    {
+      "grade": "B",
+      "title": "Combinator",
+      "url": "https://www.ycombinator.com/companies/industry/education/india",
+      "source_family": "serp_competitor",
+      "publisher": "Combinator",
+      "year": "",
+      "metric": "",
+      "use_in_report": "serp_live_discovery"
+    },
+    {
+      "grade": "B",
+      "title": "Novatr",
+      "url": "https://www.ycombinator.com/companies/industry/education/india",
+      "source_family": "serp_competitor",
+      "publisher": "Novatr",
+      "year": "",
+      "metric": "",
+      "use_in_report": "serp_live_discovery"
+    },
+    {
+      "grade": "B",
+      "title": "Want",
+      "url": "https://www.reddit.com/r/indianstartups/comments/1lrov9z/want_to_build_an_edtech_platform_to_bridge_indias/",
+      "source_family": "serp_competitor",
+      "publisher": "Want",
+      "year": "",
+      "metric": "",
+      "use_in_report": "serp_live_discovery"
+    }
+  ],
+  "research_report": {
+    "available": true,
+    "topic": "Edtech cohort courses",
+    "geography": "India",
+    "section_count": 3
+  },
+  "business_plan": {
+    "available": false,
+    "quality": {},
+    "founder_readable_available": false
+  },
+  "ICP": {},
+  "leads": [],
+  "financial_model": {
+    "topic": "Edtech cohort courses",
+    "industry": "Edtech",
+    "target": "India",
+    "horizon": "2026-2031",
+    "domain": "education",
+    "dashboard_mode": "evidence_first",
+    "headline": {
+      "tam_base": 0,
+      "tam_base_fmt": "ESTIMATED $0",
+      "tam_range": "ESTIMATED $0 base; 2031 scenario $0",
+      "sam": 0,
+      "sam_fmt": "ESTIMATED $0",
+      "som_range": "ESTIMATED $0",
+      "forecast_cagr_2026_2031": 0.1,
+      "forecast_cagr_2026_2031_fmt": "ESTIMATED 10.0%"
+    },
+    "industry_model_name": "General Evidence Model",
+    "assumptions": {
+      "model_status": "No generic TAM model applied.",
+      "required_scope": "product/use case + buyer segment + geography + channel",
+      "sizing_rule": "TAM/SAM/SOM can be shown only after topic-specific source evidence and explicit formulas are populated."
+    },
+    "executive_metrics": [
+      {
+        "label": "TAM 2026",
+        "value": "ESTIMATED $0",
+        "source": "IIDATECH 2026 Financial Model Bank",
+        "confidence": "Estimated",
+        "note": "Uses source-backed macro denominators where available plus IIDATECH domain assumptions; not a verified market-size claim.",
+        "evidence_namespace": "SYNTHETIC MODEL",
+        "citation_allowed": false,
+        "not_investor_citable": true
+      },
+      {
+        "label": "SAM 2026",
+        "value": "ESTIMATED $0",
+        "source": "IIDATECH 2026 Financial Model Bank",
+        "confidence": "Estimated",
+        "note": "SAM formula: TAM x serviceable_share.",
+        "evidence_namespace": "SYNTHETIC MODEL",
+        "citation_allowed": false,
+        "not_investor_citable": true
+      },
+      {
+        "label": "SOM 2026",
+        "value": "ESTIMATED $0",
+        "source": "IIDATECH 2026 Financial Model Bank",
+        "confidence": "Estimated",
+        "note": "SOM formula: SAM x obtainable_capture_share.",
+        "evidence_namespace": "SYNTHETIC MODEL",
+        "citation_allowed": false,
+        "not_investor_citable": true
+      },
+      {
+        "label": "2026-2031 CAGR",
+        "value": "ESTIMATED 10.0%",
+        "source": "IIDATECH 2026 Financial Model Bank",
+        "confidence": "Scenario",
+        "note": "Scenario assumption, not a verified analyst CAGR.",
+        "evidence_namespace": "SYNTHETIC MODEL",
+        "citation_allowed": false,
+        "not_investor_citable": true
+      },
+      {
+        "label": "Sizing status",
+        "value": "Source-gated",
+        "source": "official statistics/company filings/analyst sources",
+        "confidence": "High",
+        "note": "No generic TAM is shown until domain-specific evidence is attached."
+      },
+      {
+        "label": "Model requirement",
+        "value": "Bottom-up wedge",
+        "source": "IIDATECH formula gate",
+        "confidence": "High",
+        "note": "Define customers, price, frequency, and channel before modeling."
+      },
+      {
+        "label": "Competitive basis",
+        "value": "Source-gated",
+        "source": "filings/pricing pages/channel checks",
+        "confidence": "Medium",
+        "note": "Competitor share requires disclosed data or proxy methodology."
+      },
+      {
+        "label": "Evidence gap",
+        "value": "Primary validation needed",
+        "source": "customer/interview plan",
+        "confidence": "Medium",
+        "note": "Needs buyer calls and pricing/channel checks."
+      }
+    ],
+    "formula_rows": [
+      {
+        "model_part": "TAM",
+        "formula": "eligible customers or volume x price/frequency",
+        "required_data": "official or audited market volume and topic-specific price"
+      },
+      {
+        "model_part": "SAM",
+        "formula": "TAM x reachable geography/channel/use-case share",
+        "required_data": "distribution constraints and buyer eligibility"
+      },
+      {
+        "model_part": "SOM",
+        "formula": "SAM x realistic penetration over period",
+        "required_data": "sales capacity, conversion, churn/retention, competitor response"
+      },
+      {
+        "model_part": "Unit economics",
+        "formula": "revenue - COGS - acquisition - service/compliance costs",
+        "required_data": "cost stack and cohort behavior"
+      }
+    ],
+    "scenario_rows": [
+      {
+        "scenario": "Bear",
+        "model_output": "Validation incomplete",
+        "logic": "Weak source coverage or unclear buyer economics blocks a numeric model.",
+        "source_status": "Needs official/filing/primary data."
+      },
+      {
+        "scenario": "Base",
+        "model_output": "Narrow wedge validated",
+        "logic": "A defined buyer/use case supports explicit bottom-up sizing.",
+        "source_status": "Needs price, volume, and adoption evidence."
+      },
+      {
+        "scenario": "Bull",
+        "model_output": "Repeatable expansion",
+        "logic": "Evidence supports expansion into adjacent customer segments or regions.",
+        "source_status": "Needs cohort and competitive proof."
+      }
+    ],
+    "driver_rows": [
+      {
+        "driver": "Customer/volume base",
+        "why_it_matters": "Defines the addressable universe."
+      },
+      {
+        "driver": "Price or take rate",
+        "why_it_matters": "Translates volume into revenue pool."
+      },
+      {
+        "driver": "Adoption/penetration",
+        "why_it_matters": "Converts TAM/SAM into realistic obtainable revenue."
+      },
+      {
+        "driver": "Churn/retention",
+        "why_it_matters": "Determines lifetime value and forecast durability."
+      },
+      {
+        "driver": "Cost to serve",
+        "why_it_matters": "Controls contribution margin and valuation quality."
+      }
+    ],
+    "source_gate_rows": [
+      {
+        "claim_type": "Market size",
+        "minimum_evidence": "two domain-matched sources or one official source plus bottom-up model",
+        "allowed_output": "range with assumptions"
+      },
+      {
+        "claim_type": "Forecast",
+        "minimum_evidence": "historical time series or named adoption drivers",
+        "allowed_output": "scenario forecast"
+      },
+      {
+        "claim_type": "Valuation",
+        "minimum_evidence": "unit economics and comparable company/transaction evidence",
+        "allowed_output": "sensitivity table"
+      }
+    ],
+    "methodology_notes": [
+      "Generic market assumptions were intentionally disabled.",
+      "The dashboard shows validation gates until domain-specific data is sufficient.",
+      "This prevents cross-industry metric contamination and unsupported TAM/CAGR claims."
+    ],
+    "stored_2026_financial_model_id": "55304633ef1cbdaf",
+    "stored_2026_financial_model_status": "ESTIMATED",
+    "stored_2026_financial_model_source_status": "Uses source-backed macro denominators where available plus IIDATECH domain assumptions; not a verified market-size claim.",
+    "evidence_namespace": "SYNTHETIC MODEL",
+    "citation_allowed": false,
+    "not_investor_citable": true,
+    "provenance_claims": [
+      {
+        "id": "48c3a95c-c1c4-4dd7-9ccd-42c6788f8732",
+        "source_type": "derived_formula",
+        "metric_name": "TAM 2026",
+        "value": 0,
+        "unit": "USD",
+        "derived_from_claim_ids": [],
+        "formula_expression": "GDP x industry_spend_share x topic_wedge_share x digital_readiness_factor",
+        "formula_inputs": {
+          "gdp_current_usd": 0.0,
+          "industry_spend_share": 0.03,
+          "topic_wedge_share": 0.025
+        },
+        "formula_type": "tam_bottom_up",
+        "confidence": 0.54
+      },
+      {
+        "id": "156cce99-9dcd-4d2a-b7f9-2fc7b9d7cf87",
+        "source_type": "derived_formula",
+        "metric_name": "SAM 2026",
+        "value": 0,
+        "unit": "USD",
+        "derived_from_claim_ids": [
+          "48c3a95c-c1c4-4dd7-9ccd-42c6788f8732"
+        ],
+        "formula_expression": "TAM x serviceable_share",
+        "formula_inputs": {
+          "tam_2026": 0,
+          "sam_share_assumption": 0.22
+        },
+        "formula_type": "sam_filter",
+        "confidence": 0.459
+      },
+      {
+        "id": "89b91db3-8ff2-403c-89a3-dc29e989693d",
+        "source_type": "derived_formula",
+        "metric_name": "SOM 2026",
+        "value": 0,
+        "unit": "USD",
+        "derived_from_claim_ids": [
+          "156cce99-9dcd-4d2a-b7f9-2fc7b9d7cf87"
+        ],
+        "formula_expression": "SAM x obtainable_capture_share",
+        "formula_inputs": {
+          "sam_2026": 0,
+          "som_capture_share_assumption": 0.01
+        },
+        "formula_type": "som_capture",
+        "confidence": 0.3672
+      }
+    ]
+  },
+  "employees_team_tasks": {},
+  "exports": [
+    "Founder business plan",
+    "Investor memo",
+    "GTM plan",
+    "Financial model CSV/XLSX",
+    "Lead list CSV",
+    "Team task plan",
+    "Source ledger"
+  ],
+  "scope_assessment": {
+    "ok": true,
+    "domain": "education",
+    "issues": [],
+    "suggestions": [
+      "Art-based summer camp for preschool and kindergarten-age children in India",
+      "After-school STEM enrichment classes for 6-10 year-olds in India",
+      "Premium early-childhood activity center for dual-income families in India"
+    ]
+  }
+}

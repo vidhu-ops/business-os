@@ -1,0 +1,46 @@
+{
+  "workspace_id": "CRM_automation_for_SMB_s_Netherlands_events",
+  "workspace_dir": "C:\\Users\\weewee\\iida\\opportunity_workspaces\\CRM_automation_for_SMB_s_Netherlands_events",
+  "updated_at": "2026-07-13T18:33:12.395319Z",
+  "idea": "CRM automation for SMB's",
+  "country": "Netherlands",
+  "industry": "events",
+  "current_path": "Understand your market",
+  "uploaded_files": [],
+  "uploaded_file_context": [],
+  "source_ledger": [],
+  "research_report": {
+    "available": false,
+    "topic": "",
+    "geography": "",
+    "section_count": 0
+  },
+  "business_plan": {
+    "available": false,
+    "quality": {},
+    "founder_readable_available": false
+  },
+  "ICP": {},
+  "leads": [],
+  "financial_model": {},
+  "employees_team_tasks": {},
+  "exports": [
+    "Founder business plan",
+    "Investor memo",
+    "GTM plan",
+    "Financial model CSV/XLSX",
+    "Lead list CSV",
+    "Team task plan",
+    "Source ledger"
+  ],
+  "scope_assessment": {
+    "ok": true,
+    "domain": "crm_automation",
+    "issues": [],
+    "suggestions": [
+      "One product category for one buyer segment in Netherlands",
+      "One workflow or use case inside events for a named customer type in Netherlands",
+      "One channel-led business model with price band, buyer, and geography specified"
+    ]
+  }
+}

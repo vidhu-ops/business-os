@@ -1,0 +1,699 @@
+{
+  "workspace_id": "D2C_skincare_India_India_D2C_beauty",
+  "workspace_dir": "C:\\Users\\weewee\\iida\\opportunity_workspaces\\D2C_skincare_India_India_D2C_beauty",
+  "updated_at": "2026-07-04T08:25:56.976235Z",
+  "idea": "D2C skincare India",
+  "country": "India",
+  "industry": "D2C beauty",
+  "current_path": "Research a market",
+  "uploaded_files": [],
+  "uploaded_file_context": [],
+  "source_ledger": [
+    {
+      "id": 1,
+      "grade": "B+",
+      "evidence_label": "VERIFIED BENCHMARK",
+      "publisher": "poshanskincare.com",
+      "title": "Unknown vendor pricing: From ₹ 495.00",
+      "source_family": "pricing_reference",
+      "metric": "Pricing signal: From ₹ 495.00: Unknown vendor pricing evidence From ₹ 495.00 pricing",
+      "url": "https://poshanskincare.com/",
+      "decision_use": "Can support financial benchmarking, pricing, implementation, or procurement evidence when the vendor/buyer segment matches; disclose proxy limits."
+    },
+    {
+      "id": 2,
+      "grade": "B+",
+      "evidence_label": "VERIFIED BENCHMARK",
+      "publisher": "reddit.com",
+      "title": "Unknown vendor pricing: ₹2,000",
+      "source_family": "pricing_reference",
+      "metric": "Funding diligence evidence: Supplier quotes / input costs: Supplier quotes / input costs accepted from pricing_reference; original gate: Unknown vendor pricing evidence ₹2,000 pricing",
+      "url": "https://www.reddit.com/r/indianstartups/comments/1t51cpj/how_to_start_a_d2c_beauty_skincare_brand_in_india",
+      "decision_use": "Can support financial benchmarking, pricing, implementation, or procurement evidence when the vendor/buyer segment matches; disclose proxy limits."
+    },
+    {
+      "id": 3,
+      "grade": "C",
+      "evidence_label": "QUALITATIVE ONLY",
+      "publisher": "reddit.com",
+      "title": "Is Personal touch legit or fake? Share your views : r/sharktankindia",
+      "source_family": "reddit_practitioner",
+      "metric": "Funding diligence evidence: Buyer interviews / proxy surveys: Buyer interviews / proxy surveys accepted from reddit_practitioner; original gate: published practitioner signal only; qualitative buyer/operator evidence, not hard financial proof source",
+      "url": "https://www.reddit.com/r/sharktankindia/comments/1hz01ha/is_personal_touch_legit_or_fake_share_your_views",
+      "decision_use": "Qualitative signal only; useful for hypotheses, buyer language, and field intelligence, not hard claims."
+    },
+    {
+      "id": 4,
+      "grade": "C",
+      "evidence_label": "QUALITATIVE ONLY",
+      "publisher": "reddit.com",
+      "title": "Using the most common Indian D2C trick to build the next big thing",
+      "source_family": "reddit_practitioner",
+      "metric": "Funding diligence evidence: Buyer interviews / proxy surveys: Buyer interviews / proxy surveys accepted from reddit_practitioner; original gate: published practitioner signal only; qualitative buyer/operator evidence, not hard financial proof source",
+      "url": "https://www.reddit.com/r/StartUpIndia/comments/1m1er2o/using_the_most_common_indian_d2c_trick_to_build",
+      "decision_use": "Qualitative signal only; useful for hypotheses, buyer language, and field intelligence, not hard claims."
+    },
+    {
+      "id": 5,
+      "grade": "C",
+      "evidence_label": "QUALITATIVE ONLY",
+      "publisher": "reddit.com",
+      "title": "What Are Some Untapped Marketplace Niches in India? : r/StartUpIndia",
+      "source_family": "reddit_practitioner",
+      "metric": "Funding diligence evidence: Buyer interviews / proxy surveys: Buyer interviews / proxy surveys accepted from reddit_practitioner; original gate: published practitioner signal only; qualitative buyer/operator evidence, not hard financial proof source",
+      "url": "https://www.reddit.com/r/StartUpIndia/comments/1jk86e8/what_are_some_untapped_marketplace_niches_in_india",
+      "decision_use": "Qualitative signal only; useful for hypotheses, buyer language, and field intelligence, not hard claims."
+    },
+    {
+      "id": 6,
+      "grade": "C",
+      "evidence_label": "QUALITATIVE ONLY",
+      "publisher": "reddit.com",
+      "title": "r/IndiaBusiness on Reddit: Fastest-Growing D2C Brands in India Right Now",
+      "source_family": "reddit_practitioner",
+      "metric": "Funding diligence evidence: Buyer interviews / proxy surveys: Buyer interviews / proxy surveys accepted from reddit_practitioner; original gate: published practitioner signal only; qualitative buyer/operator evidence, not hard financial proof source",
+      "url": "https://www.reddit.com/r/IndiaBusiness/comments/1tbq3dj/fastestgrowing_d2c_brands_in_india_right_now/",
+      "decision_use": "Qualitative signal only; useful for hypotheses, buyer language, and field intelligence, not hard claims."
+    },
+    {
+      "id": 7,
+      "grade": "C",
+      "evidence_label": "QUALITATIVE ONLY",
+      "publisher": "reddit.com",
+      "title": "r/ecommerce_growth on Reddit: While working on a write-up for Indian brands, I noticed how messy “D2C” vs “DTC” has become",
+      "source_family": "reddit_practitioner",
+      "metric": "Funding diligence evidence: Buyer interviews / proxy surveys: Buyer interviews / proxy surveys accepted from reddit_practitioner; original gate: published practitioner signal only; qualitative buyer/operator evidence, not hard financial proof source",
+      "url": "https://www.reddit.com/r/ecommerce_growth/comments/1t4as5b/while_working_on_a_writeup_for_indian_brands_i/",
+      "decision_use": "Qualitative signal only; useful for hypotheses, buyer language, and field intelligence, not hard claims."
+    },
+    {
+      "id": 8,
+      "grade": "C",
+      "evidence_label": "QUALITATIVE ONLY",
+      "publisher": "reddit.com",
+      "title": "r/indianstartups on Reddit: 1-Minute Consumer Insight Survey – Indian Skincare Market",
+      "source_family": "reddit_practitioner",
+      "metric": "Funding diligence evidence: Buyer interviews / proxy surveys: Buyer interviews / proxy surveys accepted from reddit_practitioner; original gate: published practitioner signal only; qualitative buyer/operator evidence, not hard financial proof source",
+      "url": "https://www.reddit.com/r/indianstartups/comments/1o14pcj/1minute_consumer_insight_survey_indian_skincare/",
+      "decision_use": "Qualitative signal only; useful for hypotheses, buyer language, and field intelligence, not hard claims."
+    },
+    {
+      "id": 9,
+      "grade": "C",
+      "evidence_label": "VERIFIED BENCHMARK",
+      "publisher": "dir.indiamart.com",
+      "title": "Cosmetic Third Party Manufacturing, Cosmetic Manufacturers in Delhi",
+      "source_family": "marketplace_pricing",
+      "metric": "Funding diligence evidence: Supplier quotes / input costs: Supplier quotes / input costs accepted from marketplace_pricing; original gate: marketplace/distributor pricing source; normalize SKU, unit, seller, geography, currency, and date source",
+      "url": "https://dir.indiamart.com/delhi/cosmetic-third-party-manufacturing.html",
+      "decision_use": "Qualitative signal only; useful for hypotheses, buyer language, and field intelligence, not hard claims."
+    },
+    {
+      "id": 10,
+      "grade": "C",
+      "evidence_label": "VERIFIED BENCHMARK",
+      "publisher": "indiamart.com",
+      "title": "Bulk Face Serum Manufacturing at ₹ 49/piece in Surat | ID: 2857299511097",
+      "source_family": "marketplace_pricing",
+      "metric": "Funding diligence evidence: Supplier quotes / input costs: Supplier quotes / input costs accepted from marketplace_pricing; original gate: marketplace/distributor pricing source; normalize SKU, unit, seller, geography, currency, and date source",
+      "url": "https://www.indiamart.com/proddetail/bulk-face-serum-manufacturing-2857299511097.html",
+      "decision_use": "Qualitative signal only; useful for hypotheses, buyer language, and field intelligence, not hard claims."
+    },
+    {
+      "id": 11,
+      "grade": "C",
+      "evidence_label": "VERIFIED BENCHMARK",
+      "publisher": "indiamart.com",
+      "title": "Private Label Concept To Product Third Party Manufacturing Service at ₹ 35/piece | Skin Care Products Contract Manufacturing in New Delhi | ID: 2858169191773",
+      "source_family": "marketplace_pricing",
+      "metric": "Funding diligence evidence: Supplier quotes / input costs: Supplier quotes / input costs accepted from marketplace_pricing; original gate: marketplace/distributor pricing source; normalize SKU, unit, seller, geography, currency, and date source",
+      "url": "https://www.indiamart.com/proddetail/private-label-concept-to-product-third-party-manufacturing-service-2858169191773.html",
+      "decision_use": "Qualitative signal only; useful for hypotheses, buyer language, and field intelligence, not hard claims."
+    },
+    {
+      "id": 12,
+      "grade": "C",
+      "evidence_label": "VERIFIED BENCHMARK",
+      "publisher": "indiamart.com",
+      "title": "Private Label Skincare Products",
+      "source_family": "marketplace_pricing",
+      "metric": "Funding diligence evidence: Supplier quotes / input costs: Supplier quotes / input costs accepted from marketplace_pricing; original gate: marketplace/distributor pricing source; normalize SKU, unit, seller, geography, currency, and date source",
+      "url": "https://www.indiamart.com/proddetail/private-label-skincare-products-26417311588.html",
+      "decision_use": "Qualitative signal only; useful for hypotheses, buyer language, and field intelligence, not hard claims."
+    },
+    {
+      "id": 13,
+      "grade": "C",
+      "evidence_label": "UNVERIFIED",
+      "publisher": "nykaa.com",
+      "title": "Nykaa competitor intelligence",
+      "source_family": "competitor_intelligence",
+      "metric": "Named competitor: Nykaa: Nykaa identified in source text for D2C skincare India competitor",
+      "url": "https://www.nykaa.com/beauty-blog/5-made-in-india-beauty-brands-that-need-to-be-on-your-radar/",
+      "decision_use": "Qualitative signal only; useful for hypotheses, buyer language, and field intelligence, not hard claims."
+    },
+    {
+      "id": 14,
+      "grade": "C",
+      "evidence_label": "UNVERIFIED",
+      "publisher": "nykaa.com",
+      "title": "Nykaa competitor intelligence",
+      "source_family": "competitor_intelligence",
+      "metric": "Named competitor: Nykaa: Nykaa identified in source text for D2C skincare India competitor",
+      "url": "https://www.nykaa.com/media/wysiwyg/2021/Investors-Relations/pdfs/annual-report/21-22/integrated-report-2021-22.pdf",
+      "decision_use": "Qualitative signal only; useful for hypotheses, buyer language, and field intelligence, not hard claims."
+    },
+    {
+      "id": 15,
+      "grade": "C",
+      "evidence_label": "UNVERIFIED",
+      "publisher": "supplier_costs",
+      "title": "automotive_retail imported bulk",
+      "source_family": "sql_semantic_memory",
+      "metric": "semantic_similarity: 0.104998 cosine",
+      "url": "https://www.indiamart.com/product/automotive_retail-0-6",
+      "decision_use": "Qualitative signal only; useful for hypotheses, buyer language, and field intelligence, not hard claims."
+    },
+    {
+      "grade": "B",
+      "title": "Quick Commerce vs E-commerce for D2C Brands in India",
+      "url": "https://smartcommerce.amazon.in/blog/quick-commerce-vs-e-commerce--what-works-for-d2c-brands-",
+      "source_family": "serp_competitor",
+      "publisher": "Quick Commerce vs E-commerce for D2C Brands in India",
+      "year": "",
+      "metric": "",
+      "use_in_report": "serp_live_discovery"
+    },
+    {
+      "grade": "B",
+      "title": "Commerce",
+      "url": "https://smartcommerce.amazon.in/blog/quick-commerce-vs-e-commerce--what-works-for-d2c-brands-",
+      "source_family": "serp_competitor",
+      "publisher": "Commerce",
+      "year": "",
+      "metric": "",
+      "use_in_report": "serp_live_discovery"
+    },
+    {
+      "grade": "B",
+      "title": "E-commerce",
+      "url": "https://smartcommerce.amazon.in/blog/quick-commerce-vs-e-commerce--what-works-for-d2c-brands-",
+      "source_family": "serp_competitor",
+      "publisher": "E-commerce",
+      "year": "",
+      "metric": "",
+      "use_in_report": "serp_live_discovery"
+    },
+    {
+      "grade": "B",
+      "title": "Quick Commerce",
+      "url": "https://smartcommerce.amazon.in/blog/quick-commerce-vs-e-commerce--what-works-for-d2c-brands-",
+      "source_family": "serp_competitor",
+      "publisher": "Quick Commerce",
+      "year": "",
+      "metric": "",
+      "use_in_report": "serp_live_discovery"
+    },
+    {
+      "grade": "B",
+      "title": "Brands",
+      "url": "https://smartcommerce.amazon.in/blog/quick-commerce-vs-e-commerce--what-works-for-d2c-brands-",
+      "source_family": "serp_competitor",
+      "publisher": "Brands",
+      "year": "",
+      "metric": "",
+      "use_in_report": "serp_live_discovery"
+    },
+    {
+      "grade": "B",
+      "title": "India",
+      "url": "https://smartcommerce.amazon.in/blog/quick-commerce-vs-e-commerce--what-works-for-d2c-brands-",
+      "source_family": "serp_competitor",
+      "publisher": "India",
+      "year": "",
+      "metric": "",
+      "use_in_report": "serp_live_discovery"
+    },
+    {
+      "grade": "B",
+      "title": "Personal Care",
+      "url": "https://smartcommerce.amazon.in/blog/quick-commerce-vs-e-commerce--what-works-for-d2c-brands-",
+      "source_family": "serp_competitor",
+      "publisher": "Personal Care",
+      "year": "",
+      "metric": "",
+      "use_in_report": "serp_live_discovery"
+    },
+    {
+      "grade": "B",
+      "title": "Primarily",
+      "url": "https://smartcommerce.amazon.in/blog/quick-commerce-vs-e-commerce--what-works-for-d2c-brands-",
+      "source_family": "serp_competitor",
+      "publisher": "Primarily",
+      "year": "",
+      "metric": "",
+      "use_in_report": "serp_live_discovery"
+    },
+    {
+      "grade": "B",
+      "title": "The investor who built a 250 Cr skincare brand | Romita ...",
+      "url": "https://music.amazon.in/podcasts/87162f1d-3b37-4a9a-a8fa-fd10ee6b274a/episodes/18b80627-f388-483d-8265-23720c93937c/founder-thesis-the-investor-who-built-a-250-cr-skincare-brand-romita-mazumdar-a-foxtale",
+      "source_family": "serp_competitor",
+      "publisher": "The investor who built a 250 Cr skincare brand | Romita ...",
+      "year": "",
+      "metric": "",
+      "use_in_report": "serp_live_discovery"
+    },
+    {
+      "grade": "B",
+      "title": "Romita",
+      "url": "https://music.amazon.in/podcasts/87162f1d-3b37-4a9a-a8fa-fd10ee6b274a/episodes/18b80627-f388-483d-8265-23720c93937c/founder-thesis-the-investor-who-built-a-250-cr-skincare-brand-romita-mazumdar-a-foxtale",
+      "source_family": "serp_competitor",
+      "publisher": "Romita",
+      "year": "",
+      "metric": "",
+      "use_in_report": "serp_live_discovery"
+    },
+    {
+      "grade": "B",
+      "title": "Romita Mazumdar",
+      "url": "https://music.amazon.in/podcasts/87162f1d-3b37-4a9a-a8fa-fd10ee6b274a/episodes/18b80627-f388-483d-8265-23720c93937c/founder-thesis-the-investor-who-built-a-250-cr-skincare-brand-romita-mazumdar-a-foxtale",
+      "source_family": "serp_competitor",
+      "publisher": "Romita Mazumdar",
+      "year": "",
+      "metric": "",
+      "use_in_report": "serp_live_discovery"
+    },
+    {
+      "grade": "B",
+      "title": "Founder",
+      "url": "https://music.amazon.in/podcasts/87162f1d-3b37-4a9a-a8fa-fd10ee6b274a/episodes/18b80627-f388-483d-8265-23720c93937c/founder-thesis-the-investor-who-built-a-250-cr-skincare-brand-romita-mazumdar-a-foxtale",
+      "source_family": "serp_competitor",
+      "publisher": "Founder",
+      "year": "",
+      "metric": "",
+      "use_in_report": "serp_live_discovery"
+    },
+    {
+      "grade": "B",
+      "title": "Foxtale",
+      "url": "https://music.amazon.in/podcasts/87162f1d-3b37-4a9a-a8fa-fd10ee6b274a/episodes/18b80627-f388-483d-8265-23720c93937c/founder-thesis-the-investor-who-built-a-250-cr-skincare-brand-romita-mazumdar-a-foxtale",
+      "source_family": "serp_competitor",
+      "publisher": "Foxtale",
+      "year": "",
+      "metric": "",
+      "use_in_report": "serp_live_discovery"
+    },
+    {
+      "grade": "B",
+      "title": "5 Step Competitor Analysis for Indian D2C Brand",
+      "url": "https://smartcommerce.amazon.in/blog/5-step-competitor-analysis-for-indian-d2c-brand",
+      "source_family": "serp_competitor",
+      "publisher": "5 Step Competitor Analysis for Indian D2C Brand",
+      "year": "",
+      "metric": "",
+      "use_in_report": "serp_live_discovery"
+    },
+    {
+      "grade": "B",
+      "title": "Step Competitor Analysis",
+      "url": "https://smartcommerce.amazon.in/blog/5-step-competitor-analysis-for-indian-d2c-brand",
+      "source_family": "serp_competitor",
+      "publisher": "Step Competitor Analysis",
+      "year": "",
+      "metric": "",
+      "use_in_report": "serp_live_discovery"
+    },
+    {
+      "grade": "B",
+      "title": "Indian",
+      "url": "https://smartcommerce.amazon.in/blog/5-step-competitor-analysis-for-indian-d2c-brand",
+      "source_family": "serp_competitor",
+      "publisher": "Indian",
+      "year": "",
+      "metric": "",
+      "use_in_report": "serp_live_discovery"
+    },
+    {
+      "grade": "B",
+      "title": "Brand If",
+      "url": "https://smartcommerce.amazon.in/blog/5-step-competitor-analysis-for-indian-d2c-brand",
+      "source_family": "serp_competitor",
+      "publisher": "Brand If",
+      "year": "",
+      "metric": "",
+      "use_in_report": "serp_live_discovery"
+    },
+    {
+      "grade": "B",
+      "title": "Ghior Cosmetics Case Study",
+      "url": "https://smartcommerce.amazon.in/case-study/ghior-cosmetics-case-study",
+      "source_family": "serp_competitor",
+      "publisher": "Ghior Cosmetics Case Study",
+      "year": "",
+      "metric": "",
+      "use_in_report": "serp_live_discovery"
+    },
+    {
+      "grade": "B",
+      "title": "Ghior Cosmetics Case",
+      "url": "https://smartcommerce.amazon.in/case-study/ghior-cosmetics-case-study",
+      "source_family": "serp_competitor",
+      "publisher": "Ghior Cosmetics Case",
+      "year": "",
+      "metric": "",
+      "use_in_report": "serp_live_discovery"
+    },
+    {
+      "grade": "B",
+      "title": "Study For",
+      "url": "https://smartcommerce.amazon.in/case-study/ghior-cosmetics-case-study",
+      "source_family": "serp_competitor",
+      "publisher": "Study For",
+      "year": "",
+      "metric": "",
+      "use_in_report": "serp_live_discovery"
+    },
+    {
+      "grade": "B",
+      "title": "Ghior",
+      "url": "https://smartcommerce.amazon.in/case-study/ghior-cosmetics-case-study",
+      "source_family": "serp_competitor",
+      "publisher": "Ghior",
+      "year": "",
+      "metric": "",
+      "use_in_report": "serp_live_discovery"
+    },
+    {
+      "grade": "B",
+      "title": "10 ideas for running a successful Social Media Stores as ...",
+      "url": "https://smartcommerce.amazon.in/blog/6-simple-ideas-for-running-a-successful-social-media-store-as-a-d2c-brand-in-india",
+      "source_family": "serp_competitor",
+      "publisher": "10 ideas for running a successful Social Media Stores as ...",
+      "year": "",
+      "metric": "",
+      "use_in_report": "serp_live_discovery"
+    },
+    {
+      "grade": "B",
+      "title": "Social Media Stores",
+      "url": "https://smartcommerce.amazon.in/blog/6-simple-ideas-for-running-a-successful-social-media-store-as-a-d2c-brand-in-india",
+      "source_family": "serp_competitor",
+      "publisher": "Social Media Stores",
+      "year": "",
+      "metric": "",
+      "use_in_report": "serp_live_discovery"
+    },
+    {
+      "grade": "B",
+      "title": "Simple Ideas",
+      "url": "https://smartcommerce.amazon.in/blog/6-simple-ideas-for-running-a-successful-social-media-store-as-a-d2c-brand-in-india",
+      "source_family": "serp_competitor",
+      "publisher": "Simple Ideas",
+      "year": "",
+      "metric": "",
+      "use_in_report": "serp_live_discovery"
+    },
+    {
+      "grade": "B",
+      "title": "Running",
+      "url": "https://smartcommerce.amazon.in/blog/6-simple-ideas-for-running-a-successful-social-media-store-as-a-d2c-brand-in-india",
+      "source_family": "serp_competitor",
+      "publisher": "Running",
+      "year": "",
+      "metric": "",
+      "use_in_report": "serp_live_discovery"
+    }
+  ],
+  "research_report": {
+    "available": true,
+    "topic": "D2C skincare India",
+    "geography": "India",
+    "section_count": 3
+  },
+  "business_plan": {
+    "available": false,
+    "quality": {},
+    "founder_readable_available": false
+  },
+  "ICP": {},
+  "leads": [],
+  "financial_model": {
+    "topic": "D2C skincare India",
+    "industry": "D2C beauty",
+    "target": "India",
+    "horizon": "2026-2031",
+    "domain": "fashion",
+    "dashboard_mode": "evidence_first",
+    "headline": {
+      "tam_base": 0,
+      "tam_base_fmt": "ESTIMATED $0",
+      "tam_range": "ESTIMATED $0 base; 2031 scenario $0",
+      "sam": 0,
+      "sam_fmt": "ESTIMATED $0",
+      "som_range": "ESTIMATED $0",
+      "forecast_cagr_2026_2031": 0.07,
+      "forecast_cagr_2026_2031_fmt": "ESTIMATED 7.0%"
+    },
+    "industry_model_name": "Fashion / Apparel Evidence Model",
+    "assumptions": {
+      "model_status": "No generic fashion TAM applied.",
+      "required_scope": "product category + price band + buyer segment + channel + geography",
+      "sizing_rule": "TAM = reachable buyers x purchase frequency x average order value, cross-checked against retail/trade/company evidence."
+    },
+    "executive_metrics": [
+      {
+        "label": "TAM 2026",
+        "value": "ESTIMATED $0",
+        "source": "IIDATECH 2026 Financial Model Bank",
+        "confidence": "Estimated",
+        "note": "Uses source-backed macro denominators where available plus IIDATECH domain assumptions; not a verified market-size claim.",
+        "evidence_namespace": "SYNTHETIC MODEL",
+        "citation_allowed": false,
+        "not_investor_citable": true
+      },
+      {
+        "label": "SAM 2026",
+        "value": "ESTIMATED $0",
+        "source": "IIDATECH 2026 Financial Model Bank",
+        "confidence": "Estimated",
+        "note": "SAM formula: TAM x serviceable_share.",
+        "evidence_namespace": "SYNTHETIC MODEL",
+        "citation_allowed": false,
+        "not_investor_citable": true
+      },
+      {
+        "label": "SOM 2026",
+        "value": "ESTIMATED $0",
+        "source": "IIDATECH 2026 Financial Model Bank",
+        "confidence": "Estimated",
+        "note": "SOM formula: SAM x obtainable_capture_share.",
+        "evidence_namespace": "SYNTHETIC MODEL",
+        "citation_allowed": false,
+        "not_investor_citable": true
+      },
+      {
+        "label": "2026-2031 CAGR",
+        "value": "ESTIMATED 7.0%",
+        "source": "IIDATECH 2026 Financial Model Bank",
+        "confidence": "Scenario",
+        "note": "Scenario assumption, not a verified analyst CAGR.",
+        "evidence_namespace": "SYNTHETIC MODEL",
+        "citation_allowed": false,
+        "not_investor_citable": true
+      },
+      {
+        "label": "Outlook",
+        "value": "Low single-digit growth",
+        "source": "McKinsey / Business of Fashion State of Fashion 2026",
+        "confidence": "Medium",
+        "note": "Applies to global fashion context; use as backdrop, not as topic TAM."
+      },
+      {
+        "label": "Demand proxy",
+        "value": "Official clothing/accessories retail-sales series",
+        "source": "U.S. Census Monthly Retail Trade Survey",
+        "confidence": "High",
+        "note": "Use only for U.S. demand validation or as a benchmark, not for India/global TAM."
+      },
+      {
+        "label": "Trade proxy",
+        "value": "HS apparel, footwear, textiles, accessories",
+        "source": "UN Comtrade / OTEXA / USDA ERS",
+        "confidence": "High",
+        "note": "Use for sourcing, import/export exposure, and country trade-flow benchmarking."
+      },
+      {
+        "label": "Model status",
+        "value": "category-specific wedge required",
+        "source": "IIDATECH validation gate",
+        "confidence": "High",
+        "note": "Final TAM/CAGR withheld until category, geography, and channel map to traceable datasets."
+      }
+    ],
+    "formula_rows": [
+      {
+        "model_part": "Demand TAM",
+        "formula": "reachable target customers x purchase frequency x AOV",
+        "required_data": "customer count, income/occasion segment, AOV, repeat rate"
+      },
+      {
+        "model_part": "Net revenue",
+        "formula": "gross sales - returns - discounts - marketplace/processor fees",
+        "required_data": "return rate, markdown rate, channel commission, payment/logistics fees"
+      },
+      {
+        "model_part": "Contribution margin",
+        "formula": "net revenue - COGS - freight - packaging - CAC",
+        "required_data": "landed cost, shipping subsidy, CAC, paid/organic mix"
+      },
+      {
+        "model_part": "Inventory cash need",
+        "formula": "initial units x landed cost + safety stock + returns reserve",
+        "required_data": "MOQ, lead time, sell-through, reorder cadence"
+      }
+    ],
+    "scenario_rows": [
+      {
+        "scenario": "Bear",
+        "model_output": "Slow sell-through",
+        "logic": "Demand validation weak; returns/markdowns compress margin; inventory cash tied up.",
+        "source_status": "Requires SKU/customer cohort data."
+      },
+      {
+        "scenario": "Base",
+        "model_output": "Focused wedge",
+        "logic": "One category and channel achieve repeatable CAC, sell-through, and contribution margin.",
+        "source_status": "Requires first-cohort sales and competitor price audit."
+      },
+      {
+        "scenario": "Bull",
+        "model_output": "Repeatable brand engine",
+        "logic": "Strong repeat purchase, low return rate, and sourcing discipline support category expansion.",
+        "source_status": "Requires 2-3 replenishment cycles."
+      }
+    ],
+    "driver_rows": [
+      {
+        "driver": "AOV",
+        "why_it_matters": "Revenue per order sets gross sales and marketing payback ceiling."
+      },
+      {
+        "driver": "Return rate",
+        "why_it_matters": "High apparel returns can erase contribution margin."
+      },
+      {
+        "driver": "Markdown rate",
+        "why_it_matters": "Weak sell-through converts gross margin into clearance economics."
+      },
+      {
+        "driver": "Inventory turns",
+        "why_it_matters": "Slow turns create working-capital stress."
+      },
+      {
+        "driver": "CAC payback",
+        "why_it_matters": "D2C fashion fails when paid acquisition exceeds repeat-purchase economics."
+      }
+    ],
+    "source_gate_rows": [
+      {
+        "claim_type": "TAM",
+        "minimum_evidence": "official retail/trade dataset plus bottom-up customer model",
+        "allowed_output": "range only until category is validated"
+      },
+      {
+        "claim_type": "CAGR",
+        "minimum_evidence": "category-specific analyst/official time series",
+        "allowed_output": "cite source or mark as scenario assumption"
+      },
+      {
+        "claim_type": "Competitor economics",
+        "minimum_evidence": "annual reports, filings, marketplace checks, price/SKU audit",
+        "allowed_output": "benchmark matrix, not exact share unless disclosed"
+      }
+    ],
+    "methodology_notes": [
+      "Fashion dashboard is source-gated and category-specific.",
+      "Do not reuse AI automation, agriculture, or generic SaaS metrics for fashion.",
+      "Final market size requires a product/category and geography that map to official retail, trade, or company data."
+    ],
+    "stored_2026_financial_model_id": "8d705b4f669b530a",
+    "stored_2026_financial_model_status": "ESTIMATED",
+    "stored_2026_financial_model_source_status": "Uses source-backed macro denominators where available plus IIDATECH domain assumptions; not a verified market-size claim.",
+    "evidence_namespace": "SYNTHETIC MODEL",
+    "citation_allowed": false,
+    "not_investor_citable": true,
+    "provenance_claims": [
+      {
+        "id": "deb3b5ae-48d5-49b4-b94b-e455018c47fe",
+        "source_type": "derived_formula",
+        "metric_name": "TAM 2026",
+        "value": 0,
+        "unit": "USD",
+        "derived_from_claim_ids": [],
+        "formula_expression": "GDP x industry_spend_share x topic_wedge_share x digital_readiness_factor",
+        "formula_inputs": {
+          "gdp_current_usd": 0.0,
+          "industry_spend_share": 0.027,
+          "topic_wedge_share": 0.03
+        },
+        "formula_type": "tam_bottom_up",
+        "confidence": 0.54
+      },
+      {
+        "id": "c1ff7a3c-77e3-424a-aff8-18b019718aab",
+        "source_type": "derived_formula",
+        "metric_name": "SAM 2026",
+        "value": 0,
+        "unit": "USD",
+        "derived_from_claim_ids": [
+          "deb3b5ae-48d5-49b4-b94b-e455018c47fe"
+        ],
+        "formula_expression": "TAM x serviceable_share",
+        "formula_inputs": {
+          "tam_2026": 0,
+          "sam_share_assumption": 0.22
+        },
+        "formula_type": "sam_filter",
+        "confidence": 0.459
+      },
+      {
+        "id": "c0c9df23-4eba-4018-9f02-52c349d34f35",
+        "source_type": "derived_formula",
+        "metric_name": "SOM 2026",
+        "value": 0,
+        "unit": "USD",
+        "derived_from_claim_ids": [
+          "c1ff7a3c-77e3-424a-aff8-18b019718aab"
+        ],
+        "formula_expression": "SAM x obtainable_capture_share",
+        "formula_inputs": {
+          "sam_2026": 0,
+          "som_capture_share_assumption": 0.012
+        },
+        "formula_type": "som_capture",
+        "confidence": 0.3672
+      }
+    ]
+  },
+  "employees_team_tasks": {},
+  "exports": [
+    "Founder business plan",
+    "Investor memo",
+    "GTM plan",
+    "Financial model CSV/XLSX",
+    "Lead list CSV",
+    "Team task plan",
+    "Source ledger"
+  ],
+  "scope_assessment": {
+    "ok": true,
+    "domain": "d2c_skincare",
+    "issues": [],
+    "suggestions": [
+      "One product category for one buyer segment in India",
+      "One workflow or use case inside D2C beauty for a named customer type in India",
+      "One channel-led business model with price band, buyer, and geography specified"
+    ]
+  }
+}

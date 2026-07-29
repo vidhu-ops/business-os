@@ -1,0 +1,695 @@
+{
+  "workspace_id": "High-end_car_retail_India_India_Automotive_retail",
+  "workspace_dir": "C:\\Users\\weewee\\iida\\opportunity_workspaces\\High-end_car_retail_India_India_Automotive_retail",
+  "updated_at": "2026-07-04T08:52:33.237438Z",
+  "idea": "High-end car retail India",
+  "country": "India",
+  "industry": "Automotive retail",
+  "current_path": "Research a market",
+  "uploaded_files": [],
+  "uploaded_file_context": [],
+  "source_ledger": [
+    {
+      "id": 1,
+      "grade": "B+",
+      "evidence_label": "VERIFIED BENCHMARK",
+      "publisher": "youtube.com",
+      "title": "Unknown vendor pricing: rs 7",
+      "source_family": "pricing_reference",
+      "metric": "Funding diligence evidence: Supplier quotes / input costs: Supplier quotes / input costs accepted from pricing_reference; original gate: Unknown vendor pricing evidence rs 7 pricing",
+      "url": "https://www.youtube.com/watch?v=kk7T1bq5bZc",
+      "decision_use": "Can support financial benchmarking, pricing, implementation, or procurement evidence when the vendor/buyer segment matches; disclose proxy limits."
+    },
+    {
+      "id": 2,
+      "grade": "C",
+      "evidence_label": "QUALITATIVE ONLY",
+      "publisher": "reddit.com",
+      "title": "CarIndia: Find out what’s happening in the Indian automobile ...",
+      "source_family": "reddit_practitioner",
+      "metric": "Funding diligence evidence: Buyer interviews / proxy surveys: Buyer interviews / proxy surveys accepted from reddit_practitioner; original gate: published practitioner signal only; qualitative buyer/operator evidence, not hard financial proof source",
+      "url": "https://www.reddit.com/r/carIndia/",
+      "decision_use": "Qualitative signal only; useful for hypotheses, buyer language, and field intelligence, not hard claims."
+    },
+    {
+      "id": 3,
+      "grade": "C",
+      "evidence_label": "QUALITATIVE ONLY",
+      "publisher": "reddit.com",
+      "title": "Cars India - Forum for news and reviews on Car India scene ...",
+      "source_family": "reddit_practitioner",
+      "metric": "Funding diligence evidence: Buyer interviews / proxy surveys: Buyer interviews / proxy surveys accepted from reddit_practitioner; original gate: published practitioner signal only; qualitative buyer/operator evidence, not hard financial proof source",
+      "url": "https://www.reddit.com/r/CarsIndia/top/?t=all",
+      "decision_use": "Qualitative signal only; useful for hypotheses, buyer language, and field intelligence, not hard claims."
+    },
+    {
+      "id": 4,
+      "grade": "C",
+      "evidence_label": "QUALITATIVE ONLY",
+      "publisher": "youtube.com",
+      "title": "Auto Retail Growth Reset: Moving Beyond One-Time Sales | IndusInd General Insurance",
+      "source_family": "youtube_transcript",
+      "metric": "Funding diligence evidence: Buyer interviews / proxy surveys: Buyer interviews / proxy surveys accepted from youtube_transcript; original gate: published practitioner signal only; qualitative buyer/operator evidence, not hard financial proof source",
+      "url": "https://www.youtube.com/watch?v=5ZAGcyt9bSc",
+      "decision_use": "Qualitative signal only; useful for hypotheses, buyer language, and field intelligence, not hard claims."
+    },
+    {
+      "id": 5,
+      "grade": "C",
+      "evidence_label": "VERIFIED BENCHMARK",
+      "publisher": "dir.indiamart.com",
+      "title": "Luxury Car - Premium Cars Latest Price, Manufacturers & Suppliers",
+      "source_family": "marketplace_pricing",
+      "metric": "Funding diligence evidence: Supplier quotes / input costs: Supplier quotes / input costs accepted from marketplace_pricing; original gate: marketplace/distributor pricing source; normalize SKU, unit, seller, geography, currency, and date source",
+      "url": "https://dir.indiamart.com/impcat/luxury-car.html",
+      "decision_use": "Qualitative signal only; useful for hypotheses, buyer language, and field intelligence, not hard claims."
+    },
+    {
+      "id": 6,
+      "grade": "C",
+      "evidence_label": "VERIFIED BENCHMARK",
+      "publisher": "dir.indiamart.com",
+      "title": "Luxury Car Wholesalers & Distributors in India",
+      "source_family": "marketplace_pricing",
+      "metric": "Funding diligence evidence: Supplier quotes / input costs: Supplier quotes / input costs accepted from marketplace_pricing; original gate: marketplace/distributor pricing source; normalize SKU, unit, seller, geography, currency, and date source",
+      "url": "https://dir.indiamart.com/impcat/luxury-car.html?biz=30",
+      "decision_use": "Qualitative signal only; useful for hypotheses, buyer language, and field intelligence, not hard claims."
+    },
+    {
+      "id": 7,
+      "grade": "C",
+      "evidence_label": "UNVERIFIED",
+      "publisher": "galaxyautoworks.com",
+      "title": "Mercedes competitor intelligence",
+      "source_family": "competitor_intelligence",
+      "metric": "Named competitor: Mercedes: Mercedes identified in source text for High-end car retail India competitor",
+      "url": "https://galaxyautoworks.com/",
+      "decision_use": "Qualitative signal only; useful for hypotheses, buyer language, and field intelligence, not hard claims."
+    },
+    {
+      "id": 8,
+      "grade": "C",
+      "evidence_label": "VERIFIED BENCHMARK",
+      "publisher": "indiamart.com",
+      "title": "Mahindra Cars and Mahindra XUV300 W8 Wholesaler / Distributor | P. P. Automotive Pvt. Ltd., Karnal",
+      "source_family": "marketplace_pricing",
+      "metric": "Funding diligence evidence: Supplier quotes / input costs: Supplier quotes / input costs accepted from marketplace_pricing; original gate: marketplace/distributor pricing source; normalize SKU, unit, seller, geography, currency, and date source",
+      "url": "https://www.indiamart.com/p-p-automotive/",
+      "decision_use": "Qualitative signal only; useful for hypotheses, buyer language, and field intelligence, not hard claims."
+    },
+    {
+      "id": 9,
+      "grade": "C",
+      "evidence_label": "VERIFIED BENCHMARK",
+      "publisher": "indiamart.com",
+      "title": "Puneet Automobiles Private Limited, Varanasi - Trader - Retailer of MHCV Tata Motors",
+      "source_family": "marketplace_pricing",
+      "metric": "Funding diligence evidence: Supplier quotes / input costs: Supplier quotes / input costs accepted from marketplace_pricing; original gate: marketplace/distributor pricing source; normalize SKU, unit, seller, geography, currency, and date source",
+      "url": "https://www.indiamart.com/puneet-automobiles-private-limited/",
+      "decision_use": "Qualitative signal only; useful for hypotheses, buyer language, and field intelligence, not hard claims."
+    },
+    {
+      "id": 10,
+      "grade": "C",
+      "evidence_label": "UNVERIFIED",
+      "publisher": "infinity-group.in",
+      "title": "BMW competitor intelligence",
+      "source_family": "competitor_intelligence",
+      "metric": "Named competitor: BMW: BMW identified in source text for High-end car retail India competitor",
+      "url": "https://infinity-group.in/",
+      "decision_use": "Qualitative signal only; useful for hypotheses, buyer language, and field intelligence, not hard claims."
+    },
+    {
+      "id": 11,
+      "grade": "C",
+      "evidence_label": "UNVERIFIED",
+      "publisher": "supplier_costs",
+      "title": "automotive_retail imported bulk",
+      "source_family": "sql_semantic_memory",
+      "metric": "semantic_similarity: 0.104998 cosine",
+      "url": "https://www.indiamart.com/product/automotive_retail-0-6",
+      "decision_use": "Qualitative signal only; useful for hypotheses, buyer language, and field intelligence, not hard claims."
+    },
+    {
+      "grade": "B",
+      "title": "Big Boy Toyz",
+      "url": "https://www.bigboytoyz.com/",
+      "source_family": "serp_competitor",
+      "publisher": "Big Boy Toyz",
+      "year": "",
+      "metric": "",
+      "use_in_report": "serp_live_discovery"
+    },
+    {
+      "grade": "B",
+      "title": "Buy Pre",
+      "url": "https://www.bigboytoyz.com/",
+      "source_family": "serp_competitor",
+      "publisher": "Buy Pre",
+      "year": "",
+      "metric": "",
+      "use_in_report": "serp_live_discovery"
+    },
+    {
+      "grade": "B",
+      "title": "Owned Luxury Cars",
+      "url": "https://www.bigboytoyz.com/",
+      "source_family": "serp_competitor",
+      "publisher": "Owned Luxury Cars",
+      "year": "",
+      "metric": "",
+      "use_in_report": "serp_live_discovery"
+    },
+    {
+      "grade": "B",
+      "title": "India",
+      "url": "https://www.bigboytoyz.com/",
+      "source_family": "serp_competitor",
+      "publisher": "India",
+      "year": "",
+      "metric": "",
+      "use_in_report": "serp_live_discovery"
+    },
+    {
+      "grade": "B",
+      "title": "Certified",
+      "url": "https://www.bigboytoyz.com/",
+      "source_family": "serp_competitor",
+      "publisher": "Certified",
+      "year": "",
+      "metric": "",
+      "use_in_report": "serp_live_discovery"
+    },
+    {
+      "grade": "B",
+      "title": "Buy",
+      "url": "https://www.bigboytoyz.com/",
+      "source_family": "serp_competitor",
+      "publisher": "Buy",
+      "year": "",
+      "metric": "",
+      "use_in_report": "serp_live_discovery"
+    },
+    {
+      "grade": "B",
+      "title": "Mercedes",
+      "url": "https://www.bigboytoyz.com/",
+      "source_family": "serp_competitor",
+      "publisher": "Mercedes",
+      "year": "",
+      "metric": "",
+      "use_in_report": "serp_live_discovery"
+    },
+    {
+      "grade": "B",
+      "title": "Audi",
+      "url": "https://www.bigboytoyz.com/",
+      "source_family": "serp_competitor",
+      "publisher": "Audi",
+      "year": "",
+      "metric": "",
+      "use_in_report": "serp_live_discovery"
+    },
+    {
+      "grade": "B",
+      "title": "Pre",
+      "url": "https://www.goexotic.co/?srsltid=AfmBOopkKhfDXR-IJVCXIaiDniPRPY1laVBPK48WW7WpJdwMrM7ZXb10",
+      "source_family": "serp_competitor",
+      "publisher": "Pre",
+      "year": "",
+      "metric": "",
+      "use_in_report": "serp_live_discovery"
+    },
+    {
+      "grade": "B",
+      "title": "Gurugram",
+      "url": "https://www.goexotic.co/?srsltid=AfmBOopkKhfDXR-IJVCXIaiDniPRPY1laVBPK48WW7WpJdwMrM7ZXb10",
+      "source_family": "serp_competitor",
+      "publisher": "Gurugram",
+      "year": "",
+      "metric": "",
+      "use_in_report": "serp_live_discovery"
+    },
+    {
+      "grade": "B",
+      "title": "Kochi",
+      "url": "https://www.goexotic.co/?srsltid=AfmBOopkKhfDXR-IJVCXIaiDniPRPY1laVBPK48WW7WpJdwMrM7ZXb10",
+      "source_family": "serp_competitor",
+      "publisher": "Kochi",
+      "year": "",
+      "metric": "",
+      "use_in_report": "serp_live_discovery"
+    },
+    {
+      "grade": "B",
+      "title": "Verified",
+      "url": "https://www.goexotic.co/?srsltid=AfmBOopkKhfDXR-IJVCXIaiDniPRPY1laVBPK48WW7WpJdwMrM7ZXb10",
+      "source_family": "serp_competitor",
+      "publisher": "Verified",
+      "year": "",
+      "metric": "",
+      "use_in_report": "serp_live_discovery"
+    },
+    {
+      "grade": "B",
+      "title": "Best Luxury Cars",
+      "url": "https://www.cardekho.com/best-luxury-cars",
+      "source_family": "serp_competitor",
+      "publisher": "Best Luxury Cars",
+      "year": "",
+      "metric": "",
+      "use_in_report": "serp_live_discovery"
+    },
+    {
+      "grade": "B",
+      "title": "India Best",
+      "url": "https://www.cardekho.com/best-luxury-cars",
+      "source_family": "serp_competitor",
+      "publisher": "India Best",
+      "year": "",
+      "metric": "",
+      "use_in_report": "serp_live_discovery"
+    },
+    {
+      "grade": "B",
+      "title": "Luxury Cars In",
+      "url": "https://www.cardekho.com/best-luxury-cars",
+      "source_family": "serp_competitor",
+      "publisher": "Luxury Cars In",
+      "year": "",
+      "metric": "",
+      "use_in_report": "serp_live_discovery"
+    },
+    {
+      "grade": "B",
+      "title": "Price List",
+      "url": "https://www.cardekho.com/best-luxury-cars",
+      "source_family": "serp_competitor",
+      "publisher": "Price List",
+      "year": "",
+      "metric": "",
+      "use_in_report": "serp_live_discovery"
+    },
+    {
+      "grade": "B",
+      "title": "Range Rover",
+      "url": "https://www.cardekho.com/best-luxury-cars",
+      "source_family": "serp_competitor",
+      "publisher": "Range Rover",
+      "year": "",
+      "metric": "",
+      "use_in_report": "serp_live_discovery"
+    },
+    {
+      "grade": "B",
+      "title": "Porsche",
+      "url": "https://www.cardekho.com/best-luxury-cars",
+      "source_family": "serp_competitor",
+      "publisher": "Porsche",
+      "year": "",
+      "metric": "",
+      "use_in_report": "serp_live_discovery"
+    },
+    {
+      "grade": "B",
+      "title": "Toyota Vellfire",
+      "url": "https://www.cardekho.com/best-luxury-cars",
+      "source_family": "serp_competitor",
+      "publisher": "Toyota Vellfire",
+      "year": "",
+      "metric": "",
+      "use_in_report": "serp_live_discovery"
+    },
+    {
+      "grade": "B",
+      "title": "Retail",
+      "url": "https://www.youtube.com/watch?v=9ncfPsMHn-w",
+      "source_family": "serp_competitor",
+      "publisher": "Retail",
+      "year": "",
+      "metric": "",
+      "use_in_report": "serp_live_discovery"
+    },
+    {
+      "grade": "B",
+      "title": "Vikram Pawah",
+      "url": "https://www.youtube.com/watch?v=9ncfPsMHn-w",
+      "source_family": "serp_competitor",
+      "publisher": "Vikram Pawah",
+      "year": "",
+      "metric": "",
+      "use_in_report": "serp_live_discovery"
+    },
+    {
+      "grade": "B",
+      "title": "President",
+      "url": "https://www.youtube.com/watch?v=9ncfPsMHn-w",
+      "source_family": "serp_competitor",
+      "publisher": "President",
+      "year": "",
+      "metric": "",
+      "use_in_report": "serp_live_discovery"
+    },
+    {
+      "grade": "B",
+      "title": "Retail Next",
+      "url": "https://www.youtube.com/watch?v=9ncfPsMHn-w",
+      "source_family": "serp_competitor",
+      "publisher": "Retail Next",
+      "year": "",
+      "metric": "",
+      "use_in_report": "serp_live_discovery"
+    },
+    {
+      "grade": "B",
+      "title": "Second Hand Premium",
+      "url": "https://cargiant.co.in/stock-cars",
+      "source_family": "serp_competitor",
+      "publisher": "Second Hand Premium",
+      "year": "",
+      "metric": "",
+      "use_in_report": "serp_live_discovery"
+    },
+    {
+      "grade": "B",
+      "title": "Car Giant Want",
+      "url": "https://cargiant.co.in/stock-cars",
+      "source_family": "serp_competitor",
+      "publisher": "Car Giant Want",
+      "year": "",
+      "metric": "",
+      "use_in_report": "serp_live_discovery"
+    },
+    {
+      "grade": "B",
+      "title": "Delhi",
+      "url": "https://cargiant.co.in/stock-cars",
+      "source_family": "serp_competitor",
+      "publisher": "Delhi",
+      "year": "",
+      "metric": "",
+      "use_in_report": "serp_live_discovery"
+    },
+    {
+      "grade": "B",
+      "title": "Car Giant",
+      "url": "https://cargiant.co.in/stock-cars",
+      "source_family": "serp_competitor",
+      "publisher": "Car Giant",
+      "year": "",
+      "metric": "",
+      "use_in_report": "serp_live_discovery"
+    },
+    {
+      "grade": "B",
+      "title": "From Lamborghini",
+      "url": "https://auto.economictimes.indiatimes.com/news/passenger-vehicle/from-lamborghini-to-aston-martin-indias-luxury-car-sales-skyrocket/112625516",
+      "source_family": "serp_competitor",
+      "publisher": "From Lamborghini",
+      "year": "",
+      "metric": "",
+      "use_in_report": "serp_live_discovery"
+    },
+    {
+      "grade": "B",
+      "title": "Aston Martin",
+      "url": "https://auto.economictimes.indiatimes.com/news/passenger-vehicle/from-lamborghini-to-aston-martin-indias-luxury-car-sales-skyrocket/112625516",
+      "source_family": "serp_competitor",
+      "publisher": "Aston Martin",
+      "year": "",
+      "metric": "",
+      "use_in_report": "serp_live_discovery"
+    }
+  ],
+  "research_report": {
+    "available": true,
+    "topic": "High-end car retail India",
+    "geography": "India",
+    "section_count": 3
+  },
+  "business_plan": {
+    "available": false,
+    "quality": {},
+    "founder_readable_available": false
+  },
+  "ICP": {},
+  "leads": [],
+  "financial_model": {
+    "topic": "High-end car retail India",
+    "industry": "Automotive retail",
+    "target": "India",
+    "horizon": "2026-2031",
+    "domain": "consumer",
+    "dashboard_mode": "evidence_first",
+    "headline": {
+      "tam_base": 0,
+      "tam_base_fmt": "ESTIMATED $0",
+      "tam_range": "ESTIMATED $0 base; 2031 scenario $0",
+      "sam": 0,
+      "sam_fmt": "ESTIMATED $0",
+      "som_range": "ESTIMATED $0",
+      "forecast_cagr_2026_2031": 0.08,
+      "forecast_cagr_2026_2031_fmt": "ESTIMATED 8.0%"
+    },
+    "industry_model_name": "General Evidence Model",
+    "assumptions": {
+      "model_status": "No generic TAM model applied.",
+      "required_scope": "product/use case + buyer segment + geography + channel",
+      "sizing_rule": "TAM/SAM/SOM can be shown only after topic-specific source evidence and explicit formulas are populated."
+    },
+    "executive_metrics": [
+      {
+        "label": "TAM 2026",
+        "value": "ESTIMATED $0",
+        "source": "IIDATECH 2026 Financial Model Bank",
+        "confidence": "Estimated",
+        "note": "Uses source-backed macro denominators where available plus IIDATECH domain assumptions; not a verified market-size claim.",
+        "evidence_namespace": "SYNTHETIC MODEL",
+        "citation_allowed": false,
+        "not_investor_citable": true
+      },
+      {
+        "label": "SAM 2026",
+        "value": "ESTIMATED $0",
+        "source": "IIDATECH 2026 Financial Model Bank",
+        "confidence": "Estimated",
+        "note": "SAM formula: TAM x serviceable_share.",
+        "evidence_namespace": "SYNTHETIC MODEL",
+        "citation_allowed": false,
+        "not_investor_citable": true
+      },
+      {
+        "label": "SOM 2026",
+        "value": "ESTIMATED $0",
+        "source": "IIDATECH 2026 Financial Model Bank",
+        "confidence": "Estimated",
+        "note": "SOM formula: SAM x obtainable_capture_share.",
+        "evidence_namespace": "SYNTHETIC MODEL",
+        "citation_allowed": false,
+        "not_investor_citable": true
+      },
+      {
+        "label": "2026-2031 CAGR",
+        "value": "ESTIMATED 8.0%",
+        "source": "IIDATECH 2026 Financial Model Bank",
+        "confidence": "Scenario",
+        "note": "Scenario assumption, not a verified analyst CAGR.",
+        "evidence_namespace": "SYNTHETIC MODEL",
+        "citation_allowed": false,
+        "not_investor_citable": true
+      },
+      {
+        "label": "Sizing status",
+        "value": "Source-gated",
+        "source": "official statistics/company filings/analyst sources",
+        "confidence": "High",
+        "note": "No generic TAM is shown until domain-specific evidence is attached."
+      },
+      {
+        "label": "Model requirement",
+        "value": "Bottom-up wedge",
+        "source": "IIDATECH formula gate",
+        "confidence": "High",
+        "note": "Define customers, price, frequency, and channel before modeling."
+      },
+      {
+        "label": "Competitive basis",
+        "value": "Source-gated",
+        "source": "filings/pricing pages/channel checks",
+        "confidence": "Medium",
+        "note": "Competitor share requires disclosed data or proxy methodology."
+      },
+      {
+        "label": "Evidence gap",
+        "value": "Primary validation needed",
+        "source": "customer/interview plan",
+        "confidence": "Medium",
+        "note": "Needs buyer calls and pricing/channel checks."
+      }
+    ],
+    "formula_rows": [
+      {
+        "model_part": "TAM",
+        "formula": "eligible customers or volume x price/frequency",
+        "required_data": "official or audited market volume and topic-specific price"
+      },
+      {
+        "model_part": "SAM",
+        "formula": "TAM x reachable geography/channel/use-case share",
+        "required_data": "distribution constraints and buyer eligibility"
+      },
+      {
+        "model_part": "SOM",
+        "formula": "SAM x realistic penetration over period",
+        "required_data": "sales capacity, conversion, churn/retention, competitor response"
+      },
+      {
+        "model_part": "Unit economics",
+        "formula": "revenue - COGS - acquisition - service/compliance costs",
+        "required_data": "cost stack and cohort behavior"
+      }
+    ],
+    "scenario_rows": [
+      {
+        "scenario": "Bear",
+        "model_output": "Validation incomplete",
+        "logic": "Weak source coverage or unclear buyer economics blocks a numeric model.",
+        "source_status": "Needs official/filing/primary data."
+      },
+      {
+        "scenario": "Base",
+        "model_output": "Narrow wedge validated",
+        "logic": "A defined buyer/use case supports explicit bottom-up sizing.",
+        "source_status": "Needs price, volume, and adoption evidence."
+      },
+      {
+        "scenario": "Bull",
+        "model_output": "Repeatable expansion",
+        "logic": "Evidence supports expansion into adjacent customer segments or regions.",
+        "source_status": "Needs cohort and competitive proof."
+      }
+    ],
+    "driver_rows": [
+      {
+        "driver": "Customer/volume base",
+        "why_it_matters": "Defines the addressable universe."
+      },
+      {
+        "driver": "Price or take rate",
+        "why_it_matters": "Translates volume into revenue pool."
+      },
+      {
+        "driver": "Adoption/penetration",
+        "why_it_matters": "Converts TAM/SAM into realistic obtainable revenue."
+      },
+      {
+        "driver": "Churn/retention",
+        "why_it_matters": "Determines lifetime value and forecast durability."
+      },
+      {
+        "driver": "Cost to serve",
+        "why_it_matters": "Controls contribution margin and valuation quality."
+      }
+    ],
+    "source_gate_rows": [
+      {
+        "claim_type": "Market size",
+        "minimum_evidence": "two domain-matched sources or one official source plus bottom-up model",
+        "allowed_output": "range with assumptions"
+      },
+      {
+        "claim_type": "Forecast",
+        "minimum_evidence": "historical time series or named adoption drivers",
+        "allowed_output": "scenario forecast"
+      },
+      {
+        "claim_type": "Valuation",
+        "minimum_evidence": "unit economics and comparable company/transaction evidence",
+        "allowed_output": "sensitivity table"
+      }
+    ],
+    "methodology_notes": [
+      "Generic market assumptions were intentionally disabled.",
+      "The dashboard shows validation gates until domain-specific data is sufficient.",
+      "This prevents cross-industry metric contamination and unsupported TAM/CAGR claims."
+    ],
+    "stored_2026_financial_model_id": "68ae760d41c343a8",
+    "stored_2026_financial_model_status": "ESTIMATED",
+    "stored_2026_financial_model_source_status": "Uses source-backed macro denominators where available plus IIDATECH domain assumptions; not a verified market-size claim.",
+    "evidence_namespace": "SYNTHETIC MODEL",
+    "citation_allowed": false,
+    "not_investor_citable": true,
+    "provenance_claims": [
+      {
+        "id": "6750492e-ec6d-4da4-9a71-01c79803886c",
+        "source_type": "derived_formula",
+        "metric_name": "TAM 2026",
+        "value": 0,
+        "unit": "USD",
+        "derived_from_claim_ids": [],
+        "formula_expression": "GDP x industry_spend_share x topic_wedge_share x digital_readiness_factor",
+        "formula_inputs": {
+          "gdp_current_usd": 0.0,
+          "industry_spend_share": 0.055,
+          "topic_wedge_share": 0.02
+        },
+        "formula_type": "tam_bottom_up",
+        "confidence": 0.54
+      },
+      {
+        "id": "ab54dfbe-16d5-4113-83b3-0c05495b3a85",
+        "source_type": "derived_formula",
+        "metric_name": "SAM 2026",
+        "value": 0,
+        "unit": "USD",
+        "derived_from_claim_ids": [
+          "6750492e-ec6d-4da4-9a71-01c79803886c"
+        ],
+        "formula_expression": "TAM x serviceable_share",
+        "formula_inputs": {
+          "tam_2026": 0,
+          "sam_share_assumption": 0.22
+        },
+        "formula_type": "sam_filter",
+        "confidence": 0.459
+      },
+      {
+        "id": "9af74c0c-aa7d-4684-bb9b-219e3fcd4260",
+        "source_type": "derived_formula",
+        "metric_name": "SOM 2026",
+        "value": 0,
+        "unit": "USD",
+        "derived_from_claim_ids": [
+          "ab54dfbe-16d5-4113-83b3-0c05495b3a85"
+        ],
+        "formula_expression": "SAM x obtainable_capture_share",
+        "formula_inputs": {
+          "sam_2026": 0,
+          "som_capture_share_assumption": 0.01
+        },
+        "formula_type": "som_capture",
+        "confidence": 0.3672
+      }
+    ]
+  },
+  "employees_team_tasks": {},
+  "exports": [
+    "Founder business plan",
+    "Investor memo",
+    "GTM plan",
+    "Financial model CSV/XLSX",
+    "Lead list CSV",
+    "Team task plan",
+    "Source ledger"
+  ],
+  "scope_assessment": {
+    "ok": true,
+    "domain": "automotive_retail",
+    "issues": [],
+    "suggestions": [
+      "One product category for one buyer segment in India",
+      "One workflow or use case inside Automotive retail for a named customer type in India",
+      "One channel-led business model with price band, buyer, and geography specified"
+    ]
+  }
+}

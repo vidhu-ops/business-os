@@ -1,0 +1,714 @@
+{
+  "workspace_id": "Restaurant_POS_and_billing_software_India_Food_Hospitality_SaaS",
+  "workspace_dir": "C:\\Users\\weewee\\iida\\opportunity_workspaces\\Restaurant_POS_and_billing_software_India_Food_Hospitality_SaaS",
+  "updated_at": "2026-07-05T22:05:50.430910Z",
+  "idea": "Restaurant POS and billing software",
+  "country": "India",
+  "industry": "Food / Hospitality SaaS",
+  "current_path": "Research a market",
+  "uploaded_files": [],
+  "uploaded_file_context": [],
+  "source_ledger": [
+    {
+      "id": 1,
+      "grade": "C",
+      "evidence_label": "ESTIMATED / PROXY",
+      "publisher": "Crossref / African - British Journals",
+      "title": "Exploring the Level of Awareness and Usage of Accounting Software Among Small Businesses in Nigeria",
+      "source_family": "academic_research",
+      "metric": "On-demand peer-reviewed literature route: topic-relevant journal article source",
+      "url": "https://doi.org/10.52589/ajafr-erizqwhl",
+      "decision_use": "Qualitative signal only; useful for hypotheses, buyer language, and field intelligence, not hard claims."
+    },
+    {
+      "id": 2,
+      "grade": "C",
+      "evidence_label": "ESTIMATED / PROXY",
+      "publisher": "Crossref / Asia Pacific University Sdn. Bhd.",
+      "title": "SaaS Cloud Solution for Healthcare",
+      "source_family": "academic_research",
+      "metric": "On-demand peer-reviewed literature route: topic-relevant journal article source",
+      "url": "https://doi.org/10.65136/jati.v7i1.130",
+      "decision_use": "Qualitative signal only; useful for hypotheses, buyer language, and field intelligence, not hard claims."
+    },
+    {
+      "id": 3,
+      "grade": "C",
+      "evidence_label": "ESTIMATED / PROXY",
+      "publisher": "Crossref / Bulent Evcevit University",
+      "title": "SOFTWARE AS A SERVICE (SAAS) ADOPTION AS A DISRUPTIVE TECHNOLOGY: UNDERSTANDING THE CHALLENGES AND THE OBSTACLES OF NON-SAAS ADOPTERS YENİLİKÇİ TEKNOLOJİ OLARAK HİZMET İÇİN YAZILIM (SaaS): SaaS KULLANMAYANLARIN ZORLUKLARINI VE ENGELLERİNİ ARAŞTIRMAK",
+      "source_family": "academic_research",
+      "metric": "On-demand peer-reviewed literature route: topic-relevant journal article source",
+      "url": "https://doi.org/10.17130/ijmeb.1249540",
+      "decision_use": "Qualitative signal only; useful for hypotheses, buyer language, and field intelligence, not hard claims."
+    },
+    {
+      "id": 4,
+      "grade": "C",
+      "evidence_label": "ESTIMATED / PROXY",
+      "publisher": "Crossref / Elsevier BV",
+      "title": "Encryption in Transit in Healthcare SaaS: The Role of Mutual TLS",
+      "source_family": "academic_research",
+      "metric": "On-demand peer-reviewed literature route: topic-relevant journal article source",
+      "url": "https://doi.org/10.2139/ssrn.5131928",
+      "decision_use": "Qualitative signal only; useful for hypotheses, buyer language, and field intelligence, not hard claims."
+    },
+    {
+      "id": 5,
+      "grade": "C",
+      "evidence_label": "ESTIMATED / PROXY",
+      "publisher": "Crossref / Elsevier BV",
+      "title": "Predicting sports performance from well-being: A mapping of professional athletes’, amateur athletes’ and non-athletes’ positions",
+      "source_family": "academic_research",
+      "metric": "On-demand peer-reviewed literature route: topic-relevant journal article source",
+      "url": "https://doi.org/10.1016/j.erap.2022.100793",
+      "decision_use": "Qualitative signal only; useful for hypotheses, buyer language, and field intelligence, not hard claims."
+    },
+    {
+      "id": 6,
+      "grade": "C",
+      "evidence_label": "ESTIMATED / PROXY",
+      "publisher": "Crossref / Elsevier BV",
+      "title": "The influence of social networks within sports teams on athletes’ eating and exercise psychopathology: A longitudinal study",
+      "source_family": "academic_research",
+      "metric": "On-demand peer-reviewed literature route: topic-relevant journal article source",
+      "url": "https://doi.org/10.1016/j.psychsport.2020.101786",
+      "decision_use": "Qualitative signal only; useful for hypotheses, buyer language, and field intelligence, not hard claims."
+    },
+    {
+      "id": 7,
+      "grade": "C",
+      "evidence_label": "ESTIMATED / PROXY",
+      "publisher": "Crossref / Hogrefe Publishing Group",
+      "title": "Psychological support for elite athletes",
+      "source_family": "academic_research",
+      "metric": "On-demand peer-reviewed literature route: topic-relevant journal article source",
+      "url": "https://doi.org/10.1024/2674-0052/a000078",
+      "decision_use": "Qualitative signal only; useful for hypotheses, buyer language, and field intelligence, not hard claims."
+    },
+    {
+      "id": 8,
+      "grade": "C",
+      "evidence_label": "ESTIMATED / PROXY",
+      "publisher": "Crossref / Informa UK Limited",
+      "title": "The role of digital technology in facilitating epistemic fluency in professional education",
+      "source_family": "academic_research",
+      "metric": "On-demand peer-reviewed literature route: topic-relevant journal article source",
+      "url": "https://doi.org/10.1080/19415257.2024.2421489",
+      "decision_use": "Qualitative signal only; useful for hypotheses, buyer language, and field intelligence, not hard claims."
+    },
+    {
+      "id": 9,
+      "grade": "C",
+      "evidence_label": "ESTIMATED / PROXY",
+      "publisher": "Crossref / State Biotechnology University",
+      "title": "SaaS Fleet Tracking Systems for Sustainable Logistics Management in Ukraine.",
+      "source_family": "academic_research",
+      "metric": "On-demand peer-reviewed literature route: topic-relevant journal article source",
+      "url": "https://doi.org/10.69803/3083-6034-2025-4-61",
+      "decision_use": "Qualitative signal only; useful for hypotheses, buyer language, and field intelligence, not hard claims."
+    },
+    {
+      "id": 10,
+      "grade": "C",
+      "evidence_label": "ESTIMATED / PROXY",
+      "publisher": "OpenAlex / International Journal of Business Intelligence and Data Mining",
+      "title": "Machine learning models for predicting customer churn: a case study in a software-as-a-service inventory management company",
+      "source_family": "academic_research",
+      "metric": "On-demand academic research: topic-relevant research paper source",
+      "url": "https://doi.org/10.1504/ijbidm.2024.135146",
+      "decision_use": "Qualitative signal only; useful for hypotheses, buyer language, and field intelligence, not hard claims."
+    },
+    {
+      "id": 11,
+      "grade": "C",
+      "evidence_label": "ESTIMATED / PROXY",
+      "publisher": "OpenAlex / International Journal of Management Technology and Social Sciences",
+      "title": "Open Network for Digital Commerce -ONDC (E-Commerce) Infrastructure: To Promote SME/ MSME Sector for Inclusive and Sustainable Digital Economic growth",
+      "source_family": "academic_research",
+      "metric": "On-demand academic research: topic-relevant research paper source",
+      "url": "https://doi.org/10.47992/ijmts.2581.6012.0223",
+      "decision_use": "Qualitative signal only; useful for hypotheses, buyer language, and field intelligence, not hard claims."
+    },
+    {
+      "id": 12,
+      "grade": "B+",
+      "evidence_label": "VERIFIED BENCHMARK",
+      "publisher": "accountune.com",
+      "title": "Unknown vendor pricing: From ₹799",
+      "source_family": "pricing_reference",
+      "metric": "Pricing signal: From ₹799: Unknown vendor pricing evidence From ₹799 pricing",
+      "url": "https://accountune.com/inventory-management-software",
+      "decision_use": "Can support financial benchmarking, pricing, implementation, or procurement evidence when the vendor/buyer segment matches; disclose proxy limits."
+    },
+    {
+      "id": 13,
+      "grade": "B+",
+      "evidence_label": "VERIFIED BENCHMARK",
+      "publisher": "apnabillbook.com",
+      "title": "Unknown vendor pricing: ₹0",
+      "source_family": "pricing_reference",
+      "metric": "Pricing signal: ₹0: Unknown vendor pricing evidence ₹0 pricing",
+      "url": "https://apnabillbook.com/",
+      "decision_use": "Can support financial benchmarking, pricing, implementation, or procurement evidence when the vendor/buyer segment matches; disclose proxy limits."
+    },
+    {
+      "id": 14,
+      "grade": "B+",
+      "evidence_label": "ESTIMATED / PROXY",
+      "publisher": "blog.shipperguide.com",
+      "title": "Unknown vendor pricing: $17.47",
+      "source_family": "pricing_reference",
+      "metric": "Pricing signal: $17.47: Unknown vendor pricing evidence $17.47 pricing",
+      "url": "https://blog.shipperguide.com/best-logistics-software-smb",
+      "decision_use": "Can support financial benchmarking, pricing, implementation, or procurement evidence when the vendor/buyer segment matches; disclose proxy limits."
+    },
+    {
+      "id": 15,
+      "grade": "B+",
+      "evidence_label": "ESTIMATED / PROXY",
+      "publisher": "cargo.flowers",
+      "title": "Unknown vendor pricing: $10",
+      "source_family": "pricing_reference",
+      "metric": "Pricing signal: $10: Unknown vendor pricing evidence $10 pricing",
+      "url": "https://cargo.flowers/en/blog/post/saas-in-logistics",
+      "decision_use": "Can support financial benchmarking, pricing, implementation, or procurement evidence when the vendor/buyer segment matches; disclose proxy limits."
+    },
+    {
+      "id": 16,
+      "grade": "B+",
+      "evidence_label": "VERIFIED BENCHMARK",
+      "publisher": "cliniify.com",
+      "title": "Unknown vendor pricing: rs.\n\n21",
+      "source_family": "pricing_reference",
+      "metric": "Pricing signal: rs.\n\n21: Unknown vendor pricing evidence rs.\n\n21 pricing",
+      "url": "https://cliniify.com/",
+      "decision_use": "Can support financial benchmarking, pricing, implementation, or procurement evidence when the vendor/buyer segment matches; disclose proxy limits."
+    },
+    {
+      "id": 17,
+      "grade": "B+",
+      "evidence_label": "VERIFIED BENCHMARK",
+      "publisher": "deccanbill.com",
+      "title": "Unknown vendor pricing: ₹0",
+      "source_family": "pricing_reference",
+      "metric": "Pricing signal: ₹0: Unknown vendor pricing evidence ₹0 pricing",
+      "url": "https://deccanbill.com/",
+      "decision_use": "Can support financial benchmarking, pricing, implementation, or procurement evidence when the vendor/buyer segment matches; disclose proxy limits."
+    },
+    {
+      "id": 18,
+      "grade": "B+",
+      "evidence_label": "VERIFIED BENCHMARK",
+      "publisher": "dentskart.com",
+      "title": "Unknown vendor pricing: rs 24",
+      "source_family": "pricing_reference",
+      "metric": "Pricing signal: rs 24: Unknown vendor pricing evidence rs 24 pricing",
+      "url": "https://www.dentskart.com/",
+      "decision_use": "Can support financial benchmarking, pricing, implementation, or procurement evidence when the vendor/buyer segment matches; disclose proxy limits."
+    },
+    {
+      "id": 19,
+      "grade": "B+",
+      "evidence_label": "VERIFIED BENCHMARK",
+      "publisher": "g2.com",
+      "title": "Unknown vendor pricing: rs 2026",
+      "source_family": "pricing_reference",
+      "metric": "Pricing signal: rs 2026: Unknown vendor pricing evidence rs 2026 pricing",
+      "url": "https://www.g2.com/best-software-companies/top-companies",
+      "decision_use": "Can support financial benchmarking, pricing, implementation, or procurement evidence when the vendor/buyer segment matches; disclose proxy limits."
+    },
+    {
+      "id": 20,
+      "grade": "B+",
+      "evidence_label": "VERIFIED BENCHMARK",
+      "publisher": "learn.g2.com",
+      "title": "Unknown vendor pricing: $117.50",
+      "source_family": "pricing_reference",
+      "metric": "Pricing signal: $117.50: Unknown vendor pricing evidence $117.50 pricing",
+      "url": "https://learn.g2.com/best-restaurant-pos-systems",
+      "decision_use": "Can support financial benchmarking, pricing, implementation, or procurement evidence when the vendor/buyer segment matches; disclose proxy limits."
+    },
+    {
+      "id": 21,
+      "grade": "B+",
+      "evidence_label": "VERIFIED BENCHMARK",
+      "publisher": "learn.g2.com",
+      "title": "Unknown vendor pricing: $499",
+      "source_family": "pricing_reference",
+      "metric": "Pricing signal: $499: Unknown vendor pricing evidence $499 pricing",
+      "url": "https://learn.g2.com/best-restaurant-management-software",
+      "decision_use": "Can support financial benchmarking, pricing, implementation, or procurement evidence when the vendor/buyer segment matches; disclose proxy limits."
+    },
+    {
+      "id": 22,
+      "grade": "B+",
+      "evidence_label": "VERIFIED BENCHMARK",
+      "publisher": "lekhify.com",
+      "title": "Unknown vendor pricing: ₹48,920",
+      "source_family": "pricing_reference",
+      "metric": "Pricing signal: ₹48,920: Unknown vendor pricing evidence ₹48,920 pricing",
+      "url": "https://lekhify.com/",
+      "decision_use": "Can support financial benchmarking, pricing, implementation, or procurement evidence when the vendor/buyer segment matches; disclose proxy limits."
+    },
+    {
+      "id": 23,
+      "grade": "B+",
+      "evidence_label": "VERIFIED BENCHMARK",
+      "publisher": "marketresearchfuture.com",
+      "title": "Unknown vendor pricing: $ 258.6",
+      "source_family": "pricing_reference",
+      "metric": "Pricing signal: $ 258.6: Unknown vendor pricing evidence $ 258.6 pricing",
+      "url": "https://www.marketresearchfuture.com/reports/india-dental-software-market-49199",
+      "decision_use": "Can support financial benchmarking, pricing, implementation, or procurement evidence when the vendor/buyer segment matches; disclose proxy limits."
+    },
+    {
+      "id": 24,
+      "grade": "B+",
+      "evidence_label": "VERIFIED BENCHMARK",
+      "publisher": "razorpay.com",
+      "title": "Unknown vendor pricing: Rs.100",
+      "source_family": "pricing_reference",
+      "metric": "Pricing signal: Rs.100: Unknown vendor pricing evidence Rs.100 pricing",
+      "url": "https://razorpay.com/payroll/payroll-processing/",
+      "decision_use": "Can support financial benchmarking, pricing, implementation, or procurement evidence when the vendor/buyer segment matches; disclose proxy limits."
+    },
+    {
+      "id": 25,
+      "grade": "B+",
+      "evidence_label": "ESTIMATED / PROXY",
+      "publisher": "reddit.com",
+      "title": "Unknown vendor pricing: $120",
+      "source_family": "pricing_reference",
+      "metric": "Funding diligence evidence: Supplier quotes / input costs: Supplier quotes / input costs accepted from pricing_reference; original gate: Unknown vendor pricing evidence $120 pricing",
+      "url": "https://www.reddit.com/r/SaaS",
+      "decision_use": "Can support financial benchmarking, pricing, implementation, or procurement evidence when the vendor/buyer segment matches; disclose proxy limits."
+    },
+    {
+      "id": 26,
+      "grade": "B+",
+      "evidence_label": "ESTIMATED / PROXY",
+      "publisher": "reddit.com",
+      "title": "Unknown vendor pricing: $6",
+      "source_family": "pricing_reference",
+      "metric": "Funding diligence evidence: Supplier quotes / input costs: Supplier quotes / input costs accepted from pricing_reference; original gate: Unknown vendor pricing evidence $6 pricing",
+      "url": "https://www.reddit.com/r/agency/comments/1jpcit8/three_digital_marketing_agencies_181_clients_6myr",
+      "decision_use": "Can support financial benchmarking, pricing, implementation, or procurement evidence when the vendor/buyer segment matches; disclose proxy limits."
+    },
+    {
+      "id": 27,
+      "grade": "B+",
+      "evidence_label": "VERIFIED BENCHMARK",
+      "publisher": "reddit.com",
+      "title": "Unknown vendor pricing: 35$",
+      "source_family": "pricing_reference",
+      "metric": "Funding diligence evidence: Supplier quotes / input costs: Supplier quotes / input costs accepted from pricing_reference; original gate: Unknown vendor pricing evidence 35$ pricing",
+      "url": "https://www.reddit.com/r/bangalore/comments/1ej3jrw/dentists_of_bangalore_what_is_this_scam",
+      "decision_use": "Can support financial benchmarking, pricing, implementation, or procurement evidence when the vendor/buyer segment matches; disclose proxy limits."
+    },
+    {
+      "id": 28,
+      "grade": "B+",
+      "evidence_label": "VERIFIED BENCHMARK",
+      "publisher": "youtube.com",
+      "title": "Audi pricing: rs. 3",
+      "source_family": "pricing_reference",
+      "metric": "Funding diligence evidence: Supplier quotes / input costs: Supplier quotes / input costs accepted from pricing_reference; original gate: Audi pricing evidence rs. 3 pricing",
+      "url": "https://www.youtube.com/watch?v=MlYWfeWH9TU",
+      "decision_use": "Can support financial benchmarking, pricing, implementation, or procurement evidence when the vendor/buyer segment matches; disclose proxy limits."
+    },
+    {
+      "id": 29,
+      "grade": "B+",
+      "evidence_label": "VERIFIED BENCHMARK",
+      "publisher": "youtube.com",
+      "title": "Unknown vendor pricing: $56",
+      "source_family": "pricing_reference",
+      "metric": "Funding diligence evidence: Supplier quotes / input costs: Supplier quotes / input costs accepted from pricing_reference; original gate: Unknown vendor pricing evidence $56 pricing",
+      "url": "https://www.youtube.com/watch?v=4FvKlaiFEZw",
+      "decision_use": "Can support financial benchmarking, pricing, implementation, or procurement evidence when the vendor/buyer segment matches; disclose proxy limits."
+    },
+    {
+      "id": 30,
+      "grade": "B+",
+      "evidence_label": "ESTIMATED / PROXY",
+      "publisher": "youtube.com",
+      "title": "Unknown vendor pricing: $60",
+      "source_family": "pricing_reference",
+      "metric": "Funding diligence evidence: Supplier quotes / input costs: Supplier quotes / input costs accepted from pricing_reference; original gate: Unknown vendor pricing evidence $60 pricing",
+      "url": "https://www.youtube.com/watch?v=XiGag8GJHWA",
+      "decision_use": "Can support financial benchmarking, pricing, implementation, or procurement evidence when the vendor/buyer segment matches; disclose proxy limits."
+    },
+    {
+      "grade": "B",
+      "title": "Petpooja",
+      "url": "https://www.getgrahak.co/best-restaurant-pos-systems",
+      "source_family": "serp_competitor",
+      "publisher": "Petpooja",
+      "year": "",
+      "metric": "",
+      "use_in_report": "serp_live_discovery"
+    },
+    {
+      "grade": "B",
+      "title": "POSist",
+      "url": "https://www.getgrahak.co/best-restaurant-pos-systems",
+      "source_family": "serp_competitor",
+      "publisher": "POSist",
+      "year": "",
+      "metric": "",
+      "use_in_report": "serp_live_discovery"
+    },
+    {
+      "grade": "B",
+      "title": "Get Grahak",
+      "url": "https://www.getgrahak.co/best-restaurant-pos-systems",
+      "source_family": "serp_competitor",
+      "publisher": "Get Grahak",
+      "year": "",
+      "metric": "",
+      "use_in_report": "serp_live_discovery"
+    },
+    {
+      "grade": "B",
+      "title": "LimeTray POS",
+      "url": "https://limetray.com/restaurant-pos",
+      "source_family": "serp_competitor",
+      "publisher": "LimeTray POS",
+      "year": "",
+      "metric": "",
+      "use_in_report": "serp_live_discovery"
+    },
+    {
+      "grade": "B",
+      "title": "GOFRUGAL Restaurant POS",
+      "url": "https://www.gofrugal.com/pos-software/",
+      "source_family": "serp_competitor",
+      "publisher": "GOFRUGAL Restaurant POS",
+      "year": "",
+      "metric": "",
+      "use_in_report": "serp_live_discovery"
+    },
+    {
+      "grade": "B",
+      "title": "PosEase",
+      "url": "https://www.posease.com",
+      "source_family": "serp_competitor",
+      "publisher": "PosEase",
+      "year": "",
+      "metric": "",
+      "use_in_report": "serp_live_discovery"
+    },
+    {
+      "grade": "B",
+      "title": "Restokeep (Zobaze Restaurant POS: Café Billing)",
+      "url": "https://play.google.com/store/apps/details?id=com.zobaze.restaurant.pos&hl=en_IN",
+      "source_family": "serp_competitor",
+      "publisher": "Restokeep (Zobaze Restaurant POS: Café Billing)",
+      "year": "",
+      "metric": "",
+      "use_in_report": "serp_live_discovery"
+    },
+    {
+      "grade": "B",
+      "title": "RestosoftIN",
+      "url": "https://restaurantsoftwaremanagement.com",
+      "source_family": "serp_competitor",
+      "publisher": "RestosoftIN",
+      "year": "",
+      "metric": "",
+      "use_in_report": "serp_live_discovery"
+    },
+    {
+      "grade": "B",
+      "title": "Oracle MICROS Restaurant POS (Oracle Food & Beverage India)",
+      "url": "https://www.oracle.com/in/food-beverage/restaurant-pos-systems/",
+      "source_family": "serp_competitor",
+      "publisher": "Oracle MICROS Restaurant POS (Oracle Food & Beverage India)",
+      "year": "",
+      "metric": "",
+      "use_in_report": "serp_live_discovery"
+    },
+    {
+      "grade": "B",
+      "title": "buyer sentiment",
+      "url": "",
+      "source_family": "serp_buyer_voice",
+      "publisher": "buyer sentiment",
+      "year": "",
+      "metric": "",
+      "use_in_report": "serp_live_discovery"
+    }
+  ],
+  "research_report": {
+    "available": true,
+    "topic": "Restaurant POS and billing software",
+    "geography": "India",
+    "section_count": 4
+  },
+  "business_plan": {
+    "available": false,
+    "quality": {},
+    "founder_readable_available": false
+  },
+  "ICP": {},
+  "leads": [],
+  "financial_model": {
+    "topic": "Restaurant POS and billing software",
+    "industry": "Food / Hospitality SaaS",
+    "target": "India",
+    "horizon": "2026-2031",
+    "domain": "hospitality",
+    "dashboard_mode": "evidence_first",
+    "headline": {
+      "tam_base": 0,
+      "tam_base_fmt": "ESTIMATED $0",
+      "tam_range": "ESTIMATED $0 base; 2031 scenario $0",
+      "sam": 0,
+      "sam_fmt": "ESTIMATED $0",
+      "som_range": "ESTIMATED $0",
+      "forecast_cagr_2026_2031": 0.08,
+      "forecast_cagr_2026_2031_fmt": "ESTIMATED 8.0%"
+    },
+    "industry_model_name": "General Evidence Model",
+    "assumptions": {
+      "model_status": "No generic TAM model applied.",
+      "required_scope": "product/use case + buyer segment + geography + channel",
+      "sizing_rule": "TAM/SAM/SOM can be shown only after topic-specific source evidence and explicit formulas are populated."
+    },
+    "executive_metrics": [
+      {
+        "label": "TAM 2026",
+        "value": "ESTIMATED $0",
+        "source": "IIDATECH 2026 Financial Model Bank",
+        "confidence": "Estimated",
+        "note": "Uses source-backed macro denominators where available plus IIDATECH domain assumptions; not a verified market-size claim.",
+        "evidence_namespace": "SYNTHETIC MODEL",
+        "citation_allowed": false,
+        "not_investor_citable": true
+      },
+      {
+        "label": "SAM 2026",
+        "value": "ESTIMATED $0",
+        "source": "IIDATECH 2026 Financial Model Bank",
+        "confidence": "Estimated",
+        "note": "SAM formula: TAM x serviceable_share.",
+        "evidence_namespace": "SYNTHETIC MODEL",
+        "citation_allowed": false,
+        "not_investor_citable": true
+      },
+      {
+        "label": "SOM 2026",
+        "value": "ESTIMATED $0",
+        "source": "IIDATECH 2026 Financial Model Bank",
+        "confidence": "Estimated",
+        "note": "SOM formula: SAM x obtainable_capture_share.",
+        "evidence_namespace": "SYNTHETIC MODEL",
+        "citation_allowed": false,
+        "not_investor_citable": true
+      },
+      {
+        "label": "2026-2031 CAGR",
+        "value": "ESTIMATED 8.0%",
+        "source": "IIDATECH 2026 Financial Model Bank",
+        "confidence": "Scenario",
+        "note": "Scenario assumption, not a verified analyst CAGR.",
+        "evidence_namespace": "SYNTHETIC MODEL",
+        "citation_allowed": false,
+        "not_investor_citable": true
+      },
+      {
+        "label": "Sizing status",
+        "value": "Source-gated",
+        "source": "official statistics/company filings/analyst sources",
+        "confidence": "High",
+        "note": "No generic TAM is shown until domain-specific evidence is attached."
+      },
+      {
+        "label": "Model requirement",
+        "value": "Bottom-up wedge",
+        "source": "IIDATECH formula gate",
+        "confidence": "High",
+        "note": "Define customers, price, frequency, and channel before modeling."
+      },
+      {
+        "label": "Competitive basis",
+        "value": "Source-gated",
+        "source": "filings/pricing pages/channel checks",
+        "confidence": "Medium",
+        "note": "Competitor share requires disclosed data or proxy methodology."
+      },
+      {
+        "label": "Evidence gap",
+        "value": "Primary validation needed",
+        "source": "customer/interview plan",
+        "confidence": "Medium",
+        "note": "Needs buyer calls and pricing/channel checks."
+      }
+    ],
+    "formula_rows": [
+      {
+        "model_part": "TAM",
+        "formula": "eligible customers or volume x price/frequency",
+        "required_data": "official or audited market volume and topic-specific price"
+      },
+      {
+        "model_part": "SAM",
+        "formula": "TAM x reachable geography/channel/use-case share",
+        "required_data": "distribution constraints and buyer eligibility"
+      },
+      {
+        "model_part": "SOM",
+        "formula": "SAM x realistic penetration over period",
+        "required_data": "sales capacity, conversion, churn/retention, competitor response"
+      },
+      {
+        "model_part": "Unit economics",
+        "formula": "revenue - COGS - acquisition - service/compliance costs",
+        "required_data": "cost stack and cohort behavior"
+      }
+    ],
+    "scenario_rows": [
+      {
+        "scenario": "Bear",
+        "model_output": "Validation incomplete",
+        "logic": "Weak source coverage or unclear buyer economics blocks a numeric model.",
+        "source_status": "Needs official/filing/primary data."
+      },
+      {
+        "scenario": "Base",
+        "model_output": "Narrow wedge validated",
+        "logic": "A defined buyer/use case supports explicit bottom-up sizing.",
+        "source_status": "Needs price, volume, and adoption evidence."
+      },
+      {
+        "scenario": "Bull",
+        "model_output": "Repeatable expansion",
+        "logic": "Evidence supports expansion into adjacent customer segments or regions.",
+        "source_status": "Needs cohort and competitive proof."
+      }
+    ],
+    "driver_rows": [
+      {
+        "driver": "Customer/volume base",
+        "why_it_matters": "Defines the addressable universe."
+      },
+      {
+        "driver": "Price or take rate",
+        "why_it_matters": "Translates volume into revenue pool."
+      },
+      {
+        "driver": "Adoption/penetration",
+        "why_it_matters": "Converts TAM/SAM into realistic obtainable revenue."
+      },
+      {
+        "driver": "Churn/retention",
+        "why_it_matters": "Determines lifetime value and forecast durability."
+      },
+      {
+        "driver": "Cost to serve",
+        "why_it_matters": "Controls contribution margin and valuation quality."
+      }
+    ],
+    "source_gate_rows": [
+      {
+        "claim_type": "Market size",
+        "minimum_evidence": "two domain-matched sources or one official source plus bottom-up model",
+        "allowed_output": "range with assumptions"
+      },
+      {
+        "claim_type": "Forecast",
+        "minimum_evidence": "historical time series or named adoption drivers",
+        "allowed_output": "scenario forecast"
+      },
+      {
+        "claim_type": "Valuation",
+        "minimum_evidence": "unit economics and comparable company/transaction evidence",
+        "allowed_output": "sensitivity table"
+      }
+    ],
+    "methodology_notes": [
+      "Generic market assumptions were intentionally disabled.",
+      "The dashboard shows validation gates until domain-specific data is sufficient.",
+      "This prevents cross-industry metric contamination and unsupported TAM/CAGR claims."
+    ],
+    "stored_2026_financial_model_id": "1eac269b7c687241",
+    "stored_2026_financial_model_status": "ESTIMATED",
+    "stored_2026_financial_model_source_status": "Uses source-backed macro denominators where available plus IIDATECH domain assumptions; not a verified market-size claim.",
+    "evidence_namespace": "SYNTHETIC MODEL",
+    "citation_allowed": false,
+    "not_investor_citable": true,
+    "provenance_claims": [
+      {
+        "id": "5dc6bb29-7de6-4b9f-8aea-243a2a955eb3",
+        "source_type": "derived_formula",
+        "metric_name": "TAM 2026",
+        "value": 0,
+        "unit": "USD",
+        "derived_from_claim_ids": [],
+        "formula_expression": "GDP x industry_spend_share x topic_wedge_share x digital_readiness_factor",
+        "formula_inputs": {
+          "gdp_current_usd": 0.0,
+          "industry_spend_share": 0.035,
+          "topic_wedge_share": 0.025
+        },
+        "formula_type": "tam_bottom_up",
+        "confidence": 0.54
+      },
+      {
+        "id": "34961ee1-273a-42cb-82f0-65359e595457",
+        "source_type": "derived_formula",
+        "metric_name": "SAM 2026",
+        "value": 0,
+        "unit": "USD",
+        "derived_from_claim_ids": [
+          "5dc6bb29-7de6-4b9f-8aea-243a2a955eb3"
+        ],
+        "formula_expression": "TAM x serviceable_share",
+        "formula_inputs": {
+          "tam_2026": 0,
+          "sam_share_assumption": 0.22
+        },
+        "formula_type": "sam_filter",
+        "confidence": 0.459
+      },
+      {
+        "id": "b4a6b729-e56f-4ff7-b8da-4399b6e95b24",
+        "source_type": "derived_formula",
+        "metric_name": "SOM 2026",
+        "value": 0,
+        "unit": "USD",
+        "derived_from_claim_ids": [
+          "34961ee1-273a-42cb-82f0-65359e595457"
+        ],
+        "formula_expression": "SAM x obtainable_capture_share",
+        "formula_inputs": {
+          "sam_2026": 0,
+          "som_capture_share_assumption": 0.01
+        },
+        "formula_type": "som_capture",
+        "confidence": 0.3672
+      }
+    ]
+  },
+  "employees_team_tasks": {},
+  "exports": [
+    "Founder business plan",
+    "Investor memo",
+    "GTM plan",
+    "Financial model CSV/XLSX",
+    "Lead list CSV",
+    "Team task plan",
+    "Source ledger"
+  ],
+  "scope_assessment": {
+    "ok": true,
+    "domain": "saas_software",
+    "issues": [],
+    "suggestions": [
+      "One product category for one buyer segment in India",
+      "One workflow or use case inside Food / Hospitality SaaS for a named customer type in India",
+      "One channel-led business model with price band, buyer, and geography specified"
+    ]
+  }
+}

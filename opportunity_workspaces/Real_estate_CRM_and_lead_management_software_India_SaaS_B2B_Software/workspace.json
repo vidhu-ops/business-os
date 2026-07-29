@@ -1,0 +1,714 @@
+{
+  "workspace_id": "Real_estate_CRM_and_lead_management_software_India_SaaS_B2B_Software",
+  "workspace_dir": "C:\\Users\\weewee\\iida\\opportunity_workspaces\\Real_estate_CRM_and_lead_management_software_India_SaaS_B2B_Software",
+  "updated_at": "2026-07-05T22:47:00.705240Z",
+  "idea": "Real estate CRM and lead management software",
+  "country": "India",
+  "industry": "SaaS / B2B Software",
+  "current_path": "Research a market",
+  "uploaded_files": [],
+  "uploaded_file_context": [],
+  "source_ledger": [
+    {
+      "id": 1,
+      "grade": "C",
+      "evidence_label": "ESTIMATED / PROXY",
+      "publisher": "Crossref / Continuing Professional Development Events New Mumbai",
+      "title": "REAL ESTATE LEAD TRACKER & PLOT BOOKING SOFTWARE",
+      "source_family": "academic_research",
+      "metric": "On-demand peer-reviewed literature route: topic-relevant journal article source",
+      "url": "https://doi.org/10.69758/wnnb4758",
+      "decision_use": "Qualitative signal only; useful for hypotheses, buyer language, and field intelligence, not hard claims."
+    },
+    {
+      "id": 2,
+      "grade": "C",
+      "evidence_label": "ESTIMATED / PROXY",
+      "publisher": "Crossref / Everant Journals",
+      "title": "Applying Decision Analysis to Redefine Software as a Service (SAAS) Product Development: A Case of Supply Chain Management Software in a Startup Company",
+      "source_family": "academic_research",
+      "metric": "On-demand peer-reviewed literature route: topic-relevant journal article source",
+      "url": "https://doi.org/10.47191/ijcsrr/v7-i7-73",
+      "decision_use": "Qualitative signal only; useful for hypotheses, buyer language, and field intelligence, not hard claims."
+    },
+    {
+      "id": 3,
+      "grade": "C",
+      "evidence_label": "ESTIMATED / PROXY",
+      "publisher": "Crossref / Everant Journals",
+      "title": "Intelligent Automation of Supply Audit Using Machine Learning in B2B Saas Platforms",
+      "source_family": "academic_research",
+      "metric": "On-demand peer-reviewed literature route: topic-relevant journal article source",
+      "url": "https://doi.org/10.47191/jefms/v8-i12-40",
+      "decision_use": "Qualitative signal only; useful for hypotheses, buyer language, and field intelligence, not hard claims."
+    },
+    {
+      "id": 4,
+      "grade": "C",
+      "evidence_label": "ESTIMATED / PROXY",
+      "publisher": "Crossref / GSC Online Press",
+      "title": "Autonomous CI/CD Pipelines: The Future of Software Development Automation",
+      "source_family": "academic_research",
+      "metric": "On-demand peer-reviewed literature route: topic-relevant journal article source",
+      "url": "https://doi.org/10.30574/gjeta.2025.23.1.0126",
+      "decision_use": "Qualitative signal only; useful for hypotheses, buyer language, and field intelligence, not hard claims."
+    },
+    {
+      "id": 5,
+      "grade": "C",
+      "evidence_label": "ESTIMATED / PROXY",
+      "publisher": "Crossref / GSC Online Press",
+      "title": "Building a low-cost CRM strategy: Best practices for SMBS with limited technical resources",
+      "source_family": "academic_research",
+      "metric": "On-demand peer-reviewed literature route: topic-relevant journal article source",
+      "url": "https://doi.org/10.30574/wjaets.2025.15.1.0362",
+      "decision_use": "Qualitative signal only; useful for hypotheses, buyer language, and field intelligence, not hard claims."
+    },
+    {
+      "id": 6,
+      "grade": "C",
+      "evidence_label": "ESTIMATED / PROXY",
+      "publisher": "Crossref / International Journal for Research in Applied Science and Engineering Technology (IJRASET)",
+      "title": "Benefits and Challenges of SAAS CRM Over On-Premise CRM: A Review",
+      "source_family": "academic_research",
+      "metric": "On-demand peer-reviewed literature route: topic-relevant journal article source",
+      "url": "https://doi.org/10.22214/ijraset.2021.39704",
+      "decision_use": "Qualitative signal only; useful for hypotheses, buyer language, and field intelligence, not hard claims."
+    },
+    {
+      "id": 7,
+      "grade": "C",
+      "evidence_label": "ESTIMATED / PROXY",
+      "publisher": "Crossref / International Research Journal of Education and Technology",
+      "title": "CRM INTEGRATION AND AUTOMATION",
+      "source_family": "academic_research",
+      "metric": "On-demand peer-reviewed literature route: topic-relevant journal article source",
+      "url": "https://doi.org/10.70127/irjedt.vol.7.issue03.1083",
+      "decision_use": "Qualitative signal only; useful for hypotheses, buyer language, and field intelligence, not hard claims."
+    },
+    {
+      "id": 8,
+      "grade": "C",
+      "evidence_label": "ESTIMATED / PROXY",
+      "publisher": "Crossref / Lomaka & Romina Publisher",
+      "title": "Automation Strategies for Tenant-Aware SaaS Workflows",
+      "source_family": "academic_research",
+      "metric": "On-demand peer-reviewed literature route: topic-relevant journal article source",
+      "url": "https://doi.org/10.59573/emsj.9(3).2025.33",
+      "decision_use": "Qualitative signal only; useful for hypotheses, buyer language, and field intelligence, not hard claims."
+    },
+    {
+      "id": 9,
+      "grade": "C",
+      "evidence_label": "ESTIMATED / PROXY",
+      "publisher": "Crossref / SAGE Publications",
+      "title": "Comparative Assessment of Prevalent Cost Estimation Software Applications for Construction Projects - A Review",
+      "source_family": "academic_research",
+      "metric": "On-demand peer-reviewed literature route: topic-relevant journal article source",
+      "url": "https://doi.org/10.1177/297765702022s215",
+      "decision_use": "Qualitative signal only; useful for hypotheses, buyer language, and field intelligence, not hard claims."
+    },
+    {
+      "id": 10,
+      "grade": "C",
+      "evidence_label": "ESTIMATED / PROXY",
+      "publisher": "Crossref / Seventh Sense Research Group Journals",
+      "title": "Engineering AI Augmented Admin Tools: Automation of Repetitive Workflows in B2B SaaS Systems",
+      "source_family": "academic_research",
+      "metric": "On-demand peer-reviewed literature route: topic-relevant journal article source",
+      "url": "https://doi.org/10.14445/22312803/ijctt-v73i5p124",
+      "decision_use": "Qualitative signal only; useful for hypotheses, buyer language, and field intelligence, not hard claims."
+    },
+    {
+      "id": 11,
+      "grade": "C",
+      "evidence_label": "ESTIMATED / PROXY",
+      "publisher": "Crossref / Universitas Tarumanagara",
+      "title": "Optimising MSMEs B2B Marketing Performance Through Marketing Automation In CRM Strategy",
+      "source_family": "academic_research",
+      "metric": "On-demand peer-reviewed literature route: topic-relevant journal article source",
+      "url": "https://doi.org/10.24912/jm.v28i3.1881",
+      "decision_use": "Qualitative signal only; useful for hypotheses, buyer language, and field intelligence, not hard claims."
+    },
+    {
+      "id": 12,
+      "grade": "C",
+      "evidence_label": "ESTIMATED / PROXY",
+      "publisher": "OpenAlex / Gulf Journal of Advance Business Research",
+      "title": "Retention analytics in professional services: CRM–deal flow fusion models for churn prediction and upsell",
+      "source_family": "academic_research",
+      "metric": "On-demand academic research: topic-relevant research paper source",
+      "url": "https://doi.org/10.51594/gjabr.v3i10.166",
+      "decision_use": "Qualitative signal only; useful for hypotheses, buyer language, and field intelligence, not hard claims."
+    },
+    {
+      "id": 13,
+      "grade": "C",
+      "evidence_label": "ESTIMATED / PROXY",
+      "publisher": "OpenAlex / Journal of Computing and Natural Science",
+      "title": "The Rise of Robotic Process Automation in the Banking Sector: Streamlining Operations and Improving Efficiency",
+      "source_family": "academic_research",
+      "metric": "On-demand academic research: topic-relevant research paper source",
+      "url": "https://doi.org/10.53759/181x/jcns202404004",
+      "decision_use": "Qualitative signal only; useful for hypotheses, buyer language, and field intelligence, not hard claims."
+    },
+    {
+      "id": 14,
+      "grade": "C",
+      "evidence_label": "ESTIMATED / PROXY",
+      "publisher": "OpenAlex / OpenAlex",
+      "title": "Playbooks de crescimento em SAAS B2B : um estudo comparativo entre estratégias para SMB e enterprise",
+      "source_family": "academic_research",
+      "metric": "On-demand academic research: topic-relevant research paper source",
+      "url": "https://doi.org/10.11606/003283866",
+      "decision_use": "Qualitative signal only; useful for hypotheses, buyer language, and field intelligence, not hard claims."
+    },
+    {
+      "id": 15,
+      "grade": "C",
+      "evidence_label": "ESTIMATED / PROXY",
+      "publisher": "OpenAlex / Sustainability",
+      "title": "Cloud Computing, Big Data, and Blockchain Technology Adoption in ERP Implementation Methodology",
+      "source_family": "academic_research",
+      "metric": "On-demand academic research: topic-relevant research paper source",
+      "url": "https://doi.org/10.3390/su14073714",
+      "decision_use": "Qualitative signal only; useful for hypotheses, buyer language, and field intelligence, not hard claims."
+    },
+    {
+      "id": 16,
+      "grade": "B+",
+      "evidence_label": "VERIFIED BENCHMARK",
+      "publisher": "accountune.com",
+      "title": "Unknown vendor pricing: From ₹799",
+      "source_family": "pricing_reference",
+      "metric": "Pricing signal: From ₹799: Unknown vendor pricing evidence From ₹799 pricing",
+      "url": "https://accountune.com/inventory-management-software",
+      "decision_use": "Can support financial benchmarking, pricing, implementation, or procurement evidence when the vendor/buyer segment matches; disclose proxy limits."
+    },
+    {
+      "id": 17,
+      "grade": "B+",
+      "evidence_label": "ESTIMATED / PROXY",
+      "publisher": "ai.g2.com",
+      "title": "HubSpot pricing: $0",
+      "source_family": "pricing_reference",
+      "metric": "Pricing signal: $0: HubSpot pricing evidence $0 pricing",
+      "url": "https://ai.g2.com/event_tracking/external_clicks?label=resource_link&token=eyJfcmFpbHMiOnsibWVzc2FnZSI6IkJBaEpJaTlvZEhSd2N6b3ZMM2QzZHk1b2RXSnpjRzkwTG1OdmJTOXdjbTlrZFdOMGN5OXRZWEpyWlhScGJtY0dPZ1pGVkE9PSIsImV4cCI6bnVsbCwicHVyIjoiZXh0ZXJuYWxfY2xpY2tfcmVkaXJlY3QifX0%3D--3b4da62432d448958c65318040ee624ff4d5c631",
+      "decision_use": "Can support financial benchmarking, pricing, implementation, or procurement evidence when the vendor/buyer segment matches; disclose proxy limits."
+    },
+    {
+      "id": 18,
+      "grade": "B+",
+      "evidence_label": "ESTIMATED / PROXY",
+      "publisher": "blog.shipperguide.com",
+      "title": "Unknown vendor pricing: $17.47",
+      "source_family": "pricing_reference",
+      "metric": "Pricing signal: $17.47: Unknown vendor pricing evidence $17.47 pricing",
+      "url": "https://blog.shipperguide.com/best-logistics-software-smb",
+      "decision_use": "Can support financial benchmarking, pricing, implementation, or procurement evidence when the vendor/buyer segment matches; disclose proxy limits."
+    },
+    {
+      "id": 19,
+      "grade": "B+",
+      "evidence_label": "ESTIMATED / PROXY",
+      "publisher": "cargo.flowers",
+      "title": "Unknown vendor pricing: $10",
+      "source_family": "pricing_reference",
+      "metric": "Pricing signal: $10: Unknown vendor pricing evidence $10 pricing",
+      "url": "https://cargo.flowers/en/blog/post/saas-in-logistics",
+      "decision_use": "Can support financial benchmarking, pricing, implementation, or procurement evidence when the vendor/buyer segment matches; disclose proxy limits."
+    },
+    {
+      "id": 20,
+      "grade": "B+",
+      "evidence_label": "ESTIMATED / PROXY",
+      "publisher": "industry_landscape_seed",
+      "title": "HubSpot pricing: $45/month",
+      "source_family": "pricing_reference",
+      "metric": "Pricing signal: $45/month: HubSpot pricing evidence $45/month pricing",
+      "url": "https://landscape.iidatech.local/crm_automation/hubspot/pricing",
+      "decision_use": "Can support financial benchmarking, pricing, implementation, or procurement evidence when the vendor/buyer segment matches; disclose proxy limits."
+    },
+    {
+      "id": 21,
+      "grade": "B+",
+      "evidence_label": "ESTIMATED / PROXY",
+      "publisher": "industry_landscape_seed",
+      "title": "Pipedrive pricing: $19/month",
+      "source_family": "pricing_reference",
+      "metric": "Pricing signal: $19/month: Pipedrive pricing evidence $19/month pricing",
+      "url": "https://landscape.iidatech.local/crm_automation/pipedrive/pricing",
+      "decision_use": "Can support financial benchmarking, pricing, implementation, or procurement evidence when the vendor/buyer segment matches; disclose proxy limits."
+    },
+    {
+      "id": 22,
+      "grade": "B+",
+      "evidence_label": "ESTIMATED / PROXY",
+      "publisher": "industry_landscape_seed",
+      "title": "Zoho pricing: INR 3999",
+      "source_family": "pricing_reference",
+      "metric": "Pricing signal: INR 3999: Zoho pricing evidence INR 3999 pricing",
+      "url": "https://landscape.iidatech.local/crm_automation/zoho/pricing",
+      "decision_use": "Can support financial benchmarking, pricing, implementation, or procurement evidence when the vendor/buyer segment matches; disclose proxy limits."
+    },
+    {
+      "id": 23,
+      "grade": "B+",
+      "evidence_label": "ESTIMATED / PROXY",
+      "publisher": "learn.g2.com",
+      "title": "HubSpot pricing: $0",
+      "source_family": "pricing_reference",
+      "metric": "Pricing signal: $0: HubSpot pricing evidence $0 pricing",
+      "url": "https://learn.g2.com/is-hubspot-worth-it",
+      "decision_use": "Can support financial benchmarking, pricing, implementation, or procurement evidence when the vendor/buyer segment matches; disclose proxy limits."
+    },
+    {
+      "id": 24,
+      "grade": "B+",
+      "evidence_label": "VERIFIED BENCHMARK",
+      "publisher": "learn.g2.com",
+      "title": "Unknown vendor pricing: $499",
+      "source_family": "pricing_reference",
+      "metric": "Pricing signal: $499: Unknown vendor pricing evidence $499 pricing",
+      "url": "https://learn.g2.com/best-restaurant-management-software",
+      "decision_use": "Can support financial benchmarking, pricing, implementation, or procurement evidence when the vendor/buyer segment matches; disclose proxy limits."
+    },
+    {
+      "id": 25,
+      "grade": "B+",
+      "evidence_label": "ESTIMATED / PROXY",
+      "publisher": "reddit.com",
+      "title": "HubSpot pricing: $1,400",
+      "source_family": "pricing_reference",
+      "metric": "Funding diligence evidence: Supplier quotes / input costs: Supplier quotes / input costs accepted from pricing_reference; original gate: HubSpot pricing evidence $1,400 pricing",
+      "url": "https://www.reddit.com/r/CRM/comments/1s4wbrx/built_a_selfhosted_crm_automation_system_because",
+      "decision_use": "Can support financial benchmarking, pricing, implementation, or procurement evidence when the vendor/buyer segment matches; disclose proxy limits."
+    },
+    {
+      "id": 26,
+      "grade": "B+",
+      "evidence_label": "ESTIMATED / PROXY",
+      "publisher": "reddit.com",
+      "title": "Unknown vendor pricing: $100",
+      "source_family": "pricing_reference",
+      "metric": "Funding diligence evidence: Supplier quotes / input costs: Supplier quotes / input costs accepted from pricing_reference; original gate: Unknown vendor pricing evidence $100 pricing",
+      "url": "https://www.reddit.com/r/CRMSoftware/comments/1olac3c/what_crm_are_small_saas_companies_using_that_isnt",
+      "decision_use": "Can support financial benchmarking, pricing, implementation, or procurement evidence when the vendor/buyer segment matches; disclose proxy limits."
+    },
+    {
+      "id": 27,
+      "grade": "B+",
+      "evidence_label": "ESTIMATED / PROXY",
+      "publisher": "reddit.com",
+      "title": "Unknown vendor pricing: $4,100",
+      "source_family": "pricing_reference",
+      "metric": "Funding diligence evidence: Supplier quotes / input costs: Supplier quotes / input costs accepted from pricing_reference; original gate: Unknown vendor pricing evidence $4,100 pricing",
+      "url": "https://www.reddit.com/r/Entrepreneur/comments/1s5i577/the_saas_model_is_quietly_falling_apart_for_small",
+      "decision_use": "Can support financial benchmarking, pricing, implementation, or procurement evidence when the vendor/buyer segment matches; disclose proxy limits."
+    },
+    {
+      "id": 28,
+      "grade": "B+",
+      "evidence_label": "ESTIMATED / PROXY",
+      "publisher": "youtube.com",
+      "title": "HubSpot pricing: rs 1888",
+      "source_family": "pricing_reference",
+      "metric": "Funding diligence evidence: Supplier quotes / input costs: Supplier quotes / input costs accepted from pricing_reference; original gate: HubSpot pricing evidence rs 1888 pricing",
+      "url": "https://www.youtube.com/watch?v=GCMdLB82FXg",
+      "decision_use": "Can support financial benchmarking, pricing, implementation, or procurement evidence when the vendor/buyer segment matches; disclose proxy limits."
+    },
+    {
+      "id": 29,
+      "grade": "B+",
+      "evidence_label": "ESTIMATED / PROXY",
+      "publisher": "youtube.com",
+      "title": "Pipedrive pricing: rs 6",
+      "source_family": "pricing_reference",
+      "metric": "Funding diligence evidence: Supplier quotes / input costs: Supplier quotes / input costs accepted from pricing_reference; original gate: Pipedrive pricing evidence rs 6 pricing",
+      "url": "https://www.youtube.com/watch?v=IJya3gma-GA",
+      "decision_use": "Can support financial benchmarking, pricing, implementation, or procurement evidence when the vendor/buyer segment matches; disclose proxy limits."
+    },
+    {
+      "id": 30,
+      "grade": "B+",
+      "evidence_label": "VERIFIED BENCHMARK",
+      "publisher": "youtube.com",
+      "title": "Unknown vendor pricing: USD 25",
+      "source_family": "pricing_reference",
+      "metric": "Funding diligence evidence: Supplier quotes / input costs: Supplier quotes / input costs accepted from pricing_reference; original gate: Unknown vendor pricing evidence USD 25 pricing",
+      "url": "https://www.youtube.com/watch?v=Dxlh1Ck0RAE",
+      "decision_use": "Can support financial benchmarking, pricing, implementation, or procurement evidence when the vendor/buyer segment matches; disclose proxy limits."
+    },
+    {
+      "grade": "B",
+      "title": "Sell.Do",
+      "url": "https://www.proptechbuzz.com/blog/top-10-real-estate-crm-software-in-india",
+      "source_family": "serp_competitor",
+      "publisher": "Sell.Do",
+      "year": "",
+      "metric": "",
+      "use_in_report": "serp_live_discovery"
+    },
+    {
+      "grade": "B",
+      "title": "Zoho CRM (Real Estate vertical)",
+      "url": "https://www.zoho.com/crm/verticals/real-estate/",
+      "source_family": "serp_competitor",
+      "publisher": "Zoho CRM (Real Estate vertical)",
+      "year": "",
+      "metric": "",
+      "use_in_report": "serp_live_discovery"
+    },
+    {
+      "grade": "B",
+      "title": "Freshsales (Freshworks)",
+      "url": "https://www.proptechbuzz.com/blog/top-10-real-estate-crm-software-in-india",
+      "source_family": "serp_competitor",
+      "publisher": "Freshsales (Freshworks)",
+      "year": "",
+      "metric": "",
+      "use_in_report": "serp_live_discovery"
+    },
+    {
+      "grade": "B",
+      "title": "PropFlo",
+      "url": "https://www.proptechbuzz.com/blog/top-10-real-estate-crm-software-in-india",
+      "source_family": "serp_competitor",
+      "publisher": "PropFlo",
+      "year": "",
+      "metric": "",
+      "use_in_report": "serp_live_discovery"
+    },
+    {
+      "grade": "B",
+      "title": "NayaPurana",
+      "url": "https://www.proptechbuzz.com/blog/top-10-real-estate-crm-software-in-india",
+      "source_family": "serp_competitor",
+      "publisher": "NayaPurana",
+      "year": "",
+      "metric": "",
+      "use_in_report": "serp_live_discovery"
+    },
+    {
+      "grade": "B",
+      "title": "BizPlus CRM",
+      "url": "https://www.proptechbuzz.com/blog/top-10-real-estate-crm-software-in-india",
+      "source_family": "serp_competitor",
+      "publisher": "BizPlus CRM",
+      "year": "",
+      "metric": "",
+      "use_in_report": "serp_live_discovery"
+    },
+    {
+      "grade": "B",
+      "title": "Tranquil CRM",
+      "url": "https://www.tranquilcrm.com",
+      "source_family": "serp_competitor",
+      "publisher": "Tranquil CRM",
+      "year": "",
+      "metric": "",
+      "use_in_report": "serp_live_discovery"
+    },
+    {
+      "grade": "B",
+      "title": "PropertyCRM.in",
+      "url": "https://propertycrm.in",
+      "source_family": "serp_competitor",
+      "publisher": "PropertyCRM.in",
+      "year": "",
+      "metric": "",
+      "use_in_report": "serp_live_discovery"
+    },
+    {
+      "grade": "B",
+      "title": "Salesforce (Real Estate CRM, India site)",
+      "url": "https://www.salesforce.com/in/crm/real-estate-crm/",
+      "source_family": "serp_competitor",
+      "publisher": "Salesforce (Real Estate CRM, India site)",
+      "year": "",
+      "metric": "",
+      "use_in_report": "serp_live_discovery"
+    },
+    {
+      "grade": "B",
+      "title": "Krayin CRM (Real Estate and Property)",
+      "url": "https://krayincrm.com/industries/real-estate-property/",
+      "source_family": "serp_competitor",
+      "publisher": "Krayin CRM (Real Estate and Property)",
+      "year": "",
+      "metric": "",
+      "use_in_report": "serp_live_discovery"
+    }
+  ],
+  "research_report": {
+    "available": true,
+    "topic": "Real estate CRM and lead management software",
+    "geography": "India",
+    "section_count": 4
+  },
+  "business_plan": {
+    "available": false,
+    "quality": {},
+    "founder_readable_available": false
+  },
+  "ICP": {},
+  "leads": [],
+  "financial_model": {
+    "topic": "Real estate CRM and lead management software",
+    "industry": "SaaS / B2B Software",
+    "target": "India",
+    "horizon": "2026-2031",
+    "domain": "real_estate",
+    "dashboard_mode": "evidence_first",
+    "headline": {
+      "tam_base": 0,
+      "tam_base_fmt": "ESTIMATED $0",
+      "tam_range": "ESTIMATED $0 base; 2031 scenario $0",
+      "sam": 0,
+      "sam_fmt": "ESTIMATED $0",
+      "som_range": "ESTIMATED $0",
+      "forecast_cagr_2026_2031": 0.08,
+      "forecast_cagr_2026_2031_fmt": "ESTIMATED 8.0%"
+    },
+    "industry_model_name": "General Evidence Model",
+    "assumptions": {
+      "model_status": "No generic TAM model applied.",
+      "required_scope": "product/use case + buyer segment + geography + channel",
+      "sizing_rule": "TAM/SAM/SOM can be shown only after topic-specific source evidence and explicit formulas are populated."
+    },
+    "executive_metrics": [
+      {
+        "label": "TAM 2026",
+        "value": "ESTIMATED $0",
+        "source": "IIDATECH 2026 Financial Model Bank",
+        "confidence": "Estimated",
+        "note": "Uses source-backed macro denominators where available plus IIDATECH domain assumptions; not a verified market-size claim.",
+        "evidence_namespace": "SYNTHETIC MODEL",
+        "citation_allowed": false,
+        "not_investor_citable": true
+      },
+      {
+        "label": "SAM 2026",
+        "value": "ESTIMATED $0",
+        "source": "IIDATECH 2026 Financial Model Bank",
+        "confidence": "Estimated",
+        "note": "SAM formula: TAM x serviceable_share.",
+        "evidence_namespace": "SYNTHETIC MODEL",
+        "citation_allowed": false,
+        "not_investor_citable": true
+      },
+      {
+        "label": "SOM 2026",
+        "value": "ESTIMATED $0",
+        "source": "IIDATECH 2026 Financial Model Bank",
+        "confidence": "Estimated",
+        "note": "SOM formula: SAM x obtainable_capture_share.",
+        "evidence_namespace": "SYNTHETIC MODEL",
+        "citation_allowed": false,
+        "not_investor_citable": true
+      },
+      {
+        "label": "2026-2031 CAGR",
+        "value": "ESTIMATED 8.0%",
+        "source": "IIDATECH 2026 Financial Model Bank",
+        "confidence": "Scenario",
+        "note": "Scenario assumption, not a verified analyst CAGR.",
+        "evidence_namespace": "SYNTHETIC MODEL",
+        "citation_allowed": false,
+        "not_investor_citable": true
+      },
+      {
+        "label": "Sizing status",
+        "value": "Source-gated",
+        "source": "official statistics/company filings/analyst sources",
+        "confidence": "High",
+        "note": "No generic TAM is shown until domain-specific evidence is attached."
+      },
+      {
+        "label": "Model requirement",
+        "value": "Bottom-up wedge",
+        "source": "IIDATECH formula gate",
+        "confidence": "High",
+        "note": "Define customers, price, frequency, and channel before modeling."
+      },
+      {
+        "label": "Competitive basis",
+        "value": "Source-gated",
+        "source": "filings/pricing pages/channel checks",
+        "confidence": "Medium",
+        "note": "Competitor share requires disclosed data or proxy methodology."
+      },
+      {
+        "label": "Evidence gap",
+        "value": "Primary validation needed",
+        "source": "customer/interview plan",
+        "confidence": "Medium",
+        "note": "Needs buyer calls and pricing/channel checks."
+      }
+    ],
+    "formula_rows": [
+      {
+        "model_part": "TAM",
+        "formula": "eligible customers or volume x price/frequency",
+        "required_data": "official or audited market volume and topic-specific price"
+      },
+      {
+        "model_part": "SAM",
+        "formula": "TAM x reachable geography/channel/use-case share",
+        "required_data": "distribution constraints and buyer eligibility"
+      },
+      {
+        "model_part": "SOM",
+        "formula": "SAM x realistic penetration over period",
+        "required_data": "sales capacity, conversion, churn/retention, competitor response"
+      },
+      {
+        "model_part": "Unit economics",
+        "formula": "revenue - COGS - acquisition - service/compliance costs",
+        "required_data": "cost stack and cohort behavior"
+      }
+    ],
+    "scenario_rows": [
+      {
+        "scenario": "Bear",
+        "model_output": "Validation incomplete",
+        "logic": "Weak source coverage or unclear buyer economics blocks a numeric model.",
+        "source_status": "Needs official/filing/primary data."
+      },
+      {
+        "scenario": "Base",
+        "model_output": "Narrow wedge validated",
+        "logic": "A defined buyer/use case supports explicit bottom-up sizing.",
+        "source_status": "Needs price, volume, and adoption evidence."
+      },
+      {
+        "scenario": "Bull",
+        "model_output": "Repeatable expansion",
+        "logic": "Evidence supports expansion into adjacent customer segments or regions.",
+        "source_status": "Needs cohort and competitive proof."
+      }
+    ],
+    "driver_rows": [
+      {
+        "driver": "Customer/volume base",
+        "why_it_matters": "Defines the addressable universe."
+      },
+      {
+        "driver": "Price or take rate",
+        "why_it_matters": "Translates volume into revenue pool."
+      },
+      {
+        "driver": "Adoption/penetration",
+        "why_it_matters": "Converts TAM/SAM into realistic obtainable revenue."
+      },
+      {
+        "driver": "Churn/retention",
+        "why_it_matters": "Determines lifetime value and forecast durability."
+      },
+      {
+        "driver": "Cost to serve",
+        "why_it_matters": "Controls contribution margin and valuation quality."
+      }
+    ],
+    "source_gate_rows": [
+      {
+        "claim_type": "Market size",
+        "minimum_evidence": "two domain-matched sources or one official source plus bottom-up model",
+        "allowed_output": "range with assumptions"
+      },
+      {
+        "claim_type": "Forecast",
+        "minimum_evidence": "historical time series or named adoption drivers",
+        "allowed_output": "scenario forecast"
+      },
+      {
+        "claim_type": "Valuation",
+        "minimum_evidence": "unit economics and comparable company/transaction evidence",
+        "allowed_output": "sensitivity table"
+      }
+    ],
+    "methodology_notes": [
+      "Generic market assumptions were intentionally disabled.",
+      "The dashboard shows validation gates until domain-specific data is sufficient.",
+      "This prevents cross-industry metric contamination and unsupported TAM/CAGR claims."
+    ],
+    "stored_2026_financial_model_id": "5dbe60730d09b110",
+    "stored_2026_financial_model_status": "ESTIMATED",
+    "stored_2026_financial_model_source_status": "Uses source-backed macro denominators where available plus IIDATECH domain assumptions; not a verified market-size claim.",
+    "evidence_namespace": "SYNTHETIC MODEL",
+    "citation_allowed": false,
+    "not_investor_citable": true,
+    "provenance_claims": [
+      {
+        "id": "295cb49e-747d-4588-b12e-4731f1c96a90",
+        "source_type": "derived_formula",
+        "metric_name": "TAM 2026",
+        "value": 0,
+        "unit": "USD",
+        "derived_from_claim_ids": [],
+        "formula_expression": "GDP x industry_spend_share x topic_wedge_share x digital_readiness_factor",
+        "formula_inputs": {
+          "gdp_current_usd": 0.0,
+          "industry_spend_share": 0.05,
+          "topic_wedge_share": 0.018
+        },
+        "formula_type": "tam_bottom_up",
+        "confidence": 0.54
+      },
+      {
+        "id": "7ed7f2e3-89ad-4fc5-9f45-f0e6a2d26754",
+        "source_type": "derived_formula",
+        "metric_name": "SAM 2026",
+        "value": 0,
+        "unit": "USD",
+        "derived_from_claim_ids": [
+          "295cb49e-747d-4588-b12e-4731f1c96a90"
+        ],
+        "formula_expression": "TAM x serviceable_share",
+        "formula_inputs": {
+          "tam_2026": 0,
+          "sam_share_assumption": 0.22
+        },
+        "formula_type": "sam_filter",
+        "confidence": 0.459
+      },
+      {
+        "id": "2750bd99-98f8-4323-9cb8-976c165cf34b",
+        "source_type": "derived_formula",
+        "metric_name": "SOM 2026",
+        "value": 0,
+        "unit": "USD",
+        "derived_from_claim_ids": [
+          "7ed7f2e3-89ad-4fc5-9f45-f0e6a2d26754"
+        ],
+        "formula_expression": "SAM x obtainable_capture_share",
+        "formula_inputs": {
+          "sam_2026": 0,
+          "som_capture_share_assumption": 0.01
+        },
+        "formula_type": "som_capture",
+        "confidence": 0.3672
+      }
+    ]
+  },
+  "employees_team_tasks": {},
+  "exports": [
+    "Founder business plan",
+    "Investor memo",
+    "GTM plan",
+    "Financial model CSV/XLSX",
+    "Lead list CSV",
+    "Team task plan",
+    "Source ledger"
+  ],
+  "scope_assessment": {
+    "ok": true,
+    "domain": "crm_automation",
+    "issues": [],
+    "suggestions": [
+      "One product category for one buyer segment in India",
+      "One workflow or use case inside SaaS / B2B Software for a named customer type in India",
+      "One channel-led business model with price band, buyer, and geography specified"
+    ]
+  }
+}

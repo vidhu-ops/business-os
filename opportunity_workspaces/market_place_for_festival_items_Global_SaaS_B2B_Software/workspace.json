@@ -1,0 +1,46 @@
+{
+  "workspace_id": "market_place_for_festival_items_Global_SaaS_B2B_Software",
+  "workspace_dir": "C:\\Users\\weewee\\iida\\opportunity_workspaces\\market_place_for_festival_items_Global_SaaS_B2B_Software",
+  "updated_at": "2026-07-08T20:15:54.224004Z",
+  "idea": "market place for festival items",
+  "country": "Global",
+  "industry": "SaaS / B2B Software",
+  "current_path": "Understand your market",
+  "uploaded_files": [],
+  "uploaded_file_context": [],
+  "source_ledger": [],
+  "research_report": {
+    "available": false,
+    "topic": "",
+    "geography": "",
+    "section_count": 0
+  },
+  "business_plan": {
+    "available": false,
+    "quality": {},
+    "founder_readable_available": false
+  },
+  "ICP": {},
+  "leads": [],
+  "financial_model": {},
+  "employees_team_tasks": {},
+  "exports": [
+    "Founder business plan",
+    "Investor memo",
+    "GTM plan",
+    "Financial model CSV/XLSX",
+    "Lead list CSV",
+    "Team task plan",
+    "Source ledger"
+  ],
+  "scope_assessment": {
+    "ok": true,
+    "domain": "saas_software",
+    "issues": [],
+    "suggestions": [
+      "One product category for one buyer segment in India",
+      "One workflow or use case inside SaaS / B2B Software for a named customer type in India",
+      "One channel-led business model with price band, buyer, and geography specified"
+    ]
+  }
+}

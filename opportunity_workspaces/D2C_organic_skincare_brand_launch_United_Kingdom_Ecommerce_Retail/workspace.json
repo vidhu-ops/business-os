@@ -1,0 +1,396 @@
+{
+  "workspace_id": "D2C_organic_skincare_brand_launch_United_Kingdom_Ecommerce_Retail",
+  "workspace_dir": "C:\\Users\\weewee\\iida\\opportunity_workspaces\\D2C_organic_skincare_brand_launch_United_Kingdom_Ecommerce_Retail",
+  "updated_at": "2026-07-05T23:13:15.856493Z",
+  "idea": "D2C organic skincare brand launch",
+  "country": "United Kingdom",
+  "industry": "Ecommerce / Retail",
+  "current_path": "Research a market",
+  "uploaded_files": [],
+  "uploaded_file_context": [],
+  "source_ledger": [
+    {
+      "id": 1,
+      "grade": "C",
+      "evidence_label": "ESTIMATED / PROXY",
+      "publisher": "Crossref / Asian Scholars Network",
+      "title": "Understanding Generation Z’s Purchase Intention Towards Green Skincare Products in Kingston Upon Hull, United Kingdom",
+      "source_family": "academic_research",
+      "metric": "On-demand peer-reviewed literature route: topic-relevant journal article source",
+      "url": "https://doi.org/10.55057/aje.2022.3.3.9",
+      "decision_use": "Qualitative signal only; useful for hypotheses, buyer language, and field intelligence, not hard claims."
+    },
+    {
+      "id": 2,
+      "grade": "C",
+      "evidence_label": "ESTIMATED / PROXY",
+      "publisher": "Crossref / Everant Journals",
+      "title": "Effect of Corporate Governance Disclosure, Product Responsibility on Financial Performance of the United Kingdom Retail Industry",
+      "source_family": "academic_research",
+      "metric": "On-demand peer-reviewed literature route: topic-relevant journal article source",
+      "url": "https://doi.org/10.47191/afmj/v11i2.10",
+      "decision_use": "Qualitative signal only; useful for hypotheses, buyer language, and field intelligence, not hard claims."
+    },
+    {
+      "id": 3,
+      "grade": "C",
+      "evidence_label": "ESTIMATED / PROXY",
+      "publisher": "Crossref / Everant Journals",
+      "title": "The impact of Environmental and Community Responsibility on the Financial Performance of Selected Retail Industries in the United Kingdom",
+      "source_family": "academic_research",
+      "metric": "On-demand peer-reviewed literature route: topic-relevant journal article source",
+      "url": "https://doi.org/10.47191/afmj/v11i2.09",
+      "decision_use": "Qualitative signal only; useful for hypotheses, buyer language, and field intelligence, not hard claims."
+    },
+    {
+      "id": 4,
+      "grade": "C",
+      "evidence_label": "UNVERIFIED",
+      "publisher": "competitor_pricing",
+      "title": "Teachmint",
+      "source_family": "sql_semantic_memory",
+      "metric": "semantic_similarity: 0.087428 cosine",
+      "url": "https://www.teachmint.com/pricing",
+      "decision_use": "Qualitative signal only; useful for hypotheses, buyer language, and field intelligence, not hard claims."
+    },
+    {
+      "id": 5,
+      "grade": "C",
+      "evidence_label": "UNVERIFIED",
+      "publisher": "supplier_costs",
+      "title": "edtech raw material",
+      "source_family": "sql_semantic_memory",
+      "metric": "semantic_similarity: 0.105104 cosine",
+      "url": "https://www.alibaba.com/product/edtech-1-0",
+      "decision_use": "Qualitative signal only; useful for hypotheses, buyer language, and field intelligence, not hard claims."
+    },
+    {
+      "id": 6,
+      "grade": "C",
+      "evidence_label": "UNVERIFIED",
+      "publisher": "supplier_costs",
+      "title": "logistics imported bulk",
+      "source_family": "sql_semantic_memory",
+      "metric": "semantic_similarity: 0.093023 cosine",
+      "url": "https://www.indiamart.com/product/logistics-0-6",
+      "decision_use": "Qualitative signal only; useful for hypotheses, buyer language, and field intelligence, not hard claims."
+    },
+    {
+      "grade": "B",
+      "title": "Lush",
+      "url": "https://www.facebook.com/mint.live/posts/marktomarket-the-brand-has-now-emerged-as-a-strong-d2c-brand-in-the-personal-car/4117588068291237/",
+      "source_family": "serp_competitor",
+      "publisher": "Lush",
+      "year": "",
+      "metric": "",
+      "use_in_report": "serp_live_discovery"
+    },
+    {
+      "grade": "B",
+      "title": "Paula’s Choice",
+      "url": "https://www.researchandmarkets.com/report/united-kingdom-skincare-market",
+      "source_family": "serp_competitor",
+      "publisher": "Paula’s Choice",
+      "year": "",
+      "metric": "",
+      "use_in_report": "serp_live_discovery"
+    },
+    {
+      "grade": "B",
+      "title": "Forest Essentials",
+      "url": "https://www.marketresearchfuture.com/reports/uk-skincare-market-12452",
+      "source_family": "serp_competitor",
+      "publisher": "Forest Essentials",
+      "year": "",
+      "metric": "",
+      "use_in_report": "serp_live_discovery"
+    },
+    {
+      "grade": "B",
+      "title": "Clarins",
+      "url": "https://www.researchandmarkets.com/report/united-kingdom-skincare-market",
+      "source_family": "serp_competitor",
+      "publisher": "Clarins",
+      "year": "",
+      "metric": "",
+      "use_in_report": "serp_live_discovery"
+    },
+    {
+      "grade": "B",
+      "title": "Weleda",
+      "url": "https://www.mordorintelligence.com/industry-reports/organic-skin-care-market",
+      "source_family": "serp_competitor",
+      "publisher": "Weleda",
+      "year": "",
+      "metric": "",
+      "use_in_report": "serp_live_discovery"
+    },
+    {
+      "grade": "B",
+      "title": "market size estimate",
+      "url": "",
+      "source_family": "serp_market_signal",
+      "publisher": "market size estimate",
+      "year": "",
+      "metric": "",
+      "use_in_report": "serp_live_discovery"
+    }
+  ],
+  "research_report": {
+    "available": true,
+    "topic": "D2C organic skincare brand launch",
+    "geography": "United Kingdom",
+    "section_count": 4
+  },
+  "business_plan": {
+    "available": false,
+    "quality": {},
+    "founder_readable_available": false
+  },
+  "ICP": {},
+  "leads": [],
+  "financial_model": {
+    "topic": "D2C organic skincare brand launch",
+    "industry": "Ecommerce / Retail",
+    "target": "United Kingdom",
+    "horizon": "2026-2031",
+    "domain": "agriculture",
+    "dashboard_mode": "evidence_first",
+    "headline": {
+      "tam_base": 0,
+      "tam_base_fmt": "ESTIMATED $0",
+      "tam_range": "ESTIMATED $0 base; 2031 scenario $0",
+      "sam": 0,
+      "sam_fmt": "ESTIMATED $0",
+      "som_range": "ESTIMATED $0",
+      "forecast_cagr_2026_2031": 0.09,
+      "forecast_cagr_2026_2031_fmt": "ESTIMATED 9.0%"
+    },
+    "industry_model_name": "Agriculture / Agribusiness Evidence Model",
+    "assumptions": {
+      "model_status": "No generic agriculture TAM applied.",
+      "required_scope": "crop/value chain + farmer or buyer segment + region + channel",
+      "sizing_rule": "TAM = production or buyer volume x realized price, cross-checked against trade/procurement/channel data."
+    },
+    "executive_metrics": [
+      {
+        "label": "TAM 2026",
+        "value": "ESTIMATED $0",
+        "source": "IIDATECH 2026 Financial Model Bank",
+        "confidence": "Estimated",
+        "note": "Uses source-backed macro denominators where available plus IIDATECH domain assumptions; not a verified market-size claim.",
+        "evidence_namespace": "SYNTHETIC MODEL",
+        "citation_allowed": false,
+        "not_investor_citable": true
+      },
+      {
+        "label": "SAM 2026",
+        "value": "ESTIMATED $0",
+        "source": "IIDATECH 2026 Financial Model Bank",
+        "confidence": "Estimated",
+        "note": "SAM formula: TAM x serviceable_share.",
+        "evidence_namespace": "SYNTHETIC MODEL",
+        "citation_allowed": false,
+        "not_investor_citable": true
+      },
+      {
+        "label": "SOM 2026",
+        "value": "ESTIMATED $0",
+        "source": "IIDATECH 2026 Financial Model Bank",
+        "confidence": "Estimated",
+        "note": "SOM formula: SAM x obtainable_capture_share.",
+        "evidence_namespace": "SYNTHETIC MODEL",
+        "citation_allowed": false,
+        "not_investor_citable": true
+      },
+      {
+        "label": "2026-2031 CAGR",
+        "value": "ESTIMATED 9.0%",
+        "source": "IIDATECH 2026 Financial Model Bank",
+        "confidence": "Scenario",
+        "note": "Scenario assumption, not a verified analyst CAGR.",
+        "evidence_namespace": "SYNTHETIC MODEL",
+        "citation_allowed": false,
+        "not_investor_citable": true
+      },
+      {
+        "label": "Primary source family",
+        "value": "FAOSTAT / official ministry statistics",
+        "source": "FAO and national agriculture statistics",
+        "confidence": "High",
+        "note": "Use for crop, livestock, production, land use, and trade baselines."
+      },
+      {
+        "label": "Primary research gate",
+        "value": "12 farmers; 6 dealers; 5 buyers; 3 experts; 3 competitors",
+        "source": "IIDATECH agriculture diligence design",
+        "confidence": "Medium",
+        "note": "Investor-grade conclusions require field interviews and channel checks."
+      }
+    ],
+    "formula_rows": [
+      {
+        "model_part": "Production TAM",
+        "formula": "addressable production volume x farmgate/wholesale price",
+        "required_data": "crop output, price series, geography, seasonality"
+      },
+      {
+        "model_part": "Procurement revenue",
+        "formula": "procured volume x take rate or gross margin",
+        "required_data": "farmer participation, buyer contracts, wastage, quality grade"
+      },
+      {
+        "model_part": "Export opportunity",
+        "formula": "eligible export volume x FOB price x reachable buyer share",
+        "required_data": "APEDA/Comtrade data, certifications, destination demand"
+      },
+      {
+        "model_part": "Working capital",
+        "formula": "procurement value x cash-conversion cycle",
+        "required_data": "payment terms, inventory days, buyer receivables"
+      }
+    ],
+    "scenario_rows": [
+      {
+        "scenario": "Bear",
+        "model_output": "Commodity margin squeeze",
+        "logic": "Price volatility, low farmer adoption, quality failures, or buyer concentration reduce margin.",
+        "source_status": "Requires mandi/procurement price series."
+      },
+      {
+        "scenario": "Base",
+        "model_output": "Verified value chain",
+        "logic": "One crop/region/channel achieves repeatable procurement and buyer demand.",
+        "source_status": "Requires farmer/dealer/buyer interviews."
+      },
+      {
+        "scenario": "Bull",
+        "model_output": "Export or processing scale",
+        "logic": "Certification, aggregation, and buyer contracts support premium pricing and repeat volume.",
+        "source_status": "Requires export and buyer evidence."
+      }
+    ],
+    "driver_rows": [
+      {
+        "driver": "Yield/volume",
+        "why_it_matters": "Sets physical market capacity."
+      },
+      {
+        "driver": "Farmgate and wholesale price",
+        "why_it_matters": "Determines TAM and gross spread."
+      },
+      {
+        "driver": "Quality grade/rejection",
+        "why_it_matters": "Controls export eligibility and processing yield."
+      },
+      {
+        "driver": "Procurement working capital",
+        "why_it_matters": "Agribusiness can fail despite demand if cash cycle is underfunded."
+      },
+      {
+        "driver": "Certification/logistics",
+        "why_it_matters": "Required for higher-value export and organized-buyer channels."
+      }
+    ],
+    "source_gate_rows": [
+      {
+        "claim_type": "Crop TAM",
+        "minimum_evidence": "official production and price series",
+        "allowed_output": "bottom-up calculation with geography and season stated"
+      },
+      {
+        "claim_type": "Export opportunity",
+        "minimum_evidence": "APEDA/Comtrade destination data and product code",
+        "allowed_output": "commodity/channel-specific range"
+      },
+      {
+        "claim_type": "Farmer economics",
+        "minimum_evidence": "field interviews plus input/output price checks",
+        "allowed_output": "validated unit economics table"
+      }
+    ],
+    "methodology_notes": [
+      "Agriculture dashboard is crop/value-chain specific.",
+      "India export figures are not reused as TAM unless the topic is India agri-export relevant.",
+      "Primary fieldwork is required before investor-grade farmer/channel economics."
+    ],
+    "stored_2026_financial_model_id": "829dfd0804d08669",
+    "stored_2026_financial_model_status": "ESTIMATED",
+    "stored_2026_financial_model_source_status": "Uses source-backed macro denominators where available plus IIDATECH domain assumptions; not a verified market-size claim.",
+    "evidence_namespace": "SYNTHETIC MODEL",
+    "citation_allowed": false,
+    "not_investor_citable": true,
+    "provenance_claims": [
+      {
+        "id": "6e6a782c-999a-473f-a4bd-a85140eb3184",
+        "source_type": "derived_formula",
+        "metric_name": "TAM 2026",
+        "value": 0,
+        "unit": "USD",
+        "derived_from_claim_ids": [],
+        "formula_expression": "GDP x industry_spend_share x topic_wedge_share x digital_readiness_factor",
+        "formula_inputs": {
+          "gdp_current_usd": 0.0,
+          "industry_spend_share": 0.04,
+          "topic_wedge_share": 0.035
+        },
+        "formula_type": "tam_bottom_up",
+        "confidence": 0.54
+      },
+      {
+        "id": "e415a27d-319f-49a7-a442-836df45d1687",
+        "source_type": "derived_formula",
+        "metric_name": "SAM 2026",
+        "value": 0,
+        "unit": "USD",
+        "derived_from_claim_ids": [
+          "6e6a782c-999a-473f-a4bd-a85140eb3184"
+        ],
+        "formula_expression": "TAM x serviceable_share",
+        "formula_inputs": {
+          "tam_2026": 0,
+          "sam_share_assumption": 0.2
+        },
+        "formula_type": "sam_filter",
+        "confidence": 0.459
+      },
+      {
+        "id": "080fbed3-1b76-418d-8a1f-f378cbce643a",
+        "source_type": "derived_formula",
+        "metric_name": "SOM 2026",
+        "value": 0,
+        "unit": "USD",
+        "derived_from_claim_ids": [
+          "e415a27d-319f-49a7-a442-836df45d1687"
+        ],
+        "formula_expression": "SAM x obtainable_capture_share",
+        "formula_inputs": {
+          "sam_2026": 0,
+          "som_capture_share_assumption": 0.01
+        },
+        "formula_type": "som_capture",
+        "confidence": 0.3672
+      }
+    ]
+  },
+  "employees_team_tasks": {},
+  "exports": [
+    "Founder business plan",
+    "Investor memo",
+    "GTM plan",
+    "Financial model CSV/XLSX",
+    "Lead list CSV",
+    "Team task plan",
+    "Source ledger"
+  ],
+  "scope_assessment": {
+    "ok": true,
+    "domain": "d2c_skincare",
+    "issues": [],
+    "suggestions": [
+      "One product category for one buyer segment in United Kingdom",
+      "One workflow or use case inside Ecommerce / Retail for a named customer type in United Kingdom",
+      "One channel-led business model with price band, buyer, and geography specified"
+    ]
+  }
+}

@@ -1,0 +1,609 @@
+{
+  "workspace_id": "high-end_car_showroom_and_garage__india_retail",
+  "workspace_dir": "C:\\Users\\weewee\\iida\\opportunity_workspaces\\high-end_car_showroom_and_garage__india_retail",
+  "updated_at": "2026-06-22T14:08:22.383658Z",
+  "idea": "high-end car showroom and garage ",
+  "country": "india",
+  "industry": "retail",
+  "current_path": "Turn idea into business plan",
+  "uploaded_files": [],
+  "uploaded_file_context": [
+    {
+      "name": "pasted_research_notes",
+      "kind": "text",
+      "mime": "text/plain",
+      "bytes": 68071,
+      "text_preview": "Research Settings Technical controls are hidden for the simple research flow. Turn on Show technical research controls on the Research page if you need models, audits, API status, source caps, datasets, or scraper tools. IIDATECH Founder Workspace Market research, founder planning, team execution, and automations in one workspace. Project: high end car retail and garage repair Industry: retail Market: India What do you want to do first? Research Sourced market intelligence, evidence checks, and report exports. Business Plan Founder-readable plan, ICP, GTM, financial model, and proof gaps. Exec",
+      "notes": []
+    }
+  ],
+  "source_ledger": [],
+  "research_report": {
+    "available": false,
+    "topic": "",
+    "geography": "",
+    "section_count": 0
+  },
+  "business_plan": {
+    "available": true,
+    "quality": {},
+    "founder_readable_available": true
+  },
+  "ICP": {
+    "status": "locally supported",
+    "risk": "High if scaled outreach starts before the named buyer profile is validated.",
+    "why_this_exists": "Prevents generic outreach and prevents the strategy agent from depending on report evidence that does not exist for the selected geography.",
+    "idea_intelligence": {
+      "idea": "high-end car showroom and garage ",
+      "industry": "retail",
+      "geography": "india",
+      "launch_geography": {
+        "research_scope": "india",
+        "execution_scope": "india",
+        "sequence": [
+          "india"
+        ],
+        "rule": "The selected geography is both research scope and launch scope."
+      },
+      "classified_domain": "consumer",
+      "detected_terms": [
+        "high-end",
+        "car",
+        "showroom",
+        "garage",
+        "retail",
+        "india",
+        "settings",
+        "technical",
+        "controls",
+        "hidden",
+        "simple",
+        "flow",
+        "turn",
+        "show",
+        "page",
+        "you",
+        "models",
+        "audits"
+      ],
+      "market_boundary": "high-end car showroom and garage should be treated as a consumer product, retail, marketplace, or subscription business for the simple research flow in india, focused first on models, audits, API status, source caps, datasets, or scraper tools. Do not analyze the whole retail market until this wedge is validated.",
+      "likely_customer": "the simple research flow",
+      "likely_pain": "models, audits, API status, source caps, datasets, or scraper tools",
+      "decision_makers": [
+        "end customer",
+        "retail buyer",
+        "community/creator partner",
+        "marketplace category manager"
+      ],
+      "observable_triggers": [
+        "trend spike",
+        "review complaints",
+        "seasonal demand",
+        "creator/community signal",
+        "competitor price or stockout"
+      ],
+      "proof_metrics": [
+        "AOV",
+        "gross margin",
+        "CAC",
+        "repeat rate",
+        "return/refund rate",
+        "conversion rate"
+      ],
+      "pricing_logic": "Price from landed cost, contribution margin, repeat purchase probability, and competitor price ladder.",
+      "capabilities_to_build": [
+        "research synthesis",
+        "customer validation",
+        "offer design",
+        "sales execution",
+        "financial control"
+      ],
+      "innovation_themes": [
+        "social commerce",
+        "creator-led distribution",
+        "AI-assisted content/testing",
+        "personalized offers",
+        "community-led launches"
+      ],
+      "compliance_focus": [
+        "consumer claims",
+        "returns/refunds",
+        "product safety",
+        "tax/shipping",
+        "privacy"
+      ],
+      "uploaded_evidence_summary": [
+        {
+          "name": "pasted_research_notes",
+          "kind": "text",
+          "text_available": true,
+          "useful_extract": "Research Settings Technical controls are hidden for the simple research flow. Turn on Show technical research controls on the Research page if you need models, audits, API status, source caps, datasets, or scraper tools. IIDATECH Founder Workspace Market research, founder planning, team execution, and automations in one workspace. Project: high end car retail and garage repair Industry: retail Mar"
+        }
+      ],
+      "report_context_used": false,
+      "source_signals": [
+        "mospi.gov.in - CHAPTER IV",
+        "rbidocs.rbi.org.in - RESERVE BANK OF INDIA",
+        "mospi.gov.in - publications_reports1763457214315_c3e5d4f3-8e25-4775-85e3-ad42d571652f_NIC_2025_Final.pdf",
+        "mospi.gov.in - [PDF] NATIONAL ACCOUNTS STATISTICS - MoSPI",
+        "rbi.org.in - Publications - Reserve Bank of India",
+        "Crossref / International Journal for Multidisciplinary Research (IJFMR) - Retail Audit of Nature’s Basket: Insights into Premium Grocery Retail Strategy and Customer Psychology in India",
+        "Crossref / Ninety Nine Publication - A Discriminant Analysis Of High End And Budget Stores In Apparel Retail In India Using Retail Service Quality Scale Model",
+        "Crossref / Centre for Business and Economic Research - Staff motivators in organised retail sector"
+      ],
+      "broadness_flags": [],
+      "domain_playbook": {
+        "category": "consumer product, retail, marketplace, or subscription business",
+        "buyer_segments": [
+          "the simple research flow",
+          "one consumer persona with repeated purchase behavior",
+          "niche community with visible buying signals",
+          "retail/marketplace buyers in one category"
+        ],
+        "decision_makers": [
+          "end customer",
+          "retail buyer",
+          "community/creator partner",
+          "marketplace category manager"
+        ],
+        "pain_domains": [
+          "models, audits, API status, source caps, datasets, or scraper tools",
+          "unclear differentiation",
+          "CAC pressure",
+          "repeat purchase weakness",
+          "supply/quality inconsistency"
+        ],
+        "observable_triggers": [
+          "trend spike",
+          "review complaints",
+          "seasonal demand",
+          "creator/community signal",
+          "competitor price or stockout"
+        ],
+        "proof_metrics": [
+          "AOV",
+          "gross margin",
+          "CAC",
+          "repeat rate",
+          "return/refund rate",
+          "conversion rate"
+        ],
+        "pricing_logic": "Price from landed cost, contribution margin, repeat purchase probability, and competitor price ladder.",
+        "product_moves": [
+          "Test one SKU/offer",
+          "Build proof with landing page and waitlist/preorder",
+          "Measure repeat and margin before broad catalog"
+        ],
+        "innovation_themes": [
+          "social commerce",
+          "creator-led distribution",
+          "AI-assisted content/testing",
+          "personalized offers",
+          "community-led launches"
+        ],
+        "alternatives": [
+          "marketplace incumbents",
+          "local retailers",
+          "D2C brands",
+          "generic low-cost substitutes"
+        ],
+        "capabilities": [
+          "research synthesis",
+          "customer validation",
+          "offer design",
+          "sales execution",
+          "financial control"
+        ],
+        "compliance_focus": [
+          "consumer claims",
+          "returns/refunds",
+          "product safety",
+          "tax/shipping",
+          "privacy"
+        ],
+        "broad_scope_warning": "Narrow this to one buyer segment and one monetization wedge inside retail.",
+        "detected_terms": [
+          "high-end",
+          "car",
+          "showroom",
+          "garage",
+          "retail"
+        ]
+      }
+    },
+    "market_boundary": "high-end car showroom and garage should be treated as a consumer product, retail, marketplace, or subscription business for the simple research flow in india, focused first on models, audits, API status, source caps, datasets, or scraper tools. Do not analyze the whole retail market until this wedge is validated.",
+    "evidence_gate": {
+      "geography": "india",
+      "local_evidence_count": 12,
+      "report_geography": "no report context",
+      "report_matches_geography": false,
+      "uploaded_evidence_matches_geography": true,
+      "idea_intelligence": {
+        "idea": "high-end car showroom and garage ",
+        "industry": "retail",
+        "geography": "india",
+        "launch_geography": {
+          "research_scope": "india",
+          "execution_scope": "india",
+          "sequence": [
+            "india"
+          ],
+          "rule": "The selected geography is both research scope and launch scope."
+        },
+        "classified_domain": "consumer",
+        "detected_terms": [
+          "high-end",
+          "car",
+          "showroom",
+          "garage",
+          "retail",
+          "india",
+          "settings",
+          "technical",
+          "controls",
+          "hidden",
+          "simple",
+          "flow",
+          "turn",
+          "show",
+          "page",
+          "you",
+          "models",
+          "audits"
+        ],
+        "market_boundary": "high-end car showroom and garage should be treated as a consumer product, retail, marketplace, or subscription business for the simple research flow in india, focused first on models, audits, API status, source caps, datasets, or scraper tools. Do not analyze the whole retail market until this wedge is validated.",
+        "likely_customer": "the simple research flow",
+        "likely_pain": "models, audits, API status, source caps, datasets, or scraper tools",
+        "decision_makers": [
+          "end customer",
+          "retail buyer",
+          "community/creator partner",
+          "marketplace category manager"
+        ],
+        "observable_triggers": [
+          "trend spike",
+          "review complaints",
+          "seasonal demand",
+          "creator/community signal",
+          "competitor price or stockout"
+        ],
+        "proof_metrics": [
+          "AOV",
+          "gross margin",
+          "CAC",
+          "repeat rate",
+          "return/refund rate",
+          "conversion rate"
+        ],
+        "pricing_logic": "Price from landed cost, contribution margin, repeat purchase probability, and competitor price ladder.",
+        "capabilities_to_build": [
+          "research synthesis",
+          "customer validation",
+          "offer design",
+          "sales execution",
+          "financial control"
+        ],
+        "innovation_themes": [
+          "social commerce",
+          "creator-led distribution",
+          "AI-assisted content/testing",
+          "personalized offers",
+          "community-led launches"
+        ],
+        "compliance_focus": [
+          "consumer claims",
+          "returns/refunds",
+          "product safety",
+          "tax/shipping",
+          "privacy"
+        ],
+        "uploaded_evidence_summary": [
+          {
+            "name": "pasted_research_notes",
+            "kind": "text",
+            "text_available": true,
+            "useful_extract": "Research Settings Technical controls are hidden for the simple research flow. Turn on Show technical research controls on the Research page if you need models, audits, API status, source caps, datasets, or scraper tools. IIDATECH Founder Workspace Market research, founder planning, team execution, and automations in one workspace. Project: high end car retail and garage repair Industry: retail Mar"
+          }
+        ],
+        "report_context_used": false,
+        "source_signals": [
+          "mospi.gov.in - CHAPTER IV",
+          "rbidocs.rbi.org.in - RESERVE BANK OF INDIA",
+          "mospi.gov.in - publications_reports1763457214315_c3e5d4f3-8e25-4775-85e3-ad42d571652f_NIC_2025_Final.pdf",
+          "mospi.gov.in - [PDF] NATIONAL ACCOUNTS STATISTICS - MoSPI",
+          "rbi.org.in - Publications - Reserve Bank of India",
+          "Crossref / International Journal for Multidisciplinary Research (IJFMR) - Retail Audit of Nature’s Basket: Insights into Premium Grocery Retail Strategy and Customer Psychology in India",
+          "Crossref / Ninety Nine Publication - A Discriminant Analysis Of High End And Budget Stores In Apparel Retail In India Using Retail Service Quality Scale Model",
+          "Crossref / Centre for Business and Economic Research - Staff motivators in organised retail sector"
+        ],
+        "broadness_flags": [],
+        "domain_playbook": {
+          "category": "consumer product, retail, marketplace, or subscription business",
+          "buyer_segments": [
+            "the simple research flow",
+            "one consumer persona with repeated purchase behavior",
+            "niche community with visible buying signals",
+            "retail/marketplace buyers in one category"
+          ],
+          "decision_makers": [
+            "end customer",
+            "retail buyer",
+            "community/creator partner",
+            "marketplace category manager"
+          ],
+          "pain_domains": [
+            "models, audits, API status, source caps, datasets, or scraper tools",
+            "unclear differentiation",
+            "CAC pressure",
+            "repeat purchase weakness",
+            "supply/quality inconsistency"
+          ],
+          "observable_triggers": [
+            "trend spike",
+            "review complaints",
+            "seasonal demand",
+            "creator/community signal",
+            "competitor price or stockout"
+          ],
+          "proof_metrics": [
+            "AOV",
+            "gross margin",
+            "CAC",
+            "repeat rate",
+            "return/refund rate",
+            "conversion rate"
+          ],
+          "pricing_logic": "Price from landed cost, contribution margin, repeat purchase probability, and competitor price ladder.",
+          "product_moves": [
+            "Test one SKU/offer",
+            "Build proof with landing page and waitlist/preorder",
+            "Measure repeat and margin before broad catalog"
+          ],
+          "innovation_themes": [
+            "social commerce",
+            "creator-led distribution",
+            "AI-assisted content/testing",
+            "personalized offers",
+            "community-led launches"
+          ],
+          "alternatives": [
+            "marketplace incumbents",
+            "local retailers",
+            "D2C brands",
+            "generic low-cost substitutes"
+          ],
+          "capabilities": [
+            "research synthesis",
+            "customer validation",
+            "offer design",
+            "sales execution",
+            "financial control"
+          ],
+          "compliance_focus": [
+            "consumer claims",
+            "returns/refunds",
+            "product safety",
+            "tax/shipping",
+            "privacy"
+          ],
+          "broad_scope_warning": "Narrow this to one buyer segment and one monetization wedge inside retail.",
+          "detected_terms": [
+            "high-end",
+            "car",
+            "showroom",
+            "garage",
+            "retail"
+          ]
+        }
+      },
+      "source_records": [
+        {
+          "publisher": "mospi.gov.in",
+          "title": "CHAPTER IV",
+          "url": "https://www.mospi.gov.in/sites/default/files/economic-census/sixth_economic_census/all_india/9_ChapterIV_6ecRep.pdf",
+          "geography": "India",
+          "metric": "country pack official source domain",
+          "source_family": "government_data"
+        },
+        {
+          "publisher": "rbidocs.rbi.org.in",
+          "title": "RESERVE BANK OF INDIA",
+          "url": "https://rbidocs.rbi.org.in/rdocs/Forms/PDFs/SIOS17102016.pdf",
+          "geography": "India",
+          "metric": "country pack official source domain",
+          "source_family": "government_data"
+        },
+        {
+          "publisher": "mospi.gov.in",
+          "title": "publications_reports1763457214315_c3e5d4f3-8e25-4775-85e3-ad42d571652f_NIC_2025_Final.pdf",
+          "url": "https://www.mospi.gov.in/uploads/publications_reports/publications_reports1763457214315_c3e5d4f3-8e25-4775-85e3-ad42d571652f_NIC_2025_Final.pdf",
+          "geography": "India",
+          "metric": "country pack official source domain",
+          "source_family": "government_data"
+        },
+        {
+          "publisher": "mospi.gov.in",
+          "title": "[PDF] NATIONAL ACCOUNTS STATISTICS - MoSPI",
+          "url": "https://www.mospi.gov.in/sites/default/files/publication_reports/sources_method_2012%20%281%29.pdf",
+          "geography": "India",
+          "metric": "country pack official source domain",
+          "source_family": "government_data"
+        },
+        {
+          "publisher": "rbi.org.in",
+          "title": "Publications - Reserve Bank of India",
+          "url": "https://www.rbi.org.in/scripts/PublicationsView.aspx?id=23205",
+          "geography": "India",
+          "metric": "country pack official source domain",
+          "source_family": "government_data"
+        },
+        {
+          "publisher": "Crossref / International Journal for Multidisciplinary Research (IJFMR)",
+          "title": "Retail Audit of Nature’s Basket: Insights into Premium Grocery Retail Strategy and Customer Psychology in India",
+          "url": "https://doi.org/10.36948/ijfmr.2025.v07i05.56877",
+          "geography": "Global",
+          "metric": "topic-relevant journal article",
+          "source_family": "academic_research"
+        },
+        {
+          "publisher": "Crossref / Ninety Nine Publication",
+          "title": "A Discriminant Analysis Of High End And Budget Stores In Apparel Retail In India Using Retail Service Quality Scale Model",
+          "url": "https://doi.org/10.17762/turcomat.v12i4.581",
+          "geography": "Global",
+          "metric": "topic-relevant journal article",
+          "source_family": "academic_research"
+        },
+        {
+          "publisher": "Crossref / Centre for Business and Economic Research",
+          "title": "Staff motivators in organised retail sector",
+          "url": "https://doi.org/10.24052/jbrmr/v15is02/art-05",
+          "geography": "Global",
+          "metric": "topic-relevant journal article",
+          "source_family": "academic_research"
+        }
+      ],
+      "validation_status": "locally supported",
+      "execution_rule": "Outreach can proceed after founder approval, with source-backed positioning and opt-out language."
+    },
+    "named_buyer_profiles": [
+      {
+        "rank": 1,
+        "vertical": "the simple research flow in india with 10-250 employees or equivalent demand volume, a nam",
+        "named_buyer_profile": "the simple research flow in india with 10-250 employees or equivalent demand volume, a named budget owner, existing category spend, and one measurable weekly pain where models, audits, API status, source caps, datasets, or scraper tools is a budget-owned buying pain",
+        "company_size_filter": "Select a narrow company-size band before scaled outreach.",
+        "tool_stack_filter": [
+          "Shopify/WooCommerce",
+          "payments",
+          "CRM/email",
+          "inventory/order system"
+        ],
+        "pain": "models, audits, API status, source caps, datasets, or scraper tools creates measurable cost, delay, churn, compliance exposure, or missed revenue for this specific segment.",
+        "willingness_to_pay": "Validate by price-band test, preorder, gross-margin target, and comparable products",
+        "buyer_trigger": "trend spike",
+        "decision_maker": "end customer, retail buyer, community/creator partner",
+        "lead_filters": [
+          "india",
+          "retail",
+          "the simple research flow in india with 10-250 employees or equivalent demand volume, a named budget owner, existing category spend, and one measurable weekly pain",
+          "trend spike",
+          "high-end",
+          "car",
+          "showroom",
+          "garage"
+        ],
+        "diagnostic_cta": "Should I send a 5-question diagnostic to quantify models, audits, API status, source caps, datasets, or scraper tools against AOV, gross margin?",
+        "outreach_angle": "Use high-end car showroom and garage  to improve models, audits, API status, source caps, datasets, or scraper tools and prove it with AOV, gross margin, CAC.",
+        "evidence_status": "locally supported",
+        "first_validation_test": "Interview 10 the simple research flow in india with 10-250 employees or equivalent demand volume, a named budget owner, existing category spend, and one measurable weekly pain prospects in india; require 3 to confirm models, audits, API status, source caps, datasets, or scraper tools and 2 to confirm budget or purchase intent."
+      },
+      {
+        "rank": 2,
+        "vertical": "one consumer persona with repeated purchase behavior in india with 10-250 employees or equ",
+        "named_buyer_profile": "one consumer persona with repeated purchase behavior in india with 10-250 employees or equivalent demand volume, a named budget owner, existing category spend, and one measurable weekly pain where unclear differentiation is a budget-owned buying pain",
+        "company_size_filter": "Select a narrow company-size band before scaled outreach.",
+        "tool_stack_filter": [
+          "Shopify/WooCommerce",
+          "payments",
+          "CRM/email",
+          "inventory/order system"
+        ],
+        "pain": "unclear differentiation creates measurable cost, delay, churn, compliance exposure, or missed revenue for this specific segment.",
+        "willingness_to_pay": "Validate by price-band test, preorder, gross-margin target, and comparable products",
+        "buyer_trigger": "review complaints",
+        "decision_maker": "end customer, retail buyer, community/creator partner",
+        "lead_filters": [
+          "india",
+          "retail",
+          "one consumer persona with repeated purchase behavior in india with 10-250 employees or equivalent demand volume, a named budget owner, existing category spend, and one measurable weekly pain",
+          "review complaints",
+          "high-end",
+          "car",
+          "showroom",
+          "garage"
+        ],
+        "diagnostic_cta": "Should I send a 5-question diagnostic to quantify unclear differentiation against AOV, gross margin?",
+        "outreach_angle": "Use high-end car showroom and garage  to improve unclear differentiation and prove it with AOV, gross margin, CAC.",
+        "evidence_status": "locally supported",
+        "first_validation_test": "Interview 10 one consumer persona with repeated purchase behavior in india with 10-250 employees or equivalent demand volume, a named budget owner, existing category spend, and one measurable weekly pain prospects in india; require 3 to confirm unclear differentiation and 2 to confirm budget or purchase intent."
+      },
+      {
+        "rank": 3,
+        "vertical": "niche community with visible buying signals in india with 10-250 employees or equivalent d",
+        "named_buyer_profile": "niche community with visible buying signals in india with 10-250 employees or equivalent demand volume, a named budget owner, existing category spend, and one measurable weekly pain where CAC pressure is a budget-owned buying pain",
+        "company_size_filter": "Select a narrow company-size band before scaled outreach.",
+        "tool_stack_filter": [
+          "Shopify/WooCommerce",
+          "payments",
+          "CRM/email",
+          "inventory/order system"
+        ],
+        "pain": "CAC pressure creates measurable cost, delay, churn, compliance exposure, or missed revenue for this specific segment.",
+        "willingness_to_pay": "Validate by price-band test, preorder, gross-margin target, and comparable products",
+        "buyer_trigger": "seasonal demand",
+        "decision_maker": "end customer, retail buyer, community/creator partner",
+        "lead_filters": [
+          "india",
+          "retail",
+          "niche community with visible buying signals in india with 10-250 employees or equivalent demand volume, a named budget owner, existing category spend, and one measurable weekly pain",
+          "seasonal demand",
+          "high-end",
+          "car",
+          "showroom",
+          "garage"
+        ],
+        "diagnostic_cta": "Should I send a 5-question diagnostic to quantify CAC pressure against AOV, gross margin?",
+        "outreach_angle": "Use high-end car showroom and garage  to improve CAC pressure and prove it with AOV, gross margin, CAC.",
+        "evidence_status": "locally supported",
+        "first_validation_test": "Interview 10 niche community with visible buying signals in india with 10-250 employees or equivalent demand volume, a named budget owner, existing category spend, and one measurable weekly pain prospects in india; require 3 to confirm CAC pressure and 2 to confirm budget or purchase intent."
+      }
+    ],
+    "do_not_execute_until": [
+      "At least one named buyer profile is selected.",
+      "Minimum 10 buyer interviews or 3 direct local evidence records support the profile.",
+      "Willingness-to-pay is confirmed by at least 2 paid pilots, LOIs, or strong verbal budget confirmations.",
+      "Buyer trigger can be detected through Apollo/Hunter/manual lead filters before outbound."
+    ]
+  },
+  "leads": [],
+  "financial_model": {},
+  "employees_team_tasks": {
+    "created_at": "2026-06-22 19:38:11",
+    "business": {
+      "idea": "high-end car showroom and garage ",
+      "industry": "retail",
+      "geography": "india",
+      "buyer": "the simple research flow in india with 10-250 employees or equivalent demand volume, a named budget owner, existing category spend, and one measurable weekly pain where models, audits, API status, source caps, datasets, or scraper tools is a budget-owned buying pain",
+      "trigger": "trend spike",
+      "cta": "Should I send a 5-question diagnostic to quantify models, audits, API status, source caps, datasets, or scraper tools against AOV, gross margin?"
+    },
+    "execution_rules": [
+      "Employees create internal files, briefs, dashboards, task boards, scripts, images, video storyboards, lead tables, and system specs.",
+      "Employees may prepare external-action payloads, but emails, posts, purchases, hires, tool changes, payments, and customer contact require explicit approval.",
+      "Every employee uses the same current marketing plan, ICP, geography, leads, financial assumptions, and combined company memory.",
+      "Unsupported claims, mismatched geography, missing buyer, and missing approval are blockers."
+    ],
+    "tasks_by_employee": [],
+    "handoff_model": "Marketing creates message and assets; Sales/CRM qualifies leads; Systems builds workflows; Legal/QA approve risks; Finance/Data score economics; Operations runs cadence; Success captures retention proof."
+  },
+  "exports": [
+    "Founder business plan",
+    "Investor memo",
+    "GTM plan",
+    "Financial model CSV/XLSX",
+    "Lead list CSV",
+    "Team task plan",
+    "Source ledger"
+  ],
+  "scope_assessment": {
+    "ok": false,
+    "domain": "consumer",
+    "issues": [
+      "Add either a buyer/use case or a channel/business model."
+    ],
+    "suggestions": [
+      "Local kids activity marketplace for urban parents in india",
+      "Subscription home-services bundle for apartment households in india",
+      "Premium pet grooming and wellness membership in india"
+    ]
+  }
+}

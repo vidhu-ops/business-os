@@ -1,0 +1,50 @@
+{
+  "workspace_id": "Global_Technology",
+  "workspace_dir": "C:\\Users\\weewee\\iida\\opportunity_workspaces\\Global_Technology",
+  "updated_at": "2026-06-22T12:40:24.821130Z",
+  "idea": "",
+  "country": "Global",
+  "industry": "Technology",
+  "current_path": "Research a market",
+  "uploaded_files": [],
+  "uploaded_file_context": [],
+  "source_ledger": [],
+  "research_report": {
+    "available": false,
+    "topic": "",
+    "geography": "",
+    "section_count": 0
+  },
+  "business_plan": {
+    "available": false,
+    "quality": {},
+    "founder_readable_available": false
+  },
+  "ICP": {},
+  "leads": [],
+  "financial_model": {},
+  "employees_team_tasks": {},
+  "exports": [
+    "Founder business plan",
+    "Investor memo",
+    "GTM plan",
+    "Financial model CSV/XLSX",
+    "Lead list CSV",
+    "Team task plan",
+    "Source ledger"
+  ],
+  "scope_assessment": {
+    "ok": false,
+    "domain": "general_market",
+    "issues": [
+      "Topic has too few specific words.",
+      "Geography is broad and the topic does not name a buyer, use case, or category.",
+      "Add either a buyer/use case or a channel/business model."
+    ],
+    "suggestions": [
+      "One product category for one buyer segment in India",
+      "One workflow or use case inside Technology for a named customer type in India",
+      "One channel-led business model with price band, buyer, and geography specified"
+    ]
+  }
+}

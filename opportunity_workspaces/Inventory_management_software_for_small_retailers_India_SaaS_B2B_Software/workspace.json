@@ -1,0 +1,566 @@
+{
+  "workspace_id": "Inventory_management_software_for_small_retailers_India_SaaS_B2B_Software",
+  "workspace_dir": "C:\\Users\\weewee\\iida\\opportunity_workspaces\\Inventory_management_software_for_small_retailers_India_SaaS_B2B_Software",
+  "updated_at": "2026-07-06T11:44:05.410385Z",
+  "idea": "Inventory management software for small retailers",
+  "country": "India",
+  "industry": "SaaS / B2B Software",
+  "current_path": "Research a market",
+  "uploaded_files": [],
+  "uploaded_file_context": [],
+  "source_ledger": [
+    {
+      "id": 1,
+      "grade": "C",
+      "evidence_label": "ESTIMATED / PROXY",
+      "publisher": "Crossref / AIBPM Publisher",
+      "title": "Financial Performance Evaluation of Fast-Food Restaurant",
+      "source_family": "academic_research",
+      "metric": "On-demand peer-reviewed literature route: topic-relevant journal article source",
+      "url": "https://doi.org/10.32535/ijthap.v7i3.3610",
+      "decision_use": "Qualitative signal only; useful for hypotheses, buyer language, and field intelligence, not hard claims."
+    },
+    {
+      "id": 2,
+      "grade": "C",
+      "evidence_label": "ESTIMATED / PROXY",
+      "publisher": "Crossref / African - British Journals",
+      "title": "Exploring the Level of Awareness and Usage of Accounting Software Among Small Businesses in Nigeria",
+      "source_family": "academic_research",
+      "metric": "On-demand peer-reviewed literature route: topic-relevant journal article source",
+      "url": "https://doi.org/10.52589/ajafr-erizqwhl",
+      "decision_use": "Qualitative signal only; useful for hypotheses, buyer language, and field intelligence, not hard claims."
+    },
+    {
+      "id": 3,
+      "grade": "C",
+      "evidence_label": "ESTIMATED / PROXY",
+      "publisher": "Crossref / Asia Pacific University Sdn. Bhd.",
+      "title": "SaaS Cloud Solution for Healthcare",
+      "source_family": "academic_research",
+      "metric": "On-demand peer-reviewed literature route: topic-relevant journal article source",
+      "url": "https://doi.org/10.65136/jati.v7i1.130",
+      "decision_use": "Qualitative signal only; useful for hypotheses, buyer language, and field intelligence, not hard claims."
+    },
+    {
+      "id": 4,
+      "grade": "C",
+      "evidence_label": "ESTIMATED / PROXY",
+      "publisher": "Crossref / Bulent Evcevit University",
+      "title": "SOFTWARE AS A SERVICE (SAAS) ADOPTION AS A DISRUPTIVE TECHNOLOGY: UNDERSTANDING THE CHALLENGES AND THE OBSTACLES OF NON-SAAS ADOPTERS YENİLİKÇİ TEKNOLOJİ OLARAK HİZMET İÇİN YAZILIM (SaaS): SaaS KULLANMAYANLARIN ZORLUKLARINI VE ENGELLERİNİ ARAŞTIRMAK",
+      "source_family": "academic_research",
+      "metric": "On-demand peer-reviewed literature route: topic-relevant journal article source",
+      "url": "https://doi.org/10.17130/ijmeb.1249540",
+      "decision_use": "Qualitative signal only; useful for hypotheses, buyer language, and field intelligence, not hard claims."
+    },
+    {
+      "id": 5,
+      "grade": "C",
+      "evidence_label": "ESTIMATED / PROXY",
+      "publisher": "Crossref / Case Western Reserve University",
+      "title": "Increasing Software as a Service (SaaS) Customer Retention: Do Intangible Factors Matter?",
+      "source_family": "academic_research",
+      "metric": "On-demand peer-reviewed literature route: topic-relevant journal article source",
+      "url": "https://doi.org/10.28953/2375-8643.1114",
+      "decision_use": "Qualitative signal only; useful for hypotheses, buyer language, and field intelligence, not hard claims."
+    },
+    {
+      "id": 6,
+      "grade": "C",
+      "evidence_label": "ESTIMATED / PROXY",
+      "publisher": "Crossref / Elsevier BV",
+      "title": "Encryption in Transit in Healthcare SaaS: The Role of Mutual TLS",
+      "source_family": "academic_research",
+      "metric": "On-demand peer-reviewed literature route: topic-relevant journal article source",
+      "url": "https://doi.org/10.2139/ssrn.5131928",
+      "decision_use": "Qualitative signal only; useful for hypotheses, buyer language, and field intelligence, not hard claims."
+    },
+    {
+      "id": 7,
+      "grade": "C",
+      "evidence_label": "ESTIMATED / PROXY",
+      "publisher": "Crossref / Elsevier BV",
+      "title": "Predicting sports performance from well-being: A mapping of professional athletes’, amateur athletes’ and non-athletes’ positions",
+      "source_family": "academic_research",
+      "metric": "On-demand peer-reviewed literature route: topic-relevant journal article source",
+      "url": "https://doi.org/10.1016/j.erap.2022.100793",
+      "decision_use": "Qualitative signal only; useful for hypotheses, buyer language, and field intelligence, not hard claims."
+    },
+    {
+      "id": 8,
+      "grade": "C",
+      "evidence_label": "ESTIMATED / PROXY",
+      "publisher": "Crossref / Elsevier BV",
+      "title": "The influence of social networks within sports teams on athletes’ eating and exercise psychopathology: A longitudinal study",
+      "source_family": "academic_research",
+      "metric": "On-demand peer-reviewed literature route: topic-relevant journal article source",
+      "url": "https://doi.org/10.1016/j.psychsport.2020.101786",
+      "decision_use": "Qualitative signal only; useful for hypotheses, buyer language, and field intelligence, not hard claims."
+    },
+    {
+      "id": 9,
+      "grade": "C",
+      "evidence_label": "ESTIMATED / PROXY",
+      "publisher": "Crossref / Everant Journals",
+      "title": "Intelligent Automation of Supply Audit Using Machine Learning in B2B Saas Platforms",
+      "source_family": "academic_research",
+      "metric": "On-demand peer-reviewed literature route: topic-relevant journal article source",
+      "url": "https://doi.org/10.47191/jefms/v8-i12-40",
+      "decision_use": "Qualitative signal only; useful for hypotheses, buyer language, and field intelligence, not hard claims."
+    },
+    {
+      "id": 10,
+      "grade": "C",
+      "evidence_label": "ESTIMATED / PROXY",
+      "publisher": "Crossref / Hogrefe Publishing Group",
+      "title": "Psychological support for elite athletes",
+      "source_family": "academic_research",
+      "metric": "On-demand peer-reviewed literature route: topic-relevant journal article source",
+      "url": "https://doi.org/10.1024/2674-0052/a000078",
+      "decision_use": "Qualitative signal only; useful for hypotheses, buyer language, and field intelligence, not hard claims."
+    },
+    {
+      "id": 11,
+      "grade": "C",
+      "evidence_label": "ESTIMATED / PROXY",
+      "publisher": "Crossref / Informa UK Limited",
+      "title": "The role of digital technology in facilitating epistemic fluency in professional education",
+      "source_family": "academic_research",
+      "metric": "On-demand peer-reviewed literature route: topic-relevant journal article source",
+      "url": "https://doi.org/10.1080/19415257.2024.2421489",
+      "decision_use": "Qualitative signal only; useful for hypotheses, buyer language, and field intelligence, not hard claims."
+    },
+    {
+      "id": 12,
+      "grade": "C",
+      "evidence_label": "ESTIMATED / PROXY",
+      "publisher": "Crossref / International Journal for Research in Applied Science and Engineering Technology (IJRASET)",
+      "title": "Benefits and Challenges of SAAS CRM Over On-Premise CRM: A Review",
+      "source_family": "academic_research",
+      "metric": "On-demand peer-reviewed literature route: topic-relevant journal article source",
+      "url": "https://doi.org/10.22214/ijraset.2021.39704",
+      "decision_use": "Qualitative signal only; useful for hypotheses, buyer language, and field intelligence, not hard claims."
+    },
+    {
+      "id": 13,
+      "grade": "C",
+      "evidence_label": "ESTIMATED / PROXY",
+      "publisher": "Crossref / Nutrition Society of Malaysia",
+      "title": "Regulatory status of bioactive non-nutritional food components in Southeast Asian countries",
+      "source_family": "academic_research",
+      "metric": "On-demand peer-reviewed literature route: topic-relevant journal article source",
+      "url": "https://doi.org/10.31246/mjn-2022-review-28-3",
+      "decision_use": "Qualitative signal only; useful for hypotheses, buyer language, and field intelligence, not hard claims."
+    },
+    {
+      "id": 14,
+      "grade": "C",
+      "evidence_label": "ESTIMATED / PROXY",
+      "publisher": "Crossref / Nutrition Society of Malaysia",
+      "title": "Status of probiotic regulations in Southeast Asia countries",
+      "source_family": "academic_research",
+      "metric": "On-demand peer-reviewed literature route: topic-relevant journal article source",
+      "url": "https://doi.org/10.31246/mjn-2021-27-3-probiotic-regulations-review",
+      "decision_use": "Qualitative signal only; useful for hypotheses, buyer language, and field intelligence, not hard claims."
+    },
+    {
+      "id": 15,
+      "grade": "C",
+      "evidence_label": "ESTIMATED / PROXY",
+      "publisher": "Crossref / Seventh Sense Research Group Journals",
+      "title": "Engineering AI Augmented Admin Tools: Automation of Repetitive Workflows in B2B SaaS Systems",
+      "source_family": "academic_research",
+      "metric": "On-demand peer-reviewed literature route: topic-relevant journal article source",
+      "url": "https://doi.org/10.14445/22312803/ijctt-v73i5p124",
+      "decision_use": "Qualitative signal only; useful for hypotheses, buyer language, and field intelligence, not hard claims."
+    },
+    {
+      "id": 16,
+      "grade": "C",
+      "evidence_label": "ESTIMATED / PROXY",
+      "publisher": "Crossref / State Biotechnology University",
+      "title": "SaaS Fleet Tracking Systems for Sustainable Logistics Management in Ukraine.",
+      "source_family": "academic_research",
+      "metric": "On-demand peer-reviewed literature route: topic-relevant journal article source",
+      "url": "https://doi.org/10.69803/3083-6034-2025-4-61",
+      "decision_use": "Qualitative signal only; useful for hypotheses, buyer language, and field intelligence, not hard claims."
+    },
+    {
+      "id": 17,
+      "grade": "C",
+      "evidence_label": "ESTIMATED / PROXY",
+      "publisher": "OpenAlex / International Journal of Business Intelligence and Data Mining",
+      "title": "Machine learning models for predicting customer churn: a case study in a software-as-a-service inventory management company",
+      "source_family": "academic_research",
+      "metric": "On-demand academic research: topic-relevant research paper source",
+      "url": "https://doi.org/10.1504/ijbidm.2024.135146",
+      "decision_use": "Qualitative signal only; useful for hypotheses, buyer language, and field intelligence, not hard claims."
+    },
+    {
+      "id": 18,
+      "grade": "C",
+      "evidence_label": "ESTIMATED / PROXY",
+      "publisher": "OpenAlex / International Journal of Management Technology and Social Sciences",
+      "title": "Open Network for Digital Commerce -ONDC (E-Commerce) Infrastructure: To Promote SME/ MSME Sector for Inclusive and Sustainable Digital Economic growth",
+      "source_family": "academic_research",
+      "metric": "On-demand academic research: topic-relevant research paper source",
+      "url": "https://doi.org/10.47992/ijmts.2581.6012.0223",
+      "decision_use": "Qualitative signal only; useful for hypotheses, buyer language, and field intelligence, not hard claims."
+    },
+    {
+      "id": 19,
+      "grade": "C",
+      "evidence_label": "ESTIMATED / PROXY",
+      "publisher": "OpenAlex / OpenAlex",
+      "title": "Playbooks de crescimento em SAAS B2B : um estudo comparativo entre estratégias para SMB e enterprise",
+      "source_family": "academic_research",
+      "metric": "On-demand academic research: topic-relevant research paper source",
+      "url": "https://doi.org/10.11606/003283866",
+      "decision_use": "Qualitative signal only; useful for hypotheses, buyer language, and field intelligence, not hard claims."
+    },
+    {
+      "id": 20,
+      "grade": "B+",
+      "evidence_label": "VERIFIED BENCHMARK",
+      "publisher": "accountune.com",
+      "title": "Unknown vendor pricing: From ₹799",
+      "source_family": "pricing_reference",
+      "metric": "Pricing signal: From ₹799: Unknown vendor pricing evidence From ₹799 pricing",
+      "url": "https://accountune.com/inventory-management-software",
+      "decision_use": "Can support financial benchmarking, pricing, implementation, or procurement evidence when the vendor/buyer segment matches; disclose proxy limits."
+    },
+    {
+      "id": 21,
+      "grade": "B+",
+      "evidence_label": "VERIFIED BENCHMARK",
+      "publisher": "apnabillbook.com",
+      "title": "Unknown vendor pricing: ₹0",
+      "source_family": "pricing_reference",
+      "metric": "Pricing signal: ₹0: Unknown vendor pricing evidence ₹0 pricing",
+      "url": "https://apnabillbook.com/",
+      "decision_use": "Can support financial benchmarking, pricing, implementation, or procurement evidence when the vendor/buyer segment matches; disclose proxy limits."
+    },
+    {
+      "id": 22,
+      "grade": "B+",
+      "evidence_label": "ESTIMATED / PROXY",
+      "publisher": "blog.shipperguide.com",
+      "title": "Unknown vendor pricing: $17.47",
+      "source_family": "pricing_reference",
+      "metric": "Pricing signal: $17.47: Unknown vendor pricing evidence $17.47 pricing",
+      "url": "https://blog.shipperguide.com/best-logistics-software-smb",
+      "decision_use": "Can support financial benchmarking, pricing, implementation, or procurement evidence when the vendor/buyer segment matches; disclose proxy limits."
+    },
+    {
+      "id": 23,
+      "grade": "B+",
+      "evidence_label": "ESTIMATED / PROXY",
+      "publisher": "cargo.flowers",
+      "title": "Unknown vendor pricing: $10",
+      "source_family": "pricing_reference",
+      "metric": "Pricing signal: $10: Unknown vendor pricing evidence $10 pricing",
+      "url": "https://cargo.flowers/en/blog/post/saas-in-logistics",
+      "decision_use": "Can support financial benchmarking, pricing, implementation, or procurement evidence when the vendor/buyer segment matches; disclose proxy limits."
+    },
+    {
+      "id": 24,
+      "grade": "B+",
+      "evidence_label": "VERIFIED BENCHMARK",
+      "publisher": "cliniify.com",
+      "title": "Unknown vendor pricing: rs.\n\n21",
+      "source_family": "pricing_reference",
+      "metric": "Pricing signal: rs.\n\n21: Unknown vendor pricing evidence rs.\n\n21 pricing",
+      "url": "https://cliniify.com/",
+      "decision_use": "Can support financial benchmarking, pricing, implementation, or procurement evidence when the vendor/buyer segment matches; disclose proxy limits."
+    },
+    {
+      "id": 25,
+      "grade": "B+",
+      "evidence_label": "VERIFIED BENCHMARK",
+      "publisher": "deccanbill.com",
+      "title": "Unknown vendor pricing: ₹0",
+      "source_family": "pricing_reference",
+      "metric": "Pricing signal: ₹0: Unknown vendor pricing evidence ₹0 pricing",
+      "url": "https://deccanbill.com/",
+      "decision_use": "Can support financial benchmarking, pricing, implementation, or procurement evidence when the vendor/buyer segment matches; disclose proxy limits."
+    },
+    {
+      "id": 26,
+      "grade": "B+",
+      "evidence_label": "VERIFIED BENCHMARK",
+      "publisher": "dentskart.com",
+      "title": "Unknown vendor pricing: rs 24",
+      "source_family": "pricing_reference",
+      "metric": "Pricing signal: rs 24: Unknown vendor pricing evidence rs 24 pricing",
+      "url": "https://www.dentskart.com/",
+      "decision_use": "Can support financial benchmarking, pricing, implementation, or procurement evidence when the vendor/buyer segment matches; disclose proxy limits."
+    },
+    {
+      "id": 27,
+      "grade": "B+",
+      "evidence_label": "VERIFIED BENCHMARK",
+      "publisher": "g2.com",
+      "title": "Unknown vendor pricing: rs 2026",
+      "source_family": "pricing_reference",
+      "metric": "Pricing signal: rs 2026: Unknown vendor pricing evidence rs 2026 pricing",
+      "url": "https://www.g2.com/best-software-companies/top-companies",
+      "decision_use": "Can support financial benchmarking, pricing, implementation, or procurement evidence when the vendor/buyer segment matches; disclose proxy limits."
+    },
+    {
+      "id": 28,
+      "grade": "B+",
+      "evidence_label": "VERIFIED BENCHMARK",
+      "publisher": "learn.g2.com",
+      "title": "Unknown vendor pricing: $117.50",
+      "source_family": "pricing_reference",
+      "metric": "Pricing signal: $117.50: Unknown vendor pricing evidence $117.50 pricing",
+      "url": "https://learn.g2.com/best-restaurant-pos-systems",
+      "decision_use": "Can support financial benchmarking, pricing, implementation, or procurement evidence when the vendor/buyer segment matches; disclose proxy limits."
+    },
+    {
+      "id": 29,
+      "grade": "B+",
+      "evidence_label": "VERIFIED BENCHMARK",
+      "publisher": "learn.g2.com",
+      "title": "Unknown vendor pricing: $499",
+      "source_family": "pricing_reference",
+      "metric": "Pricing signal: $499: Unknown vendor pricing evidence $499 pricing",
+      "url": "https://learn.g2.com/best-restaurant-management-software",
+      "decision_use": "Can support financial benchmarking, pricing, implementation, or procurement evidence when the vendor/buyer segment matches; disclose proxy limits."
+    },
+    {
+      "id": 30,
+      "grade": "B+",
+      "evidence_label": "VERIFIED BENCHMARK",
+      "publisher": "lekhify.com",
+      "title": "Unknown vendor pricing: ₹48,920",
+      "source_family": "pricing_reference",
+      "metric": "Pricing signal: ₹48,920: Unknown vendor pricing evidence ₹48,920 pricing",
+      "url": "https://lekhify.com/",
+      "decision_use": "Can support financial benchmarking, pricing, implementation, or procurement evidence when the vendor/buyer segment matches; disclose proxy limits."
+    },
+    {
+      "grade": "B",
+      "title": "VasyERP",
+      "url": "https://vasyerp.com/cloud-based-inventory-management-software",
+      "source_family": "serp_competitor",
+      "publisher": "VasyERP",
+      "year": "",
+      "metric": "",
+      "use_in_report": "serp_live_discovery"
+    },
+    {
+      "grade": "B",
+      "title": "TallyPrime",
+      "url": "https://tallysolutions.com/inventory-management-software/",
+      "source_family": "serp_competitor",
+      "publisher": "TallyPrime",
+      "year": "",
+      "metric": "Lifetime license: Rs 22,500 for single user; Rs 67,500 for unlimited multi-user access across multiple PCs within a LAN environment.",
+      "use_in_report": "serp_live_discovery"
+    },
+    {
+      "grade": "B",
+      "title": "SalesBabu Inventory Management Software",
+      "url": "https://www.salesbabu.com/blog/salesbabu-inventory-management-software-inventory-management-sme/",
+      "source_family": "serp_competitor",
+      "publisher": "SalesBabu Inventory Management Software",
+      "year": "",
+      "metric": "",
+      "use_in_report": "serp_live_discovery"
+    },
+    {
+      "grade": "B",
+      "title": "MargBooks",
+      "url": "https://margbooks.com/inventory-management-software.html",
+      "source_family": "serp_competitor",
+      "publisher": "MargBooks",
+      "year": "",
+      "metric": "",
+      "use_in_report": "serp_live_discovery"
+    },
+    {
+      "grade": "B",
+      "title": "pricing benchmarks",
+      "url": "",
+      "source_family": "serp_market_signal",
+      "publisher": "pricing benchmarks",
+      "year": "",
+      "metric": "",
+      "use_in_report": "serp_live_discovery"
+    }
+  ],
+  "research_report": {
+    "available": true,
+    "topic": "Inventory management software for small retailers",
+    "geography": "India",
+    "section_count": 4
+  },
+  "business_plan": {
+    "available": false,
+    "quality": {},
+    "founder_readable_available": false
+  },
+  "ICP": {},
+  "leads": [],
+  "financial_model": {
+    "topic": "Inventory management software for small retailers",
+    "industry": "SaaS / B2B Software",
+    "target": "India",
+    "horizon": "2026-2031",
+    "domain": "general_market",
+    "dashboard_mode": "evidence_first",
+    "headline": {
+      "tam_base": null,
+      "tam_base_fmt": "WITHHELD - TAM 10-check gate failed",
+      "tam_range": "WITHHELD - missing verified denominator/price/adoption inputs",
+      "sam": null,
+      "sam_fmt": "WITHHELD - SAM inherits failed TAM/source boundary gate",
+      "som_range": "WITHHELD - missing verified capture and retention/churn inputs",
+      "forecast_cagr_2026_2031": null,
+      "forecast_cagr_2026_2031_fmt": "Source-gated"
+    },
+    "industry_model_name": "General Evidence Model",
+    "assumptions": {
+      "model_status": "No generic TAM model applied.",
+      "required_scope": "product/use case + buyer segment + geography + channel",
+      "sizing_rule": "TAM/SAM/SOM can be shown only after topic-specific source evidence and explicit formulas are populated."
+    },
+    "executive_metrics": [
+      {
+        "label": "Sizing status",
+        "value": "Source-gated",
+        "source": "official statistics/company filings/analyst sources",
+        "confidence": "High",
+        "note": "No generic TAM is shown until domain-specific evidence is attached."
+      },
+      {
+        "label": "Model requirement",
+        "value": "Bottom-up wedge",
+        "source": "IIDATECH formula gate",
+        "confidence": "High",
+        "note": "Define customers, price, frequency, and channel before modeling."
+      },
+      {
+        "label": "Competitive basis",
+        "value": "Source-gated",
+        "source": "filings/pricing pages/channel checks",
+        "confidence": "Medium",
+        "note": "Competitor share requires disclosed data or proxy methodology."
+      },
+      {
+        "label": "Evidence gap",
+        "value": "Primary validation needed",
+        "source": "customer/interview plan",
+        "confidence": "Medium",
+        "note": "Needs buyer calls and pricing/channel checks."
+      }
+    ],
+    "formula_rows": [
+      {
+        "model_part": "TAM",
+        "formula": "eligible customers or volume x price/frequency",
+        "required_data": "official or audited market volume and topic-specific price"
+      },
+      {
+        "model_part": "SAM",
+        "formula": "TAM x reachable geography/channel/use-case share",
+        "required_data": "distribution constraints and buyer eligibility"
+      },
+      {
+        "model_part": "SOM",
+        "formula": "SAM x realistic penetration over period",
+        "required_data": "sales capacity, conversion, churn/retention, competitor response"
+      },
+      {
+        "model_part": "Unit economics",
+        "formula": "revenue - COGS - acquisition - service/compliance costs",
+        "required_data": "cost stack and cohort behavior"
+      }
+    ],
+    "scenario_rows": [
+      {
+        "scenario": "Bear",
+        "model_output": "Validation incomplete",
+        "logic": "Weak source coverage or unclear buyer economics blocks a numeric model.",
+        "source_status": "Needs official/filing/primary data."
+      },
+      {
+        "scenario": "Base",
+        "model_output": "Narrow wedge validated",
+        "logic": "A defined buyer/use case supports explicit bottom-up sizing.",
+        "source_status": "Needs price, volume, and adoption evidence."
+      },
+      {
+        "scenario": "Bull",
+        "model_output": "Repeatable expansion",
+        "logic": "Evidence supports expansion into adjacent customer segments or regions.",
+        "source_status": "Needs cohort and competitive proof."
+      }
+    ],
+    "driver_rows": [
+      {
+        "driver": "Customer/volume base",
+        "why_it_matters": "Defines the addressable universe."
+      },
+      {
+        "driver": "Price or take rate",
+        "why_it_matters": "Translates volume into revenue pool."
+      },
+      {
+        "driver": "Adoption/penetration",
+        "why_it_matters": "Converts TAM/SAM into realistic obtainable revenue."
+      },
+      {
+        "driver": "Churn/retention",
+        "why_it_matters": "Determines lifetime value and forecast durability."
+      },
+      {
+        "driver": "Cost to serve",
+        "why_it_matters": "Controls contribution margin and valuation quality."
+      }
+    ],
+    "source_gate_rows": [
+      {
+        "claim_type": "Market size",
+        "minimum_evidence": "two domain-matched sources or one official source plus bottom-up model",
+        "allowed_output": "range with assumptions"
+      },
+      {
+        "claim_type": "Forecast",
+        "minimum_evidence": "historical time series or named adoption drivers",
+        "allowed_output": "scenario forecast"
+      },
+      {
+        "claim_type": "Valuation",
+        "minimum_evidence": "unit economics and comparable company/transaction evidence",
+        "allowed_output": "sensitivity table"
+      }
+    ],
+    "methodology_notes": [
+      "Generic market assumptions were intentionally disabled.",
+      "The dashboard shows validation gates until domain-specific data is sufficient.",
+      "This prevents cross-industry metric contamination and unsupported TAM/CAGR claims."
+    ]
+  },
+  "employees_team_tasks": {},
+  "exports": [
+    "Founder business plan",
+    "Investor memo",
+    "GTM plan",
+    "Financial model CSV/XLSX",
+    "Lead list CSV",
+    "Team task plan",
+    "Source ledger"
+  ],
+  "scope_assessment": {
+    "ok": true,
+    "domain": "saas_software",
+    "issues": [],
+    "suggestions": [
+      "One product category for one buyer segment in India",
+      "One workflow or use case inside SaaS / B2B Software for a named customer type in India",
+      "One channel-led business model with price band, buyer, and geography specified"
+    ]
+  }
+}
