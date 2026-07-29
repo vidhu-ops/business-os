@@ -44,13 +44,15 @@ Two services, one GitHub repo: `vidhu-ops/business-os`
 4. **Environment variable:** `API_URL` = your Render API URL (step 2 below)
 5. Deploy
 
-### 2. Backend — Render
+### 2. Backend — Render or Railway
 
-1. [dashboard.render.com](https://dashboard.render.com) → **New** → **Blueprint**
-2. Connect `vidhu-ops/business-os` (uses `render.yaml` in repo)
-3. Set secret env vars: `PERPLEXITY_API_KEY`, `ANTHROPIC_API_KEY`, `OPENAI_API_KEY`
-4. Copy the service URL (e.g. `https://business-os-api.onrender.com`)
-5. Set `CORS_ORIGINS` and `FRONTEND_URL` to your Vercel URL
+**Render:** [dashboard.render.com](https://dashboard.render.com) → **New** → **Blueprint** → connect repo (`render.yaml`).
+
+**Railway:** [railway.app/new](https://railway.app/new) → **Deploy from GitHub** → `vidhu-ops/business-os`. Uses root `Dockerfile` + `railway.toml` automatically.
+
+Set secret env vars on either platform: `PERPLEXITY_API_KEY`, `ANTHROPIC_API_KEY`, `OPENAI_API_KEY`, `JWT_SECRET`.
+
+Copy the API URL, then set `CORS_ORIGINS` and `FRONTEND_URL` to your Vercel URL.
 
 ### 3. Wire them together
 

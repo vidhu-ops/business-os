@@ -1,0 +1,12 @@
+web/node_modules
+web/.next
+.venv
+__pycache__
+**/__pycache__
+.git
+.env
+.env.*
+*.pyc
+qa_outputs
+opportunity_workspaces
+business_build_outputs
