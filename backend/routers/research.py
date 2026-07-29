@@ -13,9 +13,9 @@ from backend.services.workspaces import load_workspace, save_workspace, update_w
 from iidatech.evidence_bank.perplexity_client import perplexity_enabled
 from iidatech.execution.session_api_keys import session_api_keys
 from iidatech.services.perplexity_report_engine import format_market_geography
-from iidatech.services.report_section_plans import SIMPLE_SECTION_COUNTS, budget_for_sections, section_titles
+from iidatech.services.report_section_plans import SIMPLE_SECTION_COUNTS, section_titles
 from iidatech.services.client_report_view import sanitize_research_result
-from iidatech.services.simple_perplexity_report import generate_simple_perplexity_report, simple_report_budget_usd
+from iidatech.services.simple_perplexity_report import generate_simple_perplexity_report
 
 router = APIRouter(prefix="/research", tags=["research"])
 
