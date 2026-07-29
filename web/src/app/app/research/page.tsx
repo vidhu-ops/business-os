@@ -34,6 +34,8 @@ function ResearchContent() {
   const [countries, setCountries] = useState<string[]>(["Global"]);
   const [researchReady, setResearchReady] = useState(true);
   const [setupHint, setSetupHint] = useState("");
+  const [perplexityKey, setPerplexityKey] = useState("");
+  const [savingKey, setSavingKey] = useState(false);
 
   const [idea, setIdea] = useState("");
   const [industry, setIndustry] = useState("");
@@ -53,14 +55,18 @@ function ResearchContent() {
   const [loading, setLoading] = useState(false);
   const [savingIntake, setSavingIntake] = useState(false);
 
-  useEffect(() => {
-    api.researchOptions().then((data) => {
+  const refreshResearchOptions = useCallback((workspaceId?: string) => {
+    api.researchOptions(workspaceId).then((data) => {
       setOptions(data.options);
       setCountries(data.countries?.length ? data.countries : ["Global"]);
       setResearchReady(data.research_ready !== false);
       setSetupHint(data.setup_hint || "");
     }).catch(() => setOptions([]));
   }, []);
+
+  useEffect(() => {
+    refreshResearchOptions(selectedId || undefined);
+  }, [selectedId, refreshResearchOptions]);
 
   const loadWorkspace = useCallback(async (workspaceId: string) => {
     const data = await api.getResearch(workspaceId);
@@ -128,6 +134,21 @@ function ResearchContent() {
     Boolean(result?.success) &&
     String(result?.topic || "").trim() === String(idea || "").trim() &&
     Number(result?.section_count || 0) === Number(sectionCount);
+
+  async function savePerplexityKey() {
+    if (!selectedId || !perplexityKey.trim()) return;
+    setSavingKey(true);
+    setError("");
+    try {
+      await api.setOs2Keys(selectedId, { perplexity: perplexityKey.trim() });
+      setPerplexityKey("");
+      refreshResearchOptions(selectedId);
+    } catch (err) {
+      setError(err instanceof Error ? err.message : "Could not save API key");
+    } finally {
+      setSavingKey(false);
+    }
+  }
 
   async function saveIntake() {
     if (!selectedId) return;
@@ -316,11 +337,35 @@ function ResearchContent() {
               )}
 
               {!researchReady && (
-                <div className="rounded-xl border border-amber-500/40 bg-amber-500/10 p-4 text-sm text-amber-100">
-                  <p className="font-semibold">Perplexity API key required</p>
-                  <p className="mt-2 text-amber-100/90">
-                    {setupHint ||
-                      "Set PERPLEXITY_API_KEY in your hosting dashboard (Render → Environment). Keys are not entered in the browser."}
+                <div className="space-y-3 rounded-xl border border-amber-500/40 bg-amber-500/10 p-4 text-sm text-amber-100">
+                  <div>
+                    <p className="font-semibold">Perplexity API key required</p>
+                    <p className="mt-2 text-amber-100/90">
+                      {setupHint ||
+                        "Paste your key below for this session, or add PERPLEXITY_API_KEY to the project .env file and restart the API."}
+                    </p>
+                  </div>
+                  <div className="flex flex-col gap-2 sm:flex-row sm:items-center">
+                    <input
+                      type="password"
+                      className="iid-input flex-1"
+                      value={perplexityKey}
+                      onChange={(e) => setPerplexityKey(e.target.value)}
+                      placeholder="pplx-..."
+                      autoComplete="off"
+                    />
+                    <button
+                      type="button"
+                      className="iid-btn iid-btn-primary shrink-0"
+                      onClick={savePerplexityKey}
+                      disabled={savingKey || !perplexityKey.trim() || !selectedId}
+                    >
+                      {savingKey ? "Saving…" : "Save key"}
+                    </button>
+                  </div>
+                  <p className="text-xs text-amber-100/70">
+                    Local: edit <code className="rounded bg-black/30 px-1">.env</code> in the repo root. Render: add{" "}
+                    <code className="rounded bg-black/30 px-1">PERPLEXITY_API_KEY</code> in Environment.
                   </p>
                 </div>
               )}

@@ -8,8 +8,10 @@ from pydantic import BaseModel, Field
 
 from backend.auth import get_current_user
 from backend.services.founder_scope import assess_topic_scope, country_choices
+from backend.services.os2_service import merged_keys_for_workspace
 from backend.services.workspaces import load_workspace, save_workspace, update_workspace_intake
 from iidatech.evidence_bank.perplexity_client import perplexity_enabled
+from iidatech.execution.session_api_keys import session_api_keys
 from iidatech.services.perplexity_report_engine import format_market_geography
 from iidatech.services.report_section_plans import SIMPLE_SECTION_COUNTS, budget_for_sections, section_titles
 from iidatech.services.simple_perplexity_report import generate_simple_perplexity_report, simple_report_budget_usd
@@ -17,9 +19,16 @@ from iidatech.services.simple_perplexity_report import generate_simple_perplexit
 router = APIRouter(prefix="/research", tags=["research"])
 
 _RESEARCH_SETUP_HINT = (
-    "Add PERPLEXITY_API_KEY in your host dashboard (Render → Environment → PERPLEXITY_API_KEY). "
-    "The app does not collect API keys in the browser for security."
+    "Add your Perplexity API key in the box below, or set PERPLEXITY_API_KEY in the project "
+    ".env file and restart the API. Keys are not stored in the browser permanently."
 )
+
+
+def _perplexity_ready(workspace_id: str | None = None) -> bool:
+    if workspace_id:
+        if merged_keys_for_workspace(workspace_id).get("perplexity"):
+            return True
+    return perplexity_enabled()
 
 
 class ResearchRunBody(BaseModel):
@@ -90,13 +99,15 @@ def _run_research_background(
     areas: str,
 ) -> None:
     try:
-        result = generate_simple_perplexity_report(
-            topic,
-            industry=industry,
-            geography=geography,
-            areas=areas,
-            section_count=section_count,
-        )
+        keys = merged_keys_for_workspace(workspace_id)
+        with session_api_keys(keys):
+            result = generate_simple_perplexity_report(
+                topic,
+                industry=industry,
+                geography=geography,
+                areas=areas,
+                section_count=section_count,
+            )
         workspace = load_workspace(workspace_id)
         if not workspace:
             return
@@ -130,9 +141,12 @@ def _run_research_background(
 
 
 @router.get("/options")
-def research_options(_: str = Depends(get_current_user)) -> dict:
+def research_options(
+    workspace_id: str | None = None,
+    _: str = Depends(get_current_user),
+) -> dict:
     base = simple_report_budget_usd()
-    ready = perplexity_enabled()
+    ready = _perplexity_ready(workspace_id)
     options = []
     for count in SIMPLE_SECTION_COUNTS:
         options.append(
@@ -176,7 +190,7 @@ def get_research(workspace_id: str, _: str = Depends(get_current_user)) -> dict:
 
 @router.post("/run")
 def run_research(body: ResearchRunBody, _: str = Depends(get_current_user)) -> dict:
-    if not perplexity_enabled():
+    if not _perplexity_ready(body.workspace_id):
         raise HTTPException(status_code=503, detail=_RESEARCH_SETUP_HINT)
     workspace = load_workspace(body.workspace_id)
     if not workspace:

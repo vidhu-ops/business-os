@@ -133,13 +133,13 @@ export const api = {
       method: "PATCH",
       body: JSON.stringify({ idea, industry, country, areas }),
     }),
-  researchOptions: () =>
+  researchOptions: (workspace_id?: string) =>
     request<{
       research_ready: boolean;
       setup_hint?: string | null;
       countries: string[];
       options: Array<{ section_count: number; titles: string[]; budget_usd: number }>;
-    }>("/api/v1/research/options"),
+    }>(`/api/v1/research/options${workspace_id ? `?workspace_id=${encodeURIComponent(workspace_id)}` : ""}`),
   previewScope: (idea: string, industry: string, country: string, areas = "") =>
     request<{ scope: Record<string, unknown>; market_label: string }>("/api/v1/research/scope", {
       method: "POST",
