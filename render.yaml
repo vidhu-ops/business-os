@@ -1,17 +1,14 @@
+# Option A: ONE URL (frontend + API in one service) — recommended for simplicity
 services:
   - type: web
-    name: business-os-api
+    name: business-os
     runtime: docker
-    dockerfilePath: ./Dockerfile
+    dockerfilePath: ./Dockerfile.combined
     plan: starter
     healthCheckPath: /api/v1/health
     envVars:
       - key: JWT_SECRET
         generateValue: true
-      - key: CORS_ORIGINS
-        value: http://localhost:3000
-      - key: FRONTEND_URL
-        value: http://localhost:3000
       - key: PERPLEXITY_API_KEY
         sync: false
       - key: ANTHROPIC_API_KEY
@@ -19,18 +16,22 @@ services:
       - key: OPENAI_API_KEY
         sync: false
 
-  - type: web
-    name: business-os-web
-    runtime: node
-    rootDir: web
-    plan: starter
-    buildCommand: npm install && npm run build
-    startCommand: npm start
-    envVars:
-      - key: NODE_VERSION
-        value: "20"
-      - key: API_URL
-        fromService:
-          name: business-os-api
-          type: web
-          envVarKey: RENDER_EXTERNAL_URL
+# Option B: TWO URLs (uncomment if you prefer separate API + web services)
+#  - type: web
+#    name: business-os-api
+#    runtime: docker
+#    dockerfilePath: ./Dockerfile
+#    plan: starter
+#    healthCheckPath: /api/v1/health
+#  - type: web
+#    name: business-os-web
+#    runtime: node
+#    rootDir: web
+#    buildCommand: npm install && npm run build
+#    startCommand: npm start
+#    envVars:
+#      - key: API_URL
+#        fromService:
+#          name: business-os-api
+#          type: web
+#          envVarKey: RENDER_EXTERNAL_URL
