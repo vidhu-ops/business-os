@@ -42,7 +42,9 @@ export default function AppLayout({ children }: { children: React.ReactNode }) {
     return (
       <main className="flex min-h-screen flex-col items-center justify-center gap-4 px-6 text-center">
         <p className="text-sm text-red-600">{error}</p>
-        <p className="text-sm text-[var(--iid-muted)]">Make sure the API is running on port 8000, then retry.</p>
+        <p className="text-sm text-[var(--iid-muted)]">
+          Set <code className="text-xs">API_URL</code> to your backend URL (e.g. Render API service), then redeploy the web app.
+        </p>
         <button
           type="button"
           className="iid-btn iid-btn-primary"

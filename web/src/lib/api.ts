@@ -49,7 +49,7 @@ async function request<T>(path: string, init?: RequestInit, opts?: { auth?: bool
     return data as T;
   } catch (err) {
     if (err instanceof DOMException && err.name === "AbortError") {
-      throw new Error("Request timed out — is the API running on port 8000?");
+      throw new Error("Request timed out — check API_URL and that the API service is running.");
     }
     throw err;
   } finally {
