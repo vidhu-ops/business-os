@@ -4,7 +4,6 @@ from __future__ import annotations
 import re
 from typing import Any
 
-from iidatech.services.financial_formulas import compute_unit_economics
 from iidatech.services.market_currency import currency_for_geography
 
 _PCT_RE = re.compile(r"([\d,.]+)\s*%")
@@ -160,30 +159,6 @@ def _pick_tam_from_candidates(
     return None, None
 
 
-def _unit_metric_rows(unit_block: dict[str, Any], unit_metrics: list[dict[str, Any]]) -> list[dict[str, Any]]:
-    rows: list[dict[str, Any]] = []
-    for ur in unit_metrics:
-        src_url = ""
-        formula_id = str(ur.get("formula_id") or "")
-        for key in unit_block:
-            field = unit_block.get(key)
-            if isinstance(field, dict) and field.get("source_url"):
-                src_url = str(field.get("source_url") or "")
-                break
-        rows.append(
-            {
-                "metric": str(ur.get("metric") or ""),
-                "value": str(ur.get("value") or ""),
-                "label": str(ur.get("label") or "DERIVED"),
-                "notes": str(ur.get("notes") or ""),
-                "source_url": src_url,
-                "source_name": "",
-                "formula_id": formula_id,
-            }
-        )
-    return rows
-
-
 def compute_from_base_figures(
     base: dict[str, Any],
     *,
@@ -298,15 +273,6 @@ def compute_from_base_figures(
         "notes": "",
     }
 
-    unit_block = base.get("unit_economics") if isinstance(base.get("unit_economics"), dict) else {}
-    addressable_buyers = (buyer_n * addr_pct) if buyer_n else None
-    unit_metrics = compute_unit_economics(
-        unit_block,
-        fallback_arpu=arpu_n,
-        fallback_buyers=addressable_buyers,
-    )
-    financial_rows = _unit_metric_rows(unit_block, unit_metrics)
-
     return {
         "currency": currency,
         "tam": _row(
@@ -357,8 +323,7 @@ def compute_from_base_figures(
         },
         "tam_reconciliation": tam_notes,
         "published_reference": refs,
-        "unit_economics": unit_metrics,
-        "financial_rows": financial_rows,
+        "financial_rows": [],
         "commentary": [],
         "computed": True,
     }
