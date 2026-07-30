@@ -17,6 +17,7 @@ import re
 import sys
 import time
 import traceback
+import types
 from pathlib import Path
 from typing import Any
 
@@ -62,6 +63,85 @@ _SessionState = HeadlessSessionState
 _StreamlitPlaceholder = HeadlessStreamlitAdapter
 _STREAMLIT_PATCHED = False
 _APP_MODULE: Any | None = None
+_HEADLESS_STREAMLIT_MODULE: Any | None = None
+
+
+def _noop_streamlit_control(*_args: Any, **_kwargs: Any) -> None:
+    return None
+
+
+def _streamlit_cache_decorator(*_args: Any, **_kwargs: Any) -> Any:
+    def _wrap(fn: Any) -> Any:
+        return fn
+
+    if _args and callable(_args[0]):
+        return _args[0]
+    return _wrap
+
+
+class _HeadlessStreamlitSecrets:
+    def get(self, key: str, default: Any = "") -> Any:
+        return os.environ.get(str(key), default)
+
+
+class _HeadlessStreamlitQueryParams:
+    def get(self, key: str, default: Any = None) -> Any:
+        return default
+
+
+class _HeadlessStreamlitComponentsV1:
+    @staticmethod
+    def html(*_args: Any, **_kwargs: Any) -> None:
+        return None
+
+    @staticmethod
+    def iframe(*_args: Any, **_kwargs: Any) -> None:
+        return None
+
+
+class _HeadlessStreamlitComponentsModule(types.ModuleType):
+    def __init__(self) -> None:
+        super().__init__("streamlit.components")
+        self.v1 = _HeadlessStreamlitComponentsV1()
+
+
+class _HeadlessStreamlitModule(types.ModuleType):
+    """Minimal ``streamlit`` package shim for headless legacy imports."""
+
+    def __init__(self, adapter: HeadlessStreamlitAdapter) -> None:
+        super().__init__("streamlit")
+        self._adapter = adapter
+        self.session_state = adapter.session_state
+        self.secrets = _HeadlessStreamlitSecrets()
+        self.query_params = _HeadlessStreamlitQueryParams()
+        self.components = _HeadlessStreamlitComponentsModule()
+        self.cache_data = _streamlit_cache_decorator
+        self.cache_resource = _streamlit_cache_decorator
+        self.stop = _noop_streamlit_control
+        self.rerun = _noop_streamlit_control
+
+    def rebind(self, adapter: HeadlessStreamlitAdapter) -> None:
+        self._adapter = adapter
+        self.session_state = adapter.session_state
+        self.stop = adapter.stop
+        self.rerun = adapter.rerun
+
+    def __getattr__(self, name: str) -> Any:
+        return getattr(self._adapter, name)
+
+
+def _install_headless_streamlit_shim() -> _HeadlessStreamlitModule:
+    global _HEADLESS_STREAMLIT_MODULE
+    adapter = HeadlessStreamlitAdapter()
+    streamlit_mod = _HeadlessStreamlitModule(adapter)
+    components_mod = streamlit_mod.components
+    components_v1_mod = components_mod.v1
+
+    sys.modules["streamlit"] = streamlit_mod
+    sys.modules["streamlit.components"] = components_mod
+    sys.modules["streamlit.components.v1"] = components_v1_mod
+    _HEADLESS_STREAMLIT_MODULE = streamlit_mod
+    return streamlit_mod
 
 
 def _patch_streamlit_module() -> None:
@@ -71,11 +151,13 @@ def _patch_streamlit_module() -> None:
     os.environ.setdefault("STREAMLIT_SERVER_HEADLESS", "true")
     try:
         import streamlit as st
-    except ImportError as exc:
-        raise ReportEngineError("streamlit is required to load the legacy app module") from exc
+    except ImportError:
+        _install_headless_streamlit_shim()
+        _STREAMLIT_PATCHED = True
+        return
 
-    st.stop = lambda *args, **kwargs: None
-    st.rerun = lambda *args, **kwargs: None
+    st.stop = _noop_streamlit_control
+    st.rerun = _noop_streamlit_control
     _STREAMLIT_PATCHED = True
 
 
@@ -185,6 +267,10 @@ def _profile_for_report_type(report_type: str, options: dict[str, Any], app: Any
 def _bind_headless_streamlit(app: Any, session_state: _SessionState) -> _StreamlitPlaceholder:
     placeholder = _StreamlitPlaceholder(session_state)
     app.st = placeholder
+    headless_mod = _HEADLESS_STREAMLIT_MODULE
+    if isinstance(headless_mod, _HeadlessStreamlitModule):
+        headless_mod.rebind(placeholder)
+        return placeholder
     try:
         import streamlit
 

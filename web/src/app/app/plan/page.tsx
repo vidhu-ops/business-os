@@ -125,7 +125,7 @@ function PlanContent() {
         <p className="mt-2 muted">
           {isDemo
             ? "Sample business plan workspace — view the completed GAUGE flow below. Sign up to build plans for your company."
-            : "Build from your IIDATECH market research report, uploads, and notes — same flow as Streamlit."}
+            : "Build from your IIDATECH market research report, uploads, and notes."}
         </p>
       </div>
 
