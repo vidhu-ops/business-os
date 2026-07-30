@@ -7,7 +7,7 @@ from backend.auth import get_current_user
 from backend.services.credit_service import spend_credits
 from backend.services.demo_service import block_workspace_mutation
 from backend.services.plan_builder import build_business_plan
-from backend.services.workspaces import load_workspace, save_workspace, update_workspace_intake
+from backend.services.workspaces import load_workspace, require_workspace_access, save_workspace, update_workspace_intake
 
 router = APIRouter(prefix="/plan", tags=["plan"])
 
@@ -154,9 +154,7 @@ def run_plan(body: PlanRunBody, email: str = Depends(get_current_user)) -> dict:
 
 @router.delete("/{workspace_id}/gauge")
 def reset_gauge(workspace_id: str, email: str = Depends(get_current_user)) -> dict:
-    workspace = load_workspace(workspace_id)
-    if not workspace:
-        raise HTTPException(status_code=404, detail="Project not found")
+    workspace = require_workspace_access(email, workspace_id)
     block_workspace_mutation(email, workspace, action="reset audits")
     for key in ("gauge_intake", "gauge_audit", "existing_business_profile"):
         workspace.pop(key, None)
@@ -165,10 +163,8 @@ def reset_gauge(workspace_id: str, email: str = Depends(get_current_user)) -> di
 
 
 @router.get("/{workspace_id}/gauge")
-def get_gauge(workspace_id: str, _: str = Depends(get_current_user)) -> dict:
-    workspace = load_workspace(workspace_id)
-    if not workspace:
-        raise HTTPException(status_code=404, detail="Project not found")
+def get_gauge(workspace_id: str, email: str = Depends(get_current_user)) -> dict:
+    workspace = require_workspace_access(email, workspace_id)
     draft = workspace.get("gauge_intake") if isinstance(workspace.get("gauge_intake"), dict) else {}
     audit = workspace.get("gauge_audit") if isinstance(workspace.get("gauge_audit"), dict) else None
     return {"draft": draft, "audit": audit, "step": int(draft.get("step") or 1)}
@@ -176,9 +172,7 @@ def get_gauge(workspace_id: str, _: str = Depends(get_current_user)) -> dict:
 
 @router.patch("/{workspace_id}/gauge")
 def save_gauge_draft(workspace_id: str, body: GaugeDraftBody, email: str = Depends(get_current_user)) -> dict:
-    workspace = load_workspace(workspace_id)
-    if not workspace:
-        raise HTTPException(status_code=404, detail="Project not found")
+    workspace = require_workspace_access(email, workspace_id)
     block_workspace_mutation(email, workspace, action="edit audits")
     workspace["gauge_intake"] = body.draft
     step = int(body.draft.get("step") or 1)
@@ -194,9 +188,7 @@ def run_gauge_audit_endpoint(workspace_id: str, email: str = Depends(get_current
     from backend.services.audit_service import consume_free_audit, require_free_audit_or_existing, save_audit_record
     from backend.services.gauge_service import profile_from_draft, run_audit_for_profile, validate_draft
 
-    workspace = load_workspace(workspace_id)
-    if not workspace:
-        raise HTTPException(status_code=404, detail="Project not found")
+    workspace = require_workspace_access(email, workspace_id)
     block_workspace_mutation(email, workspace, action="run company audits")
     draft = workspace.get("gauge_intake") if isinstance(workspace.get("gauge_intake"), dict) else {}
     errors, profile = validate_draft(draft)
@@ -230,9 +222,7 @@ def build_gauge_plan(workspace_id: str, email: str = Depends(get_current_user)) 
     from backend.services.gauge_service import build_forward_plan, profile_from_draft, validate_draft
     from iidatech.services.gauge_audit import merge_gauge_audit_into_profile
 
-    workspace = load_workspace(workspace_id)
-    if not workspace:
-        raise HTTPException(status_code=404, detail="Project not found")
+    workspace = require_workspace_access(email, workspace_id)
     block_workspace_mutation(email, workspace, action="build plans")
     draft = workspace.get("gauge_intake") if isinstance(workspace.get("gauge_intake"), dict) else {}
     errors, profile = validate_draft(draft)

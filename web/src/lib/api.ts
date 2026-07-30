@@ -188,6 +188,8 @@ export const api = {
   },
   me: () => request<User>("/api/v1/auth/me"),
   auditStatus: () => request<AuditStatus>("/api/v1/audit/status"),
+  ensureAuditWorkspace: () =>
+    request<{ workspace_id: string; project: Project; is_demo?: boolean }>("/api/v1/audit/workspace"),
   dashboard: () => request<DashboardData>("/api/v1/dashboard"),
   logout: async () => {
     const data = await request<{ ok: boolean }>("/api/v1/auth/logout", { method: "POST" });

@@ -11,7 +11,7 @@ from backend.services.demo_service import (
     is_demo_user,
     is_readonly_workspace,
 )
-from backend.services.workspaces import build_project_payload, list_workspaces_for_user
+from backend.services.workspaces import build_project_payload, ensure_audit_workspace, list_workspaces_for_user
 
 
 def test_is_demo_user():
@@ -38,3 +38,13 @@ def test_list_workspaces_for_demo_user_only_sample():
     rows = list_workspaces_for_user(DEMO_EMAIL)
     assert len(rows) == 1
     assert rows[0]["workspace_id"] == DEMO_WORKSPACE_ID
+
+
+def test_ensure_audit_workspace_creates_for_user(tmp_path, monkeypatch):
+    monkeypatch.setattr("backend.services.workspaces.settings.workspaces_root", tmp_path)
+    ws = ensure_audit_workspace("founder@example.com")
+    assert ws["workspace_id"].startswith("audit_")
+    assert ws["owner_email"] == "founder@example.com"
+    assert ws.get("is_audit_workspace") is True
+    again = ensure_audit_workspace("founder@example.com")
+    assert again["workspace_id"] == ws["workspace_id"]
