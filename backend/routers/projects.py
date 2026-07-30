@@ -12,6 +12,7 @@ from backend.services.workspaces import (
     build_project_payload,
     list_workspaces_for_user,
     load_workspace,
+    require_workspace_access,
     save_workspace,
     update_workspace_intake,
 )
@@ -60,10 +61,8 @@ def create_project(body: CreateProjectBody, email: str = Depends(get_current_use
 
 
 @router.get("/{workspace_id}")
-def get_project(workspace_id: str, _: str = Depends(get_current_user)) -> dict:
-    payload = load_workspace(workspace_id)
-    if not payload:
-        raise HTTPException(status_code=404, detail="Project not found")
+def get_project(workspace_id: str, email: str = Depends(get_current_user)) -> dict:
+    payload = require_workspace_access(email, workspace_id)
     return {"project": payload}
 
 

@@ -9,6 +9,7 @@ function LoginForm() {
   const router = useRouter();
   const searchParams = useSearchParams();
   const intent = searchParams.get("intent");
+  const nextPath = searchParams.get("next");
   const initialMode = searchParams.get("mode") === "register" ? "register" : "login";
 
   const [email, setEmail] = useState("");
@@ -22,7 +23,12 @@ function LoginForm() {
     if (searchParams.get("mode") === "register") setMode("register");
   }, [searchParams]);
 
-  const afterAuthPath = intent === "audit" ? "/app/audit" : "/app/dashboard";
+  const afterAuthPath =
+    nextPath && nextPath.startsWith("/app")
+      ? nextPath
+      : intent === "audit"
+        ? "/app/audit"
+        : "/app/dashboard";
 
   async function onSubmit(e: FormEvent) {
     e.preventDefault();

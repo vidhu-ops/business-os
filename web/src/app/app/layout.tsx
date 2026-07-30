@@ -5,12 +5,13 @@ import { AppProductNav } from "@/components/AppProductNav";
 import { DemoBanner } from "@/components/DemoBanner";
 import { ensureSession } from "@/lib/api";
 import Link from "next/link";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 
 export default function AppLayout({ children }: { children: React.ReactNode }) {
   const pathname = usePathname();
-  const showProductNav = ["/app/research", "/app/plan", "/app/team", "/app/automation", "/app/workspace"].some(
+  const router = useRouter();
+  const showProductNav = ["/app/research", "/app/plan", "/app/team", "/app/automation", "/app/workspace", "/app/audit"].some(
     (p) => pathname === p || pathname?.startsWith(p + "/"),
   );
   const [email, setEmail] = useState<string>("");
@@ -29,7 +30,12 @@ export default function AppLayout({ children }: { children: React.ReactNode }) {
         }
       } catch (err) {
         if (!cancelled) {
-          setError(err instanceof Error ? err.message : "Could not start workspace session");
+          const msg = err instanceof Error ? err.message : "";
+          if (msg === "NOT_AUTHENTICATED") {
+            router.replace(`/login?next=${encodeURIComponent(pathname || "/app/dashboard")}`);
+            return;
+          }
+          setError(msg || "Could not start workspace session");
         }
       }
     };
@@ -37,7 +43,7 @@ export default function AppLayout({ children }: { children: React.ReactNode }) {
     return () => {
       cancelled = true;
     };
-  }, []);
+  }, [pathname, router]);
 
   if (error) {
     return (
@@ -47,9 +53,12 @@ export default function AppLayout({ children }: { children: React.ReactNode }) {
           On Render, free-tier services sleep when idle and can take up to a minute to wake. Click Retry, or check the
           service logs in the Render dashboard if this keeps failing.
         </p>
+        <Link href="/login" className="iid-btn iid-btn-primary">
+          Log in
+        </Link>
         <button
           type="button"
-          className="iid-btn iid-btn-primary"
+          className="iid-btn iid-btn-ghost"
           onClick={() => {
             setReady(false);
             setError(null);
@@ -58,7 +67,14 @@ export default function AppLayout({ children }: { children: React.ReactNode }) {
                 setEmail(user.email);
                 setReady(true);
               })
-              .catch((err) => setError(err instanceof Error ? err.message : "Could not start workspace session"));
+              .catch((err) => {
+                const msg = err instanceof Error ? err.message : "";
+                if (msg === "NOT_AUTHENTICATED") {
+                  router.replace(`/login?next=${encodeURIComponent(pathname || "/app/dashboard")}`);
+                  return;
+                }
+                setError(msg || "Could not start workspace session");
+              });
           }}
         >
           Retry

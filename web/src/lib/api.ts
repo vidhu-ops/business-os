@@ -129,34 +129,23 @@ async function request<T>(
   }
 }
 
-/** Ensure a demo session exists before entering /app routes. */
-export async function ensureSession(): Promise<User> {
-  const bootstrap = { timeoutMs: BOOTSTRAP_TIMEOUT_MS };
+/** Require a real login token — does not silently create a demo session. */
+export async function requireAuthSession(): Promise<User> {
   const token = getToken();
-  if (token) {
-    try {
-      return await request<User>("/api/v1/auth/me", undefined, bootstrap);
-    } catch {
-      setToken(null);
-    }
+  if (!token) {
+    throw new Error("NOT_AUTHENTICATED");
   }
+  try {
+    return await request<User>("/api/v1/auth/me", undefined, { timeoutMs: BOOTSTRAP_TIMEOUT_MS });
+  } catch {
+    setToken(null);
+    throw new Error("NOT_AUTHENTICATED");
+  }
+}
 
-  let lastError: Error | null = null;
-  for (let attempt = 0; attempt < 4; attempt += 1) {
-    try {
-      const data = await request<User & { token: string }>(
-        "/api/v1/auth/demo",
-        { method: "POST", body: "{}" },
-        { auth: false, ...bootstrap },
-      );
-      setToken(data.token);
-      return data;
-    } catch (err) {
-      lastError = err instanceof Error ? err : new Error("Could not start session");
-      if (attempt < 3) await sleep(2500 * (attempt + 1));
-    }
-  }
-  throw lastError ?? new Error("Could not start session");
+/** @deprecated Use requireAuthSession — kept for checkout flows that require any logged-in user. */
+export async function ensureSession(): Promise<User> {
+  return requireAuthSession();
 }
 
 export const api = {
@@ -196,7 +185,7 @@ export const api = {
     setToken(null);
     return data;
   },
-  projects: () => request<{ projects: Project[] }>("/api/v1/projects"),
+  projects: () => request<{ projects: Project[]; is_demo?: boolean }>("/api/v1/projects"),
   createProject: (idea: string, industry: string, country: string, areas = "") =>
     request<{ project: Project }>("/api/v1/projects", {
       method: "POST",

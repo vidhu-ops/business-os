@@ -12,6 +12,11 @@ if [ -n "${RENDER_EXTERNAL_URL:-}" ]; then
   export OAUTH_REDIRECT_URI="${OAUTH_REDIRECT_URI:-${FRONTEND_URL}/api/v1/oauth/callback}"
 fi
 
+if [ ! -f opportunity_workspaces/demo_readonly/workspace.json ]; then
+  echo "Seeding demo_readonly workspace ..."
+  python tools/assemble_demo.py || true
+fi
+
 echo "Starting IIDATECH API at ${API_URL} ..."
 uvicorn backend.main:app --host 127.0.0.1 --port 8000 &
 API_PID=$!

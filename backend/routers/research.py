@@ -11,7 +11,7 @@ from backend.services.demo_service import block_demo_mutation, block_workspace_m
 from backend.services.credit_service import spend_credits
 from backend.services.founder_scope import assess_topic_scope, country_choices
 from backend.services.os2_service import merged_keys_for_workspace
-from backend.services.workspaces import load_workspace, save_workspace, update_workspace_intake
+from backend.services.workspaces import load_workspace, require_workspace_access, save_workspace, update_workspace_intake
 from iidatech.evidence_bank.perplexity_client import perplexity_enabled
 from iidatech.execution.session_api_keys import session_api_keys
 from iidatech.services.perplexity_report_engine import format_market_geography
@@ -172,10 +172,8 @@ def preview_scope(body: ScopePreviewBody, _: str = Depends(get_current_user)) ->
 
 
 @router.get("/{workspace_id}")
-def get_research(workspace_id: str, _: str = Depends(get_current_user)) -> dict:
-    workspace = load_workspace(workspace_id)
-    if not workspace:
-        raise HTTPException(status_code=404, detail="Project not found")
+def get_research(workspace_id: str, email: str = Depends(get_current_user)) -> dict:
+    workspace = require_workspace_access(email, workspace_id)
     research = workspace.get("research_report") if isinstance(workspace.get("research_report"), dict) else {}
     if research:
         research = dict(research)

@@ -44,10 +44,8 @@ def gauge_metadata(_: str = Depends(get_current_user)) -> dict:
 
 
 @router.get("/{workspace_id}")
-def get_plan(workspace_id: str, _: str = Depends(get_current_user)) -> dict:
-    workspace = load_workspace(workspace_id)
-    if not workspace:
-        raise HTTPException(status_code=404, detail="Project not found")
+def get_plan(workspace_id: str, email: str = Depends(get_current_user)) -> dict:
+    workspace = require_workspace_access(email, workspace_id)
     plan = workspace.get("business_plan") if isinstance(workspace.get("business_plan"), dict) else {}
     intake = workspace.get("plan_intake") if isinstance(workspace.get("plan_intake"), dict) else {}
     research = workspace.get("research_report") if isinstance(workspace.get("research_report"), dict) else {}

@@ -8,5 +8,6 @@ __pycache__
 .env.*
 *.pyc
 qa_outputs
-opportunity_workspaces
+opportunity_workspaces/*
+!opportunity_workspaces/demo_readonly
 business_build_outputs

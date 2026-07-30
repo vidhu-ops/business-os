@@ -52,7 +52,7 @@ export function LandingPage() {
               <Link href="/login?intent=audit&mode=register" className="iid-btn iid-btn-primary">
                 Run free audit for company
               </Link>
-              <WorkspaceEntryLink href="/app/dashboard" className="iid-btn iid-btn-ghost">See demo</WorkspaceEntryLink>
+              <WorkspaceEntryLink href="/app/research?project=demo_readonly" className="iid-btn iid-btn-ghost">See demo</WorkspaceEntryLink>
             </div>
             <p className="mkt-lead" style={{ fontSize: "0.9rem", marginTop: "0.75rem", opacity: 0.85 }}>
               One free GAUGE health audit when you sign up — no card required.
