@@ -9,6 +9,7 @@ import { WorkspaceEntryLink } from "@/components/WorkspaceEntryLink";
 
 const NAV = [
   { label: "Home", href: "/" },
+  { label: "Pricing", href: "/pricing" },
   { label: "Problem", href: "/#why" },
   { label: "Solution", href: "/#features" },
   { label: "Services", href: "/#services" },
@@ -36,7 +37,7 @@ export function MarketingShell({ children }: { children: React.ReactNode }) {
             IIDA<span>TECH</span>
           </Link>
 
-          <nav className="mkt-nav-links hidden xl:flex" aria-label="Main">
+          <nav className="mkt-nav-links" aria-label="Main">
             {NAV.map((item) => (
               <Link key={item.href} href={item.href}>
                 {item.label}
@@ -45,16 +46,16 @@ export function MarketingShell({ children }: { children: React.ReactNode }) {
           </nav>
 
           <div className="mkt-nav-actions">
-            <ThemeToggle className="hidden sm:inline-flex" />
-            <Link href="/login" className="mkt-nav-login hidden md:inline">
+            <ThemeToggle className="mkt-nav-desktop-only" />
+            <Link href="/login" className="mkt-nav-login mkt-nav-desktop-only">
               Log in
             </Link>
-            <WorkspaceEntryLink className="iid-btn iid-btn-primary mkt-nav-cta hidden sm:inline-flex">
+            <WorkspaceEntryLink className="iid-btn iid-btn-primary mkt-nav-cta mkt-nav-desktop-only">
               Start now
             </WorkspaceEntryLink>
             <button
               type="button"
-              className="mkt-mobile-menu-btn xl:hidden"
+              className="mkt-mobile-menu-btn"
               aria-label={open ? "Close menu" : "Open menu"}
               onClick={() => setOpen((v) => !v)}
             >
@@ -64,7 +65,7 @@ export function MarketingShell({ children }: { children: React.ReactNode }) {
         </div>
 
         {open ? (
-          <div className="mkt-mobile-nav xl:hidden">
+          <div className="mkt-mobile-nav">
             <div className="mkt-wrap mkt-mobile-nav-inner">
               {(onHome ? NAV : [...NAV, ...MORE_LINKS]).map((item) => (
                 <Link key={item.href} href={item.href} onClick={() => setOpen(false)}>
@@ -78,12 +79,15 @@ export function MarketingShell({ children }: { children: React.ReactNode }) {
                       {item.label}
                     </Link>
                   ))}
-              <Link href="/login" onClick={() => setOpen(false)}>
-                Log in
-              </Link>
-              <WorkspaceEntryLink className="iid-btn iid-btn-primary w-full" onClick={() => setOpen(false)}>
-                Start now
-              </WorkspaceEntryLink>
+              <div className="mkt-mobile-nav-actions">
+                <ThemeToggle />
+                <Link href="/login" onClick={() => setOpen(false)}>
+                  Log in
+                </Link>
+                <WorkspaceEntryLink className="iid-btn iid-btn-primary w-full" onClick={() => setOpen(false)}>
+                  Start now
+                </WorkspaceEntryLink>
+              </div>
             </div>
           </div>
         ) : null}

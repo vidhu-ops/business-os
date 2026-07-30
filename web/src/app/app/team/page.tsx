@@ -374,19 +374,8 @@ function TeamContent() {
   function renderArtifacts(artifacts: unknown[], reply = "") {
     const paths = (artifacts || []).slice(0, 5).map((a) => String(a));
     const title = paths[0]?.split(/[/\\]/).pop() || "Deliverable";
-    return (
-      <div className="space-y-1">
-        {paths.map((path) => {
-          const name = path.split(/[/\\]/).pop() || path;
-          return (
-            <button key={path} type="button" className="text-xs text-[var(--iid-blue)] hover:underline mr-2" onClick={() => api.downloadFile(path, name).catch(() => setError("Download failed"))}>
-              {name}
-            </button>
-          );
-        })}
-        {(reply || paths.length > 0) && <DeliverablePreview title={title} reply={reply} artifacts={paths} />}
-      </div>
-    );
+    if (!reply && paths.length === 0) return null;
+    return <DeliverablePreview title={title} reply={reply} artifacts={paths} />;
   }
 
   const checklistItems = ((checklist?.items as Array<Record<string, unknown>>) || []);
@@ -562,7 +551,7 @@ function TeamContent() {
                             <span className="font-semibold">{String(row.assignee)}</span> — {String(row.title)}
                             <span className="muted"> ({String(row.status)})</span>
                             {row.mentor_note ? <p className="text-xs muted mt-1">{String(row.mentor_note).slice(0, 200)}</p> : null}
-                            <div className="mt-1">{renderArtifacts((row.artifacts as unknown[]) || [])}</div>
+                            <div className="mt-1">{renderArtifacts((row.artifacts as unknown[]) || [], String(row.result || row.mentor_note || ""))}</div>
                           </li>
                         ))}
                       </ul>
@@ -596,7 +585,7 @@ function TeamContent() {
                       <li key={String(item.id)} className="rounded-lg border border-[var(--iid-line)] px-3 py-2">
                         <span className="font-semibold">{String(item.title)}</span>
                         <span className="muted"> — {String(item.status)}</span>
-                        <div className="mt-1">{renderArtifacts((item.artifacts as unknown[]) || [])}</div>
+                        <div className="mt-1">{renderArtifacts((item.artifacts as unknown[]) || [], String(item.result || ""))}</div>
                         {(item.status === "awaiting_approval" || item.status === "qc_failed" || item.status === "failed") && (
                           <div className="mt-2 flex gap-2">
                             {item.status === "awaiting_approval" && (

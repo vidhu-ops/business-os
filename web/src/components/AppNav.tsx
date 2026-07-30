@@ -33,7 +33,7 @@ export function AppNav({ email }: { email?: string }) {
           <span className="hidden text-xs text-[var(--iid-muted)] sm:inline">Workspace</span>
         </div>
 
-        <nav className="hidden items-center gap-1 lg:flex" aria-label="Workspace">
+        <nav className="app-nav-links" aria-label="Workspace">
           {links.map((link) => (
             <Link
               key={link.href}
@@ -46,11 +46,11 @@ export function AppNav({ email }: { email?: string }) {
         </nav>
 
         <div className="flex items-center gap-2">
-          <ThemeToggle />
-          <span className="hidden max-w-[140px] truncate text-xs text-[var(--iid-muted)] md:inline">{email || ""}</span>
+          <ThemeToggle className="mkt-nav-desktop-only" />
+          <span className="app-nav-email text-xs text-[var(--iid-muted)]">{email || ""}</span>
           <button
             type="button"
-            className="theme-toggle lg:hidden"
+            className="app-mobile-menu-btn"
             aria-label={open ? "Close menu" : "Open menu"}
             onClick={() => setOpen((v) => !v)}
           >
@@ -60,7 +60,7 @@ export function AppNav({ email }: { email?: string }) {
       </div>
 
       {open ? (
-        <nav className="app-mobile-nav lg:hidden" aria-label="Workspace mobile">
+        <nav className="app-mobile-nav" aria-label="Workspace mobile">
           {links.map((link) => (
             <Link
               key={link.href}
@@ -71,6 +71,10 @@ export function AppNav({ email }: { email?: string }) {
               {link.label}
             </Link>
           ))}
+          <div className="mkt-mobile-nav-actions">
+            <ThemeToggle />
+            {email ? <span className="text-xs text-[var(--iid-muted)]">{email}</span> : null}
+          </div>
         </nav>
       ) : null}
     </header>

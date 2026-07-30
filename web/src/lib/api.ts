@@ -453,4 +453,22 @@ export const api = {
       {},
       { auth: false },
     ),
+  paymentPlans: () =>
+    request<{ plans: Array<Record<string, unknown>>; gateway: Record<string, unknown> }>(
+      "/api/v1/payments/plans",
+      {},
+      { auth: false },
+    ),
+  startCheckout: (plan_id: string) =>
+    request<{
+      order: Record<string, unknown>;
+      checkout: {
+        checkout_url: string;
+        merchant_id: string;
+        enc_data: string;
+        fields: { merchantId: string; encData: string };
+      };
+    }>("/api/v1/payments/checkout", { method: "POST", body: JSON.stringify({ plan_id }) }),
+  getPaymentOrder: (order_id: string) =>
+    request<{ order: Record<string, unknown> }>(`/api/v1/payments/orders/${encodeURIComponent(order_id)}`),
 };

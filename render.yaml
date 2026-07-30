@@ -51,3 +51,13 @@ services:
         sync: false
       - key: SLACK_WEBHOOK_URL
         sync: false
+      - key: FREECHARGE_MODE
+        value: sandbox
+      - key: FREECHARGE_MERCHANT_ID
+        sync: false
+      - key: FREECHARGE_SECRET_KEY
+        sync: false
+      - key: FREECHARGE_AES_KEY
+        sync: false
+      - key: FREECHARGE_AES_IV
+        sync: false

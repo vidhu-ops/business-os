@@ -112,6 +112,10 @@ export function PricingPage() {
                 <Link href="/#contact" className="iid-btn iid-btn-ghost mkt-price-cta">
                   {plan.cta}
                 </Link>
+              ) : plan.name === "Growth" ? (
+                <Link href="/checkout?plan=growth" className="iid-btn iid-btn-primary mkt-price-cta">
+                  {plan.cta}
+                </Link>
               ) : (
                 <WorkspaceEntryLink
                   className={`iid-btn mkt-price-cta ${plan.featured ? "iid-btn-primary" : "iid-btn-ghost"}`}

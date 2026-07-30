@@ -3,11 +3,35 @@
 import Link from "next/link";
 import { Suspense, useEffect, useState } from "react";
 import { api } from "@/lib/api";
+import { DeliverablePreview } from "@/components/DeliverablePreview";
 import { ProjectPicker } from "@/components/ProjectPicker";
 import { useProjects } from "@/hooks/useProjects";
 
 type Step = { id: string; label: string; role?: string; needs_approval?: boolean };
-type QueueItem = { id?: string; label?: string; status?: string; result?: string };
+type QueueItem = { id?: string; label?: string; status?: string; result?: string; artifacts?: string[] };
+type LogEntry = {
+  success?: boolean;
+  item?: QueueItem;
+};
+
+function artifactPaths(raw: unknown): string[] {
+  if (!Array.isArray(raw)) return [];
+  return raw.slice(0, 5).map((item) => String(item));
+}
+
+function StepResult({ label, status, result, artifacts }: { label: string; status?: string; result?: string; artifacts?: string[] }) {
+  const paths = artifacts || [];
+  const reply = String(result || "").trim();
+  if (!reply && paths.length === 0) {
+    return <span className="muted"> — {status || "pending"}</span>;
+  }
+  return (
+    <div className="mt-2 space-y-1">
+      <p className="text-xs muted">Status: {status || "done"}</p>
+      <DeliverablePreview title={label || "Automation step"} reply={reply} artifacts={paths} />
+    </div>
+  );
+}
 
 function AutomationContent() {
   const { projects, selectedId, setSelectedId } = useProjects();
@@ -15,7 +39,7 @@ function AutomationContent() {
   const [picked, setPicked] = useState<string[]>([]);
   const [flowName, setFlowName] = useState("My company workflow");
   const [queueItems, setQueueItems] = useState<QueueItem[]>([]);
-  const [log, setLog] = useState<Array<Record<string, unknown>>>([]);
+  const [log, setLog] = useState<LogEntry[]>([]);
   const [loading, setLoading] = useState("");
   const [error, setError] = useState("");
 
@@ -34,7 +58,7 @@ function AutomationContent() {
     api.getAutomation(selectedId).then((data) => {
       const queue = data.queue as { items?: QueueItem[] };
       setQueueItems(queue?.items || []);
-      const auto = data.automation as { log?: Array<Record<string, unknown>> };
+      const auto = data.automation as { log?: LogEntry[] };
       setLog(auto?.log || []);
     }).catch(() => {
       setQueueItems([]);
@@ -72,7 +96,7 @@ function AutomationContent() {
       const data = await api.runAutomationNext(selectedId, false);
       const queue = data.queue as { items?: QueueItem[] };
       setQueueItems(queue?.items || []);
-      const auto = (await api.getAutomation(selectedId)).automation as { log?: Array<Record<string, unknown>> };
+      const auto = (await api.getAutomation(selectedId)).automation as { log?: LogEntry[] };
       setLog(auto?.log || []);
     } catch (err) {
       setError(err instanceof Error ? err.message : "Run failed");
@@ -127,12 +151,16 @@ function AutomationContent() {
           {queueItems.length > 0 && (
             <section className="iid-card">
               <h2 className="font-display text-xl font-bold">Queue</h2>
-              <ul className="mt-4 space-y-2 text-sm">
+              <ul className="mt-4 space-y-3 text-sm">
                 {queueItems.map((item, i) => (
                   <li key={i} className="rounded-lg border border-[var(--iid-line)] px-3 py-2">
                     <span className="font-semibold">{item.label}</span>
-                    <span className="muted"> — {item.status}</span>
-                    {item.result && <p className="mt-1 muted">{String(item.result).slice(0, 240)}</p>}
+                    <StepResult
+                      label={String(item.label || "Step")}
+                      status={item.status}
+                      result={item.result}
+                      artifacts={artifactPaths(item.artifacts)}
+                    />
                   </li>
                 ))}
               </ul>
@@ -141,8 +169,24 @@ function AutomationContent() {
 
           {log.length > 0 && (
             <section className="iid-card">
-              <h2 className="font-display text-xl font-bold">Run log</h2>
-              <pre className="mt-4 max-h-80 overflow-auto text-xs">{JSON.stringify(log.slice(0, 5), null, 2)}</pre>
+              <h2 className="font-display text-xl font-bold">Recent results</h2>
+              <ul className="mt-4 space-y-3">
+                {log.slice(0, 5).map((entry, i) => {
+                  const item = entry.item;
+                  if (!item) return null;
+                  return (
+                    <li key={i} className="rounded-lg border border-[var(--iid-line)] px-3 py-2">
+                      <span className="font-semibold text-sm">{item.label || "Automation step"}</span>
+                      <StepResult
+                        label={String(item.label || "Automation step")}
+                        status={item.status}
+                        result={item.result}
+                        artifacts={artifactPaths(item.artifacts)}
+                      />
+                    </li>
+                  );
+                })}
+              </ul>
             </section>
           )}
         </>

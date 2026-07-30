@@ -15,7 +15,7 @@ from iidatech.env_bootstrap import ensure_env_loaded
 ensure_env_loaded()
 
 from backend.config import settings
-from backend.routers import auth_routes, automation, dashboard, deliverables, files, health, oauth, os2, partners, plan, projects, research, team
+from backend.routers import auth_routes, automation, dashboard, deliverables, files, health, oauth, os2, partners, payments, plan, projects, research, team
 
 app = FastAPI(
     title="IIDATECH API",
@@ -56,3 +56,4 @@ app.include_router(deliverables.router, prefix="/api/v1")
 app.include_router(oauth.router, prefix="/api/v1")
 app.include_router(files.router, prefix="/api/v1")
 app.include_router(partners.router, prefix="/api/v1")
+app.include_router(payments.router, prefix="/api/v1")

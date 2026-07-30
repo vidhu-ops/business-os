@@ -8,6 +8,7 @@ from fastapi.responses import FileResponse
 
 from backend.auth import get_current_user
 from backend.config import settings
+from backend.services.founder_files import is_founder_visible_file
 
 router = APIRouter(prefix="/files", tags=["files"])
 
@@ -23,7 +24,10 @@ def list_files(_: str = Depends(get_current_user)) -> dict:
     files = [
         path
         for path in root.rglob("*")
-        if path.is_file() and path.suffix.lower() in ALLOWED_SUFFIXES and "__pycache__" not in path.parts
+        if path.is_file()
+        and path.suffix.lower() in ALLOWED_SUFFIXES
+        and "__pycache__" not in path.parts
+        and is_founder_visible_file(path)
     ]
     files.sort(key=lambda path: path.stat().st_mtime, reverse=True)
     for path in files[:80]:

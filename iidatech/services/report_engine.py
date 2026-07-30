@@ -353,6 +353,46 @@ def _payload_to_markdown(app: Any, payload: dict[str, Any]) -> str:
     return json.dumps(payload, indent=2, ensure_ascii=False, default=str)
 
 
+def _minimal_founder_plan_markdown(plan: dict[str, Any], query: str) -> str:
+    """Readable fallback when founder markdown conversion fails."""
+    lines = [f"# Business Plan: {query or 'Your venture'}", ""]
+    sections: list[tuple[str, Any]] = [
+        ("Executive Summary", plan.get("executive_summary")),
+        ("Market Analysis", plan.get("market_analysis")),
+        ("Customer & Positioning", plan.get("customer_and_positioning")),
+        ("Go-to-Market", plan.get("go_to_market")),
+        ("Financial Outlook", plan.get("financial_outlook")),
+        ("Risks & Mitigations", plan.get("risks_and_mitigations")),
+    ]
+    wrote = False
+    for title, block in sections:
+        if isinstance(block, str) and block.strip():
+            lines += [f"## {title}", block.strip(), ""]
+            wrote = True
+        elif isinstance(block, dict):
+            chunk: list[str] = []
+            for key, value in block.items():
+                if isinstance(value, str) and value.strip():
+                    label = str(key).replace("_", " ").strip().title()
+                    chunk.append(f"**{label}:** {value.strip()}")
+                elif isinstance(value, list) and value and all(isinstance(v, str) for v in value[:6]):
+                    label = str(key).replace("_", " ").strip().title()
+                    chunk.append(f"**{label}**")
+                    chunk.extend(f"- {item}" for item in value[:8])
+            if chunk:
+                lines += [f"## {title}", *chunk, ""]
+                wrote = True
+    if not wrote:
+        lines += [
+            "## Your plan is being prepared",
+            "",
+            "We generated your business plan but could not format every section for display.",
+            "Try running the plan again, or open Employee OS to continue from your research.",
+            "",
+        ]
+    return "\n".join(lines)
+
+
 def _generate_business_intelligence_report(
     app: Any,
     *,
@@ -388,7 +428,7 @@ def _generate_business_intelligence_report(
         if hasattr(app, "founder_business_plan_to_markdown"):
             markdown = app.founder_business_plan_to_markdown(founder_plan)
     if not markdown:
-        markdown = json.dumps(plan, indent=2, ensure_ascii=False, default=str)
+        markdown = _minimal_founder_plan_markdown(plan if isinstance(plan, dict) else {}, query)
 
     payload = {
         "topic": query,
