@@ -10875,7 +10875,20 @@ def build_founder_readable_business_plan(
                 "signal": excerpt or "Uploaded file captured; add OCR/transcript/text if deeper extraction is needed.",
             })
     competitor_rows = founder_plan_competitor_rows(plan, idea, industry, geography)
-    currency = founder_finance.get("currency") or financial_model.get("currency") or ("INR" if "india" in geography.lower() else "USD")
+    currency = (
+        founder_finance.get("currency")
+        or financial_model.get("currency")
+        or (report_context.get("reporting_currency") or {}).get("code")
+        if isinstance(report_context, dict)
+        else None
+    )
+    if not currency:
+        try:
+            from iidatech.services.market_currency import currency_for_geography
+
+            currency = currency_for_geography(geography).get("code") or "USD"
+        except Exception:
+            currency = "INR" if "india" in geography.lower() else "USD"
     assumptions = financial_model.get("core_assumptions", {}) if isinstance(financial_model.get("core_assumptions"), dict) else {}
     setup_fee = assumptions.get("setup_fee", "")
     monthly_fee = assumptions.get("monthly_fee", "")
