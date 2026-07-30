@@ -41,7 +41,7 @@ def test_list_workspaces_for_demo_user_only_sample():
 
 
 def test_ensure_audit_workspace_creates_for_user(tmp_path, monkeypatch):
-    monkeypatch.setattr("backend.services.workspaces.settings.workspaces_root", tmp_path)
+    monkeypatch.setattr("backend.services.workspaces.settings.opportunity_workspace_root", tmp_path)
     ws = ensure_audit_workspace("founder@example.com")
     assert ws["workspace_id"].startswith("audit_")
     assert ws["owner_email"] == "founder@example.com"
