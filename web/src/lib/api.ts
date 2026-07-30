@@ -278,6 +278,7 @@ export const api = {
   getPlan: (workspace_id: string) =>
     request<{
       plan: Record<string, unknown>;
+      gauge_forward_plan?: Record<string, unknown>;
       has_research: boolean;
       company_mode?: string | null;
       intake: Record<string, unknown>;
@@ -445,17 +446,17 @@ export const api = {
       body: JSON.stringify({ draft }),
     }),
   runGaugeAudit: (workspace_id: string) =>
-    request<{ audit: Record<string, unknown>; profile: Record<string, unknown> }>(`/api/v1/plan/${workspace_id}/gauge/audit`, {
-      method: "POST",
-      body: "{}",
-      timeoutMs: GAUGE_REQUEST_TIMEOUT_MS,
-    }),
+    request<{ audit: Record<string, unknown>; profile: Record<string, unknown> }>(
+      `/api/v1/plan/${workspace_id}/gauge/audit`,
+      { method: "POST", body: "{}" },
+      { timeoutMs: GAUGE_REQUEST_TIMEOUT_MS },
+    ),
   buildGaugePlan: (workspace_id: string) =>
-    request<Record<string, unknown>>(`/api/v1/plan/${workspace_id}/gauge/build-plan`, {
-      method: "POST",
-      body: "{}",
-      timeoutMs: GAUGE_REQUEST_TIMEOUT_MS,
-    }),
+    request<Record<string, unknown>>(
+      `/api/v1/plan/${workspace_id}/gauge/build-plan`,
+      { method: "POST", body: "{}" },
+      { timeoutMs: GAUGE_REQUEST_TIMEOUT_MS },
+    ),
   downloadFile: async (path: string, filename?: string) => {
     const token = getToken();
     const res = await fetch(`${API_BASE}/api/v1/files/download?path=${encodeURIComponent(path)}`, {

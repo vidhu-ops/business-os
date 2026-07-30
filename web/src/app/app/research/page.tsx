@@ -354,8 +354,6 @@ function ResearchContent() {
               )}
               {error && <p className="text-sm text-red-400">{error}</p>}
 
-              {!isDemo && (
-              <>
               <p className="text-xs muted">Each report run uses 5 credits (Growth plan: unlimited).</p>
               <div className="flex flex-wrap gap-3">
                 <button

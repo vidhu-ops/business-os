@@ -110,7 +110,7 @@ function TeamContent() {
   const agents = (bootstrap?.agents as Agent[]) || [];
   const hiredAgents = (bootstrap?.hired_agents as Agent[]) || [];
   const chatAgents = agents.length ? agents : [
-    { id: "taylor", name: "Taylor — Team Leader (COO)", role: "COO", tagline: "Orchestrates your virtual team", department: "Operations", is_leader: true },
+    { id: "taylor", name: "Taylor — Team Leader (COO)", role: "COO", tagline: "Orchestrates your virtual team", department: "Operations", is_leader: true, starters: [] },
     ...hiredAgents.map((a) => ({
       id: String((a as Record<string, unknown>).harness_id || a.id),
       name: a.name,
