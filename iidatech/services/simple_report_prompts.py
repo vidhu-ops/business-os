@@ -205,40 +205,57 @@ def financial_opus_prompt(
     currency_block = currency_prompt_block(geography)
     primary = currency_for_geography(geography)
     return (
-        f"You are a financial analyst (Claude Opus) preparing investor-grade TAM/SAM/SOM for a pitch deck. {BOARDROOM_BRIEF}\n\n"
+        f"You are a financial analyst (Claude Opus) extracting SOURCED BASE FIGURES for automated TAM/SAM/SOM calculation. "
+        f"{BOARDROOM_BRIEF}\n\n"
         f"{TAM_SAM_SOM_FRAMEWORK}\n\n"
         f"{currency_block}\n\n"
         f"Topic: {topic}\nIndustry: {industry}\nMarket: {geography}\n\n"
         f"GENERAL RESEARCH:\n{research_block[:6000]}\n\n"
         f"MARKET SIZING RESEARCH:\n{sizing_block[:8000]}\n\n"
-        "TASK: Produce defensible TAM, SAM, and SOM using BOTH top-down and bottom-up methods from the research above.\n"
-        "If published TAM exists, use it as FACT and still build bottom-up validation.\n"
-        "If SAM/SOM are not published, DERIVE them with explicit formulas and sourced filter inputs.\n\n"
+        "TASK: Extract ONLY sourced building blocks from the research above. "
+        "Do NOT output final TAM/SAM/SOM values — Python will compute them from your base_figures.\n"
+        "Pick ONE industry revenue figure and ONE niche-slice % for top-down. "
+        "Pick buyer count + ARPU for bottom-up. "
+        "Put conflicting published TAMs in published_reference only (reference — not primary).\n\n"
         "Return STRICT JSON only:\n"
         "{\n"
-        '  "tam": {"value": "", "label": "FACT|ESTIMATE|DERIVED|NOT FOUND", "source_url": "https://...", "source_name": "", "notes": "definition + formula if DERIVED"},\n'
-        '  "tam_alternatives": [{"value": "", "scope": "domestic|global|niche", "source_url": "https://...", "notes": ""}],\n'
-        '  "tam_reconciliation": "Which TAM applies to this niche and why",\n'
-        '  "sam": {"value": "", "label": "FACT|ESTIMATE|DERIVED|NOT FOUND", "source_url": "https://...", "source_name": "", "notes": "filters applied: geo × segment × product fit"},\n'
-        '  "som": {"value": "", "label": "FACT|ESTIMATE|DERIVED|NOT FOUND", "source_url": "https://...", "source_name": "", "notes": "3-5 year capture: target share % of SAM + customer math"},\n'
-        '  "top_down": {"method": "e.g. industry revenue × niche slice", "formula": "show calculation", "result": "", "label": "FACT|DERIVED", "source_url": "https://...", "notes": ""},\n'
-        '  "bottom_up": {"method": "e.g. buyers × penetration × ARPU", "formula": "show calculation", "result": "", "label": "DERIVED", "source_url": "https://...", "notes": ""},\n'
-        '  "validation": {"top_down_result": "", "bottom_up_result": "", "reconciled": true, "notes": "explain if within 2x; which figure drives primary TAM/SAM/SOM"},\n'
-        f'  "currency": {{"code": "{primary["code"]}", "symbol": "{primary["symbol"]}", "name": "{primary["name"]}", "notes": "all primary figures in {primary["code"]}"}},\n'
-        '  "financial_rows": [{"metric": "", "value": "", "label": "FACT|ESTIMATE|DERIVED|NOT FOUND", "source_url": "https://...", "source_name": "", "notes": ""}],\n'
-        '  "illustrative_scenario": {"title": "", "formula": "", "result": "", "label": "ILLUSTRATIVE ONLY"},\n'
-        '  "commentary": ["2-3 investor-ready bullets: VC TAM headroom, SAM focus, realistic SOM vs competition"]\n'
+        '  "base_figures": {\n'
+        '    "industry_revenue": {"value": "e.g. ₹9.2 lakh crore", "source_url": "https://...", "source_name": "IBEF", "notes": "what market this measures"},\n'
+        '    "niche_slice_pct": {"value_pct": 12.5, "label": "ESTIMATE|DERIVED", "source_url": "https://...", "notes": "% of industry revenue for this niche"},\n'
+        '    "buyer_count": {"value": "140 million households", "source_url": "https://...", "notes": ""},\n'
+        '    "addressable_pct": {"value_pct": 35, "label": "ESTIMATE", "notes": "% of buyers realistically reachable"},\n'
+        '    "arpu_annual": {"value": "₹12,000", "source_url": "https://...", "notes": "annual spend per buyer"},\n'
+        '    "geo_filter_pct": {"value_pct": 100, "label": "DERIVED", "notes": "geography filter for SAM"},\n'
+        '    "segment_filter_pct": {"value_pct": 25, "label": "ESTIMATE", "notes": "segment filter for SAM"},\n'
+        '    "product_fit_pct": {"value_pct": 60, "label": "ESTIMATE", "notes": "product/category fit filter for SAM"},\n'
+        '    "som_capture_pct": {"value_pct": 4, "label": "ESTIMATE", "notes": "3-5 year obtainable % of SAM"},\n'
+        '    "published_reference": [\n'
+        '      {"metric": "Published TAM label", "value": "", "scope": "niche|domestic|global|adjacent", "source_url": "https://...", "source_name": "", "notes": "reference only"}\n'
+        "    ],\n"
+        '    "unit_economics": {\n'
+        '      "price_per_unit": {"value": "25", "source_url": "https://...", "notes": "selling price"},\n'
+        '      "variable_cost_per_unit": {"value": "15", "source_url": "https://...", "notes": "direct variable cost"},\n'
+        '      "cogs_per_unit": {"value": "12", "source_url": "https://...", "notes": "optional — for gross profit"},\n'
+        '      "quantity_sold": {"value": "500", "notes": "annual units or use buyer_count as fallback"},\n'
+        '      "fixed_costs_annual": {"value": "5000", "notes": "annual fixed opex"},\n'
+        '      "sales_marketing_spend": {"value": "5000", "notes": "for CAC"},\n'
+        '      "new_customers": {"value": "50", "notes": "customers acquired in period"},\n'
+        '      "avg_purchase_value": {"value": "50", "notes": "optional if ARPU provided"},\n'
+        '      "purchases_per_customer": {"value": "10", "notes": "orders per customer per lifespan"},\n'
+        '      "customer_lifespan_years": {"value": "3", "notes": "for CLV"}\n'
+        "    }\n"
+        "  },\n"
+        '  "commentary": ["2-3 investor bullets on headroom, SAM focus, realistic SOM — no duplicate numbers"],\n'
+        '  "illustrative_scenario": {"title": "", "formula": "", "result": "", "label": "ILLUSTRATIVE ONLY"}\n'
         "}\n\n"
         "RULES:\n"
-        "1. You MUST attempt TAM, SAM, and SOM — use DERIVED with formulas when not directly published.\n"
-        "2. Every input in a formula must trace to research (source_url). Unsourced filter % → label ESTIMATE and state assumption.\n"
-        "3. SAM = TAM after geographic + segment + product-fit filters (show each step in sam.notes).\n"
-        "4. SOM = realistic 3–5 year capture (typically 3–5% of SAM unless research supports otherwise); include customer-count math.\n"
-        "5. top_down and bottom_up are REQUIRED — populate validation.reconciled and explain divergence if >2x.\n"
-        "6. Reconcile multiple published TAM figures via tam_alternatives + tam_reconciliation; pick niche-scoped primary TAM.\n"
-        "7. illustrative_scenario is ONLY for extra sensitivity examples — primary TAM/SAM/SOM go in tam/sam/som fields.\n"
-        f"8. All TAM/SAM/SOM values must be in {primary['code']} ({primary['symbol']}) unless dual notation with conversion is shown.\n"
-        "9. Never use 'Validated' — use FACT only with tier-1/2 source_url."
+        "1. Every base figure needs a real https source_url from the research (except filter % labeled ESTIMATE).\n"
+        "2. Use niche-scoped industry revenue — NOT a generic national startup/ecosystem report unless it defines this category.\n"
+        "3. published_reference is for alternate published TAMs only — never mix two different rupee figures as the same fact.\n"
+        "4. niche_slice_pct + segment_filter_pct must reflect THIS topic (e.g. festive household e-commerce), not all of e-commerce.\n"
+        "5. unit_economics: extract any available price, variable cost, fixed costs, CAC inputs — Python applies standard formulas (Revenue, CM, break-even, CLV, ROI, etc.).\n"
+        f"6. All monetary values in {primary['code']} ({primary['symbol']}).\n"
+        "7. Do NOT include tam, sam, or som fields — they are computed downstream."
     )
 
 def report_sonnet_prompt(
@@ -273,7 +290,7 @@ def report_sonnet_prompt(
         f"{currency_block}\n\n"
         f"RESEARCH:\n{research_block[:5000]}\n\n"
         f"COMPETITOR RESEARCH:\n{competitor_block[:5000]}\n\n"
-        f"FINANCIAL FIGURES (use these numbers only — do not invent others):\n{financial_block[:4000]}\n\n"
+        f"CANONICAL FINANCIAL FIGURES (TAM/SAM/SOM computed from sourced inputs — use ONLY these numbers in prose):\n{financial_block[:4000]}\n\n"
         "Return markdown only (no JSON, no code fences).\n\n"
         "Write EXACTLY these sections in order (use ## headings exactly as titled):\n"
         f"{outline}\n\n"
@@ -282,7 +299,8 @@ def report_sonnet_prompt(
         "RULES:\n"
         "- Every number in prose MUST have an inline footnote [n] (Sources appended automatically).\n"
         "- Write for investors: so-what per section, risks, and defensible claims only.\n"
-        "- Do not invent TAM/SAM/SOM — reference financial figures block only.\n"
+        "- Do not invent TAM/SAM/SOM — use ONLY the canonical TAM, SAM, SOM lines from the financial block.\n"
+        "- Do not cite alternate or reference TAM figures from background research — only the canonical trio.\n"
         "- When discussing market size, use VC framing: TAM shows category headroom, SAM shows focus, SOM shows realistic 3–5 year capture.\n"
         "- Do not add market entry plans, revenue projections, or pricing models not in research.\n"
         "- Complete every listed section; do not stop mid-sentence."

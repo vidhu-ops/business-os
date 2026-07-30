@@ -4,8 +4,14 @@ const BOOTSTRAP_TIMEOUT_MS = 90_000;
 const LONG_REQUEST_TIMEOUT_MS = 30 * 60 * 1000;
 /** Agent chat, checklist runs, and office actions can take several minutes. */
 const OS2_REQUEST_TIMEOUT_MS = 10 * 60 * 1000;
+/** GAUGE audit: Perplexity market read + LLM synthesis can take several minutes. */
+const GAUGE_REQUEST_TIMEOUT_MS = 5 * 60 * 1000;
 const RESEARCH_POLL_MS = 4_000;
 const RESEARCH_POLL_MAX = 450;
+
+export function isDemoEmail(email: string | null | undefined): boolean {
+  return String(email || "").trim().toLowerCase() === "demo@local";
+}
 
 export function getToken(): string | null {
   if (typeof window === "undefined") return null;
@@ -18,7 +24,7 @@ export function setToken(token: string | null) {
   else localStorage.removeItem("iida_token");
 }
 
-export type User = { email: string; name: string; member_since?: string; plan?: PlanSnapshot };
+export type User = { email: string; name: string; member_since?: string; plan?: PlanSnapshot; is_demo?: boolean; audit?: AuditStatus };
 export type PlanSnapshot = {
   id: string;
   name: string;
@@ -31,9 +37,15 @@ export type PlanSnapshot = {
   upgrade_href?: string;
 };
 export type DashboardActivity = { type: string; title: string; detail: string; at: string };
+export type AuditStatus = {
+  free_audit_granted: number;
+  free_audit_used: number;
+  free_audit_available: boolean;
+};
 export type DashboardData = {
   user: { email: string; name: string; member_since: string };
   plan: PlanSnapshot;
+  audit?: AuditStatus;
   stats: {
     projects: number;
     reports_ready: number;
@@ -45,6 +57,7 @@ export type DashboardData = {
   projects: Project[];
   recent_files: Array<Record<string, string | number>>;
   recent_activity: DashboardActivity[];
+  is_demo?: boolean;
 };
 export type Project = {
   workspace_id: string;
@@ -96,6 +109,13 @@ async function request<T>(
     const data = await res.json().catch(() => ({}));
     if (!res.ok) {
       const detail = (data as { detail?: unknown }).detail;
+      if (res.status === 402 && detail && typeof detail === "object" && detail !== null) {
+        const d = detail as { message?: string; required?: number; remaining?: number; upgrade_href?: string };
+        const href = d.upgrade_href || "/pricing";
+        throw new Error(
+          d.message || `Not enough credits (need ${d.required ?? "?"}, have ${d.remaining ?? 0}). Upgrade at ${href}.`,
+        );
+      }
       throw new Error(typeof detail === "string" ? detail : JSON.stringify(detail || res.statusText));
     }
     return data as T;
@@ -167,6 +187,7 @@ export const api = {
     return data;
   },
   me: () => request<User>("/api/v1/auth/me"),
+  auditStatus: () => request<AuditStatus>("/api/v1/audit/status"),
   dashboard: () => request<DashboardData>("/api/v1/dashboard"),
   logout: async () => {
     const data = await request<{ ok: boolean }>("/api/v1/auth/logout", { method: "POST" });
@@ -355,6 +376,37 @@ export const api = {
       method: "POST",
       body: JSON.stringify(body),
     }),
+  getOs2Departments: (workspace_id: string) =>
+    request<{
+      catalog: Array<Record<string, unknown>>;
+      hired: Array<Record<string, unknown>>;
+      agents: Array<Record<string, unknown>>;
+    }>(`/api/v1/os2/${workspace_id}/departments`),
+  setOs2Departments: (workspace_id: string, departments: Array<{ id: string; name?: string; headcount: number }>) =>
+    request<Record<string, unknown>>(`/api/v1/os2/${workspace_id}/departments`, {
+      method: "PATCH",
+      body: JSON.stringify({ departments }),
+    }),
+  getOs2OrgChart: (workspace_id: string) =>
+    request<Record<string, unknown>>(`/api/v1/os2/${workspace_id}/org-chart`),
+  getOs2Humans: (workspace_id: string) =>
+    request<{ humans: Array<Record<string, unknown>> }>(`/api/v1/os2/${workspace_id}/humans`),
+  addOs2Human: (workspace_id: string, body: { name: string; role?: string; departments?: string[] }) =>
+    request<Record<string, unknown>>(`/api/v1/os2/${workspace_id}/humans`, {
+      method: "POST",
+      body: JSON.stringify(body),
+    }),
+  removeOs2Human: (workspace_id: string, human_id: string) =>
+    request<{ humans: Array<Record<string, unknown>> }>(`/api/v1/os2/${workspace_id}/humans/${human_id}`, {
+      method: "DELETE",
+    }),
+  getOs2Collaboration: (workspace_id: string) =>
+    request<Record<string, unknown>>(`/api/v1/os2/${workspace_id}/collaboration`),
+  postOs2Broadcast: (workspace_id: string, message: string, from_agent = "taylor") =>
+    request<Record<string, unknown>>(`/api/v1/os2/${workspace_id}/chat/broadcast`, {
+      method: "POST",
+      body: JSON.stringify({ message, from_agent }),
+    }),
   saveManualOAuth: (workspace_id: string, provider: string, body: Record<string, string>) =>
     request<{ ok: boolean }>(`/api/v1/oauth/${workspace_id}/${provider}`, {
       method: "POST",
@@ -396,9 +448,14 @@ export const api = {
     request<{ audit: Record<string, unknown>; profile: Record<string, unknown> }>(`/api/v1/plan/${workspace_id}/gauge/audit`, {
       method: "POST",
       body: "{}",
+      timeoutMs: GAUGE_REQUEST_TIMEOUT_MS,
     }),
   buildGaugePlan: (workspace_id: string) =>
-    request<Record<string, unknown>>(`/api/v1/plan/${workspace_id}/gauge/build-plan`, { method: "POST", body: "{}" }),
+    request<Record<string, unknown>>(`/api/v1/plan/${workspace_id}/gauge/build-plan`, {
+      method: "POST",
+      body: "{}",
+      timeoutMs: GAUGE_REQUEST_TIMEOUT_MS,
+    }),
   downloadFile: async (path: string, filename?: string) => {
     const token = getToken();
     const res = await fetch(`${API_BASE}/api/v1/files/download?path=${encodeURIComponent(path)}`, {
@@ -471,4 +528,13 @@ export const api = {
     }>("/api/v1/payments/checkout", { method: "POST", body: JSON.stringify({ plan_id }) }),
   getPaymentOrder: (order_id: string) =>
     request<{ order: Record<string, unknown> }>(`/api/v1/payments/orders/${encodeURIComponent(order_id)}`),
+  getCredits: () =>
+    request<{
+      credits_remaining: number | null;
+      credits_total?: number | null;
+      is_unlimited: boolean;
+      plan: string;
+      costs: Record<string, number>;
+      labels: Record<string, string>;
+    }>("/api/v1/credits"),
 };

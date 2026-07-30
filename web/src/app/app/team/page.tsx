@@ -1,19 +1,29 @@
 "use client";
 
 import Link from "next/link";
-import { Suspense, useCallback, useEffect, useMemo, useState, type ComponentProps } from "react";
+import { Suspense, useCallback, useEffect, useMemo, useState, type ComponentProps, type ReactNode } from "react";
 import { api } from "@/lib/api";
 import { DeliverablePreview } from "@/components/DeliverablePreview";
 import { TaylorBubble } from "@/components/TaylorBubble";
 import { ProjectPicker } from "@/components/ProjectPicker";
 import { useProjects } from "@/hooks/useProjects";
 
-type Agent = { id: string; name?: string; role?: string; tagline?: string; starters?: string[]; department?: string };
+type Agent = { id: string; name?: string; role?: string; tagline?: string; starters?: string[]; department?: string; is_leader?: boolean };
+type DeptCatalogRow = { id: string; name: string; description?: string; parent?: string | null };
+type OrgNode = {
+  id: string;
+  name: string;
+  headcount?: number;
+  agents?: Array<Record<string, unknown>>;
+  humans?: Array<Record<string, unknown>>;
+  children?: OrgNode[];
+};
 type TabDef = { id: string; label: string };
 type ChatTurn = { role: string; content?: string; artifacts?: string[] };
 
 const FULL_TABS: TabDef[] = [
   { id: "office", label: "The Office" },
+  { id: "organization", label: "Organization" },
   { id: "tasks", label: "Tasks & approvals" },
   { id: "war_room", label: "War room" },
   { id: "command", label: "Command center" },
@@ -86,9 +96,32 @@ function TeamContent() {
   const [manualLinkedinUrn, setManualLinkedinUrn] = useState("");
   const [manualGmailPassword, setManualGmailPassword] = useState("");
 
+  const [deptCatalog, setDeptCatalog] = useState<DeptCatalogRow[]>([]);
+  const [deptHeadcounts, setDeptHeadcounts] = useState<Record<string, number>>({});
+  const [hiredDepartments, setHiredDepartments] = useState<Array<{ id: string; name: string; headcount: number }>>([]);
+  const [orgTree, setOrgTree] = useState<{ roots?: OrgNode[] } | null>(null);
+  const [humans, setHumans] = useState<Array<Record<string, unknown>>>([]);
+  const [collaboration, setCollaboration] = useState<Record<string, unknown> | null>(null);
+  const [humanName, setHumanName] = useState("");
+  const [humanRole, setHumanRole] = useState("");
+  const [humanDepts, setHumanDepts] = useState<string[]>([]);
+  const [broadcastInput, setBroadcastInput] = useState("");
+
   const agents = (bootstrap?.agents as Agent[]) || [];
+  const hiredAgents = (bootstrap?.hired_agents as Agent[]) || [];
+  const chatAgents = agents.length ? agents : [
+    { id: "taylor", name: "Taylor — Team Leader (COO)", role: "COO", tagline: "Orchestrates your virtual team", department: "Operations", is_leader: true },
+    ...hiredAgents.map((a) => ({
+      id: String((a as Record<string, unknown>).harness_id || a.id),
+      name: a.name,
+      role: a.role,
+      department: a.department,
+      tagline: "",
+      starters: [],
+    })),
+  ];
   const deptOptions = (bootstrap?.departments as string[]) || [];
-  const scopeConfigured = scopeMode === "full_office" || (scopeMode === "department" && departments.length > 0) || (scopeMode === "employee" && harnessIds.length > 0);
+  const scopeConfigured = scopeMode === "full_office" || hiredDepartments.length > 0 || (scopeMode === "department" && departments.length > 0) || (scopeMode === "employee" && harnessIds.length > 0);
   const tabs = useMemo(() => tabsForMode(scopeMode), [scopeMode]);
 
   const refresh = useCallback(async () => {
@@ -111,9 +144,16 @@ function TeamContent() {
         const g = (officeData.goals as string[]) || [];
         if (g.length && !goalsText) setGoalsText(g.join("\n"));
       }
-      if (!activeAgent && (data.agents as Agent[])?.[0]?.id) {
-        setActiveAgent((data.agents as Agent[])[0].id);
+      if (!activeAgent && chatAgents[0]?.id) {
+        setActiveAgent(chatAgents[0].id);
       }
+      const hired = (data.hired_departments as Array<{ id: string; name: string; headcount: number }>) || [];
+      setHiredDepartments(hired);
+      const counts: Record<string, number> = {};
+      hired.forEach((h) => { counts[h.id] = h.headcount; });
+      setDeptHeadcounts(counts);
+      setHumans((data.humans as Array<Record<string, unknown>>) || []);
+      setCollaboration((data.collaboration as Record<string, unknown>) || null);
     } catch (err) {
       setError(err instanceof Error ? err.message : "Failed to load Employee OS");
     } finally {
@@ -124,6 +164,11 @@ function TeamContent() {
   useEffect(() => {
     refresh().catch(() => setBootstrap(null));
   }, [refresh]);
+
+  useEffect(() => {
+    if (!selectedId) return;
+    api.getOs2Departments(selectedId).then((d) => setDeptCatalog((d.catalog as DeptCatalogRow[]) || [])).catch(() => {});
+  }, [selectedId]);
 
   useEffect(() => {
     if (!selectedId || !activeAgent) return;
@@ -141,7 +186,24 @@ function TeamContent() {
     if (activeTab === "integrations") api.getOs2OAuth(selectedId).then((d) => setOauthProviders(d.providers || [])).catch(() => setOauthProviders([]));
     if (activeTab === "advanced") api.getOs2Memory(selectedId).then((d) => setCompanyMemory(d.memory || {})).catch(() => setCompanyMemory(null));
     if (activeTab === "advanced" || activeTab === "agents") api.getOs2Harnesses(selectedId).then((d) => setCustomHarnesses(d.custom || [])).catch(() => setCustomHarnesses([]));
-    if (activeTab === "agents") api.getOs2Employees(selectedId).then((d) => { setEmployees(d.employees || []); setCatalogRoles(d.catalog_roles || []); setCoreRoles(d.core_roles || []); }).catch(() => { setEmployees([]); setCatalogRoles([]); setCoreRoles([]); });
+    if (activeTab === "agents" || activeTab === "organization") {
+      api.getOs2Employees(selectedId).then((d) => { setEmployees(d.employees || []); setCatalogRoles(d.catalog_roles || []); setCoreRoles(d.core_roles || []); }).catch(() => { setEmployees([]); setCatalogRoles([]); setCoreRoles([]); });
+    }
+    if (activeTab === "organization" || activeTab === "office") {
+      api.getOs2Departments(selectedId).then((d) => {
+        setDeptCatalog((d.catalog as DeptCatalogRow[]) || []);
+        const hired = (d.hired as Array<{ id: string; name: string; headcount: number }>) || [];
+        setHiredDepartments(hired);
+        const counts: Record<string, number> = {};
+        hired.forEach((h) => { counts[h.id] = h.headcount; });
+        setDeptHeadcounts(counts);
+      }).catch(() => setDeptCatalog([]));
+      api.getOs2OrgChart(selectedId).then((d) => setOrgTree((d.tree as { roots?: OrgNode[] }) || null)).catch(() => setOrgTree(null));
+    }
+    if (activeTab === "agents" || activeTab === "tasks") {
+      api.getOs2Collaboration(selectedId).then(setCollaboration).catch(() => setCollaboration(null));
+      api.getOs2Humans(selectedId).then((d) => setHumans(d.humans || [])).catch(() => setHumans([]));
+    }
   }, [selectedId, activeTab, scopeConfigured]);
 
   async function saveScope() {
@@ -155,6 +217,139 @@ function TeamContent() {
     } catch (err) {
       setError(err instanceof Error ? err.message : "Could not save workspace");
     }
+  }
+
+  async function hireDepartments() {
+    if (!selectedId) return;
+    const rows = Object.entries(deptHeadcounts)
+      .filter(([, n]) => n > 0)
+      .map(([id, headcount]) => ({
+        id,
+        name: deptCatalog.find((d) => d.id === id)?.name || id,
+        headcount,
+      }));
+    if (!rows.length) {
+      setError("Select at least one department and set headcount.");
+      return;
+    }
+    setActionLoading("hire-depts");
+    setError("");
+    setSuccessMsg("");
+    try {
+      await api.setOs2Departments(selectedId, rows);
+      setSuccessMsg(`Hired team across ${rows.length} department(s).`);
+      setScopeMode("department");
+      setActiveTab("agents");
+      await refresh();
+      const chart = await api.getOs2OrgChart(selectedId);
+      setOrgTree((chart.tree as { roots?: OrgNode[] }) || null);
+    } catch (err) {
+      setError(err instanceof Error ? err.message : "Could not hire departments");
+    } finally {
+      setActionLoading("");
+    }
+  }
+
+  function toggleDeptHeadcount(deptId: string, delta: number) {
+    setDeptHeadcounts((prev) => {
+      const next = Math.max(0, Math.min(10, (prev[deptId] || 0) + delta));
+      return { ...prev, [deptId]: next };
+    });
+  }
+
+  async function addHumanMember() {
+    if (!selectedId || !humanName.trim()) return;
+    setActionLoading("add-human");
+    setError("");
+    try {
+      const data = await api.addOs2Human(selectedId, { name: humanName.trim(), role: humanRole, departments: humanDepts });
+      setHumans((data.humans as Array<Record<string, unknown>>) || []);
+      setHumanName("");
+      setHumanRole("");
+      setHumanDepts([]);
+      setSuccessMsg("Human team member added.");
+      await refresh();
+    } catch (err) {
+      setError(err instanceof Error ? err.message : "Could not add team member");
+    } finally {
+      setActionLoading("");
+    }
+  }
+
+  async function removeHuman(humanId: string) {
+    if (!selectedId) return;
+    setActionLoading(`rm-${humanId}`);
+    try {
+      const data = await api.removeOs2Human(selectedId, humanId);
+      setHumans(data.humans || []);
+      await refresh();
+    } catch (err) {
+      setError(err instanceof Error ? err.message : "Could not remove team member");
+    } finally {
+      setActionLoading("");
+    }
+  }
+
+  function openAgentChat(harnessId: string) {
+    setActiveAgent(harnessId);
+    setActiveTab("agents");
+  }
+
+  async function sendBroadcast() {
+    if (!selectedId || !broadcastInput.trim()) return;
+    setActionLoading("broadcast");
+    try {
+      await api.postOs2Broadcast(selectedId, broadcastInput.trim());
+      setBroadcastInput("");
+      setSuccessMsg("Message sent to the team channel.");
+      if (activeTab === "war_room") {
+        const data = await api.getOs2WarRoom(selectedId);
+        setWarRoom(data);
+      }
+    } catch (err) {
+      setError(err instanceof Error ? err.message : "Broadcast failed");
+    } finally {
+      setActionLoading("");
+    }
+  }
+
+  function renderOrgNode(node: OrgNode, depth = 0): ReactNode {
+    const agentCount = (node.agents || []).length;
+    const humanCount = (node.humans || []).length;
+    return (
+      <li key={node.id} className="org-tree-node" style={{ marginLeft: depth * 16 }}>
+        <div className="rounded-lg border border-[var(--iid-line)] px-3 py-2 mb-2 bg-[var(--iid-panel)]">
+          <p className="font-semibold text-sm">{node.name}</p>
+          <p className="text-xs muted">
+            {node.headcount ? `${node.headcount} AI · ` : ""}
+            {agentCount} agent{agentCount !== 1 ? "s" : ""}
+            {humanCount ? ` · ${humanCount} human${humanCount !== 1 ? "s" : ""}` : ""}
+          </p>
+          {(node.agents || []).length > 0 && (
+            <div className="flex flex-wrap gap-1 mt-2">
+              {(node.agents || []).map((a) => {
+                const hid = String(a.harness_id || a.id || "");
+                return (
+                  <button
+                    key={hid}
+                    type="button"
+                    className="iid-btn iid-btn-ghost text-xs py-1"
+                    onClick={() => openAgentChat(hid)}
+                  >
+                    {String(a.name || hid)}
+                  </button>
+                );
+              })}
+            </div>
+          )}
+        </div>
+        {(node.children || []).length > 0 && (
+          <ul className="space-y-1 border-l border-[var(--iid-line)] ml-2 pl-3">
+            {(node.children || []).map((child) => renderOrgNode(child, depth + 1))}
+          </ul>
+        )}
+      </li>
+    );
   }
 
   async function saveApiKeys() {
@@ -392,7 +587,7 @@ function TeamContent() {
       <div>
         <h1 className="font-display text-3xl font-bold">Team & Execution</h1>
         <p className="mt-2 muted">
-          Your virtual team runs tasks from your business plan. Start with <strong>Full office</strong>, connect API keys under Integrations, then chat with agents or run The Office day.
+          Hire departments with headcount, chat with each AI agent (including Taylor), add human teammates, and run a simple office day from your business plan.
         </p>
       </div>
 
@@ -411,40 +606,71 @@ function TeamContent() {
           </section>
 
           <section className="iid-card space-y-4">
-            <h2 className="font-display text-lg font-bold">Step 1 — Choose your workspace</h2>
-            <div className="flex flex-wrap gap-2">
-              {["full_office", "department", "employee"].map((m) => (
-                <button key={m} type="button" className={`iid-btn ${scopeMode === m ? "iid-btn-primary" : "iid-btn-ghost"}`} onClick={() => setScopeMode(m)}>
-                  {m === "full_office" ? "Full office" : m === "department" ? "Department" : "Employee / team"}
-                </button>
-              ))}
+            <h2 className="font-display text-lg font-bold">Step 1 — Build your team</h2>
+            <p className="text-sm muted">Pick departments and headcount, then hire. Or use the classic scope picker below.</p>
+
+            <div className="grid gap-2 md:grid-cols-2 lg:grid-cols-3">
+              {(deptCatalog.length ? deptCatalog : [{ id: "sales", name: "Sales" }, { id: "marketing", name: "Marketing" }, { id: "operations", name: "Operations" }]).map((d) => {
+                const count = deptHeadcounts[d.id] || 0;
+                return (
+                  <div key={d.id} className={`rounded-lg border px-3 py-2 text-sm ${count > 0 ? "border-[var(--iid-blue)]" : "border-[var(--iid-line)]"}`}>
+                    <div className="flex items-center justify-between gap-2">
+                      <div>
+                        <p className="font-semibold">{d.name}</p>
+                        {d.description ? <p className="text-xs muted">{d.description}</p> : null}
+                      </div>
+                      <div className="flex items-center gap-1 shrink-0">
+                        <button type="button" className="iid-btn iid-btn-ghost text-xs px-2" onClick={() => toggleDeptHeadcount(d.id, -1)}>−</button>
+                        <span className="w-6 text-center font-bold">{count}</span>
+                        <button type="button" className="iid-btn iid-btn-ghost text-xs px-2" onClick={() => toggleDeptHeadcount(d.id, 1)}>+</button>
+                      </div>
+                    </div>
+                  </div>
+                );
+              })}
             </div>
-            {scopeMode === "department" && (
-              <div className="flex flex-wrap gap-2">
-                {deptOptions.map((d) => (
-                  <button key={d} type="button" className={`iid-btn text-xs ${departments.includes(d) ? "iid-btn-primary" : "iid-btn-ghost"}`} onClick={() => setDepartments((prev) => prev.includes(d) ? prev.filter((x) => x !== d) : [...prev, d])}>{d}</button>
-                ))}
+            <button type="button" className="iid-btn iid-btn-primary text-sm" disabled={actionLoading === "hire-depts"} onClick={hireDepartments}>
+              {actionLoading === "hire-depts" ? "Hiring…" : "Hire team"}
+            </button>
+            {hiredDepartments.length > 0 && (
+              <p className="text-xs text-emerald-300">
+                Active: {hiredDepartments.map((h) => `${h.name} (${h.headcount})`).join(" · ")}
+              </p>
+            )}
+
+            <details className="text-sm">
+              <summary className="cursor-pointer muted">Advanced: classic scope picker</summary>
+              <div className="mt-3 space-y-3">
+                <div className="flex flex-wrap gap-2">
+                  {["full_office", "department", "employee"].map((m) => (
+                    <button key={m} type="button" className={`iid-btn ${scopeMode === m ? "iid-btn-primary" : "iid-btn-ghost"}`} onClick={() => setScopeMode(m)}>
+                      {m === "full_office" ? "Full office" : m === "department" ? "Department" : "Employee / team"}
+                    </button>
+                  ))}
+                </div>
+                {scopeMode === "department" && (
+                  <div className="flex flex-wrap gap-2">
+                    {deptOptions.map((d) => (
+                      <button key={d} type="button" className={`iid-btn text-xs ${departments.includes(d) ? "iid-btn-primary" : "iid-btn-ghost"}`} onClick={() => setDepartments((prev) => prev.includes(d) ? prev.filter((x) => x !== d) : [...prev, d])}>{d}</button>
+                    ))}
+                  </div>
+                )}
+                {scopeMode === "employee" && (
+                  <div className="flex flex-wrap gap-2">
+                    {agents.map((a) => (
+                      <button key={a.id} type="button" className={`iid-btn text-xs ${harnessIds.includes(a.id) ? "iid-btn-primary" : "iid-btn-ghost"}`} onClick={() => setHarnessIds((prev) => prev.includes(a.id) ? prev.filter((x) => x !== a.id) : [...prev, a.id])}>{a.name}</button>
+                    ))}
+                  </div>
+                )}
+                <button type="button" className="iid-btn iid-btn-ghost text-sm" onClick={saveScope}>Save workspace scope</button>
               </div>
-            )}
-            {scopeMode === "employee" && (
-              <div className="flex flex-wrap gap-2">
-                {agents.map((a) => (
-                  <button key={a.id} type="button" className={`iid-btn text-xs ${harnessIds.includes(a.id) ? "iid-btn-primary" : "iid-btn-ghost"}`} onClick={() => setHarnessIds((prev) => prev.includes(a.id) ? prev.filter((x) => x !== a.id) : [...prev, a.id])}>{a.name}</button>
-                ))}
-              </div>
-            )}
-            <button type="button" className="iid-btn iid-btn-primary text-sm" onClick={saveScope}>Save workspace</button>
-            {scopeMode !== "full_office" && (
-              <p className="text-xs muted">Pick at least one department or employee, then save.</p>
-            )}
+            </details>
           </section>
 
           {!scopeConfigured ? (
             <section className="iid-card">
               <p className="text-amber-300 text-sm">
-                {scopeMode === "department"
-                  ? "Select one or more departments above, then click Save workspace."
-                  : "Select at least one employee above, then click Save workspace."}
+                Hire at least one department in Step 1, or choose <strong>Full office</strong> in the advanced scope picker.
               </p>
             </section>
           ) : (
@@ -506,41 +732,72 @@ function TeamContent() {
               {successMsg && <p className="text-sm text-emerald-300">{successMsg}</p>}
               {loading && <p className="text-sm muted">Loading workspace…</p>}
 
+              {activeTab === "organization" && (
+                <section className="iid-card space-y-4">
+                  <h3 className="font-semibold">Organization chart</h3>
+                  <p className="text-sm muted">Hierarchy of hired departments, AI agents, and human team members.</p>
+                  {(orgTree?.roots || []).length === 0 ? (
+                    <p className="text-sm muted">Hire departments in Step 1 to see your org chart.</p>
+                  ) : (
+                    <ul className="space-y-2">{(orgTree?.roots || []).map((n) => renderOrgNode(n))}</ul>
+                  )}
+                  {humans.length > 0 && (
+                    <div className="border-t border-[var(--iid-line)] pt-4">
+                      <h4 className="text-sm font-semibold mb-2">Human team</h4>
+                      <ul className="text-sm space-y-1">
+                        {humans.map((h) => (
+                          <li key={String(h.id)}>{String(h.name)} — {String(h.role)}</li>
+                        ))}
+                      </ul>
+                    </div>
+                  )}
+                </section>
+              )}
+
               {activeTab === "office" && (
                 <section className="iid-card space-y-4">
                   <h3 className="font-semibold">The Office</h3>
-                  <p className="text-sm muted">Clock in → standup → execution → agent sync → delivery. Same phases as Streamlit.</p>
+                  <p className="text-sm muted">One button runs the full day: standup → tasks → delivery. Taylor coordinates your hired team.</p>
+                  <p className="text-xs muted">Full office: 50 credits/week · each department: 10 credits/week (once per calendar week).</p>
                   <p className="text-sm">Phase: <strong>{String(office?.phase || (bootstrap?.office_state as Record<string, unknown>)?.phase || "arrival")}</strong></p>
                   {office?.last_mentor ? (
                     <div className="rounded-lg border border-[var(--iid-line)] bg-[var(--iid-panel)] p-3 text-sm">
                       <strong>Taylor:</strong> {String(office.last_mentor)}
                     </div>
                   ) : null}
-                  <label className="block text-sm font-semibold">Priorities today</label>
-                  <textarea className="iid-input min-h-[80px]" value={goalsText} onChange={(e) => setGoalsText(e.target.value)} placeholder="One goal per line" />
+                  <label className="block text-sm font-semibold">Today&apos;s priorities (one per line)</label>
+                  <textarea className="iid-input min-h-[80px]" value={goalsText} onChange={(e) => setGoalsText(e.target.value)} placeholder="e.g. Launch outreach campaign&#10;Review competitor pricing" />
                   <label className="flex items-center gap-2 text-sm">
                     <input type="checkbox" checked={autoApprove} onChange={(e) => setAutoApprove(e.target.checked)} className="accent-[var(--iid-blue)]" />
-                    Auto-approve external actions (LinkedIn, email, HubSpot)
+                    Auto-approve LinkedIn, email, and HubSpot actions
                   </label>
                   <div className="flex flex-wrap gap-2">
-                    {[
-                      { id: "clock_in", label: "Clock in" },
-                      { id: "standup", label: "Standup" },
-                      { id: "next_task", label: "Next task" },
-                      { id: "agent_sync", label: "Agent sync" },
-                      { id: "delivery", label: "Delivery" },
-                    ].map((b) => (
-                      <button key={b.id} type="button" className="iid-btn iid-btn-ghost text-xs" disabled={actionLoading === b.id} onClick={() => runOfficeAction(b.id)}>
-                        {actionLoading === b.id ? "…" : b.label}
-                      </button>
-                    ))}
-                    <button type="button" className="iid-btn iid-btn-primary text-xs" disabled={!!actionLoading} onClick={() => runOfficeAction("full_day")}>
-                      {actionLoading === "full_day" ? "Running…" : "Run full office day"}
+                    <button type="button" className="iid-btn iid-btn-primary" disabled={!!actionLoading} onClick={() => runOfficeAction("full_day")}>
+                      {actionLoading === "full_day" ? "Running office day…" : "Run office day"}
                     </button>
-                    <button type="button" className="iid-btn iid-btn-ghost text-xs" disabled={actionLoading === "checklist"} onClick={buildChecklist}>
-                      {actionLoading === "checklist" ? "Building…" : "Build checklist from plan"}
+                    <button type="button" className="iid-btn iid-btn-ghost text-sm" disabled={actionLoading === "checklist"} onClick={buildChecklist}>
+                      {actionLoading === "checklist" ? "Building…" : "Build task checklist"}
+                    </button>
+                    <button type="button" className="iid-btn iid-btn-ghost text-sm" disabled={actionLoading === "run-next"} onClick={runNextTask}>
+                      Run next task
                     </button>
                   </div>
+                  <details className="text-sm">
+                    <summary className="cursor-pointer muted">Manual phases (advanced)</summary>
+                    <div className="mt-2 flex flex-wrap gap-2">
+                      {[
+                        { id: "clock_in", label: "Clock in" },
+                        { id: "standup", label: "Standup" },
+                        { id: "next_task", label: "Next task" },
+                        { id: "agent_sync", label: "Agent sync" },
+                        { id: "delivery", label: "Delivery" },
+                      ].map((b) => (
+                        <button key={b.id} type="button" className="iid-btn iid-btn-ghost text-xs" disabled={actionLoading === b.id} onClick={() => runOfficeAction(b.id)}>
+                          {actionLoading === b.id ? "…" : b.label}
+                        </button>
+                      ))}
+                    </div>
+                  </details>
                   {taskMsg && <p className="text-sm text-emerald-300">{taskMsg}</p>}
                   {((office?.board as Array<Record<string, unknown>>) || []).length > 0 && (
                     <>
@@ -583,8 +840,15 @@ function TeamContent() {
                   <ul className="space-y-2 text-sm">
                     {checklistItems.map((item) => (
                       <li key={String(item.id)} className="rounded-lg border border-[var(--iid-line)] px-3 py-2">
-                        <span className="font-semibold">{String(item.title)}</span>
-                        <span className="muted"> — {String(item.status)}</span>
+                        <div className="flex flex-wrap items-center gap-2">
+                          <span className="font-semibold">{String(item.title)}</span>
+                          <span className={`text-xs rounded-full px-2 py-0.5 ${item.assignee_type === "human" ? "bg-amber-500/20 text-amber-200" : "bg-[var(--iid-blue)]/20 text-[var(--iid-blue)]"}`}>
+                            {item.assignee_type === "human" ? "You" : "AI"}
+                          </span>
+                          <span className="muted text-xs">— {String(item.status)}</span>
+                        </div>
+                        {item.human_action ? <p className="text-xs text-amber-300 mt-1">{String(item.human_action)}</p> : null}
+                        {item.ai_action ? <p className="text-xs muted mt-1">{String(item.ai_action)}</p> : null}
                         <div className="mt-1">{renderArtifacts((item.artifacts as unknown[]) || [], String(item.result || ""))}</div>
                         {(item.status === "awaiting_approval" || item.status === "qc_failed" || item.status === "failed") && (
                           <div className="mt-2 flex gap-2">
@@ -620,6 +884,10 @@ function TeamContent() {
                         </div>
                       ))
                     )}
+                  </div>
+                  <div className="flex gap-2">
+                    <input className="iid-input flex-1" value={broadcastInput} onChange={(e) => setBroadcastInput(e.target.value)} placeholder="Message the whole team…" onKeyDown={(e) => e.key === "Enter" && sendBroadcast()} />
+                    <button type="button" className="iid-btn iid-btn-primary text-sm" disabled={actionLoading === "broadcast"} onClick={sendBroadcast}>Send</button>
                   </div>
                   <button type="button" className="iid-btn iid-btn-primary text-sm" disabled={!!actionLoading} onClick={() => runOfficeAction("debate_sync")}>
                     Run team debate sync
@@ -659,41 +927,125 @@ function TeamContent() {
               {activeTab === "agents" && (
                 <section className="iid-card space-y-4">
                   <h3 className="font-semibold">Agents & team</h3>
-                  <div className="flex flex-wrap gap-2">
-                    {agents.map((a) => (
-                      <button key={a.id} type="button" className={`iid-btn text-xs ${activeAgent === a.id ? "iid-btn-primary" : "iid-btn-ghost"}`} onClick={() => setActiveAgent(a.id)}>{a.name}</button>
-                    ))}
-                  </div>
-                  {activeAgent && (
-                    <>
-                      <p className="text-sm muted">{agents.find((a) => a.id === activeAgent)?.tagline}</p>
-                      <div className="max-h-64 overflow-y-auto space-y-2 rounded-xl border border-[var(--iid-line)] p-3">
-                        {chat.map((turn, i) => (
-                          <div key={i} className={turn.role === "user" ? "text-right" : ""}>
-                            <p className="text-xs muted">{turn.role}</p>
-                            <p className="text-sm whitespace-pre-wrap">{turn.content}</p>
-                            {turn.role === "assistant" ? (
-                              <div className="mt-1 text-left">{renderArtifacts(turn.artifacts || [], String(turn.content || ""))}</div>
-                            ) : turn.artifacts && turn.artifacts.length > 0 ? (
-                              <div className="mt-1">{renderArtifacts(turn.artifacts)}</div>
-                            ) : null}
+                  <div className="grid gap-4 lg:grid-cols-[200px_1fr]">
+                    <div className="space-y-1">
+                      <p className="text-xs font-semibold uppercase muted mb-2">Chat with</p>
+                      {chatAgents.map((a) => (
+                        <button
+                          key={a.id}
+                          type="button"
+                          className={`w-full text-left rounded-lg px-3 py-2 text-xs ${activeAgent === a.id ? "bg-[var(--iid-blue)] text-white" : "border border-[var(--iid-line)]"}`}
+                          onClick={() => setActiveAgent(a.id)}
+                        >
+                          <span className="font-semibold block">{a.name}</span>
+                          <span className="opacity-70">{a.department || a.role}</span>
+                        </button>
+                      ))}
+                    </div>
+                    <div className="space-y-3">
+                      {activeAgent && (
+                        <>
+                          <p className="text-sm muted">{chatAgents.find((a) => a.id === activeAgent)?.tagline}</p>
+                          <div className="max-h-64 overflow-y-auto space-y-2 rounded-xl border border-[var(--iid-line)] p-3">
+                            {chat.map((turn, i) => (
+                              <div key={i} className={turn.role === "user" ? "text-right" : ""}>
+                                <p className="text-xs muted">{turn.role}</p>
+                                <p className="text-sm whitespace-pre-wrap">{turn.content}</p>
+                                {turn.role === "assistant" ? (
+                                  <div className="mt-1 text-left">{renderArtifacts(turn.artifacts || [], String(turn.content || ""))}</div>
+                                ) : turn.artifacts && turn.artifacts.length > 0 ? (
+                                  <div className="mt-1">{renderArtifacts(turn.artifacts)}</div>
+                                ) : null}
+                              </div>
+                            ))}
                           </div>
-                        ))}
-                      </div>
-                      <div className="flex flex-wrap gap-2">
-                        {(agents.find((a) => a.id === activeAgent)?.starters || []).map((s) => (
-                          <button key={s} type="button" className="iid-btn iid-btn-ghost text-xs" onClick={() => sendChat(s)} disabled={chatLoading}>{s}</button>
-                        ))}
-                      </div>
-                      <div className="flex gap-2">
-                        <input className="iid-input flex-1" value={chatInput} onChange={(e) => setChatInput(e.target.value)} placeholder="Tell this agent what to deliver…" onKeyDown={(e) => e.key === "Enter" && sendChat()} />
-                        <button type="button" className="iid-btn iid-btn-primary" onClick={() => sendChat()} disabled={chatLoading}>{chatLoading ? "Working…" : "Send"}</button>
-                      </div>
-                    </>
-                  )}
+                          <div className="flex flex-wrap gap-2">
+                            {(chatAgents.find((a) => a.id === activeAgent)?.starters || []).map((s) => (
+                              <button key={s} type="button" className="iid-btn iid-btn-ghost text-xs" onClick={() => sendChat(s)} disabled={chatLoading}>{s}</button>
+                            ))}
+                          </div>
+                          <div className="flex gap-2">
+                            <input className="iid-input flex-1" value={chatInput} onChange={(e) => setChatInput(e.target.value)} placeholder="Tell this agent what to deliver…" onKeyDown={(e) => e.key === "Enter" && sendChat()} />
+                            <button type="button" className="iid-btn iid-btn-primary" onClick={() => sendChat()} disabled={chatLoading}>{chatLoading ? "Working…" : "Send"}</button>
+                          </div>
+                        </>
+                      )}
+                    </div>
+                  </div>
 
                   <div className="border-t border-[var(--iid-line)] pt-4 space-y-3">
-                    <h4 className="font-semibold text-sm">Team and hiring</h4>
+                    <h4 className="font-semibold text-sm">Human team members</h4>
+                    <p className="text-xs muted">Humans observe AI work, handle approvals, and get assigned action items.</p>
+                    {humans.length > 0 ? (
+                      <ul className="text-sm space-y-2">
+                        {humans.map((h) => (
+                          <li key={String(h.id)} className="flex items-center justify-between rounded-lg border border-[var(--iid-line)] px-3 py-2">
+                            <span><strong>{String(h.name)}</strong> — {String(h.role)}</span>
+                            <button type="button" className="iid-btn iid-btn-ghost text-xs" disabled={!!actionLoading} onClick={() => removeHuman(String(h.id))}>Remove</button>
+                          </li>
+                        ))}
+                      </ul>
+                    ) : (
+                      <p className="text-sm muted">No human team members yet.</p>
+                    )}
+                    <div className="grid gap-2 md:grid-cols-2">
+                      <input className="iid-input" value={humanName} onChange={(e) => setHumanName(e.target.value)} placeholder="Name" />
+                      <input className="iid-input" value={humanRole} onChange={(e) => setHumanRole(e.target.value)} placeholder="Role (e.g. Founder)" />
+                    </div>
+                    <div>
+                      <p className="text-xs muted mb-1">Departments they work with</p>
+                      <div className="flex flex-wrap gap-2">
+                        {(deptCatalog.length ? deptCatalog : hiredDepartments.map((h) => ({ id: h.id, name: h.name }))).map((d) => (
+                          <button
+                            key={d.id}
+                            type="button"
+                            className={`iid-btn text-xs ${humanDepts.includes(d.id) ? "iid-btn-primary" : "iid-btn-ghost"}`}
+                            onClick={() => setHumanDepts((prev) => prev.includes(d.id) ? prev.filter((x) => x !== d.id) : [...prev, d.id])}
+                          >
+                            {d.name}
+                          </button>
+                        ))}
+                      </div>
+                    </div>
+                    <button type="button" className="iid-btn iid-btn-primary text-sm" disabled={actionLoading === "add-human"} onClick={addHumanMember}>Add human team member</button>
+                  </div>
+
+                  {collaboration?.summary ? (
+                    <div className="border-t border-[var(--iid-line)] pt-4 space-y-3">
+                      <h4 className="font-semibold text-sm">AI vs human work split</h4>
+                      <div className="grid grid-cols-2 md:grid-cols-4 gap-2 text-sm">
+                        <div className="rounded-lg border border-[var(--iid-line)] p-2">
+                          <p className="text-xs muted">AI tasks</p>
+                          <p className="font-bold">{String((collaboration.summary as Record<string, number>).ai_done || 0)}/{(collaboration.summary as Record<string, number>).ai_total || 0}</p>
+                        </div>
+                        <div className="rounded-lg border border-[var(--iid-line)] p-2">
+                          <p className="text-xs muted">Your tasks</p>
+                          <p className="font-bold">{String((collaboration.summary as Record<string, number>).human_done || 0)}/{(collaboration.summary as Record<string, number>).human_total || 0}</p>
+                        </div>
+                        <div className="rounded-lg border border-[var(--iid-line)] p-2">
+                          <p className="text-xs muted">AI agents</p>
+                          <p className="font-bold">{String((collaboration.summary as Record<string, number>).agents_active || 0)}</p>
+                        </div>
+                        <div className="rounded-lg border border-[var(--iid-line)] p-2">
+                          <p className="text-xs muted">Humans</p>
+                          <p className="font-bold">{String((collaboration.summary as Record<string, number>).humans_on_team || 0)}</p>
+                        </div>
+                      </div>
+                      {((collaboration.human_queue as Array<Record<string, unknown>>) || []).length > 0 && (
+                        <>
+                          <p className="text-xs font-semibold">Your action queue</p>
+                          <ul className="text-sm space-y-1">
+                            {((collaboration.human_queue as Array<Record<string, unknown>>) || []).slice(0, 5).map((item, i) => (
+                              <li key={i} className="text-amber-300">→ {String(item.action)} <span className="muted">({String(item.status)})</span></li>
+                            ))}
+                          </ul>
+                        </>
+                      )}
+                    </div>
+                  ) : null}
+
+                  <div className="border-t border-[var(--iid-line)] pt-4 space-y-3">
+                    <h4 className="font-semibold text-sm">Legacy hiring</h4>
                     {employees.length > 0 ? (
                       <ul className="text-sm space-y-1">
                         {employees.map((e, i) => (

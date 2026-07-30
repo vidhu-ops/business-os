@@ -292,7 +292,7 @@ def fetch_market_context_for_audit(profile: dict[str, Any]) -> str:
             f"Competitors: {profile.get('main_competitors') or 'unknown'}\n"
             'Return JSON: {"company_summary":"...","competitors":["..."],"market_trend":"...","positioning_note":"..."}'
         )
-        api = call_perplexity_json(prompt, timeout=90)
+        api = call_perplexity_json(prompt, timeout=45)
         if api.get("error"):
             return ""
         parsed = api.get("parsed") or api.get("json")

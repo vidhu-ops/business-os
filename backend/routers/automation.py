@@ -6,6 +6,9 @@ from fastapi import APIRouter, Depends, HTTPException
 from pydantic import BaseModel, Field
 
 from backend.auth import get_current_user
+from backend.services.automation_setup import automation_setup_requirements
+from backend.services.credit_service import spend_credits
+from backend.services.demo_service import DEMO_WORKSPACE_ID, block_workspace_mutation, is_demo_user
 from backend.services.workspace_context import workspace_report_context
 from backend.services.workspaces import load_workspace, save_workspace
 from iidatech.execution.agent_queue import (
@@ -52,26 +55,32 @@ def list_steps(_: str = Depends(get_current_user)) -> dict:
 
 
 @router.get("/{workspace_id}")
-def automation_status(workspace_id: str, _: str = Depends(get_current_user)) -> dict:
+def automation_status(workspace_id: str, email: str = Depends(get_current_user)) -> dict:
     workspace = load_workspace(workspace_id)
     if not workspace:
         raise HTTPException(status_code=404, detail="Project not found")
     report_id = _automation_id(workspace)
-    queue = load_queue(report_id)
     auto = workspace.get("automation") if isinstance(workspace.get("automation"), dict) else {}
+    if is_demo_user(email) and workspace_id == DEMO_WORKSPACE_ID and auto.get("demo_queue"):
+        queue = auto["demo_queue"]
+    else:
+        queue = load_queue(report_id)
     return {
         "automation": auto,
         "report_id": report_id,
         "queue": queue,
         "steps_catalog": AUTOMATION_STEP_CATALOG,
+        "is_demo_sample": bool(auto.get("demo_sample")),
     }
 
 
 @router.post("/build")
-def build_automation(body: AutoBuildBody, _: str = Depends(get_current_user)) -> dict:
+def build_automation(body: AutoBuildBody, email: str = Depends(get_current_user)) -> dict:
     workspace = load_workspace(body.workspace_id)
     if not workspace:
         raise HTTPException(status_code=404, detail="Project not found")
+    block_workspace_mutation(email, workspace, action="build automations")
+    credit = spend_credits(email, "automation_build", metadata={"workspace_id": body.workspace_id, "steps": body.step_ids})
     idea = str(workspace.get("idea") or "").strip()
     industry = str(workspace.get("industry") or "General").strip()
     geography = str(workspace.get("country") or "Global").strip()
@@ -94,14 +103,23 @@ def build_automation(body: AutoBuildBody, _: str = Depends(get_current_user)) ->
     auto["report_id"] = report_id
     workspace["automation"] = auto
     save_workspace(workspace)
-    return {"success": True, "spec": spec, "queue": queue}
+    setup = automation_setup_requirements(body.step_ids, report_id, workspace_id=body.workspace_id)
+    return {
+        "success": True,
+        "spec": spec,
+        "queue": queue,
+        "setup_requirements": setup,
+        "credit": credit,
+    }
 
 
 @router.post("/run-next")
-def run_next_step(body: AutoRunBody, _: str = Depends(get_current_user)) -> dict:
+def run_next_step(body: AutoRunBody, email: str = Depends(get_current_user)) -> dict:
     workspace = load_workspace(body.workspace_id)
     if not workspace:
         raise HTTPException(status_code=404, detail="Project not found")
+    block_workspace_mutation(email, workspace, action="run automations")
+    credit = spend_credits(email, "automation_run", metadata={"workspace_id": body.workspace_id})
     idea = str(workspace.get("idea") or "").strip()
     industry = str(workspace.get("industry") or "General").strip()
     geography = str(workspace.get("country") or "Global").strip()
@@ -128,4 +146,13 @@ def run_next_step(body: AutoRunBody, _: str = Depends(get_current_user)) -> dict
     auto["last_run"] = outcome
     workspace["automation"] = auto
     save_workspace(workspace)
-    return {"success": bool(outcome.get("success", True)), "outcome": outcome, "queue": queue}
+    auto_spec = auto.get("active_spec") if isinstance(auto.get("active_spec"), dict) else {}
+    step_ids = [str(s.get("id") or "") for s in (auto_spec.get("picked_steps") or []) if isinstance(s, dict)]
+    setup = automation_setup_requirements(step_ids, report_id, workspace_id=body.workspace_id) if step_ids else []
+    return {
+        "success": bool(outcome.get("success", True)),
+        "outcome": outcome,
+        "queue": queue,
+        "setup_requirements": setup,
+        "credit": credit,
+    }

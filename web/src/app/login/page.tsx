@@ -1,18 +1,28 @@
 "use client";
 
 import Link from "next/link";
-import { useRouter } from "next/navigation";
-import { FormEvent, useState } from "react";
+import { useRouter, useSearchParams } from "next/navigation";
+import { FormEvent, Suspense, useEffect, useState } from "react";
 import { api } from "@/lib/api";
 
-export default function LoginPage() {
+function LoginForm() {
   const router = useRouter();
+  const searchParams = useSearchParams();
+  const intent = searchParams.get("intent");
+  const initialMode = searchParams.get("mode") === "register" ? "register" : "login";
+
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [name, setName] = useState("");
-  const [mode, setMode] = useState<"login" | "register">("login");
+  const [mode, setMode] = useState<"login" | "register">(initialMode);
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
+
+  useEffect(() => {
+    if (searchParams.get("mode") === "register") setMode("register");
+  }, [searchParams]);
+
+  const afterAuthPath = intent === "audit" ? "/app/audit" : "/app/dashboard";
 
   async function onSubmit(e: FormEvent) {
     e.preventDefault();
@@ -24,7 +34,7 @@ export default function LoginPage() {
       } else {
         await api.register(email, password, name);
       }
-      router.push("/app/dashboard");
+      router.push(afterAuthPath);
     } catch (err) {
       setError(err instanceof Error ? err.message : "Authentication failed");
     } finally {
@@ -37,7 +47,7 @@ export default function LoginPage() {
     setError("");
     try {
       await api.demoLogin();
-      router.push("/app/dashboard");
+      router.push("/app/research?project=demo_readonly");
     } catch (err) {
       setError(err instanceof Error ? err.message : "Demo login failed");
     } finally {
@@ -53,7 +63,7 @@ export default function LoginPage() {
           <h1 className="login-title">Build your business in minutes.</h1>
           <p className="login-lead">Research, plan, and execute with an AI team — built for companies and teams.</p>
           <div className="login-pills">
-            <span>30 free credits</span>
+            <span>1 free company audit</span>
             <span>No card required</span>
             <span>Reports in minutes</span>
           </div>
@@ -99,5 +109,13 @@ export default function LoginPage() {
         </section>
       </div>
     </main>
+  );
+}
+
+export default function LoginPage() {
+  return (
+    <Suspense fallback={<main className="login-shell"><p className="muted p-8">Loading…</p></main>}>
+      <LoginForm />
+    </Suspense>
   );
 }

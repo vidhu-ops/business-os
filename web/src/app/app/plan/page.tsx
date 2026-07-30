@@ -10,7 +10,7 @@ import { ReportMarkdown } from "@/components/ReportMarkdown";
 import { useProjects } from "@/hooks/useProjects";
 
 type CompanyMode = "new" | "existing" | null;
-type PlanTab = "intake" | "output" | "validation" | "existing";
+type PlanTab = "intake" | "output" | "validation" | "existing" | "gauge-plan";
 
 function PlanContent() {
   const { projects, selectedId, setSelectedId } = useProjects();
@@ -27,9 +27,15 @@ function PlanContent() {
   const [applicationPurpose, setApplicationPurpose] = useState("General market research");
 
   const [markdown, setMarkdown] = useState("");
+  const [gaugeForwardMd, setGaugeForwardMd] = useState("");
   const [hasResearch, setHasResearch] = useState(false);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
+  const [isDemo, setIsDemo] = useState(false);
+
+  useEffect(() => {
+    api.me().then((u) => setIsDemo(Boolean(u.is_demo))).catch(() => setIsDemo(false));
+  }, []);
 
   useEffect(() => {
     if (!selectedId) return;
@@ -47,6 +53,8 @@ function PlanContent() {
       setApplicationPurpose(String(intake.application_purpose || "General market research"));
       const plan = data.plan || {};
       setMarkdown(String(plan.markdown || plan.report_markdown || ""));
+      const gfp = data.gauge_forward_plan || {};
+      setGaugeForwardMd(String(gfp.markdown || gfp.report_markdown || ""));
     }).catch(() => {
       setMarkdown("");
     });
@@ -98,19 +106,35 @@ function PlanContent() {
     { id: "output" as PlanTab, label: "Plan Output" },
     { id: "validation" as PlanTab, label: "Reference" },
   ];
-  const tabs = companyMode === "existing" ? existingTabs : newTabs;
+  const demoTabs = [
+    { id: "output" as PlanTab, label: "New company plan" },
+    { id: "existing" as PlanTab, label: "GAUGE audit" },
+    { id: "gauge-plan" as PlanTab, label: "GAUGE forward plan" },
+    { id: "validation" as PlanTab, label: "Reference" },
+  ];
+  const tabs = isDemo ? demoTabs : companyMode === "existing" ? existingTabs : newTabs;
+
+  useEffect(() => {
+    if (isDemo) setActiveTab("output");
+  }, [isDemo]);
 
   return (
     <div className="space-y-8">
       <div>
         <h1 className="font-display text-3xl font-bold">Business Plan Workspace</h1>
-        <p className="mt-2 muted">Build from your IIDATECH market research report, uploads, and notes — same flow as Streamlit.</p>
+        <p className="mt-2 muted">
+          {isDemo
+            ? "Sample business plan workspace — view the completed GAUGE flow below. Sign up to build plans for your company."
+            : "Build from your IIDATECH market research report, uploads, and notes — same flow as Streamlit."}
+        </p>
       </div>
 
       {projects.length === 0 ? (
         <section className="iid-card">
-          <p className="muted">No projects yet.</p>
+          <p className="muted">{isDemo ? "No sample project available." : "No projects yet."}</p>
+          {!isDemo && (
           <Link href="/app/projects" className="iid-btn iid-btn-primary mt-4 inline-flex">Create your first project</Link>
+          )}
         </section>
       ) : (
         <>
@@ -118,7 +142,7 @@ function PlanContent() {
             <ProjectPicker projects={projects} selectedId={selectedId} onChange={setSelectedId} />
           </section>
 
-          {!companyMode ? (
+          {!companyMode && !isDemo ? (
             <section className="iid-card space-y-4">
               <h2 className="font-display text-lg font-bold">What are you planning?</h2>
               <p className="text-sm muted">Pick new company for a startup-style plan, or existing company for GAUGE audit and a forward operating plan.</p>
@@ -127,9 +151,11 @@ function PlanContent() {
                 <button type="button" className="iid-btn iid-btn-ghost" onClick={() => pickMode("existing")}>Build plan for existing company</button>
               </div>
             </section>
-          ) : (
+          ) : companyMode || isDemo ? (
             <>
+              {!isDemo && (
               <button type="button" className="text-sm text-[var(--iid-blue)] hover:underline" onClick={() => pickMode(null)}>← Choose a different company type</button>
+              )}
 
               <div className="flex flex-wrap gap-2 border-b border-[var(--iid-line)] pb-2">
                 {tabs.map((t) => (
@@ -137,7 +163,7 @@ function PlanContent() {
                 ))}
               </div>
 
-              {activeTab === "intake" && companyMode === "new" && (
+              {activeTab === "intake" && companyMode === "new" && !isDemo && (
                 <section className="iid-card space-y-4">
                   <div className="grid gap-4 md:grid-cols-2">
                     <div className="space-y-3">
@@ -168,6 +194,7 @@ function PlanContent() {
                     </div>
                   </div>
                   {error && <p className="text-sm text-red-400">{error}</p>}
+                  <p className="text-xs muted">Each business plan build uses 5 credits (Growth plan: unlimited).</p>
                   <button type="button" className="iid-btn iid-btn-primary" onClick={generatePlan} disabled={loading}>{loading ? "Building agentic business plan…" : "Build Agentic Business Plan"}</button>
                 </section>
               )}
@@ -185,10 +212,24 @@ function PlanContent() {
                 </section>
               )}
 
-              {activeTab === "existing" && companyMode === "existing" && selectedId && (
+              {activeTab === "gauge-plan" && isDemo && (
+                <section className="iid-card iid-report-shell">
+                  <h2 className="font-display text-xl font-bold">GAUGE forward plan</h2>
+                  {gaugeForwardMd ? (
+                    <div className="mt-4">
+                      <ReportMarkdown markdown={gaugeForwardMd} title="GAUGE forward plan" subtitle="Acme CRM Pvt Ltd" />
+                    </div>
+                  ) : (
+                    <p className="muted mt-4">No forward plan in sample.</p>
+                  )}
+                </section>
+              )}
+
+              {activeTab === "existing" && (companyMode === "existing" || isDemo) && selectedId && (
                 <ExistingCompanyPlanForward
                   key={selectedId}
                   workspaceId={selectedId}
+                  demoMode={isDemo}
                   onPlanReady={(md) => {
                     setMarkdown(md);
                     setActiveTab("output");
@@ -198,7 +239,7 @@ function PlanContent() {
 
               {activeTab === "validation" && <ValidationUnderstanding />}
             </>
-          )}
+          ) : null}
         </>
       )}
     </div>

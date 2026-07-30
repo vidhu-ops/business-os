@@ -49,9 +49,14 @@ export function LandingPage() {
               Market-intelligence and business-execution for founders — self-serve as a SaaS tool, or done-for-you as a service.
             </p>
             <div className="mkt-hero-cta">
-              <WorkspaceEntryLink className="iid-btn iid-btn-primary">Start free now</WorkspaceEntryLink>
-              <a href="#demo" className="iid-btn iid-btn-ghost">See demo</a>
+              <Link href="/login?intent=audit&mode=register" className="iid-btn iid-btn-primary">
+                Run free audit for company
+              </Link>
+              <WorkspaceEntryLink href="/app/dashboard" className="iid-btn iid-btn-ghost">See demo</WorkspaceEntryLink>
             </div>
+            <p className="mkt-lead" style={{ fontSize: "0.9rem", marginTop: "0.75rem", opacity: 0.85 }}>
+              One free GAUGE health audit when you sign up — no card required.
+            </p>
           </div>
           <HeroVisual />
         </div>
@@ -255,10 +260,12 @@ export function LandingPage() {
       <section className="mkt-wrap mkt-section">
         <div className="mkt-cta-banner">
           <span className="mkt-label">Ready to ship?</span>
-          <h2 className="mkt-h2">Start with 30 free credits.</h2>
-          <p className="mkt-sub">No card required. Your first report in under a minute.</p>
+          <h2 className="mkt-h2">Start with 1 free company audit.</h2>
+          <p className="mkt-sub">No card required. GAUGE health read in minutes.</p>
           <div className="mkt-hero-cta mkt-cta-banner-actions">
-            <WorkspaceEntryLink className="iid-btn iid-btn-primary">Start free now</WorkspaceEntryLink>
+            <Link href="/login?intent=audit&mode=register" className="iid-btn iid-btn-primary">
+              Run free audit
+            </Link>
             <Link href="/pricing" className="iid-btn iid-btn-ghost">See pricing</Link>
           </div>
         </div>

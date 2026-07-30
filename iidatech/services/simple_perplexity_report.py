@@ -101,6 +101,7 @@ from iidatech.llm.usage_ledger import perplexity_usage_row, sum_ledger
 
 
 from iidatech.services.market_currency import currency_for_geography
+from iidatech.services.financial_sizing_calc import build_canonical_financials
 from iidatech.services.perplexity_report_engine import format_market_geography
 
 
@@ -1506,9 +1507,7 @@ def _format_financial_block(parsed: dict[str, Any]) -> str:
 
     lines = []
 
-
-
-
+    lines.append("CANONICAL SIZING (computed from sourced base figures — cite only these in narrative):")
 
     for key in ("tam", "sam", "som"):
 
@@ -1540,89 +1539,21 @@ def _format_financial_block(parsed: dict[str, Any]) -> str:
 
 
 
-    alts = parsed.get("tam_alternatives") if isinstance(parsed.get("tam_alternatives"), list) else []
-
-
-
-
-
-    if alts:
-
-
-
-
-
+    validation = parsed.get("validation") if isinstance(parsed.get("validation"), dict) else {}
+    if validation.get("top_down_result") or validation.get("bottom_up_result"):
         lines.append("")
-
-
-
-
-
-        lines.append("TAM alternatives:")
-
-
-
-
-
-        for row in alts[:6]:
-
-
-
-
-
-            if isinstance(row, dict):
-
-
-
-
-
-                lines.append(
-
-
-
-
-
-                    f"- {row.get('value', '')} ({row.get('scope', '')}) — {row.get('notes', '')} "
-
-
-
-
-
-                    f"{row.get('source_url', '')}"
-
-
-
-
-
-                )
-
-
-
-
+        lines.append("Methodology validation:")
+        if validation.get("top_down_result"):
+            lines.append(f"- Top-down result: {validation.get('top_down_result')}")
+        if validation.get("bottom_up_result"):
+            lines.append(f"- Bottom-up result: {validation.get('bottom_up_result')}")
+        if validation.get("notes"):
+            lines.append(f"- Reconciliation: {validation.get('notes')}")
 
     recon = str(parsed.get("tam_reconciliation") or "").strip()
-
-
-
-
-
     if recon:
-
-
-
-
-
         lines.append("")
-
-
-
-
-
         lines.append(f"TAM reconciliation: {recon}")
-
-
-
-
 
     rows = parsed.get("financial_rows") if isinstance(parsed.get("financial_rows"), list) else []
 
@@ -2266,7 +2197,7 @@ def _trim_hallucinated_tail(body: str) -> str:
 
 
 
-        s = s.rstrip() + "\n\n_(Section may be incomplete — re-run if needed.)_"
+        pass  # no internal QA notes in client copy
 
 
 
@@ -2920,6 +2851,48 @@ def build_financial_snapshot_section(
 
 
     commentary = financial.get("commentary") if isinstance(financial.get("commentary"), list) else []
+
+    refs = financial.get("published_reference") if isinstance(financial.get("published_reference"), list) else []
+    if refs:
+        lines.extend(["", "### Reference estimates (not used in primary TAM/SAM/SOM)", ""])
+        lines.append("| Source | Value | Scope | Notes |")
+        lines.append("| --- | --- | --- | --- |")
+        for row in refs[:6]:
+            if not isinstance(row, dict):
+                continue
+            lines.append(
+                "| "
+                + " | ".join(
+                    [
+                        _table_cell(_row_source_cite(row, registry) if row.get("source_url") else row.get("source_name", "—")),
+                        _table_cell(row.get("value", "")),
+                        _table_cell(row.get("scope", "")),
+                        _table_cell(row.get("notes", "")),
+                    ]
+                )
+                + " |"
+            )
+
+    unit_rows = financial.get("unit_economics") if isinstance(financial.get("unit_economics"), list) else []
+    if unit_rows:
+        lines.extend(["", "### Unit economics (formula-calculated)", ""])
+        lines.append("| Metric | Value | Label | Formula / notes |")
+        lines.append("| --- | --- | --- | --- |")
+        for row in unit_rows[:20]:
+            if not isinstance(row, dict):
+                continue
+            lines.append(
+                "| "
+                + " | ".join(
+                    [
+                        _table_cell(row.get("metric", "")),
+                        _table_cell(row.get("value", "")),
+                        _table_cell(row.get("label", "DERIVED")),
+                        _table_cell(row.get("notes", "")),
+                    ]
+                )
+                + " |"
+            )
 
     if commentary:
 
@@ -4252,17 +4225,23 @@ def generate_simple_perplexity_report(
 
             financial_parsed = fin_api.get("parsed") if isinstance(fin_api.get("parsed"), dict) else {}
 
-
-
-
+            financial_parsed = build_canonical_financials(
+                financial_parsed,
+                geography=market_label,
+                topic=topic,
+                sizing_fallback=parsed_sizing,
+            )
 
             if not financial_parsed or not str((financial_parsed.get("tam") or {}).get("value") or "").strip():
 
-
-
-
-
                 financial_parsed = _fallback_financial_from_sizing(parsed_sizing)
+
+                financial_parsed = build_canonical_financials(
+                    {},
+                    geography=market_label,
+                    topic=topic,
+                    sizing_fallback=financial_parsed or parsed_sizing,
+                )
 
 
 
@@ -4282,9 +4261,12 @@ def generate_simple_perplexity_report(
 
         warnings.append(f"Skipped Opus financial pass — budget ${_ledger_cost(ledger):.3f}")
 
-
-
-
+        financial_parsed = build_canonical_financials(
+            {},
+            geography=market_label,
+            topic=topic,
+            sizing_fallback=parsed_sizing,
+        )
 
     financial_block = _format_financial_block(financial_parsed)
 

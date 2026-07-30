@@ -4,6 +4,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 
 const modules = [
+  { href: "/app/audit", label: "Company Audit", short: "Audit" },
   { href: "/app/research", label: "Market Research", short: "Research" },
   { href: "/app/plan", label: "Business Plan", short: "Plan" },
   { href: "/app/team", label: "Employee OS", short: "Team" },

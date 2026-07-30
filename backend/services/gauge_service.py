@@ -120,7 +120,8 @@ def _text_request(prompt: str, system: str, max_tokens: int = 2048, temperature:
 
 
 def run_audit_for_profile(profile: dict[str, Any]) -> dict[str, Any]:
-    return run_gauge_audit(profile, _text_request)
+    has_identity = bool(str(profile.get("company_name") or "").strip() or str(profile.get("website") or "").strip())
+    return run_gauge_audit(profile, _text_request, include_market_search=has_identity)
 
 
 def build_forward_plan(workspace: dict[str, Any], profile_with_audit: dict[str, Any]) -> dict[str, Any]:

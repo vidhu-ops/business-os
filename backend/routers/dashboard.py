@@ -9,7 +9,9 @@ from backend.services.account_service import (
     get_plan_snapshot,
     list_recent_files,
 )
-from backend.services.workspaces import list_workspaces
+from backend.services.audit_service import audit_status
+from backend.services.demo_service import is_demo_user
+from backend.services.workspaces import list_workspaces_for_user
 
 router = APIRouter(prefix="/dashboard", tags=["dashboard"])
 
@@ -18,7 +20,7 @@ router = APIRouter(prefix="/dashboard", tags=["dashboard"])
 def get_dashboard(email: str = Depends(get_current_user)) -> dict:
     users = load_users()
     record = ensure_account(email, users.get(email, {}).get("name"))
-    projects = list_workspaces(limit=50)
+    projects = list_workspaces_for_user(email, limit=50)
     files = list_recent_files(limit=8)
     reports_ready = sum(1 for p in projects if p.get("has_report"))
     plans_ready = sum(1 for p in projects if p.get("has_plan"))
@@ -47,4 +49,6 @@ def get_dashboard(email: str = Depends(get_current_user)) -> dict:
         "projects": projects[:8],
         "recent_files": files,
         "recent_activity": build_activity(projects, files),
+        "audit": audit_status(email),
+        "is_demo": is_demo_user(email),
     }

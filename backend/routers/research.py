@@ -7,6 +7,8 @@ from fastapi import APIRouter, Depends, HTTPException
 from pydantic import BaseModel, Field
 
 from backend.auth import get_current_user
+from backend.services.demo_service import block_demo_mutation, block_workspace_mutation
+from backend.services.credit_service import spend_credits
 from backend.services.founder_scope import assess_topic_scope, country_choices
 from backend.services.os2_service import merged_keys_for_workspace
 from backend.services.workspaces import load_workspace, save_workspace, update_workspace_intake
@@ -190,12 +192,14 @@ def get_research(workspace_id: str, _: str = Depends(get_current_user)) -> dict:
 
 
 @router.post("/run")
-def run_research(body: ResearchRunBody, _: str = Depends(get_current_user)) -> dict:
+def run_research(body: ResearchRunBody, email: str = Depends(get_current_user)) -> dict:
+    block_demo_mutation(email, action="run market research")
     if not _perplexity_ready(body.workspace_id):
         raise HTTPException(status_code=503, detail=_RESEARCH_SETUP_HINT)
     workspace = load_workspace(body.workspace_id)
     if not workspace:
         raise HTTPException(status_code=404, detail="Project not found")
+    block_workspace_mutation(email, workspace, action="run market research")
 
     job = _research_job(workspace)
     if job.get("status") == "running":
@@ -236,6 +240,7 @@ def run_research(body: ResearchRunBody, _: str = Depends(get_current_user)) -> d
     if body.section_count not in SIMPLE_SECTION_COUNTS:
         raise HTTPException(status_code=400, detail="Invalid section count")
 
+    credit = spend_credits(email, "research", metadata={"workspace_id": body.workspace_id})
     workspace["research_job"] = {
         "status": "running",
         "section_count": body.section_count,
@@ -255,4 +260,5 @@ def run_research(body: ResearchRunBody, _: str = Depends(get_current_user)) -> d
         "status": "running",
         "message": "Report generation started. This usually takes several minutes.",
         "section_count": body.section_count,
+        "credit": credit,
     }

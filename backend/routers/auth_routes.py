@@ -5,6 +5,8 @@ from pydantic import BaseModel, Field
 
 from backend.auth import create_token, get_current_user, hash_password, load_users, save_users
 from backend.services.account_service import ensure_account, get_plan_snapshot
+from backend.services.audit_service import audit_status, grant_signup_free_audit
+from backend.services.demo_service import is_demo_user
 
 router = APIRouter(prefix="/auth", tags=["auth"])
 
@@ -30,7 +32,7 @@ def register(body: RegisterBody, response: Response) -> dict:
     users = load_users()
     if email in users:
         raise HTTPException(status_code=409, detail="Account already exists")
-    users[email] = {
+    user_record = {
         "email": email,
         "name": body.name.strip() or email.split("@")[0],
         "password_hash": hash_password(body.password),
@@ -39,6 +41,8 @@ def register(body: RegisterBody, response: Response) -> dict:
         "credits_remaining": 30,
         "credits_total": 30,
     }
+    grant_signup_free_audit(user_record)
+    users[email] = user_record
     save_users(users)
     token = create_token(email)
     response.set_cookie(
@@ -92,7 +96,7 @@ def demo_login(body: DemoLoginBody, response: Response) -> dict:
         secure=False,
         max_age=72 * 3600,
     )
-    return {"email": email, "name": record.get("name", "Demo User"), "token": token}
+    return {"email": email, "name": record.get("name", "Demo User"), "token": token, "is_demo": True}
 
 
 @router.post("/logout")
@@ -110,4 +114,6 @@ def me(email: str = Depends(get_current_user)) -> dict:
         "name": record.get("name") or email.split("@")[0],
         "member_since": record.get("created_at", ""),
         "plan": plan,
+        "audit": audit_status(email),
+        "is_demo": is_demo_user(email),
     }

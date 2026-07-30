@@ -1,8 +1,8 @@
 "use client";
 
-import { ensureSession } from "@/lib/api";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
+import { api } from "@/lib/api";
 import { useState, type ComponentProps } from "react";
 
 type Props = Omit<ComponentProps<typeof Link>, "href"> & {
@@ -10,7 +10,7 @@ type Props = Omit<ComponentProps<typeof Link>, "href"> & {
 };
 
 /** Signs in (demo session) before navigating into the workspace. */
-export function WorkspaceEntryLink({ href = "/app/dashboard", className, children, onClick, ...rest }: Props) {
+export function WorkspaceEntryLink({ href = "/app/research?project=demo_readonly", className, children, onClick, ...rest }: Props) {
   const router = useRouter();
   const [busy, setBusy] = useState(false);
 
@@ -26,7 +26,7 @@ export function WorkspaceEntryLink({ href = "/app/dashboard", className, childre
         if (busy) return;
         setBusy(true);
         try {
-          await ensureSession();
+          await api.demoLogin();
           router.push(href);
         } catch {
           router.push(href);

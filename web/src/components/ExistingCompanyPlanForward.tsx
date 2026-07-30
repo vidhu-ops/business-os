@@ -2,6 +2,7 @@
 
 import { useCallback, useEffect, useState } from "react";
 import { api } from "@/lib/api";
+import { ReportMarkdown } from "@/components/ReportMarkdown";
 
 type BizType = { id: string; label: string };
 type GaugeChecklists = Record<string, Record<string, string[]>>;
@@ -18,13 +19,14 @@ const SCALARS = [
 type Props = {
   workspaceId: string;
   onPlanReady?: (markdown: string) => void;
+  demoMode?: boolean;
 };
 
 function statusEmoji(status: string) {
   return status === "strong" ? "🟢" : status === "watch" ? "🟡" : status === "risk" ? "🔴" : "⚪";
 }
 
-export function ExistingCompanyPlanForward({ workspaceId, onPlanReady }: Props) {
+export function ExistingCompanyPlanForward({ workspaceId, onPlanReady, demoMode = false }: Props) {
   const [step, setStep] = useState(1);
   const [types, setTypes] = useState<BizType[]>([]);
   const [checklists, setChecklists] = useState<GaugeChecklists>({});
@@ -35,6 +37,7 @@ export function ExistingCompanyPlanForward({ workspaceId, onPlanReady }: Props) 
   const [planForward, setPlanForward] = useState<Record<string, string>>({});
   const [audit, setAudit] = useState<Record<string, unknown> | null>(null);
   const [planMd, setPlanMd] = useState("");
+  const [demoForwardMd, setDemoForwardMd] = useState("");
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
 
@@ -67,7 +70,12 @@ export function ExistingCompanyPlanForward({ workspaceId, onPlanReady }: Props) 
     api.getGauge(workspaceId).then((g) => {
       if (cancelled) return;
       const d = g.draft || {};
-      setStep(Number(g.step || d.step || 1));
+      let loadedStep = Number(g.step || d.step || 1);
+      const loadedAudit = g.audit || null;
+      if (loadedStep >= 5 && !loadedAudit) {
+        loadedStep = 4;
+      }
+      setStep(loadedStep);
       setGaugeType(String(d.gauge_type || "other"));
       setCheckState((d.checklists as typeof checkState) || {});
       const pf = (d.plan_forward as Record<string, string>) || {};
@@ -75,7 +83,7 @@ export function ExistingCompanyPlanForward({ workspaceId, onPlanReady }: Props) 
       const scalars: Record<string, string> = {};
       SCALARS.forEach((k) => { scalars[k] = String(pf[k] || d[k] || ""); });
       setDraft(scalars);
-      setAudit(g.audit || null);
+      setAudit(loadedAudit);
       setPlanMd("");
     }).catch(() => {
       if (!cancelled) {
@@ -83,8 +91,15 @@ export function ExistingCompanyPlanForward({ workspaceId, onPlanReady }: Props) 
         setAudit(null);
       }
     });
+    if (demoMode) {
+      api.getPlan(workspaceId).then((data) => {
+        if (cancelled) return;
+        const gfp = data.gauge_forward_plan || {};
+        setDemoForwardMd(String(gfp.markdown || gfp.report_markdown || ""));
+      }).catch(() => undefined);
+    }
     return () => { cancelled = true; };
-  }, [workspaceId]);
+  }, [workspaceId, demoMode]);
 
   async function resetReport() {
     setLoading(true);
@@ -120,12 +135,15 @@ export function ExistingCompanyPlanForward({ workspaceId, onPlanReady }: Props) 
     setLoading(true);
     setError("");
     try {
-      await persist(5);
+      await persist(4);
       const data = await api.runGaugeAudit(workspaceId);
       setAudit(data.audit);
+      await persist(5);
       setStep(5);
     } catch (e) {
-      setError(e instanceof Error ? e.message : "Audit failed");
+      const msg = e instanceof Error ? e.message : "Audit failed";
+      setError(msg.includes("timed out") ? `${msg} — GAUGE can take 1–3 minutes; please try again and keep this tab open.` : msg);
+      setStep(4);
     } finally {
       setLoading(false);
     }
@@ -168,24 +186,109 @@ export function ExistingCompanyPlanForward({ workspaceId, onPlanReady }: Props) 
   }
 
   const steps = ["Business", "Checklist", "Data", "Forward", "Report"];
+  const inputStep = demoMode ? null : step >= 5 && audit ? null : Math.min(step, 4);
+
+  if (demoMode && !audit) {
+    return <p className="text-sm muted">Loading sample audit…</p>;
+  }
+
+  if (demoMode && audit) {
+    const forwardMd = demoForwardMd || planMd;
+    return (
+      <div className="space-y-6">
+        <p className="text-sm muted">Sample GAUGE company health audit (demo) — Acme CRM Pvt Ltd.</p>
+        <section className="iid-card space-y-4">
+          <h3 className="font-semibold">GAUGE audit report</h3>
+          <p className="text-lg">Overall: <strong>{String(audit.overall_score)}/100</strong> — {String(audit.overall_label)}</p>
+          <p className="text-sm">{String(audit.overall_summary || "")}</p>
+          <div className="rounded-lg border border-[var(--iid-blue)]/40 p-3 text-sm">{String(audit.plain_english_read || "")}</div>
+          {Array.isArray(audit.focus_areas) && (audit.focus_areas as string[]).length > 0 && (
+            <div>
+              <h4 className="font-semibold text-sm">What to focus on next</h4>
+              <ul className="text-sm list-disc ml-5">{(audit.focus_areas as string[]).map((f, i) => <li key={i}>{f}</li>)}</ul>
+            </div>
+          )}
+          <div className="grid gap-3 md:grid-cols-3">
+            {((audit.categories as Array<Record<string, unknown>>) || []).map((cat) => (
+              <div key={String(cat.name)} className="rounded-lg border border-[var(--iid-line)] p-3 text-sm">
+                <p>{statusEmoji(String(cat.status))} <strong>{String(cat.name)}</strong> — {String(cat.score)}/100</p>
+                <p className="muted text-xs mt-1">{String(cat.summary || "")}</p>
+              </div>
+            ))}
+          </div>
+          {Array.isArray(audit.key_metrics) && (audit.key_metrics as Array<Record<string, string>>).length > 0 && (
+            <div className="grid gap-2 sm:grid-cols-2">
+              {(audit.key_metrics as Array<Record<string, string>>).map((m) => (
+                <div key={m.label} className="rounded border border-[var(--iid-line)] px-3 py-2 text-sm">
+                  <span className="muted">{m.label}</span> · <strong>{m.value}</strong>
+                  {m.benchmark ? <span className="text-xs muted"> (bench: {m.benchmark})</span> : null}
+                </div>
+              ))}
+            </div>
+          )}
+          {Array.isArray(audit.top_actions) && (audit.top_actions as Array<Record<string, string>>).length > 0 && (
+            <div>
+              <h4 className="font-semibold text-sm">Priority actions</h4>
+              <ul className="mt-2 space-y-2 text-sm">
+                {(audit.top_actions as Array<Record<string, string>>).map((a, i) => (
+                  <li key={i} className="rounded border border-[var(--iid-line)] p-2">
+                    <strong>{a.title}</strong> — {a.why}
+                  </li>
+                ))}
+              </ul>
+            </div>
+          )}
+        </section>
+        {forwardMd && (
+          <section className="iid-card iid-report-shell">
+            <h3 className="font-semibold mb-4">Forward business plan (from audit)</h3>
+            <ReportMarkdown markdown={forwardMd} title="GAUGE forward plan" subtitle="Acme CRM Pvt Ltd" />
+          </section>
+        )}
+      </div>
+    );
+  }
 
   return (
     <div className="space-y-6">
       <div className="flex flex-wrap items-center justify-between gap-3">
-        <p className="text-sm muted">Run the GAUGE health audit on your real numbers, then build a forward-looking business plan.</p>
+        <p className="text-sm muted">
+          {step >= 5 && audit
+            ? "Your GAUGE report is below. Use the step pills to edit inputs, or start a new report."
+            : "Complete steps 1–4 with your company data, then run the audit on step 4."}
+        </p>
         <button type="button" className="iid-btn iid-btn-ghost text-sm" disabled={loading} onClick={resetReport}>
           Start new GAUGE report
         </button>
       </div>
       <div className="flex flex-wrap gap-2 text-xs">
-        {steps.map((label, i) => (
-          <span key={label} className={`px-2 py-1 rounded-full border ${step === i + 1 ? "border-[var(--iid-blue)] text-white bg-[var(--iid-blue)]" : "border-[var(--iid-line)] muted"}`}>
-            {step > i + 1 ? "✓" : step === i + 1 ? "●" : "○"} {i + 1}. {label}
-          </span>
-        ))}
+        {steps.map((label, i) => {
+          const n = i + 1;
+          const isReport = n === 5;
+          const active = step === n || (step >= 5 && isReport);
+          const done = step > n || (step >= 5 && audit && n < 5);
+          const canJump = !isReport || Boolean(audit);
+          return (
+            <button
+              key={label}
+              type="button"
+              disabled={!canJump}
+              className={`px-2 py-1 rounded-full border transition-colors ${
+                active ? "border-[var(--iid-blue)] text-white bg-[var(--iid-blue)]" : "border-[var(--iid-line)] muted"
+              } ${canJump ? "hover:border-[var(--iid-blue)] cursor-pointer" : "opacity-50 cursor-not-allowed"}`}
+              onClick={() => {
+                if (!canJump) return;
+                if (isReport) setStep(5);
+                else void go(n);
+              }}
+            >
+              {done ? "✓" : active ? "●" : "○"} {n}. {label}
+            </button>
+          );
+        })}
       </div>
       {error && <p className="text-sm text-red-400">{error}</p>}
-      {step === 1 && (
+      {inputStep === 1 && (
         <section className="iid-card space-y-4">
           <h3 className="font-semibold">Step 1 — What kind of business is this?</h3>
           <div className="space-y-2">
@@ -199,7 +302,7 @@ export function ExistingCompanyPlanForward({ workspaceId, onPlanReady }: Props) 
           <button type="button" className="iid-btn iid-btn-primary" onClick={() => go(2)}>Next: Checklist →</button>
         </section>
       )}
-      {step === 2 && (
+      {inputStep === 2 && (
         <section className="iid-card space-y-4">
           <h3 className="font-semibold">Step 2 — Tick what&apos;s actually in place</h3>
           <p className="text-sm muted">When you tick a box, add the actual number if you have it — that feeds the audit directly.</p>
@@ -230,7 +333,7 @@ export function ExistingCompanyPlanForward({ workspaceId, onPlanReady }: Props) 
           </div>
         </section>
       )}
-      {step === 3 && (
+      {inputStep === 3 && (
         <section className="iid-card space-y-3">
           <h3 className="font-semibold">Step 3 — Operating numbers and identity</h3>
           <div className="grid gap-3 md:grid-cols-2">
@@ -286,7 +389,7 @@ export function ExistingCompanyPlanForward({ workspaceId, onPlanReady }: Props) 
           </div>
         </section>
       )}
-      {step === 4 && (
+      {inputStep === 4 && (
         <section className="iid-card space-y-3">
           <h3 className="font-semibold">Step 4 — Where you want to go</h3>
           <p className="text-sm muted">These answers shape the forward plan and plain-language guidance.</p>
@@ -319,7 +422,9 @@ export function ExistingCompanyPlanForward({ workspaceId, onPlanReady }: Props) 
           </label>
           <div className="flex gap-2">
             <button type="button" className="iid-btn iid-btn-ghost" onClick={() => go(3)}>← Back</button>
-            <button type="button" className="iid-btn iid-btn-primary" disabled={loading} onClick={runAudit}>{loading ? "Running GAUGE…" : "Run GAUGE audit →"}</button>
+            <button type="button" className="iid-btn iid-btn-primary" disabled={loading} onClick={runAudit}>
+              {loading ? "Running GAUGE audit (1–3 min)…" : "Run GAUGE audit →"}
+            </button>
           </div>
         </section>
       )}

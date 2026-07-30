@@ -7,9 +7,10 @@ from pydantic import BaseModel, Field
 
 from backend.auth import get_current_user
 from backend.services.founder_scope import assess_topic_scope
+from backend.services.demo_service import block_demo_mutation, block_workspace_mutation, is_demo_user
 from backend.services.workspaces import (
     build_project_payload,
-    list_workspaces,
+    list_workspaces_for_user,
     load_workspace,
     save_workspace,
     update_workspace_intake,
@@ -34,12 +35,13 @@ class UpdateIntakeBody(BaseModel):
 
 
 @router.get("")
-def get_projects(_: str = Depends(get_current_user)) -> dict:
-    return {"projects": list_workspaces(limit=50)}
+def get_projects(email: str = Depends(get_current_user)) -> dict:
+    return {"projects": list_workspaces_for_user(email, limit=50), "is_demo": is_demo_user(email)}
 
 
 @router.post("")
-def create_project(body: CreateProjectBody, _: str = Depends(get_current_user)) -> dict:
+def create_project(body: CreateProjectBody, email: str = Depends(get_current_user)) -> dict:
+    block_demo_mutation(email, action="create projects")
     scope = assess_topic_scope(body.idea, body.industry, body.country)
     payload = build_project_payload(
         body.idea.strip(),
@@ -47,6 +49,7 @@ def create_project(body: CreateProjectBody, _: str = Depends(get_current_user)) 
         body.industry.strip(),
         body.workflow,
         scope,
+        owner_email=email,
     )
     payload["areas"] = body.areas.strip()
     path = save_workspace(payload)
@@ -65,7 +68,11 @@ def get_project(workspace_id: str, _: str = Depends(get_current_user)) -> dict:
 
 
 @router.patch("/{workspace_id}/intake")
-def patch_intake(workspace_id: str, body: UpdateIntakeBody, _: str = Depends(get_current_user)) -> dict:
+def patch_intake(workspace_id: str, body: UpdateIntakeBody, email: str = Depends(get_current_user)) -> dict:
+    workspace = load_workspace(workspace_id)
+    if not workspace:
+        raise HTTPException(status_code=404, detail="Project not found")
+    block_workspace_mutation(email, workspace, action="edit projects")
     scope = assess_topic_scope(body.idea, body.industry, body.country)
     workspace = update_workspace_intake(
         workspace_id,

@@ -43,6 +43,11 @@ function ResearchContent() {
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
   const [savingIntake, setSavingIntake] = useState(false);
+  const [isDemo, setIsDemo] = useState(false);
+
+  useEffect(() => {
+    api.me().then((u) => setIsDemo(Boolean(u.is_demo))).catch(() => setIsDemo(false));
+  }, []);
 
   const refreshResearchOptions = useCallback((workspaceId?: string) => {
     api.researchOptions(workspaceId).then((data) => {
@@ -119,10 +124,11 @@ function ResearchContent() {
     [result],
   );
 
-  const showResult =
-    Boolean(result?.success) &&
-    String(result?.topic || "").trim() === String(idea || "").trim() &&
-    Number(result?.section_count || 0) === Number(sectionCount);
+  const showResult = isDemo
+    ? Boolean(markdown)
+    : Boolean(result?.success) &&
+      String(result?.topic || "").trim() === String(idea || "").trim() &&
+      Number(result?.section_count || 0) === Number(sectionCount);
 
   async function saveResearchKey() {
     if (!selectedId || !researchKey.trim()) return;
@@ -193,7 +199,9 @@ function ResearchContent() {
       <div>
         <h1 className="font-display text-3xl font-bold">Understand your market</h1>
         <p className="mt-2 muted">
-          Enter your niche, industry, and market. IIDATECH prepares a sourced report you can download and share.
+          {isDemo
+            ? "Sample completed market research — browse the report below. Sign up to run research on your own niche."
+            : "Enter your niche, industry, and market. IIDATECH prepares a sourced report you can download and share."}
         </p>
       </div>
 
@@ -207,6 +215,8 @@ function ResearchContent() {
           <section className="iid-card space-y-4">
             <ProjectPicker projects={projects} selectedId={selectedId} onChange={setSelectedId} />
 
+            {!isDemo ? (
+              <>
             <label className="block text-sm font-semibold">Topic / idea</label>
             <textarea
               className="iid-input min-h-[110px]"
@@ -261,12 +271,21 @@ function ResearchContent() {
             <button type="button" className="iid-btn iid-btn-ghost text-xs" onClick={saveIntake} disabled={savingIntake || !selectedId}>
               {savingIntake ? "Saving…" : "Save workspace inputs"}
             </button>
+              </>
+            ) : (
+              <div className="rounded-lg border border-[var(--iid-line)] bg-black/20 p-4 text-sm">
+                <p><strong>Sample topic:</strong> {idea}</p>
+                <p className="mt-1 muted">{industry} · {country}</p>
+              </div>
+            )}
           </section>
 
           {activeTab === "report" && (
             <section className="iid-card space-y-4">
               <h2 className="font-display text-xl font-bold">IIDATECH market research report</h2>
 
+              {!isDemo && (
+              <>
               <label className="block text-sm font-semibold">Report depth</label>
               <div className="flex flex-wrap gap-2">
                 {options.map((opt) => {
@@ -335,6 +354,9 @@ function ResearchContent() {
               )}
               {error && <p className="text-sm text-red-400">{error}</p>}
 
+              {!isDemo && (
+              <>
+              <p className="text-xs muted">Each report run uses 5 credits (Growth plan: unlimited).</p>
               <div className="flex flex-wrap gap-3">
                 <button
                   className="iid-btn iid-btn-primary"
@@ -350,6 +372,13 @@ function ResearchContent() {
                   </button>
                 )}
               </div>
+              </>
+              )}
+              {isDemo && showResult && markdown && (
+                <button className="iid-btn iid-btn-ghost" type="button" onClick={downloadReport}>
+                  Download sample report (Markdown)
+                </button>
+              )}
             </section>
           )}
 

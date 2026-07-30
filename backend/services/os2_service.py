@@ -130,6 +130,8 @@ def setup_requirements(report_id: str, keys: dict[str, str], *, has_plan: bool =
 
 
 def build_team_checklist(workspace: dict[str, Any]) -> dict[str, Any]:
+    from iidatech.execution.collaboration_engine import annotate_checklist_items, build_collaboration_plan
+
     report_id = workspace_report_id(workspace)
     topic = str(workspace.get("idea") or "").strip()
     industry = str(workspace.get("industry") or "General").strip()
@@ -140,6 +142,15 @@ def build_team_checklist(workspace: dict[str, Any]) -> dict[str, Any]:
         plan = {"business_concept": {"idea": topic, "industry": industry, "geography": geography}}
     normalized = normalize_plan(plan, topic=topic, industry=industry, geography=geography)
     checklist = build_checklist_from_plan(normalized, topic=topic, industry=industry, geography=geography)
+    os2 = workspace.get("employee_os") if isinstance(workspace.get("employee_os"), dict) else {}
+    humans = list(os2.get("humans") or [])
+    agents = list(os2.get("agents") or [])
+    items = annotate_checklist_items(list(checklist.get("items") or []), humans)
+    checklist = {**checklist, "items": items}
+    collab = build_collaboration_plan(checklist, agents=agents, humans=humans)
+    os2["collaboration"] = collab
+    workspace["employee_os"] = os2
+    save_workspace(workspace)
     save_checklist(report_id, checklist)
     return checklist
 
@@ -162,6 +173,7 @@ def bootstrap_os2(workspace_id: str) -> dict[str, Any]:
     harnesses = merged_harnesses(_custom_harnesses(workspace))
     departments = departments_for_harnesses(harnesses)
     dept_map = {h["id"]: department_for_harness(h) for h in harnesses if h.get("id")}
+    os2 = workspace.get("employee_os") if isinstance(workspace.get("employee_os"), dict) else {}
     return {
         "report_id": report_id,
         "topic": topic,
@@ -172,17 +184,11 @@ def bootstrap_os2(workspace_id: str) -> dict[str, Any]:
         "scope_modes": list(SCOPE_MODES),
         "departments": departments,
         "harness_departments": dept_map,
-        "agents": [
-            {
-                "id": h["id"],
-                "name": h.get("name"),
-                "role": h.get("role"),
-                "tagline": h.get("tagline"),
-                "starters": h.get("starters") or [],
-                "department": department_for_harness(h),
-            }
-            for h in harnesses
-        ],
+        "hired_departments": list(os2.get("departments") or []),
+        "humans": list(os2.get("humans") or []),
+        "hired_agents": list(os2.get("agents") or []),
+        "collaboration": os2.get("collaboration") if isinstance(os2.get("collaboration"), dict) else {},
+        "agents": _agents_for_bootstrap(workspace, harnesses),
         "office_state": office_state,
         "checklist": checklist,
         "setup_requirements": setup_requirements(
@@ -209,21 +215,42 @@ def run_agent_chat(
     report_id = workspace_report_id(workspace)
     keys = merged_keys_for_workspace(workspace_id)
     report_context = workspace_report_context(workspace)
+    extra_harnesses = merged_harnesses(_custom_harnesses(workspace))
     chat = load_agent_chat(report_id, harness_id)
     chat.append({"role": "user", "content": message})
-    result = execute_harness_job(
-        harness_id,
-        message,
-        report_id=report_id,
-        api_keys=keys,
-        report_context=report_context,
-    )
-    assistant = {
-        "role": "assistant",
-        "content": str(result.get("reply") or "Done."),
-        "artifacts": list(result.get("artifacts") or []),
-        "success": bool(result.get("success")),
-    }
+
+    if harness_id == "taylor":
+        msg_lower = message.strip().lower()
+        if "approve" in msg_lower:
+            outcome = run_taylor_action(workspace_id, "approve_all")
+            reply = f"Approved {outcome.get('approved', 0)} pending items."
+        elif "run next" in msg_lower or "next task" in msg_lower:
+            outcome = run_taylor_action(workspace_id, "run_next")
+            reply = str(outcome.get("message") or "Processed next task.")
+        elif "retry" in msg_lower:
+            outcome = run_taylor_action(workspace_id, "retry_failed")
+            reply = f"Retried {outcome.get('retried', 0)} failed tasks."
+        else:
+            checklist = load_checklist(report_id)
+            pulse = build_taylor_pulse(report_id, checklist=checklist, has_api_keys=bool(keys))
+            notes = list(pulse.get("notifications") or [])[:2]
+            reply = notes[0] if notes else "I'm coordinating the team. Ask me to run next task, approve all, or retry failed."
+        assistant = {"role": "assistant", "content": reply, "artifacts": [], "success": True}
+    else:
+        result = execute_harness_job(
+            harness_id,
+            message,
+            report_id=report_id,
+            api_keys=keys,
+            report_context=report_context,
+            extra_harnesses=extra_harnesses,
+        )
+        assistant = {
+            "role": "assistant",
+            "content": str(result.get("reply") or "Done."),
+            "artifacts": list(result.get("artifacts") or []),
+            "success": bool(result.get("success")),
+        }
     chat.append(assistant)
     save_agent_chat(report_id, harness_id, chat)
     runs = workspace.get("employee_os") if isinstance(workspace.get("employee_os"), dict) else {}
@@ -233,7 +260,7 @@ def run_agent_chat(
     runs["available"] = True
     workspace["employee_os"] = runs
     save_workspace(workspace)
-    return {"success": assistant["success"], "result": result, "chat": chat}
+    return {"success": assistant["success"], "result": assistant, "chat": chat}
 
 
 def run_checklist_next(workspace_id: str, *, auto_approve_external: bool = False) -> dict[str, Any]:
@@ -685,3 +712,268 @@ def hire_employee_action(workspace_id: str, *, name: str, role: str, catalog: bo
         dept = next((r["department"] for r in CORE_ROLES if r["role"] == role), "Operations")
         hire_employee(report_id, name=name.strip(), role=role, department=dept, authority_level=6)
     return list_employees_snapshot(workspace_id)
+
+
+def _employee_os_block(workspace: dict[str, Any]) -> dict[str, Any]:
+    os2 = workspace.get("employee_os") if isinstance(workspace.get("employee_os"), dict) else {}
+    os2.setdefault("departments", [])
+    os2.setdefault("humans", [])
+    os2.setdefault("agents", [])
+    os2.setdefault("collaboration", {})
+    workspace["employee_os"] = os2
+    return os2
+
+
+def departments_snapshot(workspace_id: str) -> dict[str, Any]:
+    from iidatech.execution.department_catalog import catalog_list, department_display_name
+
+    workspace = load_workspace(workspace_id)
+    if not workspace:
+        raise ValueError("Project not found")
+    os2 = _employee_os_block(workspace)
+    hired = list(os2.get("departments") or [])
+    return {
+        "catalog": catalog_list(),
+        "hired": hired,
+        "agents": list(os2.get("agents") or []),
+        "agent_count": len(os2.get("agents") or []),
+        "department_names": {h.get("id"): department_display_name(str(h.get("id") or "")) for h in hired},
+    }
+
+
+def set_departments_hiring(workspace_id: str, departments: list[dict[str, Any]]) -> dict[str, Any]:
+    from iidatech.execution.department_catalog import (
+        catalog_list,
+        custom_harness_for_agent,
+        department_by_id,
+        department_display_name,
+        provision_agent_specs,
+    )
+    from iidatech.execution.office_scope import OfficeScope
+    from iidatech.execution.task_engine import hire_employee
+    from iidatech.ui.os2_command_center import ensure_os2_team
+
+    workspace = load_workspace(workspace_id)
+    if not workspace:
+        raise ValueError("Project not found")
+    report_id = workspace_report_id(workspace)
+    topic = str(workspace.get("idea") or "")
+    industry = str(workspace.get("industry") or "General")
+    geography = str(workspace.get("country") or "Global")
+    ensure_os2_team(report_id, topic=topic, industry=industry, geography=geography)
+
+    os2 = _employee_os_block(workspace)
+    existing_agents = list(os2.get("agents") or [])
+    hired: list[dict[str, Any]] = []
+    new_agents: list[dict[str, Any]] = []
+    hired_ids: set[str] = set()
+
+    for row in departments:
+        dept_id = str(row.get("id") or "").strip()
+        if not dept_id:
+            continue
+        if not department_by_id(dept_id):
+            raise ValueError(f"Unknown department: {dept_id}")
+        headcount = max(0, min(20, int(row.get("headcount") or 0)))
+        if headcount <= 0:
+            continue
+        hired_ids.add(dept_id)
+        hired.append({
+            "id": dept_id,
+            "name": str(row.get("name") or department_display_name(dept_id)),
+            "headcount": headcount,
+        })
+        specs = provision_agent_specs(dept_id, headcount, existing_agents)
+        new_agents.extend(specs)
+        for spec in specs:
+            if spec.get("id") not in {a.get("id") for a in existing_agents}:
+                hire_employee(
+                    report_id,
+                    name=str(spec.get("name") or spec.get("id")),
+                    role=str(spec.get("role") or "Team Member"),
+                    department=department_display_name(dept_id),
+                    authority_level=6,
+                )
+
+    # Keep agents from departments no longer hired only if still in hired set
+    kept = [a for a in new_agents if str(a.get("department") or "") in hired_ids]
+    os2["departments"] = hired
+    os2["agents"] = kept
+
+    # Sync custom harnesses for multi-agent departments
+    custom = [h for h in _custom_harnesses(workspace) if not str(h.get("id") or "").startswith("agent_")]
+    for agent in kept:
+        ch = custom_harness_for_agent(agent)
+        if ch and ch["id"] not in {c.get("id") for c in custom}:
+            custom.append(ch)
+    os2["custom_harnesses"] = custom
+    workspace["employee_os"] = os2
+
+    dept_names = [department_display_name(h["id"]) for h in hired]
+    harness_ids = [str(a.get("harness_id") or a.get("id") or "") for a in kept if a.get("harness_id") or a.get("id")]
+    scope = OfficeScope(
+        mode="department" if hired else "full_office",
+        departments=dept_names,
+        harness_ids=harness_ids,
+    )
+    save_scope(workspace, scope)
+    save_workspace(workspace)
+
+    return {
+        "departments": hired,
+        "agents": kept,
+        "catalog": catalog_list(),
+        "scope": scope.to_dict(),
+    }
+
+
+def list_humans_snapshot(workspace_id: str) -> dict[str, Any]:
+    workspace = load_workspace(workspace_id)
+    if not workspace:
+        raise ValueError("Project not found")
+    os2 = _employee_os_block(workspace)
+    return {"humans": list(os2.get("humans") or [])}
+
+
+def add_human_employee(workspace_id: str, *, name: str, role: str, departments: list[str] | None = None) -> dict[str, Any]:
+    from iidatech.execution.department_catalog import new_human_id
+
+    workspace = load_workspace(workspace_id)
+    if not workspace:
+        raise ValueError("Project not found")
+    name = name.strip()
+    if not name:
+        raise ValueError("Name required")
+    os2 = _employee_os_block(workspace)
+    humans = list(os2.get("humans") or [])
+    human = {
+        "id": new_human_id(),
+        "name": name,
+        "role": role.strip() or "Team member",
+        "departments": [str(d) for d in (departments or []) if str(d).strip()],
+    }
+    humans.append(human)
+    os2["humans"] = humans
+    workspace["employee_os"] = os2
+    save_workspace(workspace)
+    return {"human": human, "humans": humans}
+
+
+def remove_human_employee(workspace_id: str, human_id: str) -> dict[str, Any]:
+    workspace = load_workspace(workspace_id)
+    if not workspace:
+        raise ValueError("Project not found")
+    os2 = _employee_os_block(workspace)
+    humans = [h for h in (os2.get("humans") or []) if str(h.get("id")) != human_id]
+    if len(humans) == len(os2.get("humans") or []):
+        raise ValueError("Human employee not found")
+    os2["humans"] = humans
+    workspace["employee_os"] = os2
+    save_workspace(workspace)
+    return {"humans": humans}
+
+
+def org_chart_snapshot(workspace_id: str) -> dict[str, Any]:
+    from iidatech.execution.department_catalog import build_org_tree, catalog_list
+
+    workspace = load_workspace(workspace_id)
+    if not workspace:
+        raise ValueError("Project not found")
+    os2 = _employee_os_block(workspace)
+    hired = list(os2.get("departments") or [])
+    agents = list(os2.get("agents") or [])
+    humans = list(os2.get("humans") or [])
+    tree = build_org_tree(hired, agents, humans)
+    return {"tree": tree, "catalog": catalog_list(), "departments": hired, "agents": agents, "humans": humans}
+
+
+def collaboration_snapshot(workspace_id: str) -> dict[str, Any]:
+    from iidatech.execution.collaboration_engine import build_collaboration_plan
+
+    workspace, report_id, _, _, _ = _workspace_bundle(workspace_id)
+    os2 = _employee_os_block(workspace)
+    checklist = load_checklist(report_id)
+    plan = build_collaboration_plan(
+        checklist,
+        agents=list(os2.get("agents") or []),
+        humans=list(os2.get("humans") or []),
+    )
+    os2["collaboration"] = plan
+    workspace["employee_os"] = os2
+    save_workspace(workspace)
+    return plan
+
+
+def _agents_for_bootstrap(workspace: dict[str, Any], harnesses: list[dict[str, Any]]) -> list[dict[str, Any]]:
+    """Merge default harness agents with hired department agents."""
+    from iidatech.execution.department_catalog import department_display_name
+
+    os2 = workspace.get("employee_os") if isinstance(workspace.get("employee_os"), dict) else {}
+    hired_agents = list(os2.get("agents") or [])
+    harness_by_id = {str(h.get("id") or ""): h for h in harnesses}
+    seen: set[str] = set()
+    out: list[dict[str, Any]] = []
+
+    # Taylor / team leader first
+    out.append({
+        "id": "taylor",
+        "name": "Taylor — Team Leader (COO)",
+        "role": "COO",
+        "tagline": "Orchestrates your virtual team",
+        "starters": ["Run next task", "Approve all external actions", "Summarize team progress"],
+        "department": "Operations",
+        "is_leader": True,
+    })
+    seen.add("taylor")
+
+    for agent in hired_agents:
+        hid = str(agent.get("harness_id") or agent.get("id") or "")
+        base = harness_by_id.get(hid) or harness_by_id.get(str(agent.get("base_harness_id") or ""))
+        out.append({
+            "id": hid or str(agent.get("id")),
+            "agent_id": str(agent.get("id")),
+            "name": agent.get("name"),
+            "role": agent.get("role"),
+            "tagline": (base or {}).get("tagline") or f"{department_display_name(str(agent.get('department') or ''))} agent",
+            "starters": list((base or {}).get("starters") or [])[:3],
+            "department": department_display_name(str(agent.get("department") or "")),
+        })
+        seen.add(hid)
+
+    for h in harnesses:
+        hid = str(h.get("id") or "")
+        if hid in seen:
+            continue
+        out.append({
+            "id": hid,
+            "name": h.get("name"),
+            "role": h.get("role"),
+            "tagline": h.get("tagline"),
+            "starters": h.get("starters") or [],
+            "department": department_for_harness(h),
+        })
+    return out
+
+
+def run_broadcast_chat(workspace_id: str, message: str, *, from_agent: str = "taylor") -> dict[str, Any]:
+    """Store a team-wide message and optional agent-to-agent thread note."""
+    from iidatech.storage.execution_repository import ensure_war_room, insert_team_message
+
+    workspace, report_id, _, _, _ = _workspace_bundle(workspace_id)
+    os2 = _employee_os_block(workspace)
+    threads = list(os2.get("broadcast_threads") or [])
+    entry = {"from": from_agent, "message": message, "replies": []}
+    threads.insert(0, entry)
+    os2["broadcast_threads"] = threads[:50]
+    workspace["employee_os"] = os2
+    save_workspace(workspace)
+    room_id = ensure_war_room(report_id)
+    insert_team_message(
+        report_id,
+        sender_id=from_agent,
+        receiver_id=None,
+        room_id=room_id,
+        mode="war_room",
+        message=message,
+    )
+    return {"thread": entry, "threads": threads[:20]}

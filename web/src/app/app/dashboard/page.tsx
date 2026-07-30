@@ -20,13 +20,22 @@ function initials(name: string) {
     .join("") || "U";
 }
 
-const quickLinks = [
+const quickLinksBase = [
+  { href: "/app/audit", label: "Free company audit" },
   { href: "/", label: "Homepage" },
   { href: "/partners", label: "Service providers" },
   { href: "/app/research", label: "Market research" },
   { href: "/app/plan", label: "Business plan" },
   { href: "/app/team", label: "Employee OS" },
   { href: "/app/automation", label: "Automation" },
+];
+
+const demoQuickLinks = [
+  { href: "/app/research?project=demo_readonly", label: "Sample research" },
+  { href: "/app/plan?project=demo_readonly", label: "Sample business plan" },
+  { href: "/app/audit?project=demo_readonly", label: "Sample GAUGE audit" },
+  { href: "/app/automation?project=demo_readonly", label: "Sample automation" },
+  { href: "/login?mode=register", label: "Sign up free" },
 ];
 
 export default function DashboardPage() {
@@ -57,10 +66,11 @@ export default function DashboardPage() {
     );
   }
 
-  const { user, plan, stats, projects, recent_files, recent_activity } = data;
+  const { user, plan, stats, projects, recent_files, recent_activity, audit, is_demo: isDemo } = data;
   const creditsLabel = plan.is_unlimited
     ? "Unlimited"
     : `${stats.credits_remaining ?? 0} / ${plan.credits_total ?? 30}`;
+  const auditLabel = audit?.free_audit_available ? "Available" : "Used";
 
   return (
     <div className="dash-page space-y-8">
@@ -69,9 +79,20 @@ export default function DashboardPage() {
           <h1 className="font-display text-3xl font-bold">Welcome back, {user.name.split(" ")[0]}</h1>
           <p className="mt-2 muted">Your command center — profile, plan, projects, and recent work in one place.</p>
         </div>
+        {!isDemo && (
         <Link href="/app/projects" className="iid-btn iid-btn-primary">
           New project
         </Link>
+        )}
+        {isDemo ? (
+          <Link href="/app/research?project=demo_readonly" className="iid-btn iid-btn-primary">
+            View sample report
+          </Link>
+        ) : (
+        <Link href="/app/audit" className="iid-btn iid-btn-ghost">
+          Run free audit
+        </Link>
+        )}
       </div>
 
       <div className="dash-grid-top">
@@ -116,6 +137,10 @@ export default function DashboardPage() {
           <div className="dash-plan-credits">
             <span>Credits</span>
             <strong>{creditsLabel}</strong>
+          </div>
+          <div className="dash-plan-credits">
+            <span>Free company audit</span>
+            <strong>{auditLabel}</strong>
           </div>
           {plan.id === "starter" ? (
             <Link href="/pricing" className="iid-btn iid-btn-primary w-full sm:w-auto">
@@ -237,7 +262,7 @@ export default function DashboardPage() {
       <section className="iid-card">
         <h2 className="font-display text-xl font-bold">Quick actions</h2>
         <div className="mt-4 flex flex-wrap gap-3">
-          {quickLinks.map((link) => (
+          {(isDemo ? demoQuickLinks : quickLinksBase).map((link) => (
             <Link key={link.href} href={link.href} className="iid-btn iid-btn-ghost">
               {link.label}
             </Link>

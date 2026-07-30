@@ -6,6 +6,7 @@ import { api, Project } from "@/lib/api";
 
 export default function ProjectsPage() {
   const [projects, setProjects] = useState<Project[]>([]);
+  const [isDemo, setIsDemo] = useState(false);
   const [idea, setIdea] = useState("");
   const [industry, setIndustry] = useState("");
   const [country, setCountry] = useState("Global");
@@ -19,6 +20,7 @@ export default function ProjectsPage() {
   }
 
   useEffect(() => {
+    api.me().then((u) => setIsDemo(Boolean(u.is_demo))).catch(() => setIsDemo(false));
     refresh().catch(() => setProjects([]));
   }, []);
 
@@ -42,9 +44,12 @@ export default function ProjectsPage() {
     <div className="space-y-8">
       <div>
         <h1 className="font-display text-3xl font-bold">Projects</h1>
-        <p className="mt-2 text-[var(--iid-muted)]">Create and open projects in your IIDA workspace.</p>
+        <p className="mt-2 text-[var(--iid-muted)]">
+          {isDemo ? "Demo shows one sample project only. Sign up to create your own." : "Create and open projects in your IIDA workspace."}
+        </p>
       </div>
 
+      {!isDemo && (
       <form className="iid-card space-y-3" onSubmit={onCreate}>
         <h2 className="font-display text-xl font-bold">Create project</h2>
         <textarea className="iid-input min-h-28" placeholder="Project idea / topic" value={idea} onChange={(e) => setIdea(e.target.value)} required />
@@ -61,6 +66,15 @@ export default function ProjectsPage() {
         {error && <p className="text-sm text-red-400">{error}</p>}
         <button className="iid-btn iid-btn-primary" type="submit" disabled={loading}>{loading ? "Creating..." : "Create project"}</button>
       </form>
+      )}
+
+      {isDemo && (
+        <div className="iid-card text-sm">
+          <Link href="/login?mode=register" className="iid-btn iid-btn-primary inline-flex">
+            Sign up to create projects
+          </Link>
+        </div>
+      )}
 
       <section className="iid-card">
         <h2 className="font-display text-xl font-bold">Saved projects</h2>

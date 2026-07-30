@@ -9,7 +9,9 @@ from backend.services.workspace_context import workspace_report_id
 from backend.services.workspaces import load_workspace
 from iidatech.integrations.oauth_store import (
     apply_token_payload,
+    build_authorization_url,
     exchange_authorization_code,
+    oauth_state,
     parse_oauth_state,
     set_connection,
 )
@@ -50,6 +52,24 @@ def oauth_callback(
         return RedirectResponse(url=f"{base}?error={msg}&report_id={report_id}", status_code=302)
     apply_token_payload(report_id, provider, payload)
     return RedirectResponse(url=f"{base}?success=1&provider={provider}&report_id={report_id}", status_code=302)
+
+
+@router.get("/{workspace_id}/{provider}/start")
+def oauth_start(
+    workspace_id: str,
+    provider: str,
+    _: str = Depends(get_current_user),
+) -> RedirectResponse:
+    workspace = load_workspace(workspace_id)
+    if not workspace:
+        raise HTTPException(status_code=404, detail="Project not found")
+    if provider not in {"linkedin", "gmail", "hubspot"}:
+        raise HTTPException(status_code=400, detail="Invalid provider")
+    report_id = workspace_report_id(workspace)
+    auth_url, auth_err = build_authorization_url(provider, state=oauth_state(report_id, provider))
+    if not auth_url:
+        raise HTTPException(status_code=503, detail=auth_err or "OAuth is not configured for this provider")
+    return RedirectResponse(url=auth_url, status_code=302)
 
 
 @router.post("/{workspace_id}/{provider}")

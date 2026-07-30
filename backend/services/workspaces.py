@@ -46,9 +46,11 @@ def build_project_payload(
     industry: str,
     workflow_choice: str = "Understand your market",
     scope_assessment: dict | None = None,
+    *,
+    owner_email: str | None = None,
 ) -> dict[str, Any]:
     workspace_path = workspace_dir(topic, country, industry)
-    return {
+    payload: dict[str, Any] = {
         "workspace_id": workspace_slug(topic, country, industry),
         "workspace_dir": str(workspace_path),
         "updated_at": datetime.now(timezone.utc).isoformat().replace("+00:00", "Z"),
@@ -63,15 +65,35 @@ def build_project_payload(
         "employee_os": {"available": False, "runs": []},
         "automation": {"available": False, "log": []},
     }
+    if owner_email:
+        payload["owner_email"] = owner_email.strip().lower()
+    return payload
 
 
 def save_workspace(payload: dict[str, Any]) -> Path | None:
+    if payload.get("demo_readonly"):
+        return None
     try:
         path = Path(payload["workspace_dir"]) / "workspace.json"
         path.write_text(json.dumps(payload, indent=2, ensure_ascii=False, default=str), encoding="utf-8")
         return path
     except Exception:
         return None
+
+
+def _workspace_row(payload: dict[str, Any], path: Path) -> dict[str, Any]:
+    return {
+        "workspace_id": payload.get("workspace_id", path.parent.name),
+        "idea": payload.get("idea", ""),
+        "country": payload.get("country", ""),
+        "industry": payload.get("industry", ""),
+        "current_path": payload.get("current_path", ""),
+        "updated_at": payload.get("updated_at", ""),
+        "path": str(path),
+        "has_report": bool((payload.get("research_report") or {}).get("available")),
+        "has_plan": bool((payload.get("business_plan") or {}).get("available")),
+        "demo_readonly": bool(payload.get("demo_readonly")),
+    }
 
 
 def list_workspaces(limit: int = 50) -> list[dict[str, Any]]:
@@ -86,19 +108,40 @@ def list_workspaces(limit: int = 50) -> list[dict[str, Any]]:
             continue
         if not isinstance(payload, dict):
             continue
-        rows.append(
-            {
-                "workspace_id": payload.get("workspace_id", path.parent.name),
-                "idea": payload.get("idea", ""),
-                "country": payload.get("country", ""),
-                "industry": payload.get("industry", ""),
-                "current_path": payload.get("current_path", ""),
-                "updated_at": payload.get("updated_at", ""),
-                "path": str(path),
-                "has_report": bool((payload.get("research_report") or {}).get("available")),
-                "has_plan": bool((payload.get("business_plan") or {}).get("available")),
-            }
-        )
+        rows.append(_workspace_row(payload, path))
+    rows.sort(key=lambda row: str(row.get("updated_at", "")), reverse=True)
+    return rows[:limit]
+
+
+def list_workspaces_for_user(email: str, limit: int = 50) -> list[dict[str, Any]]:
+    from backend.services.demo_service import DEMO_WORKSPACE_ID, demo_workspace_row, is_demo_user
+
+    if is_demo_user(email):
+        if load_workspace(DEMO_WORKSPACE_ID):
+            return [demo_workspace_row()]
+        return []
+
+    key = email.strip().lower()
+    rows: list[dict[str, Any]] = []
+    root = settings.workspaces_root
+    if not root.exists():
+        return rows
+    for path in root.glob("*/workspace.json"):
+        try:
+            payload = json.loads(path.read_text(encoding="utf-8"))
+        except Exception:
+            continue
+        if not isinstance(payload, dict):
+            continue
+        ws_id = str(payload.get("workspace_id", path.parent.name))
+        if ws_id == DEMO_WORKSPACE_ID or payload.get("demo_readonly"):
+            continue
+        owner = str(payload.get("owner_email") or "").strip().lower()
+        if owner and owner != key:
+            continue
+        if not owner:
+            continue
+        rows.append(_workspace_row(payload, path))
     rows.sort(key=lambda row: str(row.get("updated_at", "")), reverse=True)
     return rows[:limit]
 

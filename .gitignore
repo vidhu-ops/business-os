@@ -16,8 +16,11 @@ web/.next/
 # Runtime data
 business_build_outputs/**
 !business_build_outputs/.gitkeep
-opportunity_workspaces/**
+opportunity_workspaces/*
 !opportunity_workspaces/.gitkeep
+!opportunity_workspaces/demo_readonly/
+opportunity_workspaces/demo_readonly/*
+!opportunity_workspaces/demo_readonly/**
 datasets/*.sqlite
 vectordb/
 qa_outputs/*.zip

@@ -65,6 +65,8 @@ class OfficeScope:
             return None
         allowed = set(all_harness_ids)
         if self.mode == "department":
+            if self.harness_ids:
+                return {hid for hid in self.harness_ids if hid in allowed}
             ids = harness_ids_for_departments(self.departments)
             return {hid for hid in ids if hid in allowed}
         return {hid for hid in self.harness_ids if hid in allowed}
@@ -113,8 +115,22 @@ def harness_ids_for_departments(departments: list[str]) -> list[str]:
     if not wanted:
         return []
     ids: list[str] = []
+    try:
+        from iidatech.execution.department_catalog import catalog_list, department_display_name, roles_for_department
+
+        name_to_id = {department_display_name(d["id"]): d["id"] for d in catalog_list()}
+        id_set = set()
+        for d in wanted:
+            id_set.add(name_to_id.get(d, d.lower().replace(" ", "_")))
+        for dept_id in id_set:
+            for role in roles_for_department(dept_id):
+                hid = str(role.get("harness_id") or "")
+                if hid and hid not in ids:
+                    ids.append(hid)
+    except ImportError:
+        pass
     for hid, dept in HARNESS_DEPARTMENTS.items():
-        if dept in wanted:
+        if dept in wanted and hid not in ids:
             ids.append(hid)
     return ids
 

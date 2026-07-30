@@ -40,8 +40,14 @@ function AutomationContent() {
   const [flowName, setFlowName] = useState("My company workflow");
   const [queueItems, setQueueItems] = useState<QueueItem[]>([]);
   const [log, setLog] = useState<LogEntry[]>([]);
+  const [setupRequirements, setSetupRequirements] = useState<Array<Record<string, unknown>>>([]);
   const [loading, setLoading] = useState("");
   const [error, setError] = useState("");
+  const [isDemo, setIsDemo] = useState(false);
+
+  useEffect(() => {
+    api.me().then((u) => setIsDemo(Boolean(u.is_demo))).catch(() => setIsDemo(false));
+  }, []);
 
   useEffect(() => {
     api.automationWorkflows().then((data) => {
@@ -81,6 +87,7 @@ function AutomationContent() {
       const data = await api.buildAutomation(selectedId, picked, flowName);
       const queue = data.queue as { items?: QueueItem[] };
       setQueueItems(queue?.items || []);
+      setSetupRequirements((data.setup_requirements as Array<Record<string, unknown>>) || []);
     } catch (err) {
       setError(err instanceof Error ? err.message : "Build failed");
     } finally {
@@ -96,6 +103,9 @@ function AutomationContent() {
       const data = await api.runAutomationNext(selectedId, false);
       const queue = data.queue as { items?: QueueItem[] };
       setQueueItems(queue?.items || []);
+      if (data.setup_requirements) {
+        setSetupRequirements((data.setup_requirements as Array<Record<string, unknown>>) || []);
+      }
       const auto = (await api.getAutomation(selectedId)).automation as { log?: LogEntry[] };
       setLog(auto?.log || []);
     } catch (err) {
@@ -111,7 +121,14 @@ function AutomationContent() {
     <div className="space-y-8">
       <div>
         <h1 className="font-display text-3xl font-bold">Automation builder</h1>
-        <p className="mt-2 muted">Pick steps and run them with your agent team — same catalog and queue as Streamlit.</p>
+        <p className="mt-2 muted">
+          {isDemo
+            ? "Sample completed agent workflow — watch the walkthrough below. Sign up to build and run your own automations."
+            : "Pick steps and run them with your agent team — same catalog and queue as Streamlit."}
+        </p>
+        {!isDemo && (
+        <p className="mt-1 text-xs muted">Build: 8 credits · each step run: 8 credits. Connect apps under Employee OS → Integrations.</p>
+        )}
       </div>
 
       {projects.length === 0 ? (
@@ -123,6 +140,22 @@ function AutomationContent() {
         <>
           <section className="iid-card space-y-4">
             <ProjectPicker projects={projects} selectedId={selectedId} onChange={setSelectedId} />
+
+            {isDemo ? (
+              <>
+                <div className="rounded-xl border border-[var(--iid-line)] bg-black/20 overflow-hidden">
+                  <div className="flex aspect-video items-center justify-center bg-gradient-to-br from-slate-900 to-slate-800 p-8 text-center">
+                    <div>
+                      <p className="text-sm font-semibold text-slate-200">Agent automation walkthrough</p>
+                      <p className="mt-2 text-xs muted max-w-md">
+                        Video demo coming soon — you will embed your walkthrough here. Below is a sample completed workflow queue.
+                      </p>
+                    </div>
+                  </div>
+                </div>
+              </>
+            ) : (
+              <>
             <label className="block text-sm muted">Steps (in order — click to toggle)</label>
             <div className="flex flex-wrap gap-2">
               {steps.map((step) => (
@@ -146,7 +179,25 @@ function AutomationContent() {
                 {loading === "run" ? "Running step…" : "Run next step with agent team"}
               </button>
             </div>
+              </>
+            )}
           </section>
+
+          {setupRequirements.length > 0 && (
+            <section className="iid-card space-y-3">
+              <h2 className="font-display text-xl font-bold">Setup required</h2>
+              <p className="text-sm muted">Your workflow was created. Connect or add the items below before steps can complete.</p>
+              <ul className="space-y-2 text-sm">
+                {setupRequirements.map((row, i) => (
+                  <li key={i} className={`rounded-lg border px-3 py-2 ${row.ok ? "border-emerald-500/40" : "border-amber-500/40"}`}>
+                    <span className="font-semibold">{String(row.need || row.connector)}</span>
+                    <span className="muted"> — {row.ok ? "Ready" : String(row.required || "Not connected")}</span>
+                  </li>
+                ))}
+              </ul>
+              <Link href="/app/team" className="iid-btn iid-btn-ghost text-xs inline-flex">Open Employee OS integrations</Link>
+            </section>
+          )}
 
           {queueItems.length > 0 && (
             <section className="iid-card">
