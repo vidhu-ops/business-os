@@ -41,3 +41,13 @@ services:
         sync: false
       - key: HUBSPOT_CLIENT_SECRET
         sync: false
+      - key: ADMIN_EMAIL
+        sync: false
+      - key: PARTNER_ADMIN_KEY
+        sync: false
+      - key: GMAIL_SMTP_USER
+        sync: false
+      - key: GMAIL_SMTP_PASSWORD
+        sync: false
+      - key: SLACK_WEBHOOK_URL
+        sync: false

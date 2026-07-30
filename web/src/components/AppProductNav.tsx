@@ -13,24 +13,22 @@ const modules = [
 export function AppProductNav() {
   const pathname = usePathname();
   return (
-    <nav className="mb-8 flex flex-wrap gap-2 border-b border-[var(--iid-line)] pb-4">
-      {modules.map((m) => {
-        const active = pathname === m.href || pathname?.startsWith(m.href + "/");
-        return (
-          <Link
-            key={m.href}
-            href={m.href}
-            className={`rounded-full px-4 py-2 text-xs font-semibold transition ${
-              active
-                ? "bg-[var(--iid-blue)] text-white"
-                : "border border-[var(--iid-line)] text-[var(--iid-muted)] hover:border-[var(--iid-blue)] hover:text-white"
-            }`}
-          >
-            <span className="hidden sm:inline">{m.label}</span>
-            <span className="sm:hidden">{m.short}</span>
-          </Link>
-        );
-      })}
+    <nav className="app-product-nav" aria-label="Workspace modules">
+      <div className="app-product-nav-scroll">
+        {modules.map((m) => {
+          const active = pathname === m.href || pathname?.startsWith(m.href + "/");
+          return (
+            <Link
+              key={m.href}
+              href={m.href}
+              className={`app-product-pill ${active ? "is-active" : ""}`}
+            >
+              <span className="hidden sm:inline">{m.label}</span>
+              <span className="sm:hidden">{m.short}</span>
+            </Link>
+          );
+        })}
+      </div>
     </nav>
   );
 }

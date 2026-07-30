@@ -2,112 +2,244 @@
 
 import Link from "next/link";
 import { useEffect, useState } from "react";
-import { api, Project } from "@/lib/api";
+import { api, type DashboardData } from "@/lib/api";
 
-const steps = [
-  { n: 1, title: "Define idea", detail: "Topic, country, industry", href: "/app/projects" },
-  { n: 2, title: "Market research", detail: "Evidence-backed report", href: "/app/research" },
-  { n: 3, title: "Business plan", detail: "ICP, GTM, financials", href: "/app/plan" },
-  { n: 4, title: "Employee OS", detail: "Run specialist tasks", href: "/app/team" },
-  { n: 5, title: "Automation", detail: "Multi-step workflows", href: "/app/automation" },
-  { n: 6, title: "Saved deliverables", detail: "Exports and files", href: "/app/saved" },
+function formatDate(value?: string) {
+  if (!value) return "Recently joined";
+  const parsed = new Date(value);
+  if (Number.isNaN(parsed.getTime())) return value;
+  return parsed.toLocaleDateString(undefined, { year: "numeric", month: "short", day: "numeric" });
+}
+
+function initials(name: string) {
+  return name
+    .split(/\s+/)
+    .filter(Boolean)
+    .slice(0, 2)
+    .map((part) => part[0]?.toUpperCase() || "")
+    .join("") || "U";
+}
+
+const quickLinks = [
+  { href: "/", label: "Homepage" },
+  { href: "/partners", label: "Service providers" },
+  { href: "/app/research", label: "Market research" },
+  { href: "/app/plan", label: "Business plan" },
+  { href: "/app/team", label: "Employee OS" },
+  { href: "/app/automation", label: "Automation" },
 ];
 
 export default function DashboardPage() {
-  const [projects, setProjects] = useState<Project[]>([]);
+  const [data, setData] = useState<DashboardData | null>(null);
+  const [error, setError] = useState("");
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    api.projects().then((data) => setProjects(data.projects)).catch(() => setProjects([]));
+    api
+      .dashboard()
+      .then(setData)
+      .catch((err) => setError(err instanceof Error ? err.message : "Could not load dashboard"))
+      .finally(() => setLoading(false));
   }, []);
 
-  const active = projects[0];
+  if (loading) {
+    return <p className="muted">Loading your dashboard…</p>;
+  }
+
+  if (error || !data) {
+    return (
+      <div className="iid-card space-y-3">
+        <p className="text-sm text-red-400">{error || "Dashboard unavailable"}</p>
+        <button type="button" className="iid-btn iid-btn-primary" onClick={() => window.location.reload()}>
+          Retry
+        </button>
+      </div>
+    );
+  }
+
+  const { user, plan, stats, projects, recent_files, recent_activity } = data;
+  const creditsLabel = plan.is_unlimited
+    ? "Unlimited"
+    : `${stats.credits_remaining ?? 0} / ${plan.credits_total ?? 30}`;
 
   return (
-    <div className="space-y-8">
+    <div className="dash-page space-y-8">
       <div className="flex flex-wrap items-end justify-between gap-4">
         <div>
-          <h1 className="font-display text-3xl font-bold">Welcome back</h1>
-          <p className="mt-2 muted">Your command center — research, plan, and execute from one IIDA workspace.</p>
+          <h1 className="font-display text-3xl font-bold">Welcome back, {user.name.split(" ")[0]}</h1>
+          <p className="mt-2 muted">Your command center — profile, plan, projects, and recent work in one place.</p>
         </div>
-        <Link href="/app/projects" className="iid-btn iid-btn-primary">New project</Link>
+        <Link href="/app/projects" className="iid-btn iid-btn-primary">
+          New project
+        </Link>
       </div>
 
-      <div className="grid gap-4 md:grid-cols-4">
-        <div className="iid-card"><p className="label">Projects</p><p className="value">{projects.length}</p></div>
-        <div className="iid-card"><p className="label">Active idea</p><p className="value">{active?.idea?.slice(0, 32) || "None yet"}</p></div>
-        <div className="iid-card"><p className="label">Industry</p><p className="value">{active?.industry?.slice(0, 24) || "-"}</p></div>
-        <div className="iid-card"><p className="label">Market</p><p className="value">{active?.country?.slice(0, 24) || "-"}</p></div>
+      <div className="dash-grid-top">
+        <section className="iid-card dash-profile">
+          <div className="dash-profile-head">
+            <div className="dash-avatar" aria-hidden>
+              {initials(user.name)}
+            </div>
+            <div>
+              <p className="label">Your profile</p>
+              <h2 className="font-display text-xl font-bold">{user.name}</h2>
+              <p className="text-sm muted">{user.email}</p>
+            </div>
+          </div>
+          <dl className="dash-profile-meta">
+            <div>
+              <dt>Member since</dt>
+              <dd>{formatDate(user.member_since)}</dd>
+            </div>
+            <div>
+              <dt>Active projects</dt>
+              <dd>{stats.projects}</dd>
+            </div>
+          </dl>
+          <Link href="/app/profile" className="text-sm text-[var(--iid-blue)] hover:underline">
+            Edit profile →
+          </Link>
+        </section>
+
+        <section className="iid-card dash-plan">
+          <div className="dash-plan-head">
+            <div>
+              <p className="label">Current plan</p>
+              <h2 className="font-display text-xl font-bold">{plan.name}</h2>
+              <p className="text-sm muted">{plan.tagline}</p>
+            </div>
+            <div className="dash-plan-price">
+              <strong>{plan.price_label}</strong>
+              {plan.period ? <span>{plan.period}</span> : null}
+            </div>
+          </div>
+          <div className="dash-plan-credits">
+            <span>Credits</span>
+            <strong>{creditsLabel}</strong>
+          </div>
+          {plan.id === "starter" ? (
+            <Link href="/pricing" className="iid-btn iid-btn-primary w-full sm:w-auto">
+              Upgrade to Growth
+            </Link>
+          ) : (
+            <Link href="/pricing" className="iid-btn iid-btn-ghost w-full sm:w-auto">
+              View pricing
+            </Link>
+          )}
+        </section>
       </div>
 
-      <section className="iid-card">
-        <h2 className="font-display text-xl font-bold">IIDA workspace modes</h2>
-        <p className="mt-2 text-sm muted">Pick where you want to work — research, planning, team execution, or automation.</p>
-        <div className="mt-4 grid gap-3 md:grid-cols-2 lg:grid-cols-4">
-          <Link href="/app/research" className="rounded-xl border border-[var(--iid-line)] p-4 transition hover:border-[var(--iid-blue)]">
-            <p className="font-semibold">Understand your market</p>
-            <p className="mt-1 text-xs muted">IIDATECH market research — 3/8/16/25 sections</p>
-          </Link>
-          <Link href="/app/team" className="rounded-xl border border-[var(--iid-line)] p-4 transition hover:border-[var(--iid-blue)]">
-            <p className="font-semibold">Team & Execution</p>
-            <p className="mt-1 text-xs muted">Office, tasks, agents, war room, integrations</p>
-          </Link>
-          <Link href="/app/plan" className="rounded-xl border border-[var(--iid-line)] p-4 transition hover:border-[var(--iid-blue)]">
-            <p className="font-semibold">Business Plan</p>
-            <p className="mt-1 text-xs muted">New company or existing company (GAUGE)</p>
-          </Link>
-          <Link href="/app/automation" className="rounded-xl border border-[var(--iid-line)] p-4 transition hover:border-[var(--iid-blue)]">
-            <p className="font-semibold">Automations</p>
-            <p className="mt-1 text-xs muted">Pick steps, build queue, run with agent team</p>
-          </Link>
+      <div className="grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
+        <div className="iid-card dash-stat">
+          <p className="label">Projects</p>
+          <p className="value">{stats.projects}</p>
         </div>
-      </section>
-
-      <section className="iid-card">
-        <h2 className="font-display text-xl font-bold">Quick actions</h2>
-        <div className="mt-4 flex flex-wrap gap-3">
-          <Link href="/app/research" className="iid-btn iid-btn-primary">Market research</Link>
-          <Link href="/app/plan" className="iid-btn iid-btn-ghost">Business plan</Link>
-          <Link href="/app/team" className="iid-btn iid-btn-ghost">Employee OS</Link>
-          <Link href="/app/automation" className="iid-btn iid-btn-ghost">Automation</Link>
-          <Link href="/app/projects" className="iid-btn iid-btn-ghost">Manage projects</Link>
+        <div className="iid-card dash-stat">
+          <p className="label">Reports ready</p>
+          <p className="value">{stats.reports_ready}</p>
         </div>
-      </section>
+        <div className="iid-card dash-stat">
+          <p className="label">Plans ready</p>
+          <p className="value">{stats.plans_ready}</p>
+        </div>
+        <div className="iid-card dash-stat">
+          <p className="label">Saved files</p>
+          <p className="value">{stats.saved_files}</p>
+        </div>
+      </div>
 
-      {projects.length > 0 && (
+      <div className="dash-grid-main">
         <section className="iid-card">
-          <h2 className="font-display text-xl font-bold">Recent projects</h2>
+          <div className="flex flex-wrap items-center justify-between gap-3">
+            <h2 className="font-display text-xl font-bold">Your projects</h2>
+            <Link href="/app/projects" className="text-sm text-[var(--iid-blue)] hover:underline">
+              View all
+            </Link>
+          </div>
+          {projects.length === 0 ? (
+            <p className="mt-4 muted">No projects yet. Create one to start research and planning.</p>
+          ) : (
+            <div className="mt-4 space-y-3">
+              {projects.map((project) => (
+                <article key={project.workspace_id} className="dash-project-row">
+                  <div>
+                    <p className="font-semibold">{project.idea || "Untitled project"}</p>
+                    <p className="text-sm muted">
+                      {project.industry || "Industry"} · {project.country || "Market"}
+                    </p>
+                  </div>
+                  <div className="dash-project-badges">
+                    <span className={project.has_report ? "is-on" : ""}>Report</span>
+                    <span className={project.has_plan ? "is-on" : ""}>Plan</span>
+                  </div>
+                  <Link href={`/app/research?project=${project.workspace_id}`} className="dash-project-link">
+                    Open
+                  </Link>
+                </article>
+              ))}
+            </div>
+          )}
+        </section>
+
+        <section className="iid-card">
+          <h2 className="font-display text-xl font-bold">Recent activity</h2>
+          {recent_activity.length === 0 ? (
+            <p className="mt-4 muted">Activity from research, plans, and saved files will show up here.</p>
+          ) : (
+            <ul className="mt-4 space-y-3">
+              {recent_activity.map((item, index) => (
+                <li key={`${item.title}-${index}`} className="dash-activity-item">
+                  <div>
+                    <p className="font-semibold">{item.title}</p>
+                    <p className="text-sm muted">{item.detail}</p>
+                  </div>
+                  <span className="text-xs muted">{formatDate(item.at)}</span>
+                </li>
+              ))}
+            </ul>
+          )}
+        </section>
+      </div>
+
+      <section className="iid-card">
+        <div className="flex flex-wrap items-center justify-between gap-3">
+          <h2 className="font-display text-xl font-bold">Previous deliverables</h2>
+          <Link href="/app/saved" className="text-sm text-[var(--iid-blue)] hover:underline">
+            All saved files
+          </Link>
+        </div>
+        {recent_files.length === 0 ? (
+          <p className="mt-4 muted">Exports and reports you generate will appear here.</p>
+        ) : (
           <div className="mt-4 overflow-x-auto">
             <table className="w-full text-left text-sm">
               <thead className="muted">
-                <tr><th className="pb-2">Idea</th><th className="pb-2">Market</th><th className="pb-2">Report</th><th className="pb-2" /></tr>
+                <tr>
+                  <th className="pb-2">Name</th>
+                  <th className="pb-2">Type</th>
+                  <th className="pb-2">Modified</th>
+                </tr>
               </thead>
               <tbody>
-                {projects.slice(0, 5).map((p) => (
-                  <tr key={p.workspace_id} className="border-t border-[var(--iid-line)]">
-                    <td className="py-2 pr-4">{p.idea}</td>
-                    <td className="py-2 pr-4">{p.country}</td>
-                    <td className="py-2 pr-4">{p.has_report ? "Ready" : "Pending"}</td>
-                    <td className="py-2 text-right">
-                      <Link href={`/app/research?project=${p.workspace_id}`} className="text-[var(--iid-blue)] hover:underline">Open</Link>
-                    </td>
+                {recent_files.map((file) => (
+                  <tr key={String(file.path)} className="border-t border-[var(--iid-line)]">
+                    <td className="py-2 pr-4">{file.name}</td>
+                    <td className="py-2 pr-4 uppercase">{file.type}</td>
+                    <td className="py-2">{file.modified}</td>
                   </tr>
                 ))}
               </tbody>
             </table>
           </div>
-        </section>
-      )}
+        )}
+      </section>
 
       <section className="iid-card">
-        <h2 className="font-display text-xl font-bold">Workspace workflow</h2>
-        <div className="mt-4 space-y-2">
-          {steps.map((step) => (
-            <Link key={step.title} href={step.href} className="flex items-center justify-between rounded-xl border border-[var(--iid-line)] px-4 py-3 transition hover:border-[var(--iid-blue)]">
-              <div>
-                <p className="font-semibold">{step.n}. {step.title}</p>
-                <p className="text-sm muted">{step.detail}</p>
-              </div>
-              <span className="text-xs text-[var(--iid-blue)]">Open</span>
+        <h2 className="font-display text-xl font-bold">Quick actions</h2>
+        <div className="mt-4 flex flex-wrap gap-3">
+          {quickLinks.map((link) => (
+            <Link key={link.href} href={link.href} className="iid-btn iid-btn-ghost">
+              {link.label}
             </Link>
           ))}
         </div>

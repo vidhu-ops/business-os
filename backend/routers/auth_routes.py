@@ -4,6 +4,7 @@ from fastapi import APIRouter, Depends, HTTPException, Response
 from pydantic import BaseModel, Field
 
 from backend.auth import create_token, get_current_user, hash_password, load_users, save_users
+from backend.services.account_service import ensure_account, get_plan_snapshot
 
 router = APIRouter(prefix="/auth", tags=["auth"])
 
@@ -34,6 +35,9 @@ def register(body: RegisterBody, response: Response) -> dict:
         "name": body.name.strip() or email.split("@")[0],
         "password_hash": hash_password(body.password),
         "created_at": __import__("datetime").datetime.utcnow().isoformat() + "Z",
+        "plan": "starter",
+        "credits_remaining": 30,
+        "credits_total": 30,
     }
     save_users(users)
     token = create_token(email)
@@ -55,6 +59,7 @@ def login(body: LoginBody, response: Response) -> dict:
     record = users.get(email)
     if not record or record.get("password_hash") != hash_password(body.password):
         raise HTTPException(status_code=401, detail="Invalid email or password")
+    ensure_account(email, record.get("name"))
     token = create_token(email)
     response.set_cookie(
         key="iida_session",
@@ -71,14 +76,13 @@ def login(body: LoginBody, response: Response) -> dict:
 def demo_login(body: DemoLoginBody, response: Response) -> dict:
     email = (body.email or "demo@local").strip().lower()
     users = load_users()
-    if email not in users:
-        users[email] = {
-            "email": email,
-            "name": "Demo User",
-            "password_hash": hash_password("demo"),
-            "created_at": __import__("datetime").datetime.utcnow().isoformat() + "Z",
-        }
+    is_new = email not in users
+    record = ensure_account(email, "Demo User")
+    if is_new or not record.get("password_hash"):
+        users = load_users()
+        users[email]["password_hash"] = hash_password("demo")
         save_users(users)
+        record = users[email]
     token = create_token(email)
     response.set_cookie(
         key="iida_session",
@@ -88,7 +92,7 @@ def demo_login(body: DemoLoginBody, response: Response) -> dict:
         secure=False,
         max_age=72 * 3600,
     )
-    return {"email": email, "name": users[email].get("name", "Demo User"), "token": token}
+    return {"email": email, "name": record.get("name", "Demo User"), "token": token}
 
 
 @router.post("/logout")
@@ -99,9 +103,11 @@ def logout(response: Response) -> dict:
 
 @router.get("/me")
 def me(email: str = Depends(get_current_user)) -> dict:
-    users = load_users()
-    record = users.get(email, {})
+    record = ensure_account(email)
+    plan = get_plan_snapshot(record)
     return {
         "email": email,
         "name": record.get("name") or email.split("@")[0],
+        "member_since": record.get("created_at", ""),
+        "plan": plan,
     }

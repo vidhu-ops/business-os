@@ -18,7 +18,34 @@ export function setToken(token: string | null) {
   else localStorage.removeItem("iida_token");
 }
 
-export type User = { email: string; name: string };
+export type User = { email: string; name: string; member_since?: string; plan?: PlanSnapshot };
+export type PlanSnapshot = {
+  id: string;
+  name: string;
+  price_label: string;
+  period?: string;
+  tagline?: string;
+  credits_remaining?: number | null;
+  credits_total?: number | null;
+  is_unlimited?: boolean;
+  upgrade_href?: string;
+};
+export type DashboardActivity = { type: string; title: string; detail: string; at: string };
+export type DashboardData = {
+  user: { email: string; name: string; member_since: string };
+  plan: PlanSnapshot;
+  stats: {
+    projects: number;
+    reports_ready: number;
+    plans_ready: number;
+    saved_files: number;
+    credits_remaining: number | null;
+    credits_used: number | null;
+  };
+  projects: Project[];
+  recent_files: Array<Record<string, string | number>>;
+  recent_activity: DashboardActivity[];
+};
 export type Project = {
   workspace_id: string;
   idea: string;
@@ -52,6 +79,7 @@ async function request<T>(
 ): Promise<T> {
   const useAuth = opts?.auth !== false;
   const token = useAuth ? getToken() : null;
+  const isFormData = typeof FormData !== "undefined" && init?.body instanceof FormData;
   const controller = new AbortController();
   const timer = window.setTimeout(() => controller.abort(), opts?.timeoutMs ?? REQUEST_TIMEOUT_MS);
   try {
@@ -60,7 +88,7 @@ async function request<T>(
       credentials: "include",
       signal: controller.signal,
       headers: {
-        "Content-Type": "application/json",
+        ...(isFormData ? {} : { "Content-Type": "application/json" }),
         ...(token ? { Authorization: `Bearer ${token}` } : {}),
         ...(init?.headers || {}),
       },
@@ -139,6 +167,7 @@ export const api = {
     return data;
   },
   me: () => request<User>("/api/v1/auth/me"),
+  dashboard: () => request<DashboardData>("/api/v1/dashboard"),
   logout: async () => {
     const data = await request<{ ok: boolean }>("/api/v1/auth/logout", { method: "POST" });
     setToken(null);
@@ -410,4 +439,18 @@ export const api = {
       body: JSON.stringify({ workspace_id, auto_approve_external }),
     }),
   files: () => request<{ files: Array<Record<string, string | number>> }>("/api/v1/files"),
+  registerPartner: (form: FormData) =>
+    request<{ ok: boolean; id: string; message: string; provider: Record<string, unknown> }>(
+      "/api/v1/partners/register",
+      { method: "POST", body: form },
+      { auth: false },
+    ),
+  listPartners: () =>
+    request<{ providers: Array<Record<string, unknown>>; count: number }>("/api/v1/partners", {}, { auth: false }),
+  listFeaturedPartners: () =>
+    request<{ partners: Array<{ id: string; company_name: string; logo_url?: string; website?: string }>; count: number }>(
+      "/api/v1/partners/featured",
+      {},
+      { auth: false },
+    ),
 };

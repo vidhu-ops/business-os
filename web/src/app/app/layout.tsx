@@ -74,13 +74,13 @@ export default function AppLayout({ children }: { children: React.ReactNode }) {
   }
 
   return (
-    <div>
+    <div className="app-shell">
       <AppNav email={email} />
-      <div className="mx-auto max-w-6xl px-5 py-8">
+      <div className="app-shell-main">
         {showProductNav ? <AppProductNav /> : null}
         {children}
       </div>
-      <footer className="mx-auto max-w-6xl px-5 pb-10 pt-4 text-xs text-[var(--iid-muted)]">
+      <footer className="app-shell-footer">
         <Link href="/">← Back to marketing site</Link>
       </footer>
     </div>

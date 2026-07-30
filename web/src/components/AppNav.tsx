@@ -1,6 +1,13 @@
+"use client";
+
 import Link from "next/link";
+import { usePathname } from "next/navigation";
+import { useState } from "react";
+import { Menu, X } from "lucide-react";
+import { ThemeToggle } from "@/components/ThemeToggle";
 
 const links = [
+  { href: "/", label: "Home" },
   { href: "/app/dashboard", label: "Dashboard" },
   { href: "/app/projects", label: "Projects" },
   { href: "/app/research", label: "Research" },
@@ -8,32 +15,64 @@ const links = [
   { href: "/app/team", label: "Employee OS" },
   { href: "/app/automation", label: "Automation" },
   { href: "/app/saved", label: "Saved Files" },
+  { href: "/partners", label: "Partners" },
   { href: "/app/profile", label: "Profile" },
 ];
 
 export function AppNav({ email }: { email?: string }) {
+  const pathname = usePathname();
+  const [open, setOpen] = useState(false);
+
   return (
-    <header className="sticky top-0 z-50 border-b border-[var(--iid-line)] bg-[rgba(5,7,15,0.92)] backdrop-blur-xl">
-      <div className="mx-auto flex max-w-6xl flex-wrap items-center justify-between gap-3 px-5 py-4">
-        <div className="flex items-center gap-4">
-          <Link href="/" className="font-display text-sm font-extrabold tracking-[0.2em] text-white uppercase">
+    <header className="app-nav-shell">
+      <div className="app-nav-inner">
+        <div className="flex items-center gap-3">
+          <Link href="/" className="font-display text-sm font-extrabold tracking-[0.2em] uppercase app-nav-logo">
             IIDA<span className="text-[var(--iid-blue)]">TECH</span>
           </Link>
-          <span className="hidden text-xs text-[var(--iid-muted)] sm:inline">IIDA workspace</span>
+          <span className="hidden text-xs text-[var(--iid-muted)] sm:inline">Workspace</span>
         </div>
-        <nav className="flex flex-wrap items-center gap-2">
+
+        <nav className="hidden items-center gap-1 lg:flex" aria-label="Workspace">
           {links.map((link) => (
             <Link
               key={link.href}
               href={link.href}
-              className="rounded-full px-3 py-1.5 text-xs font-semibold text-[var(--iid-muted)] transition hover:text-white"
+              className={`app-nav-link ${link.href === "/" ? (pathname === "/" ? "is-active" : "") : pathname === link.href || pathname?.startsWith(link.href + "/") ? "is-active" : ""}`}
             >
               {link.label}
             </Link>
           ))}
         </nav>
-        <div className="text-xs text-[var(--iid-muted)]">{email || ""}</div>
+
+        <div className="flex items-center gap-2">
+          <ThemeToggle />
+          <span className="hidden max-w-[140px] truncate text-xs text-[var(--iid-muted)] md:inline">{email || ""}</span>
+          <button
+            type="button"
+            className="theme-toggle lg:hidden"
+            aria-label={open ? "Close menu" : "Open menu"}
+            onClick={() => setOpen((v) => !v)}
+          >
+            {open ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
+          </button>
+        </div>
       </div>
+
+      {open ? (
+        <nav className="app-mobile-nav lg:hidden" aria-label="Workspace mobile">
+          {links.map((link) => (
+            <Link
+              key={link.href}
+              href={link.href}
+              className={pathname === link.href ? "is-active" : ""}
+              onClick={() => setOpen(false)}
+            >
+              {link.label}
+            </Link>
+          ))}
+        </nav>
+      ) : null}
     </header>
   );
 }

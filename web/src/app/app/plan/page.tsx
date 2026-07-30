@@ -91,12 +91,12 @@ function PlanContent() {
   const newTabs = [
     { id: "intake" as PlanTab, label: "Intake" },
     { id: "output" as PlanTab, label: "Plan Output" },
-    { id: "validation" as PlanTab, label: "Validation & Understanding" },
+    { id: "validation" as PlanTab, label: "Reference" },
   ];
   const existingTabs = [
     { id: "existing" as PlanTab, label: "GAUGE plan forward" },
     { id: "output" as PlanTab, label: "Plan Output" },
-    { id: "validation" as PlanTab, label: "Validation & Understanding" },
+    { id: "validation" as PlanTab, label: "Reference" },
   ];
   const tabs = companyMode === "existing" ? existingTabs : newTabs;
 
