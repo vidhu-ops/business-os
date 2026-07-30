@@ -4,6 +4,7 @@ from __future__ import annotations
 from datetime import datetime, timezone
 from typing import Any
 
+from iidatech.services.market_currency import currency_for_geography, currency_prompt_block
 from iidatech.services.report_section_plans import format_section_outline
 
 BOARDROOM_BRIEF = (
@@ -12,6 +13,38 @@ BOARDROOM_BRIEF = (
     "Every factual claim must cite a real https source. "
     "No hype, no unsourced 'Validated' labels, no invented statistics."
 )
+
+TAM_SAM_SOM_FRAMEWORK = """
+MARKET SIZING FRAMEWORK (use for all TAM / SAM / SOM work):
+
+Definitions:
+- TAM (Total Addressable Market): total revenue if you achieved 100% global market share with no constraints.
+  Top-down: start from published total industry/category revenue for the broadest relevant market.
+  Bottom-up: (total potential buyers globally) × (% who need this job-to-be-done) × (ARPU/ACV per year).
+
+- SAM (Serviceable Addressable Market): portion of TAM you can realistically target given geography, customer segment,
+  product capabilities, regulations, and GTM. Apply explicit filters with sourced percentages:
+  SAM = TAM × geo_filter × segment_filter × product_fit_filter (show each filter and source).
+
+- SOM (Serviceable Obtainable Market): realistic capture in 3–5 years given competition and execution.
+  Typical VC expectation: 3–5% of SAM over 3–5 years for a focused startup (label DERIVED, show math).
+  Bottom-up check: (target customers you can reach) × (realistic conversion %) × (ACV).
+
+Dual validation (required when computing):
+1. Top-down path — industry revenue → niche slice → TAM/SAM/SOM
+2. Bottom-up path — buyer count × penetration × price → TAM/SAM/SOM
+Reconcile both; flag if results diverge by more than 2× and explain which to use for this niche.
+
+Labels:
+- FACT = number quoted directly from a cited source
+- DERIVED = calculated from sourced inputs (show formula in notes)
+- ESTIMATE = conservative assumption when a filter % is not published (state assumption clearly)
+- NOT FOUND = only when calculation is impossible with available sourced inputs
+
+VC benchmarks (for commentary, not invented numbers):
+- Series A investors typically want $1B+ TAM headroom at the category level
+- SOM should support near-term revenue plans (3–5% SAM share is a realistic planning anchor)
+""".strip()
 
 def research_prompt(topic: str, industry: str, geography: str) -> str:
     year = datetime.now(timezone.utc).year
@@ -33,14 +66,21 @@ def research_prompt(topic: str, industry: str, geography: str) -> str:
 
 def financial_sizing_prompt(topic: str, industry: str, geography: str) -> str:
     year = datetime.now(timezone.utc).year
+    currency_block = currency_prompt_block(geography)
     return (
         f"You are a market sizing analyst for investor due diligence. {BOARDROOM_BRIEF}\n\n"
-        f"Search the live web for TAM, SAM, and SOM for **{topic}** in **{geography}** ({industry}). Year: {year}.\n\n"
+        f"{TAM_SAM_SOM_FRAMEWORK}\n\n"
+        f"{currency_block}\n\n"
+        f"Search the live web for TAM, SAM, and SOM inputs for **{topic}** in **{geography}** ({industry}). Year: {year}.\n\n"
+        "Your job is to collect PUBLISHED figures AND the building blocks needed for top-down and bottom-up sizing.\n\n"
         "Search explicitly for:\n"
         f'- "{topic} TAM SAM SOM market size {geography}"\n'
         f'- "{industry} market size {geography} {year}"\n'
-        "- MOSPI, RBI, NASSCOM, DPIIT, IBEF, Tracxn, Crunchbase, Zinnov, ESOMAR, Statista summaries\n"
-        f'- SMB/startup counts, revenue pools, penetration rates for {topic}\n\n'
+        "- MOSPI, RBI, NASSCOM, DPIIT, IBEF, Tracxn, Crunchbase, Zinnov, ESOMAR, Statista, Grand View, Mordor\n"
+        f'- Total addressable buyers: SMB counts, enterprise counts, households, professionals, startups in {geography}\n'
+        f'- ARPU / ACV / average contract value for {topic} or adjacent category\n'
+        f'- Penetration rates, adoption %, market share of incumbents, CAGR\n'
+        f'- Geographic share of global market for {industry}\n\n'
         "Return STRICT JSON only:\n"
         "{\n"
         '  "market_size_facts": [\n'
@@ -52,12 +92,27 @@ def financial_sizing_prompt(topic: str, industry: str, geography: str) -> str:
         '"source_url": "https://...", "year": "", "notes": "what this number measures"}\n'
         "  ],\n"
         '  "denominator_facts": [\n'
-        '    {"metric": "SMB count|startup count|buyer population", "value": "", "source_url": "https://..."}\n'
+        '    {"metric": "SMB count|startup count|buyer population|companies in segment|households|professionals", '
+        '"value": "", "source_url": "https://...", "notes": ""}\n'
         "  ],\n"
+        '  "top_down_inputs": [\n'
+        '    {"step": "total industry revenue|category revenue|CAGR|geo share", "value": "", '
+        '"source_url": "https://...", "notes": ""}\n'
+        "  ],\n"
+        '  "bottom_up_inputs": [\n'
+        '    {"metric": "buyer_count|penetration_pct|ARPU|ACV|conversion_pct|competitor_count", "value": "", '
+        '"source_url": "https://...", "notes": ""}\n'
+        "  ],\n"
+        f'  "reporting_currency": "{currency_for_geography(geography)["code"]}",\n'
         '  "sources": ["https://..."]\n'
         "}\n\n"
-        "Rules: find at least 3 market_size_facts or tam_candidates if public data exists. "
-        "If SAM/SOM are not published, note NOT FOUND. Never invent figures."
+        "Rules:\n"
+        "- Find at least 3 market_size_facts or tam_candidates when public data exists.\n"
+        "- Collect at least 2 denominator_facts and 2 bottom_up_inputs (buyer count + price/ARPU) when available.\n"
+        "- Prefer sources and figures in the primary reporting currency for this geography.\n"
+        "- If published SAM/SOM do not exist, leave value empty but gather filter inputs (geo %, segment %, ARPU).\n"
+        "- Never invent figures — only cite numbers with real https URLs.\n"
+        "- Prefer niche-scoped TAM over inflated global category TAM when both exist; note scope in tam_candidates."
     )
 
 def competitor_harvest_prompt(topic: str, industry: str, geography: str) -> str:
@@ -147,28 +202,43 @@ def financial_opus_prompt(
     research_block: str,
     sizing_block: str,
 ) -> str:
+    currency_block = currency_prompt_block(geography)
+    primary = currency_for_geography(geography)
     return (
-        f"You are a financial analyst (Claude Opus) preparing market sizing for an investor data room. {BOARDROOM_BRIEF}\n\n"
+        f"You are a financial analyst (Claude Opus) preparing investor-grade TAM/SAM/SOM for a pitch deck. {BOARDROOM_BRIEF}\n\n"
+        f"{TAM_SAM_SOM_FRAMEWORK}\n\n"
+        f"{currency_block}\n\n"
         f"Topic: {topic}\nIndustry: {industry}\nMarket: {geography}\n\n"
         f"GENERAL RESEARCH:\n{research_block[:6000]}\n\n"
         f"MARKET SIZING RESEARCH:\n{sizing_block[:8000]}\n\n"
+        "TASK: Produce defensible TAM, SAM, and SOM using BOTH top-down and bottom-up methods from the research above.\n"
+        "If published TAM exists, use it as FACT and still build bottom-up validation.\n"
+        "If SAM/SOM are not published, DERIVE them with explicit formulas and sourced filter inputs.\n\n"
         "Return STRICT JSON only:\n"
         "{\n"
-        '  "tam": {"value": "", "label": "FACT|ESTIMATE|DERIVED|NOT FOUND", "source_url": "https://...", "source_name": "", "notes": ""},\n'
+        '  "tam": {"value": "", "label": "FACT|ESTIMATE|DERIVED|NOT FOUND", "source_url": "https://...", "source_name": "", "notes": "definition + formula if DERIVED"},\n'
         '  "tam_alternatives": [{"value": "", "scope": "domestic|global|niche", "source_url": "https://...", "notes": ""}],\n'
-        '  "tam_reconciliation": "Explain when multiple TAM figures exist and which applies to this niche",\n'
-        '  "sam": {"value": "", "label": "FACT|ESTIMATE|DERIVED|NOT FOUND", "source_url": "https://...", "source_name": "", "notes": ""},\n'
-        '  "som": {"value": "", "label": "FACT|ESTIMATE|DERIVED|NOT FOUND", "source_url": "https://...", "source_name": "", "notes": ""},\n'
+        '  "tam_reconciliation": "Which TAM applies to this niche and why",\n'
+        '  "sam": {"value": "", "label": "FACT|ESTIMATE|DERIVED|NOT FOUND", "source_url": "https://...", "source_name": "", "notes": "filters applied: geo × segment × product fit"},\n'
+        '  "som": {"value": "", "label": "FACT|ESTIMATE|DERIVED|NOT FOUND", "source_url": "https://...", "source_name": "", "notes": "3-5 year capture: target share % of SAM + customer math"},\n'
+        '  "top_down": {"method": "e.g. industry revenue × niche slice", "formula": "show calculation", "result": "", "label": "FACT|DERIVED", "source_url": "https://...", "notes": ""},\n'
+        '  "bottom_up": {"method": "e.g. buyers × penetration × ARPU", "formula": "show calculation", "result": "", "label": "DERIVED", "source_url": "https://...", "notes": ""},\n'
+        '  "validation": {"top_down_result": "", "bottom_up_result": "", "reconciled": true, "notes": "explain if within 2x; which figure drives primary TAM/SAM/SOM"},\n'
+        f'  "currency": {{"code": "{primary["code"]}", "symbol": "{primary["symbol"]}", "name": "{primary["name"]}", "notes": "all primary figures in {primary["code"]}"}},\n'
         '  "financial_rows": [{"metric": "", "value": "", "label": "FACT|ESTIMATE|DERIVED|NOT FOUND", "source_url": "https://...", "source_name": "", "notes": ""}],\n'
         '  "illustrative_scenario": {"title": "", "formula": "", "result": "", "label": "ILLUSTRATIVE ONLY"},\n'
-        '  "commentary": ["2-3 investor-ready bullets on what figures mean"]\n'
+        '  "commentary": ["2-3 investor-ready bullets: VC TAM headroom, SAM focus, realistic SOM vs competition"]\n'
         "}\n\n"
         "RULES:\n"
-        "1. Use ONLY numbers from research. Every value needs source_url or NOT FOUND.\n"
-        "2. Reconcile multiple TAM figures via tam_alternatives + tam_reconciliation.\n"
-        "3. SAM/SOM must be NOT FOUND unless sourced — no hypotheticals in sam/som values.\n"
-        "4. Hypothetical math only in illustrative_scenario (ILLUSTRATIVE ONLY).\n"
-        "5. Never use 'Validated' — use FACT only with tier-1/2 source_url."
+        "1. You MUST attempt TAM, SAM, and SOM — use DERIVED with formulas when not directly published.\n"
+        "2. Every input in a formula must trace to research (source_url). Unsourced filter % → label ESTIMATE and state assumption.\n"
+        "3. SAM = TAM after geographic + segment + product-fit filters (show each step in sam.notes).\n"
+        "4. SOM = realistic 3–5 year capture (typically 3–5% of SAM unless research supports otherwise); include customer-count math.\n"
+        "5. top_down and bottom_up are REQUIRED — populate validation.reconciled and explain divergence if >2x.\n"
+        "6. Reconcile multiple published TAM figures via tam_alternatives + tam_reconciliation; pick niche-scoped primary TAM.\n"
+        "7. illustrative_scenario is ONLY for extra sensitivity examples — primary TAM/SAM/SOM go in tam/sam/som fields.\n"
+        f"8. All TAM/SAM/SOM values must be in {primary['code']} ({primary['symbol']}) unless dual notation with conversion is shown.\n"
+        "9. Never use 'Validated' — use FACT only with tier-1/2 source_url."
     )
 
 def report_sonnet_prompt(
@@ -181,10 +251,13 @@ def report_sonnet_prompt(
     plan: list[dict[str, Any]],
 ) -> str:
     outline = format_section_outline(plan)
+    currency_block = currency_prompt_block(geography)
     sizing_section = "Market Size & Valuation" in [str(s.get("title") or "") for s in plan]
     competitive_section = "Competitive Landscape" in [str(s.get("title") or "") for s in plan]
     sizing_note = (
-        "- For ## Market Size & Valuation: write qualitative context only (no TAM/SAM/SOM table — inserted separately).\n"
+        "- For ## Market Size & Valuation: explain TAM/SAM/SOM in investor language (definitions, why SAM is smaller than TAM, "
+        "realistic SOM over 3–5 years). Reference ONLY numbers from the financial figures block. "
+        "Mention top-down vs bottom-up validation if provided. No duplicate TAM/SAM/SOM table — inserted separately.\n"
         if sizing_section
         else "- Do NOT write a standalone Financial Snapshot section — sizing table is inserted separately.\n"
     )
@@ -197,6 +270,7 @@ def report_sonnet_prompt(
         f"You are a senior market research writer (Claude Sonnet) producing a boardroom- and funding-ready report. "
         f"{BOARDROOM_BRIEF}\n\n"
         f"Topic: {topic}\nIndustry: {industry}\nMarket: {geography}\n\n"
+        f"{currency_block}\n\n"
         f"RESEARCH:\n{research_block[:5000]}\n\n"
         f"COMPETITOR RESEARCH:\n{competitor_block[:5000]}\n\n"
         f"FINANCIAL FIGURES (use these numbers only — do not invent others):\n{financial_block[:4000]}\n\n"
@@ -209,6 +283,7 @@ def report_sonnet_prompt(
         "- Every number in prose MUST have an inline footnote [n] (Sources appended automatically).\n"
         "- Write for investors: so-what per section, risks, and defensible claims only.\n"
         "- Do not invent TAM/SAM/SOM — reference financial figures block only.\n"
+        "- When discussing market size, use VC framing: TAM shows category headroom, SAM shows focus, SOM shows realistic 3–5 year capture.\n"
         "- Do not add market entry plans, revenue projections, or pricing models not in research.\n"
         "- Complete every listed section; do not stop mid-sentence."
     )

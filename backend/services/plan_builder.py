@@ -4,6 +4,7 @@ from typing import Any
 
 from backend.services.workspace_context import workspace_report_context
 from iidatech.services.existing_business_profile import existing_business_prompt_section
+from iidatech.services.market_currency import currency_for_geography
 from iidatech.services.report_engine import generate_report
 
 
@@ -12,6 +13,11 @@ def build_business_plan(workspace: dict[str, Any]) -> dict[str, Any]:
     industry = str(workspace.get("industry") or "General").strip()
     geography = str(workspace.get("country") or "Global").strip()
     report_context = workspace.get("_report_context_override") or workspace_report_context(workspace)
+    if not isinstance(report_context, dict):
+        report_context = {}
+    else:
+        report_context = dict(report_context)
+    report_context["reporting_currency"] = currency_for_geography(geography)
     existing_profile = workspace.get("existing_business_profile") if isinstance(workspace.get("existing_business_profile"), dict) else None
     if existing_profile:
         report_context = dict(report_context)

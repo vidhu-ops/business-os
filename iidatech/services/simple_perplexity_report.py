@@ -100,6 +100,7 @@ from iidatech.llm.usage_ledger import perplexity_usage_row, sum_ledger
 
 
 
+from iidatech.services.market_currency import currency_for_geography
 from iidatech.services.perplexity_report_engine import format_market_geography
 
 
@@ -2355,7 +2356,10 @@ def _row_source_cite(row: dict[str, Any], registry: dict[str, int]) -> str:
 
 
 
-def build_financial_snapshot_section(financial: dict[str, Any]) -> tuple[str, dict[str, int]]:
+def build_financial_snapshot_section(
+    financial: dict[str, Any],
+    geography: str = "",
+) -> tuple[str, dict[str, int]]:
 
 
 
@@ -2403,7 +2407,18 @@ def build_financial_snapshot_section(financial: dict[str, Any]) -> tuple[str, di
 
 
 
-    lines = ["## Financial Snapshot", "", "### Primary market sizing", ""]
+    lines = ["## Financial Snapshot", ""]
+
+    cur = financial.get("currency") if isinstance(financial.get("currency"), dict) else {}
+    if not cur.get("code") and geography:
+        cur = currency_for_geography(geography)
+    if cur.get("code"):
+        lines.append(
+            f"*All figures in **{cur.get('code')}** ({cur.get('symbol', '')}) — {cur.get('name', cur.get('code'))}*"
+        )
+        lines.append("")
+
+    lines.extend(["### Primary market sizing", ""])
 
 
 
@@ -2522,6 +2537,45 @@ def build_financial_snapshot_section(financial: dict[str, Any]) -> tuple[str, di
 
 
 
+
+    top_down = financial.get("top_down") if isinstance(financial.get("top_down"), dict) else {}
+    bottom_up = financial.get("bottom_up") if isinstance(financial.get("bottom_up"), dict) else {}
+    validation = financial.get("validation") if isinstance(financial.get("validation"), dict) else {}
+
+    for method_title, block in (("Top-down method", top_down), ("Bottom-up method", bottom_up)):
+        formula = str(block.get("formula") or "").strip()
+        result = str(block.get("result") or "").strip()
+        method = str(block.get("method") or "").strip()
+        if not (formula or result or method):
+            continue
+        lines.extend(["", f"### {method_title}", ""])
+        if method:
+            lines.append(f"**Approach:** {repair_spaced_text(method)}")
+        if formula:
+            lines.append(f"**Formula:** {repair_spaced_text(formula)}")
+        if result:
+            lines.append(f"**Result:** {repair_spaced_text(result)}")
+        label = str(block.get("label") or "").strip()
+        notes = str(block.get("notes") or "").strip()
+        if label:
+            lines.append(f"**Label:** {label}")
+        if notes:
+            lines.append(f"**Notes:** {repair_spaced_text(notes)}")
+
+    val_notes = str(validation.get("notes") or "").strip()
+    td_res = str(validation.get("top_down_result") or "").strip()
+    bu_res = str(validation.get("bottom_up_result") or "").strip()
+    if td_res or bu_res or val_notes:
+        lines.extend(["", "### Dual validation (top-down vs bottom-up)", ""])
+        if td_res:
+            lines.append(f"- **Top-down:** {repair_spaced_text(td_res)}")
+        if bu_res:
+            lines.append(f"- **Bottom-up:** {repair_spaced_text(bu_res)}")
+        reconciled = validation.get("reconciled")
+        if reconciled is not None:
+            lines.append(f"- **Within 2×:** {'Yes' if reconciled else 'No — see notes'}")
+        if val_notes:
+            lines.append(f"- {repair_spaced_text(val_notes)}")
 
     alts = financial.get("tam_alternatives") if isinstance(financial.get("tam_alternatives"), list) else []
 
@@ -2860,6 +2914,24 @@ def build_financial_snapshot_section(financial: dict[str, Any]) -> tuple[str, di
 
 
         )
+
+
+
+
+
+    commentary = financial.get("commentary") if isinstance(financial.get("commentary"), list) else []
+
+    if commentary:
+
+        lines.extend(["", "### Investor takeaways", ""])
+
+        for bullet in commentary[:5]:
+
+            text = str(bullet or "").strip()
+
+            if text:
+
+                lines.append(f"- {repair_spaced_text(text)}")
 
 
 
@@ -4220,7 +4292,7 @@ def generate_simple_perplexity_report(
 
 
 
-    financial_section, source_registry = build_financial_snapshot_section(financial_parsed)
+    financial_section, source_registry = build_financial_snapshot_section(financial_parsed, market_label)
 
 
 

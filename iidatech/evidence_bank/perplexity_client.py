@@ -99,6 +99,8 @@ def _extract_monthly_amount(price_text: str) -> float | None:
 
 _MONTHLY_PRICE_RE = re.compile(r"/mo\b|/month\b|per\s+month\b|/user\b|per\s+user\b|/seat\b|per\s+seat\b", re.I)
 
+from iidatech.services.market_currency import currency_for_geography as _currency_for_geography
+
 _GEO_EXPECTED_CURRENCY: dict[str, str] = {
     "india": "INR",
     "united states": "USD",
@@ -124,6 +126,9 @@ def _detect_price_currency(price_text: str) -> str | None:
 
 
 def _expected_currency_for_geography(geography: str) -> str | None:
+    cur = _currency_for_geography(geography)
+    if cur.get("localized"):
+        return str(cur.get("code") or "") or None
     geo = str(geography or "").strip().lower()
     if not geo or geo in {"global", "world", "worldwide", "international"}:
         return None
