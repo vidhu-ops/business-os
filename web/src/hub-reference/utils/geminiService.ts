@@ -47,7 +47,17 @@ export async function callGeminiAPI(prompt: string, temperature: number = 0.7): 
 
     if (!response.ok) {
       const errorText = await response.text();
-      console.warn(`⚠️ Zo API error ${response.status}:`, errorText.substring(0, 200));
+      let detail = errorText.substring(0, 200);
+      try {
+        const parsed = JSON.parse(errorText);
+        detail = parsed?.error || parsed?.message || detail;
+      } catch {
+        // keep raw text
+      }
+      if (response.status === 400 && /missing zo api key/i.test(detail)) {
+        console.error('❌ Zo API key not configured on server — set ZO_API_KEY in Render env vars');
+      }
+      console.warn(`⚠️ Zo API error ${response.status}:`, detail);
       return null;
     }
 

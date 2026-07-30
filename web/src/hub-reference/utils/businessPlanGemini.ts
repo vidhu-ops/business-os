@@ -9,6 +9,19 @@ import { callGeminiAPI, callGeminiWithGrounding } from './geminiService';
 import { searchCompetitors } from './webScraperService';
 import { getRealCompetitorsWithGemini } from './getRealCompetitors';
 
+function extractJson(text: string): any {
+  let t = text.replace(/```json\n?/g, '').replace(/```\n?/g, '').trim();
+  const objMatch = t.match(/\{[\s\S]*\}/);
+  if (objMatch) {
+    try {
+      return JSON.parse(objMatch[0]);
+    } catch {
+      // fall through
+    }
+  }
+  return JSON.parse(t);
+}
+
 /**
  * Generate comprehensive business plan using Gemini API
  * Tailored specifically to the user's location and business topic
@@ -479,24 +492,23 @@ Return ONLY the JSON object, no additional text or markdown formatting.`;
     // (market analysis, regulatory data, vendor suggestions, financials) are grounded in
     // real live search results — not just the pre-fetched competitors.
     console.log('🌐 Generating business plan body with Google Search Grounding for verified data...');
+    let generatedText: string | null = null;
     const groundedPlan = await callGeminiWithGrounding(prompt);
-    if (!groundedPlan) {
-      throw new Error('Gemini grounding returned null — triggering Claude fallback');
+    if (groundedPlan?.text) {
+      generatedText = groundedPlan.text;
+      if (groundedPlan.queries?.length) {
+        console.log('🔍 Business Plan Google Search Queries:', groundedPlan.queries.join(' | '));
+      }
+    } else {
+      console.warn('⚠️ Zo/MiniMax returned null — trying Claude fallback...');
+      const { callClaudeAPI } = await import('./claudeService');
+      generatedText = await callClaudeAPI(prompt);
     }
-    const generatedText = groundedPlan.text;
-    if (groundedPlan.queries) {
-      console.log('🔍 Business Plan Google Search Queries:', groundedPlan.queries.join(' | '));
+    if (!generatedText) {
+      throw new Error('AI generation returned empty response');
     }
 
-    // Parse JSON response
-    let jsonText = generatedText;
-    if (jsonText.includes('```json')) {
-      jsonText = jsonText.replace(/```json\n?/g, '').replace(/```\n?/g, '');
-    } else if (jsonText.includes('```')) {
-      jsonText = jsonText.replace(/```\n?/g, '');
-    }
-    
-    const businessPlan = JSON.parse(jsonText.trim());
+    const businessPlan = extractJson(generatedText);
     
     // Validate competitor data quality
     const competitors = businessPlan?.marketAnalysis?.competitiveAnalysis?.directCompetitors || [];

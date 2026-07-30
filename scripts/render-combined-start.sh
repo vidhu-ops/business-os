@@ -43,4 +43,9 @@ fi
 
 echo "API ready. Starting Next.js on port ${WEB_PORT} ..."
 cd /app/web
-exec env API_URL="$API_URL" npm run start -- --hostname 0.0.0.0 --port "${WEB_PORT}"
+exec env \
+  API_URL="$API_URL" \
+  ZO_API_KEY="${ZO_API_KEY:-}" \
+  ANTHROPIC_API_KEY="${ANTHROPIC_API_KEY:-}" \
+  VITE_CLAUDE_API_KEY="${VITE_CLAUDE_API_KEY:-}" \
+  npm run start -- --hostname 0.0.0.0 --port "${WEB_PORT}"

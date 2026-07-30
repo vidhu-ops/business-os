@@ -26,10 +26,15 @@ async function proxy(req: NextRequest, ctx: { params: Promise<{ path: string[] }
     const upstream = await fetch(target, init);
     const body = await upstream.arrayBuffer();
     const out = new Headers();
-    const ct = upstream.headers.get("content-type");
-    if (ct) out.set("content-type", ct);
-    const setCookie = upstream.headers.get("set-cookie");
-    if (setCookie) out.set("set-cookie", setCookie);
+    upstream.headers.forEach((value, key) => {
+      const lower = key.toLowerCase();
+      if (lower === "transfer-encoding" || lower === "connection") return;
+      if (lower === "set-cookie") {
+        out.append("set-cookie", value);
+        return;
+      }
+      out.set(key, value);
+    });
     return new NextResponse(body, { status: upstream.status, headers: out });
   } catch (err) {
     const message = err instanceof Error ? err.message : "API unreachable";
