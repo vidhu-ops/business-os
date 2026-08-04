@@ -5,7 +5,8 @@ services:
     dockerfilePath: ./Dockerfile
     plan: free
     # Free tier sleeps after ~15 min idle — first request after sleep can take 30–90s.
-    healthCheckPath: /api/v1/health
+    # Next.js health — fast wake signal without waiting on Python cold start.
+    healthCheckPath: /api/health
     envVars:
       - key: API_URL
         value: http://127.0.0.1:8000

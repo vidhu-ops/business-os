@@ -53,4 +53,13 @@ if [ "$ready" -ne 1 ]; then
 fi
 
 echo "API ready. Combined stack is live."
-wait "$WEB_PID"
+
+# Keep container alive; exit non-zero if either process dies so Render restarts.
+while kill -0 "$API_PID" 2>/dev/null && kill -0 "$WEB_PID" 2>/dev/null; do
+  sleep 5
+done
+
+echo "A core process exited — shutting down." >&2
+wait "$WEB_PID" 2>/dev/null || true
+wait "$API_PID" 2>/dev/null || true
+exit 1

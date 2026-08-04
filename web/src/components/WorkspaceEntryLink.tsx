@@ -13,9 +13,11 @@ type Props = Omit<ComponentProps<typeof Link>, "href"> & {
 export function WorkspaceEntryLink({ href = "/app/research?project=demo_readonly", className, children, onClick, ...rest }: Props) {
   const router = useRouter();
   const [busy, setBusy] = useState(false);
+  const [error, setError] = useState("");
 
   return (
-    <Link
+    <span className="inline-flex flex-col items-stretch gap-1">
+      <Link
       href={href}
       className={className}
       aria-busy={busy}
@@ -25,11 +27,13 @@ export function WorkspaceEntryLink({ href = "/app/research?project=demo_readonly
         e.preventDefault();
         if (busy) return;
         setBusy(true);
+        setError("");
         try {
           await api.demoLogin();
           router.push(href);
-        } catch {
-          router.push(href);
+        } catch (err) {
+          const msg = err instanceof Error ? err.message : "Demo login failed";
+          setError(msg);
         } finally {
           setBusy(false);
         }
@@ -38,5 +42,7 @@ export function WorkspaceEntryLink({ href = "/app/research?project=demo_readonly
     >
       {busy ? "Opening workspace…" : children}
     </Link>
+    {error ? <span className="text-xs text-red-400">{error}</span> : null}
+    </span>
   );
 }
