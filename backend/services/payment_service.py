@@ -7,17 +7,29 @@ from pathlib import Path
 from typing import Any
 
 from backend.config import settings
+from backend.services.pricing_catalog import CREDIT_PACKS, list_billable_plans, list_checkout_plans, resolve_checkout_plan_id
 
 BILLABLE_PLANS: dict[str, dict[str, Any]] = {
-    "growth": {
-        "id": "growth",
-        "name": "Growth",
-        "amount_paise": 499_900,
+    row["id"]: {
+        "id": row["id"],
+        "name": row["display_name"],
+        "amount_paise": row["amount_paise"],
         "currency": "INR",
-        "price_label": "₹4,999",
-        "tagline": "Unlimited research and Employee OS for growing teams.",
-        "description": "Monthly Growth subscription",
-    },
+        "price_label": row["price_label"],
+        "tagline": (row.get("perks") or [""])[0],
+        "description": f"Monthly {row['display_name']} subscription",
+    }
+    for row in list_billable_plans()
+}
+
+BILLABLE_CREDIT_PACKS: dict[str, dict[str, Any]] = {
+    pack["id"]: {
+        **pack,
+        "currency": "INR",
+        "kind": "credit_pack",
+        "description": f"{pack['credits']} IIDATECH credits",
+    }
+    for pack in CREDIT_PACKS
 }
 
 
@@ -43,20 +55,16 @@ def _save_orders(orders: dict[str, Any]) -> None:
 
 
 def list_public_plans() -> list[dict[str, Any]]:
-    starter = {
-        "id": "starter",
-        "name": "Starter",
-        "amount_paise": 0,
-        "currency": "INR",
-        "price_label": "Free",
-        "tagline": "Validate ideas with real research output.",
-        "description": "Free tier with starter credits",
-    }
-    return [starter, *BILLABLE_PLANS.values()]
+    return list_checkout_plans()
 
 
 def get_billable_plan(plan_id: str) -> dict[str, Any] | None:
-    return BILLABLE_PLANS.get(plan_id.strip().lower())
+    resolved = resolve_checkout_plan_id(plan_id)
+    return BILLABLE_PLANS.get(resolved)
+
+
+def get_billable_credit_pack(pack_id: str) -> dict[str, Any] | None:
+    return BILLABLE_CREDIT_PACKS.get(pack_id.strip().lower())
 
 
 def create_order(*, email: str, plan_id: str, return_url: str, notify_url: str) -> dict[str, Any]:
@@ -72,8 +80,41 @@ def create_order(*, email: str, plan_id: str, return_url: str, notify_url: str) 
         "email": email.strip().lower(),
         "plan_id": plan["id"],
         "plan_name": plan["name"],
+        "order_kind": "subscription",
         "amount_paise": plan["amount_paise"],
         "currency": plan["currency"],
+        "status": "created",
+        "return_url": return_url,
+        "notify_url": notify_url,
+        "created_at": now,
+        "updated_at": now,
+        "gateway_ref": "",
+        "paid_at": "",
+    }
+    orders = _load_orders()
+    orders[order_id] = order
+    _save_orders(orders)
+    return order
+
+
+def create_credit_pack_order(*, email: str, pack_id: str, return_url: str, notify_url: str) -> dict[str, Any]:
+    pack = get_billable_credit_pack(pack_id)
+    if not pack:
+        raise ValueError("Unknown credit pack")
+    order_id = f"ord_{uuid.uuid4().hex[:16]}"
+    merchant_txn_id = f"IIDA{uuid.uuid4().hex[:12].upper()}"
+    now = datetime.now(timezone.utc).isoformat().replace("+00:00", "Z")
+    order = {
+        "order_id": order_id,
+        "merchant_txn_id": merchant_txn_id,
+        "email": email.strip().lower(),
+        "plan_id": pack["id"],
+        "plan_name": f"{pack['credits']} credits",
+        "order_kind": "credit_pack",
+        "credit_pack_id": pack["id"],
+        "credits_granted": pack["credits"],
+        "amount_paise": pack["amount_paise"],
+        "currency": pack["currency"],
         "status": "created",
         "return_url": return_url,
         "notify_url": notify_url,

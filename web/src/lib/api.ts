@@ -526,7 +526,32 @@ export const api = {
       credits_total?: number | null;
       is_unlimited: boolean;
       plan: string;
+      plan_display_name?: string;
+      plan_stage?: string;
+      billing_model?: string;
+      entitlements?: Record<string, boolean>;
       costs: Record<string, number>;
       labels: Record<string, string>;
+      research_tiers?: Array<{ section_count: number; credits: number; label: string }>;
     }>("/api/v1/credits"),
+  pricingCatalog: () =>
+    request<{
+      credit_baseline_inr: number;
+      user_stages: Array<{ id: string; label: string; description: string }>;
+      plans: Array<Record<string, unknown>>;
+      credit_actions: Record<string, Record<string, unknown>>;
+      research_tiers: Array<Record<string, unknown>>;
+      credit_packs: Array<Record<string, unknown>>;
+      service_packages: Array<Record<string, unknown>>;
+      a_la_carte: Array<Record<string, unknown>>;
+      signup_credits: number;
+    }>("/api/v1/pricing/catalog", {}, { auth: false }),
+  startCreditPackCheckout: (pack_id: string) =>
+    request<{
+      order: Record<string, unknown>;
+      checkout: {
+        checkout_url: string;
+        fields: { merchantId: string; encData: string };
+      };
+    }>("/api/v1/payments/checkout/credits", { method: "POST", body: JSON.stringify({ pack_id }) }),
 };

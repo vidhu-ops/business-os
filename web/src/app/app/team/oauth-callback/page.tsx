@@ -9,15 +9,28 @@ function OAuthCallbackContent() {
   const success = params.get("success");
   const error = params.get("error");
   const provider = params.get("provider");
+  const mode = params.get("mode");
+  const isServiceCanva = success && provider === "canva" && mode === "service";
 
   return (
     <div className="min-h-[50vh] flex items-center justify-center p-8">
       <section className="iid-card max-w-md w-full space-y-4 text-center">
         {success ? (
-          <>
-            <h1 className="font-display text-xl font-bold">Connected</h1>
-            <p className="text-sm muted">{provider ? `${provider} is now linked to your workspace.` : "OAuth connection saved."}</p>
-          </>
+          isServiceCanva ? (
+            <>
+              <h1 className="font-display text-xl font-bold">IIDATECH platform Canva is connected</h1>
+              <p className="text-sm muted">
+                All users can now create Canva designs through Employee OS. To persist across Render redeploys, copy{" "}
+                <code className="text-xs">CANVA_REFRESH_TOKEN</code> from server logs or the admin status endpoint into
+                your Render environment variables.
+              </p>
+            </>
+          ) : (
+            <>
+              <h1 className="font-display text-xl font-bold">Connected</h1>
+              <p className="text-sm muted">{provider ? `${provider} is now linked to your workspace.` : "OAuth connection saved."}</p>
+            </>
+          )
         ) : (
           <>
             <h1 className="font-display text-xl font-bold">Connection failed</h1>

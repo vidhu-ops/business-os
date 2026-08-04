@@ -7,40 +7,21 @@ from typing import Any
 from backend.auth import load_users, save_users
 from backend.config import settings
 from backend.services.founder_files import is_founder_visible_file
-
-PLAN_CATALOG: dict[str, dict[str, Any]] = {
-    "starter": {
-        "id": "starter",
-        "name": "Starter",
-        "price_label": "Free",
-        "period": "",
-        "credits_total": 30,
-        "tagline": "Validate ideas with real research output.",
-        "upgrade_href": "/pricing",
-    },
-    "growth": {
-        "id": "growth",
-        "name": "Growth",
-        "price_label": "₹4,999",
-        "period": "/ month",
-        "credits_total": None,
-        "tagline": "Unlimited research and Employee OS for growing teams.",
-        "upgrade_href": "/checkout?plan=growth",
-    },
-}
+from backend.services.pricing_catalog import get_plan, is_unlimited_plan, normalize_plan_id, signup_credits_for_plan
 
 
 def ensure_account(email: str, name: str | None = None) -> dict[str, Any]:
     users = load_users()
     key = email.strip().lower()
     if key not in users:
+        credits = signup_credits_for_plan("starter")
         users[key] = {
             "email": key,
             "name": (name or key.split("@")[0]).strip(),
             "created_at": datetime.now(timezone.utc).isoformat().replace("+00:00", "Z"),
             "plan": "starter",
-            "credits_remaining": 30,
-            "credits_total": 30,
+            "credits_remaining": credits,
+            "credits_total": credits,
         }
         save_users(users)
     elif name and not users[key].get("name"):
@@ -50,19 +31,30 @@ def ensure_account(email: str, name: str | None = None) -> dict[str, Any]:
 
 
 def get_plan_snapshot(record: dict[str, Any]) -> dict[str, Any]:
-    plan_id = str(record.get("plan") or "starter").lower()
-    catalog = PLAN_CATALOG.get(plan_id, PLAN_CATALOG["starter"])
-    is_unlimited = plan_id == "growth"
+    plan_id = normalize_plan_id(str(record.get("plan") or "starter"))
+    catalog = get_plan(plan_id)
+    unlimited = is_unlimited_plan(plan_id)
     credits_total = record.get("credits_total")
     credits_remaining = record.get("credits_remaining")
-    if is_unlimited:
+    if unlimited:
         credits_total = None
         credits_remaining = None
+    checkout_href = f"/checkout?plan={plan_id}" if catalog.get("billable") else "/pricing"
     return {
-        **catalog,
+        "id": plan_id,
+        "name": catalog.get("display_name") or catalog.get("id"),
+        "display_name": catalog.get("display_name"),
+        "stage": catalog.get("stage"),
+        "user_type": catalog.get("user_type"),
+        "billing_model": catalog.get("billing_model"),
+        "price_label": catalog.get("price_label"),
+        "period": catalog.get("period", ""),
+        "tagline": (catalog.get("perks") or [""])[0],
+        "upgrade_href": checkout_href,
+        "entitlements": catalog.get("entitlements"),
         "credits_total": credits_total,
         "credits_remaining": credits_remaining,
-        "is_unlimited": is_unlimited,
+        "is_unlimited": unlimited,
     }
 
 
@@ -70,9 +62,9 @@ def activate_plan(email: str, plan_id: str) -> dict[str, Any]:
     users = load_users()
     key = email.strip().lower()
     record = ensure_account(key)
-    plan = plan_id.lower()
+    plan = normalize_plan_id(plan_id)
     record["plan"] = plan
-    if plan == "growth":
+    if is_unlimited_plan(plan):
         record["credits_total"] = None
         record["credits_remaining"] = None
         record["plan_activated_at"] = datetime.now(timezone.utc).isoformat().replace("+00:00", "Z")

@@ -6,9 +6,15 @@ import { api } from "@/lib/api";
 import { ProjectPicker } from "@/components/ProjectPicker";
 import { useProjects } from "@/hooks/useProjects";
 import { brandReportText, filterClientWarnings, sanitizeReportMarkdown } from "@/lib/reportBrand";
+import { formatCreditHint, usePricingCatalog } from "@/hooks/usePricingCatalog";
 import { ReportMarkdown } from "@/components/ReportMarkdown";
 
-type ResearchOption = { section_count: number; titles: string[] };
+type ResearchOption = {
+  section_count: number;
+  titles: string[];
+  credits?: number;
+  tier_label?: string;
+};
 type TabId = "report";
 
 function downloadFilename(topic: string) {
@@ -44,9 +50,12 @@ function ResearchContent() {
   const [loading, setLoading] = useState(false);
   const [savingIntake, setSavingIntake] = useState(false);
   const [isDemo, setIsDemo] = useState(false);
+  const [isUnlimited, setIsUnlimited] = useState(false);
+  const { catalog } = usePricingCatalog();
 
   useEffect(() => {
     api.me().then((u) => setIsDemo(Boolean(u.is_demo))).catch(() => setIsDemo(false));
+    api.getCredits().then((c) => setIsUnlimited(Boolean(c.is_unlimited))).catch(() => setIsUnlimited(false));
   }, []);
 
   const refreshResearchOptions = useCallback((workspaceId?: string) => {
@@ -298,8 +307,14 @@ function ResearchContent() {
                       className={`iid-btn text-left ${sectionCount === opt.section_count ? "iid-btn-primary" : "iid-btn-ghost"}`}
                       onClick={() => setSectionCount(opt.section_count)}
                     >
-                      <span className="block font-semibold">{opt.section_count} sections</span>
-                      <span className="block text-xs opacity-80">{preview}{suffix}</span>
+                      <span className="block font-semibold">
+                        {opt.section_count} sections
+                        {opt.credits ? ` · ${opt.credits} credits` : ""}
+                      </span>
+                      <span className="block text-xs opacity-80">
+                        {opt.tier_label ? `${opt.tier_label} · ` : ""}
+                        {preview}{suffix}
+                      </span>
                     </button>
                   );
                 })}
@@ -354,7 +369,9 @@ function ResearchContent() {
               )}
               {error && <p className="text-sm text-red-400">{error}</p>}
 
-              <p className="text-xs muted">Each report run uses 5 credits (Growth plan: unlimited).</p>
+              <p className="text-xs muted">
+                {formatCreditHint(catalog, "research", { sectionCount, unlimited: isUnlimited })}
+              </p>
               <div className="flex flex-wrap gap-3">
                 <button
                   className="iid-btn iid-btn-primary"

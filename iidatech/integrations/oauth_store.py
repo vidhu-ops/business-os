@@ -420,6 +420,12 @@ def fetch_linkedin_author_urn(access_token: str) -> tuple[bool, str]:
         return False, str(exc)[:200]
 
 
+def apply_canva_token_payload(payload: dict[str, Any]) -> dict[str, Any]:
+    report_id = str(payload.get("report_id") or "").strip()
+    fields = _token_fields_from_payload("canva", payload)
+    return set_connection(report_id, "canva", fields)
+
+
 def apply_token_payload(report_id: str, provider: str, payload: dict[str, Any]) -> dict[str, Any]:
     fields = _token_fields_from_payload(provider, payload)
     if provider == "linkedin" and fields.get("access_token") and not fields.get("author_urn"):

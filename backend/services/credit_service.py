@@ -7,29 +7,23 @@ from fastapi import HTTPException
 
 from backend.auth import load_users, save_users
 from backend.services.account_service import ensure_account
+from backend.services.pricing_catalog import (
+    credit_cost_for_action,
+    credit_costs_map,
+    credit_labels_map,
+    get_plan,
+    is_unlimited_plan,
+    RESEARCH_TIERS,
+    signup_credits_for_plan,
+)
 
-CREDIT_COSTS: dict[str, int] = {
-    "research": 5,
-    "business_plan": 5,
-    "department_week": 10,
-    "full_office_week": 50,
-    "automation_build": 8,
-    "automation_run": 8,
-}
-
-CREDIT_LABELS: dict[str, str] = {
-    "research": "Market research report",
-    "business_plan": "Business plan generation",
-    "department_week": "Employee OS — one department (1 week)",
-    "full_office_week": "Employee OS — full office (1 week)",
-    "automation_build": "Automation workflow build",
-    "automation_run": "Automation step run",
-}
+CREDIT_COSTS: dict[str, int] = credit_costs_map()
+CREDIT_LABELS: dict[str, str] = credit_labels_map()
 
 
 def is_unlimited(email: str) -> bool:
     record = ensure_account(email)
-    return str(record.get("plan") or "starter").lower() == "growth"
+    return is_unlimited_plan(str(record.get("plan") or "starter"))
 
 
 def get_balance(email: str) -> dict[str, Any]:
@@ -37,13 +31,22 @@ def get_balance(email: str) -> dict[str, Any]:
     unlimited = is_unlimited(email)
     remaining = record.get("credits_remaining")
     total = record.get("credits_total")
+    plan = get_plan(str(record.get("plan") or "starter"))
     return {
         "credits_remaining": None if unlimited else remaining,
         "credits_total": None if unlimited else total,
         "is_unlimited": unlimited,
         "plan": record.get("plan", "starter"),
+        "plan_display_name": plan.get("display_name"),
+        "plan_stage": plan.get("stage"),
+        "billing_model": plan.get("billing_model"),
+        "entitlements": plan.get("entitlements"),
         "costs": dict(CREDIT_COSTS),
         "labels": dict(CREDIT_LABELS),
+        "research_tiers": [
+            {"section_count": count, "credits": tier["credits"], "label": tier["label"]}
+            for count, tier in sorted(RESEARCH_TIERS.items())
+        ],
     }
 
 
@@ -93,14 +96,16 @@ def spend_credits(
     action: str,
     *,
     quantity: int = 1,
+    section_count: int | None = None,
     metadata: dict[str, Any] | None = None,
 ) -> dict[str, Any]:
     if is_unlimited(email):
         return {"charged": 0, "credits_remaining": None, "is_unlimited": True, "action": action}
 
-    unit = CREDIT_COSTS.get(action)
-    if unit is None:
-        raise HTTPException(status_code=400, detail=f"Unknown credit action: {action}")
+    try:
+        unit = credit_cost_for_action(action, section_count=section_count)
+    except ValueError as exc:
+        raise HTTPException(status_code=400, detail=str(exc)) from exc
     amount = max(1, int(quantity)) * int(unit)
     users = load_users()
     key = email.strip().lower()
@@ -150,3 +155,30 @@ def charge_office_week(email: str, workspace: dict[str, Any], *, mode: str, depa
     result = spend_credits(email, action, quantity=qty, metadata={"mode": mode, "departments": departments})
     mark_office_week_paid(workspace, mode=mode, departments=departments)
     return result
+
+
+def add_credits(email: str, amount: int, *, reason: str = "purchase", metadata: dict[str, Any] | None = None) -> dict[str, Any]:
+    users = load_users()
+    key = email.strip().lower()
+    record = ensure_account(key)
+    if is_unlimited(key):
+        return {"added": 0, "credits_remaining": None, "is_unlimited": True}
+    added = max(0, int(amount))
+    remaining = int(record.get("credits_remaining") or 0) + added
+    total = int(record.get("credits_total") or 0) + added
+    record["credits_remaining"] = remaining
+    record["credits_total"] = total
+    ledger = list(record.get("credit_ledger") or [])
+    ledger.insert(
+        0,
+        {
+            "action": reason,
+            "amount": -added,
+            "at": datetime.now(timezone.utc).isoformat().replace("+00:00", "Z"),
+            "meta": metadata or {},
+        },
+    )
+    record["credit_ledger"] = ledger[:50]
+    users[key] = record
+    save_users(users)
+    return {"added": added, "credits_remaining": remaining, "is_unlimited": False}

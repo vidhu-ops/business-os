@@ -592,6 +592,12 @@ def run_task_action(workspace_id: str, task_id: str, action: str) -> dict[str, A
 
 
 def oauth_links(workspace_id: str) -> list[dict[str, Any]]:
+    from iidatech.integrations.canva_client import (
+        canva_env_ready,
+        canva_ready_for_users,
+        connection_status as canva_status,
+        use_service_account,
+    )
     from iidatech.integrations.oauth_store import build_authorization_url, connection_label, is_connected, oauth_env_ready, oauth_state
 
     _, report_id, _, _, _ = _workspace_bundle(workspace_id)
@@ -607,6 +613,19 @@ def oauth_links(workspace_id: str) -> list[dict[str, Any]]:
                 "env_ready": oauth_env_ready(pid),
                 "authorize_url": auth_url,
                 "error": auth_err,
+            }
+        )
+    if use_service_account():
+        rows.append(
+            {
+                "provider": "canva",
+                "label": "Canva (platform)",
+                "status": canva_status(report_id),
+                "connected": canva_ready_for_users(),
+                "env_ready": canva_env_ready(),
+                "authorize_url": "",
+                "error": "" if canva_env_ready() else "Set CANVA_CLIENT_ID and CANVA_CLIENT_SECRET on the server.",
+                "use_in_automations": "Visuals use the IIDATECH Canva account — no client sign-in required.",
             }
         )
     return rows

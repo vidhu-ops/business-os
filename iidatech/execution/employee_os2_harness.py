@@ -96,6 +96,11 @@ def route_message_to_tools(harness_id: str, message: str, *, report_context: dic
         q = str(message or "").strip() or f"{topic} {geo}"
         return ([{"tool": "serp_search", "payload": {"query": q, "max_results": 12}, "approved": True}], "Live search.")
     if harness_id == "creative_producer":
+        if any(k in msg for k in ("canva", "create design", "open in canva")) or (
+            any(k in msg for k in ("visual", "creative", "design", "deck", "pitch", "social post", "banner"))
+            and any(k in msg for k in ("create", "make", "build", "generate"))
+        ):
+            return ([{"tool": "canva_design", "payload": {"brief": message, "topic": topic}, "approved": True}], "Canva design.")
         if any(k in msg for k in ("storyboard", "video")):
             return ([{"tool": "creative_storyboard", "payload": {"brief": message, "topic": topic}, "approved": True}], "Storyboard.")
         if any(k in msg for k in ("brief", "landing", "visual", "design")):
@@ -134,7 +139,31 @@ def _tool_creative_storyboard(payload: dict, context: dict) -> dict[str, Any]:
     return execution_result(success=True, result={"storyboard_path": str(path)}, artifacts=[str(path)], execution_mode="real", verified=False)
 
 
-_EXTRA = {"creative_brief": _tool_creative_brief, "creative_storyboard": _tool_creative_storyboard}
+def _tool_canva_design(payload: dict, context: dict) -> dict[str, Any]:
+    from iidatech.execution.tool_outcomes import execution_result
+    from iidatech.integrations.canva_client import create_design_from_message
+
+    rid = str(payload.get("report_id") or context.get("report_id") or "os2")
+    brief = str(payload.get("brief") or context.get("message") or "")
+    topic = str(payload.get("topic") or "")
+    ok, result = create_design_from_message(rid, brief, topic=topic)
+    if not ok:
+        return execution_result(success=False, result={"error": str(result)}, artifacts=[], execution_mode="real", verified=False)
+    design = (result or {}).get("design") if isinstance(result, dict) else {}
+    urls = design.get("urls") if isinstance(design, dict) else {}
+    edit_url = str((urls or {}).get("edit_url") or "")
+    view_url = str((urls or {}).get("view_url") or "")
+    artifacts = [u for u in (edit_url, view_url) if u]
+    return execution_result(
+        success=True,
+        result={"design_id": design.get("id"), "edit_url": edit_url, "view_url": view_url, "title": design.get("title")},
+        artifacts=artifacts,
+        execution_mode="real",
+        verified=True,
+    )
+
+
+_EXTRA = {"creative_brief": _tool_creative_brief, "creative_storyboard": _tool_creative_storyboard, "canva_design": _tool_canva_design}
 
 
 def _run_extra(employee_id: str, role: str, calls: list, context: dict) -> dict[str, Any]:

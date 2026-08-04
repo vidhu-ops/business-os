@@ -1187,7 +1187,7 @@ function TeamContent() {
 
                   <div className="border-t border-[var(--iid-line)] pt-4 space-y-3">
                     <h3 className="font-semibold">Connect apps (OAuth)</h3>
-                    <p className="text-sm muted">Needed only when tasks send email, post to LinkedIn, or sync CRM data.</p>
+                    <p className="text-sm muted">Connect Canva for visuals, Gmail/LinkedIn/HubSpot for outreach automations.</p>
                     {(oauthProviders.length ? oauthProviders : oauthRows).map((row) => {
                       const provider = String(row.provider || row.App || "").toLowerCase();
                       const label = String(row.label || row.App || provider);
@@ -1198,8 +1198,14 @@ function TeamContent() {
                           <p>
                             <strong>{label}</strong> — <span className={status === "connected" ? "text-emerald-300" : "muted"}>{status}</span>
                           </p>
+                          {row.use_in_automations ? <p className="text-xs muted">{String(row.use_in_automations)}</p> : null}
                           {row.authorize_url ? (
-                            <a href={String(row.authorize_url)} target="_blank" rel="noreferrer" className="iid-btn iid-btn-primary text-xs inline-flex">
+                            <a
+                              href={String(row.authorize_url)}
+                              target={String(row.authorize_url).startsWith("/") ? "_self" : "_blank"}
+                              rel="noreferrer"
+                              className="iid-btn iid-btn-primary text-xs inline-flex"
+                            >
                               Connect with {label}
                             </a>
                           ) : envReady === false ? (

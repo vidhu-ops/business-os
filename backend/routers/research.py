@@ -16,6 +16,7 @@ from iidatech.evidence_bank.perplexity_client import perplexity_enabled
 from iidatech.execution.session_api_keys import session_api_keys
 from iidatech.services.perplexity_report_engine import format_market_geography
 from iidatech.services.report_section_plans import SIMPLE_SECTION_COUNTS, section_titles
+from backend.services.pricing_catalog import RESEARCH_TIERS, research_credit_cost
 from iidatech.services.client_report_view import sanitize_research_result
 from iidatech.services.simple_perplexity_report import generate_simple_perplexity_report
 
@@ -147,10 +148,15 @@ def research_options(
     ready = _perplexity_ready(workspace_id)
     options = []
     for count in SIMPLE_SECTION_COUNTS:
+        tier = RESEARCH_TIERS.get(count, {})
         options.append(
             {
                 "section_count": count,
                 "titles": section_titles(count),
+                "credits": research_credit_cost(count),
+                "tier_id": tier.get("tier_id"),
+                "tier_label": tier.get("label"),
+                "tool_inr": tier.get("tool_inr"),
             }
         )
     return {
@@ -238,7 +244,12 @@ def run_research(body: ResearchRunBody, email: str = Depends(get_current_user)) 
     if body.section_count not in SIMPLE_SECTION_COUNTS:
         raise HTTPException(status_code=400, detail="Invalid section count")
 
-    credit = spend_credits(email, "research", metadata={"workspace_id": body.workspace_id})
+    credit = spend_credits(
+        email,
+        "research",
+        section_count=body.section_count,
+        metadata={"workspace_id": body.workspace_id, "section_count": body.section_count},
+    )
     workspace["research_job"] = {
         "status": "running",
         "section_count": body.section_count,

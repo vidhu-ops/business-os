@@ -43,6 +43,20 @@ def oauth_callback(
         return RedirectResponse(url=f"{base}?error={error}", status_code=302)
     if not code or not state:
         return RedirectResponse(url=f"{base}?error=missing_code_or_state", status_code=302)
+
+    if "|" not in state:
+        from iidatech.integrations.canva_client import exchange_authorization_code as exchange_canva_code
+        from iidatech.integrations.oauth_store import apply_canva_token_payload
+
+        ok, payload = exchange_canva_code(state=state, code=code)
+        if not ok or not isinstance(payload, dict):
+            msg = str(payload)[:120] if payload else "canva_exchange_failed"
+            return RedirectResponse(url=f"{base}?error={msg}", status_code=302)
+        if payload.get("saved") != "service_account":
+            apply_canva_token_payload(payload)
+        mode = "service" if payload.get("saved") == "service_account" else "user"
+        return RedirectResponse(url=f"{base}?success=1&provider=canva&mode={mode}", status_code=302)
+
     report_id, provider = parse_oauth_state(state)
     if provider not in {"linkedin", "gmail", "hubspot"}:
         return RedirectResponse(url=f"{base}?error=invalid_provider", status_code=302)
@@ -63,9 +77,21 @@ def oauth_start(
     workspace = load_workspace(workspace_id)
     if not workspace:
         raise HTTPException(status_code=404, detail="Project not found")
-    if provider not in {"linkedin", "gmail", "hubspot"}:
+    if provider not in {"linkedin", "gmail", "hubspot", "canva"}:
         raise HTTPException(status_code=400, detail="Invalid provider")
     report_id = workspace_report_id(workspace)
+    if provider == "canva":
+        from iidatech.integrations.canva_client import build_authorize_url, use_service_account
+
+        if use_service_account():
+            raise HTTPException(
+                status_code=400,
+                detail="Canva uses the IIDATECH platform account. Individual OAuth is disabled — ask your admin to complete one-time setup.",
+            )
+        auth_url, auth_err = build_authorize_url(report_id)
+        if not auth_url:
+            raise HTTPException(status_code=503, detail=auth_err or "Canva OAuth is not configured")
+        return RedirectResponse(url=auth_url, status_code=302)
     auth_url, auth_err = build_authorization_url(provider, state=oauth_state(report_id, provider))
     if not auth_url:
         raise HTTPException(status_code=503, detail=auth_err or "OAuth is not configured for this provider")
