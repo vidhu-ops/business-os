@@ -80,6 +80,29 @@ def service_account_status() -> str:
     return "per-user oauth"
 
 
+def service_account_admin_detail() -> dict[str, Any]:
+    conn = _load_service_tokens()
+    disk_refresh = str(conn.get("refresh_token") or "").strip()
+    env_refresh = _service_refresh_token()
+    refresh = env_refresh or disk_refresh
+    return {
+        "has_refresh_token": bool(refresh),
+        "refresh_token_in_env": bool(env_refresh),
+        "refresh_token_on_disk": bool(disk_refresh),
+    }
+
+
+def save_service_refresh_token(refresh_token: str) -> None:
+    token = str(refresh_token or "").strip()
+    if token:
+        _save_service_tokens({"refresh_token": token})
+
+
+def export_service_refresh_token() -> str:
+    conn = _load_service_tokens()
+    return str(conn.get("refresh_token") or _service_refresh_token() or "").strip()
+
+
 def _pending() -> dict[str, Any]:
     if not _PENDING_PATH.is_file():
         return {}
