@@ -71,7 +71,7 @@ def get_plan(workspace_id: str, email: str = Depends(get_current_user)) -> dict:
 
 @router.patch("/{workspace_id}/mode")
 def set_plan_mode(workspace_id: str, body: PlanModeBody, email: str = Depends(get_current_user)) -> dict:
-    workspace = load_workspace(workspace_id)
+    workspace = require_workspace_access(email, workspace_id)
     if not workspace:
         raise HTTPException(status_code=404, detail="Project not found")
     block_workspace_mutation(email, workspace, action="edit plans")
@@ -89,7 +89,7 @@ def set_plan_mode(workspace_id: str, body: PlanModeBody, email: str = Depends(ge
 
 @router.patch("/{workspace_id}/intake")
 def save_plan_intake(workspace_id: str, body: PlanIntakeBody, email: str = Depends(get_current_user)) -> dict:
-    workspace = load_workspace(workspace_id)
+    workspace = require_workspace_access(email, workspace_id)
     if not workspace:
         raise HTTPException(status_code=404, detail="Project not found")
     block_workspace_mutation(email, workspace, action="edit plans")
@@ -119,7 +119,7 @@ def save_plan_intake(workspace_id: str, body: PlanIntakeBody, email: str = Depen
 
 @router.post("/run")
 def run_plan(body: PlanRunBody, email: str = Depends(get_current_user)) -> dict:
-    workspace = load_workspace(body.workspace_id)
+    workspace = require_workspace_access(email, body.workspace_id)
     if not workspace:
         raise HTTPException(status_code=404, detail="Project not found")
     block_workspace_mutation(email, workspace, action="generate business plans")

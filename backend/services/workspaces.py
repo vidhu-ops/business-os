@@ -73,12 +73,22 @@ def build_project_payload(
 def save_workspace(payload: dict[str, Any]) -> Path | None:
     if payload.get("demo_readonly"):
         return None
+    path: Path | None = None
     try:
-        path = Path(payload["workspace_dir"]) / "workspace.json"
+        ws_dir = Path(str(payload.get("workspace_dir") or (settings.workspaces_root / str(payload.get("workspace_id") or "project"))))
+        ws_dir.mkdir(parents=True, exist_ok=True)
+        payload["workspace_dir"] = str(ws_dir)
+        path = ws_dir / "workspace.json"
         path.write_text(json.dumps(payload, indent=2, ensure_ascii=False, default=str), encoding="utf-8")
-        return path
     except Exception:
-        return None
+        path = None
+    try:
+        from backend.services.workspace_store import persist_workspace
+
+        persist_workspace(payload)
+    except Exception:
+        pass
+    return path
 
 
 def _workspace_row(payload: dict[str, Any], path: Path) -> dict[str, Any]:
@@ -122,39 +132,73 @@ def list_workspaces_for_user(email: str, limit: int = 50) -> list[dict[str, Any]
         return []
 
     key = email.strip().lower()
-    rows: list[dict[str, Any]] = []
+    by_id: dict[str, dict[str, Any]] = {}
+
+    # Durable store first (survives Render redeploys when DATA_DIR / DATABASE_URL is set).
+    try:
+        from backend.services.workspace_store import list_owner_workspaces
+
+        for payload in list_owner_workspaces(key, limit=limit):
+            wid = str(payload.get("workspace_id") or "")
+            if not wid or wid == DEMO_WORKSPACE_ID or payload.get("demo_readonly"):
+                continue
+            path = Path(str(payload.get("workspace_dir") or (settings.workspaces_root / wid))) / "workspace.json"
+            by_id[wid] = _workspace_row(payload, path)
+    except Exception:
+        pass
+
     root = settings.workspaces_root
-    if not root.exists():
-        return rows
-    for path in root.glob("*/workspace.json"):
-        try:
-            payload = json.loads(path.read_text(encoding="utf-8"))
-        except Exception:
-            continue
-        if not isinstance(payload, dict):
-            continue
-        ws_id = str(payload.get("workspace_id", path.parent.name))
-        if ws_id == DEMO_WORKSPACE_ID or payload.get("demo_readonly"):
-            continue
-        owner = str(payload.get("owner_email") or "").strip().lower()
-        if owner and owner != key:
-            continue
-        if not owner:
-            continue
-        rows.append(_workspace_row(payload, path))
+    if root.exists():
+        for path in root.glob("*/workspace.json"):
+            try:
+                payload = json.loads(path.read_text(encoding="utf-8"))
+            except Exception:
+                continue
+            if not isinstance(payload, dict):
+                continue
+            ws_id = str(payload.get("workspace_id", path.parent.name))
+            if ws_id == DEMO_WORKSPACE_ID or payload.get("demo_readonly"):
+                continue
+            owner = str(payload.get("owner_email") or "").strip().lower()
+            if owner != key:
+                continue
+            by_id[ws_id] = _workspace_row(payload, path)
+
+    rows = list(by_id.values())
     rows.sort(key=lambda row: str(row.get("updated_at", "")), reverse=True)
     return rows[:limit]
 
 
 def load_workspace(workspace_id: str) -> dict[str, Any] | None:
     path = settings.workspaces_root / workspace_id / "workspace.json"
-    if not path.exists():
-        return None
+    if path.exists():
+        try:
+            payload = json.loads(path.read_text(encoding="utf-8"))
+            if isinstance(payload, dict):
+                return payload
+        except Exception:
+            pass
     try:
-        payload = json.loads(path.read_text(encoding="utf-8"))
-        return payload if isinstance(payload, dict) else None
+        from backend.services.workspace_store import fetch_workspace, persist_workspace
+
+        payload = fetch_workspace(workspace_id)
+        if isinstance(payload, dict):
+            # Rehydrate onto local disk for tools that expect workspace_dir files.
+            try:
+                ws_dir = settings.workspaces_root / str(payload.get("workspace_id") or workspace_id)
+                ws_dir.mkdir(parents=True, exist_ok=True)
+                payload["workspace_dir"] = str(ws_dir)
+                (ws_dir / "workspace.json").write_text(
+                    json.dumps(payload, indent=2, ensure_ascii=False, default=str),
+                    encoding="utf-8",
+                )
+                persist_workspace(payload)
+            except Exception:
+                pass
+            return payload
     except Exception:
-        return None
+        pass
+    return None
 
 
 def audit_workspace_id_for_user(email: str) -> str:

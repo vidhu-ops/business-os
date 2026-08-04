@@ -5,15 +5,29 @@ services:
     dockerfilePath: ./Dockerfile
     plan: free
     # Free tier sleeps after ~15 min idle — first request after sleep can take 30–90s.
-    # Next.js health — fast wake signal without waiting on Python cold start.
+    # For durable signup/projects: upgrade + attach a disk at /var/data (or set DATABASE_URL).
     healthCheckPath: /api/health
     envVars:
       - key: API_URL
         value: http://127.0.0.1:8000
       - key: NODE_ENV
         value: production
+      # Set these after attaching a Render disk at /var/data (Starter+), or leave unset.
+      - key: DATA_DIR
+        sync: false
+      - key: BUSINESS_OUTPUTS_ROOT
+        sync: false
+      - key: OPPORTUNITY_WORKSPACE_ROOT
+        sync: false
+      - key: USER_DB_PATH
+        sync: false
+      - key: WORKSPACE_DB_PATH
+        sync: false
       - key: JWT_SECRET
         generateValue: true
+      # Free durable option: Neon Postgres connection string
+      - key: DATABASE_URL
+        sync: false
       # Custom domain — used for OAuth redirects (Canva must match exactly).
       - key: PUBLIC_APP_URL
         value: https://iidatech.biz

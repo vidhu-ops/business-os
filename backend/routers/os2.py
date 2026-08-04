@@ -6,7 +6,7 @@ from pydantic import BaseModel, Field
 from backend.auth import get_current_user
 from backend.services import os2_service
 from backend.services.credit_service import charge_office_week
-from backend.services.workspaces import load_workspace, save_workspace
+from backend.services.workspaces import load_workspace, require_workspace_access, save_workspace
 
 router = APIRouter(prefix="/os2", tags=["os2"])
 
@@ -30,7 +30,8 @@ class RunNextBody(BaseModel):
 
 
 @router.get("/{workspace_id}")
-def get_os2_workspace(workspace_id: str, _: str = Depends(get_current_user)) -> dict:
+def get_os2_workspace(workspace_id: str, email: str = Depends(get_current_user)) -> dict:
+    require_workspace_access(email, workspace_id)
     try:
         return os2_service.bootstrap_os2(workspace_id)
     except ValueError as exc:
@@ -38,8 +39,8 @@ def get_os2_workspace(workspace_id: str, _: str = Depends(get_current_user)) -> 
 
 
 @router.patch("/{workspace_id}/scope")
-def patch_scope(workspace_id: str, body: ScopeBody, _: str = Depends(get_current_user)) -> dict:
-    workspace = load_workspace(workspace_id)
+def patch_scope(workspace_id: str, body: ScopeBody, email: str = Depends(get_current_user)) -> dict:
+    workspace = require_workspace_access(email, workspace_id)
     if not workspace:
         raise HTTPException(status_code=404, detail="Project not found")
     from iidatech.execution.office_scope import OfficeScope
@@ -50,14 +51,15 @@ def patch_scope(workspace_id: str, body: ScopeBody, _: str = Depends(get_current
 
 
 @router.patch("/{workspace_id}/keys")
-def patch_api_keys(workspace_id: str, body: ApiKeysBody, _: str = Depends(get_current_user)) -> dict:
+def patch_api_keys(workspace_id: str, body: ApiKeysBody, email: str = Depends(get_current_user)) -> dict:
+    require_workspace_access(email, workspace_id)
     merged = os2_service.set_session_keys(workspace_id, body.keys)
     return {"active_key_providers": list(merged.keys())}
 
 
 @router.get("/{workspace_id}/chat/{harness_id}")
-def get_chat(workspace_id: str, harness_id: str, _: str = Depends(get_current_user)) -> dict:
-    workspace = load_workspace(workspace_id)
+def get_chat(workspace_id: str, harness_id: str, email: str = Depends(get_current_user)) -> dict:
+    workspace = require_workspace_access(email, workspace_id)
     if not workspace:
         raise HTTPException(status_code=404, detail="Project not found")
     from backend.services.workspace_context import workspace_report_id
@@ -67,7 +69,8 @@ def get_chat(workspace_id: str, harness_id: str, _: str = Depends(get_current_us
 
 
 @router.post("/{workspace_id}/chat/{harness_id}")
-def post_chat(workspace_id: str, harness_id: str, body: ChatBody, _: str = Depends(get_current_user)) -> dict:
+def post_chat(workspace_id: str, harness_id: str, body: ChatBody, email: str = Depends(get_current_user)) -> dict:
+    require_workspace_access(email, workspace_id)
     try:
         return os2_service.run_agent_chat(workspace_id, harness_id, body.message)
     except ValueError as exc:
@@ -75,8 +78,8 @@ def post_chat(workspace_id: str, harness_id: str, body: ChatBody, _: str = Depen
 
 
 @router.post("/{workspace_id}/checklist/build")
-def build_checklist(workspace_id: str, _: str = Depends(get_current_user)) -> dict:
-    workspace = load_workspace(workspace_id)
+def build_checklist(workspace_id: str, email: str = Depends(get_current_user)) -> dict:
+    workspace = require_workspace_access(email, workspace_id)
     if not workspace:
         raise HTTPException(status_code=404, detail="Project not found")
     checklist = os2_service.build_team_checklist(workspace)
@@ -134,7 +137,7 @@ class OfficeActionBody(BaseModel):
 def office_action(workspace_id: str, body: OfficeActionBody, email: str = Depends(get_current_user)) -> dict:
     credit: dict | None = None
     if body.action == "full_day":
-        workspace = load_workspace(workspace_id)
+        workspace = require_workspace_access(email, workspace_id)
         if not workspace:
             raise HTTPException(status_code=404, detail="Project not found")
         scope = os2_service._scope_from_workspace(workspace)
@@ -173,7 +176,8 @@ class TaskActionBody(BaseModel):
 
 
 @router.post("/{workspace_id}/tasks/{task_id}/action")
-def task_action(workspace_id: str, task_id: str, body: TaskActionBody, _: str = Depends(get_current_user)) -> dict:
+def task_action(workspace_id: str, task_id: str, body: TaskActionBody, email: str = Depends(get_current_user)) -> dict:
+    require_workspace_access(email, workspace_id)
     try:
         return os2_service.run_task_action(workspace_id, task_id, body.action)
     except ValueError as exc:
@@ -305,7 +309,8 @@ def post_human(workspace_id: str, body: HumanBody, _: str = Depends(get_current_
 
 
 @router.delete("/{workspace_id}/humans/{human_id}")
-def delete_human(workspace_id: str, human_id: str, _: str = Depends(get_current_user)) -> dict:
+def delete_human(workspace_id: str, human_id: str, email: str = Depends(get_current_user)) -> dict:
+    require_workspace_access(email, workspace_id)
     try:
         return os2_service.remove_human_employee(workspace_id, human_id)
     except ValueError as exc:

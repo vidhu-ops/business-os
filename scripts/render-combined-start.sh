@@ -6,6 +6,15 @@ export API_URL="${API_URL:-http://127.0.0.1:8000}"
 export PYTHONPATH=/app
 WEB_PORT="${PORT:-3000}"
 
+# Durable data directory (Render disk or DATABASE_URL). Create local folders when DATA_DIR is set.
+if [ -n "${DATA_DIR:-}" ]; then
+  mkdir -p "${DATA_DIR}/business_build_outputs" "${DATA_DIR}/opportunity_workspaces"
+  export BUSINESS_OUTPUTS_ROOT="${BUSINESS_OUTPUTS_ROOT:-${DATA_DIR}/business_build_outputs}"
+  export OPPORTUNITY_WORKSPACE_ROOT="${OPPORTUNITY_WORKSPACE_ROOT:-${DATA_DIR}/opportunity_workspaces}"
+  export USER_DB_PATH="${USER_DB_PATH:-${DATA_DIR}/iidatech_users.sqlite}"
+  export WORKSPACE_DB_PATH="${WORKSPACE_DB_PATH:-${DATA_DIR}/iidatech_workspaces.sqlite}"
+fi
+
 # Custom domain (e.g. iidatech.biz) must win over *.onrender.com for OAuth redirect URIs.
 if [ -n "${PUBLIC_APP_URL:-}" ]; then
   export FRONTEND_URL="${FRONTEND_URL:-$PUBLIC_APP_URL}"

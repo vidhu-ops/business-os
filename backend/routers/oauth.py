@@ -8,7 +8,7 @@ from pydantic import BaseModel
 
 from backend.auth import get_current_user
 from backend.services.workspace_context import workspace_report_id
-from backend.services.workspaces import load_workspace
+from backend.services.workspaces import load_workspace, require_workspace_access
 from iidatech.integrations.oauth_store import (
     apply_token_payload,
     build_authorization_url,
@@ -91,11 +91,9 @@ def oauth_callback(
 def oauth_start(
     workspace_id: str,
     provider: str,
-    _: str = Depends(get_current_user),
+    email: str = Depends(get_current_user),
 ) -> RedirectResponse:
-    workspace = load_workspace(workspace_id)
-    if not workspace:
-        raise HTTPException(status_code=404, detail="Project not found")
+    workspace = require_workspace_access(email, workspace_id)
     if provider not in {"linkedin", "gmail", "hubspot", "canva"}:
         raise HTTPException(status_code=400, detail="Invalid provider")
     report_id = workspace_report_id(workspace)
@@ -122,11 +120,9 @@ def save_manual_oauth(
     workspace_id: str,
     provider: str,
     body: ManualOAuthBody,
-    _: str = Depends(get_current_user),
+    email: str = Depends(get_current_user),
 ) -> dict:
-    workspace = load_workspace(workspace_id)
-    if not workspace:
-        raise HTTPException(status_code=404, detail="Project not found")
+    workspace = require_workspace_access(email, workspace_id)
     report_id = workspace_report_id(workspace)
     if provider not in {"linkedin", "gmail", "hubspot"}:
         raise HTTPException(status_code=400, detail="Invalid provider")

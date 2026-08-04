@@ -5,7 +5,7 @@ from pydantic import BaseModel, Field
 
 from backend.auth import get_current_user
 from backend.services.workspace_context import workspace_report_context, workspace_report_id
-from backend.services.workspaces import load_workspace, save_workspace
+from backend.services.workspaces import load_workspace, require_workspace_access, save_workspace
 from iidatech.execution.employee_os2_harness import OS2_HARNESSES, execute_harness_job
 from iidatech.execution.os2_api_keys import merge_api_keys
 
@@ -35,8 +35,8 @@ def team_roster(_: str = Depends(get_current_user)) -> dict:
 
 
 @router.get("/{workspace_id}")
-def team_status(workspace_id: str, _: str = Depends(get_current_user)) -> dict:
-    workspace = load_workspace(workspace_id)
+def team_status(workspace_id: str, email: str = Depends(get_current_user)) -> dict:
+    workspace = require_workspace_access(email, workspace_id)
     if not workspace:
         raise HTTPException(status_code=404, detail="Project not found")
     team = workspace.get("employee_os") if isinstance(workspace.get("employee_os"), dict) else {}
@@ -48,8 +48,8 @@ def team_status(workspace_id: str, _: str = Depends(get_current_user)) -> dict:
 
 
 @router.post("/run")
-def run_team_task(body: TeamRunBody, _: str = Depends(get_current_user)) -> dict:
-    workspace = load_workspace(body.workspace_id)
+def run_team_task(body: TeamRunBody, email: str = Depends(get_current_user)) -> dict:
+    workspace = require_workspace_access(email, body.workspace_id)
     if not workspace:
         raise HTTPException(status_code=404, detail="Project not found")
 

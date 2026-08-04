@@ -200,9 +200,7 @@ def run_research(body: ResearchRunBody, email: str = Depends(get_current_user)) 
     block_demo_mutation(email, action="run market research")
     if not _perplexity_ready(body.workspace_id):
         raise HTTPException(status_code=503, detail=_RESEARCH_SETUP_HINT)
-    workspace = load_workspace(body.workspace_id)
-    if not workspace:
-        raise HTTPException(status_code=404, detail="Project not found")
+    workspace = require_workspace_access(email, body.workspace_id)
     block_workspace_mutation(email, workspace, action="run market research")
 
     job = _research_job(workspace)

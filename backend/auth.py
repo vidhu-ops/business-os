@@ -1,7 +1,9 @@
 from __future__ import annotations
 
+import base64
 import hashlib
-import json
+import hmac
+import os
 from datetime import datetime, timedelta, timezone
 from typing import Any
 
@@ -10,30 +12,52 @@ from fastapi import Depends, HTTPException, Request
 from fastapi.security import HTTPAuthorizationCredentials, HTTPBearer
 
 from backend.config import settings
+from backend.services.user_store import load_users, save_users
 
 security = HTTPBearer(auto_error=False)
 LOCAL_AUTH_SALT = "iidatech-local-auth-v1"
+_SCRYPT_N = 2**14
+_SCRYPT_R = 8
+_SCRYPT_P = 1
 
 
 def hash_password(password: str) -> str:
+    """Hash password with scrypt (new) — verify_password still accepts legacy SHA256."""
+    salt = os.urandom(16)
+    key = hashlib.scrypt(
+        password.encode("utf-8"),
+        salt=salt,
+        n=_SCRYPT_N,
+        r=_SCRYPT_R,
+        p=_SCRYPT_P,
+        dklen=32,
+    )
+    return "scrypt$" + base64.b64encode(salt).decode("ascii") + "$" + base64.b64encode(key).decode("ascii")
+
+
+def _legacy_sha256(password: str) -> str:
     return hashlib.sha256(f"{LOCAL_AUTH_SALT}:{password}".encode("utf-8")).hexdigest()
 
 
-def load_users() -> dict[str, Any]:
-    path = settings.local_users_path
-    if not path.exists():
-        return {}
-    try:
-        payload = json.loads(path.read_text(encoding="utf-8"))
-        return payload if isinstance(payload, dict) else {}
-    except Exception:
-        return {}
-
-
-def save_users(users: dict[str, Any]) -> None:
-    path = settings.local_users_path
-    path.parent.mkdir(parents=True, exist_ok=True)
-    path.write_text(json.dumps(users, indent=2, ensure_ascii=False), encoding="utf-8")
+def verify_password(password: str, password_hash: str) -> bool:
+    stored = str(password_hash or "")
+    if stored.startswith("scrypt$"):
+        try:
+            _, salt_b64, key_b64 = stored.split("$", 2)
+            salt = base64.b64decode(salt_b64.encode("ascii"))
+            expected = base64.b64decode(key_b64.encode("ascii"))
+            actual = hashlib.scrypt(
+                password.encode("utf-8"),
+                salt=salt,
+                n=_SCRYPT_N,
+                r=_SCRYPT_R,
+                p=_SCRYPT_P,
+                dklen=len(expected) or 32,
+            )
+            return hmac.compare_digest(actual, expected)
+        except Exception:
+            return False
+    return hmac.compare_digest(stored, _legacy_sha256(password))
 
 
 def create_token(email: str) -> str:
@@ -69,3 +93,13 @@ def get_current_user(
     if not token:
         raise HTTPException(status_code=401, detail="Authentication required")
     return decode_token(token)
+
+
+def cookie_secure() -> bool:
+    public = (
+        os.getenv("PUBLIC_APP_URL")
+        or os.getenv("FRONTEND_URL")
+        or os.getenv("RENDER_EXTERNAL_URL")
+        or ""
+    ).lower()
+    return public.startswith("https://") or bool(os.getenv("RENDER"))

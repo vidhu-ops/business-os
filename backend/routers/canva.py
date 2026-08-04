@@ -8,7 +8,7 @@ from pydantic import BaseModel, Field
 
 from backend.auth import get_current_user
 from backend.services.workspace_context import workspace_report_id
-from backend.services.workspaces import load_workspace
+from backend.services.workspaces import load_workspace, require_workspace_access
 from iidatech.integrations.canva_client import (
     build_service_authorize_url,
     canva_env_ready,
@@ -299,8 +299,8 @@ def admin_canva_status(
 
 
 @router.get("/{workspace_id}/status")
-def canva_status(workspace_id: str, _: str = Depends(get_current_user)) -> dict:
-    workspace = load_workspace(workspace_id)
+def canva_status(workspace_id: str, email: str = Depends(get_current_user)) -> dict:
+    workspace = require_workspace_access(email, workspace_id)
     if not workspace:
         raise HTTPException(status_code=404, detail="Project not found")
     report_id = workspace_report_id(workspace)
@@ -313,8 +313,8 @@ def canva_status(workspace_id: str, _: str = Depends(get_current_user)) -> dict:
 
 
 @router.post("/{workspace_id}/designs")
-def create_workspace_design(workspace_id: str, body: CreateDesignBody, _: str = Depends(get_current_user)) -> dict:
-    workspace = load_workspace(workspace_id)
+def create_workspace_design(workspace_id: str, body: CreateDesignBody, email: str = Depends(get_current_user)) -> dict:
+    workspace = require_workspace_access(email, workspace_id)
     if not workspace:
         raise HTTPException(status_code=404, detail="Project not found")
     report_id = workspace_report_id(workspace)
@@ -338,8 +338,8 @@ def create_workspace_design(workspace_id: str, body: CreateDesignBody, _: str = 
 
 
 @router.post("/{workspace_id}/designs/from-brief")
-def create_design_from_brief(workspace_id: str, body: CreateFromBriefBody, _: str = Depends(get_current_user)) -> dict:
-    workspace = load_workspace(workspace_id)
+def create_design_from_brief(workspace_id: str, body: CreateFromBriefBody, email: str = Depends(get_current_user)) -> dict:
+    workspace = require_workspace_access(email, workspace_id)
     if not workspace:
         raise HTTPException(status_code=404, detail="Project not found")
     report_id = workspace_report_id(workspace)

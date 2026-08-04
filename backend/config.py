@@ -39,6 +39,23 @@ class Settings(BaseSettings):
 
 settings = Settings()
 
+# Durable data roots (Render disk mount or local override).
+_data_dir = (os.getenv("DATA_DIR") or "").strip()
+if _data_dir:
+    data_root = Path(_data_dir)
+    data_root.mkdir(parents=True, exist_ok=True)
+    if not (os.getenv("BUSINESS_OUTPUTS_ROOT") or "").strip():
+        settings.business_outputs_root = data_root / "business_build_outputs"
+    if not (os.getenv("OPPORTUNITY_WORKSPACE_ROOT") or "").strip():
+        settings.opportunity_workspace_root = data_root / "opportunity_workspaces"
+
+_biz = (os.getenv("BUSINESS_OUTPUTS_ROOT") or "").strip()
+if _biz:
+    settings.business_outputs_root = Path(_biz)
+_ws = (os.getenv("OPPORTUNITY_WORKSPACE_ROOT") or "").strip()
+if _ws:
+    settings.opportunity_workspace_root = Path(_ws)
+
 
 def _render_public_url() -> str:
     # Prefer custom domain so OAuth redirects never use localhost / wrong host.

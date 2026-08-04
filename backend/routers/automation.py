@@ -10,7 +10,7 @@ from backend.services.automation_setup import automation_setup_requirements
 from backend.services.credit_service import spend_credits
 from backend.services.demo_service import DEMO_WORKSPACE_ID, block_workspace_mutation, is_demo_user
 from backend.services.workspace_context import workspace_report_context
-from backend.services.workspaces import load_workspace, save_workspace
+from backend.services.workspaces import load_workspace, require_workspace_access, save_workspace
 from iidatech.execution.agent_queue import (
     ensure_automation_team,
     init_queue_from_spec,
@@ -56,7 +56,7 @@ def list_steps(_: str = Depends(get_current_user)) -> dict:
 
 @router.get("/{workspace_id}")
 def automation_status(workspace_id: str, email: str = Depends(get_current_user)) -> dict:
-    workspace = load_workspace(workspace_id)
+    workspace = require_workspace_access(email, workspace_id)
     if not workspace:
         raise HTTPException(status_code=404, detail="Project not found")
     report_id = _automation_id(workspace)
@@ -76,7 +76,7 @@ def automation_status(workspace_id: str, email: str = Depends(get_current_user))
 
 @router.post("/build")
 def build_automation(body: AutoBuildBody, email: str = Depends(get_current_user)) -> dict:
-    workspace = load_workspace(body.workspace_id)
+    workspace = require_workspace_access(email, body.workspace_id)
     if not workspace:
         raise HTTPException(status_code=404, detail="Project not found")
     block_workspace_mutation(email, workspace, action="build automations")
@@ -115,7 +115,7 @@ def build_automation(body: AutoBuildBody, email: str = Depends(get_current_user)
 
 @router.post("/run-next")
 def run_next_step(body: AutoRunBody, email: str = Depends(get_current_user)) -> dict:
-    workspace = load_workspace(body.workspace_id)
+    workspace = require_workspace_access(email, body.workspace_id)
     if not workspace:
         raise HTTPException(status_code=404, detail="Project not found")
     block_workspace_mutation(email, workspace, action="run automations")
