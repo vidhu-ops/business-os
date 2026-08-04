@@ -22,16 +22,23 @@ export default function AppLayout({ children }: { children: React.ReactNode }) {
     let cancelled = false;
     const boot = async () => {
       setError(null);
+      const token = typeof window !== "undefined" ? localStorage.getItem("iida_token") : null;
+      if (!token) {
+        router.replace(`/login?next=${encodeURIComponent(pathname || "/app/dashboard")}`);
+        return;
+      }
+      // Show shell immediately when a token exists — avoids a full-screen block on every navigation.
+      setReady(true);
       try {
         const user = await ensureSession();
         if (!cancelled) {
           setEmail(user.email);
-          setReady(true);
         }
       } catch (err) {
         if (!cancelled) {
           const msg = err instanceof Error ? err.message : "";
           if (msg === "NOT_AUTHENTICATED") {
+            setReady(false);
             router.replace(`/login?next=${encodeURIComponent(pathname || "/app/dashboard")}`);
             return;
           }
@@ -43,7 +50,7 @@ export default function AppLayout({ children }: { children: React.ReactNode }) {
     return () => {
       cancelled = true;
     };
-  }, [pathname, router]);
+  }, [router]);
 
   if (error) {
     return (
@@ -87,7 +94,12 @@ export default function AppLayout({ children }: { children: React.ReactNode }) {
   }
 
   if (!ready) {
-    return <main className="flex min-h-screen items-center justify-center text-sm text-[var(--iid-muted)]">Loading…</main>;
+    return (
+      <main className="flex min-h-screen flex-col items-center justify-center gap-3 px-6 text-center">
+        <div className="h-8 w-8 animate-spin rounded-full border-2 border-[var(--iid-line)] border-t-[var(--iid-blue)]" />
+        <p className="text-sm text-[var(--iid-muted)]">Starting workspace…</p>
+      </main>
+    );
   }
 
   return (

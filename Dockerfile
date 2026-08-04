@@ -27,7 +27,8 @@ RUN mkdir -p opportunity_workspaces business_build_outputs \
 COPY web ./web
 RUN cd web \
     && npm ci --include=dev \
-    && API_URL=http://127.0.0.1:8000 npm run build
+    && API_URL=http://127.0.0.1:8000 npm run build \
+    && npm prune --omit=dev
 
 COPY scripts/render-combined-start.sh /start.sh
 RUN chmod +x /start.sh

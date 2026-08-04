@@ -121,7 +121,10 @@ function PlanContent() {
   return (
     <div className="space-y-8">
       <div>
-        <h1 className="font-display text-3xl font-bold">Business Plan Workspace</h1>
+        <h1 className="font-display font-bold app-page-title">
+          <span className="app-page-title-short">Plan</span>
+          <span className="app-page-title-long">Business Plan Workspace</span>
+        </h1>
         <p className="mt-2 muted">
           {isDemo
             ? "Sample business plan workspace — view the completed GAUGE flow below. Sign up to build plans for your company."
@@ -195,7 +198,10 @@ function PlanContent() {
                   </div>
                   {error && <p className="text-sm text-red-400">{error}</p>}
                   <p className="text-xs muted">Each business plan build uses 5 credits (Growth plan: unlimited).</p>
-                  <button type="button" className="iid-btn iid-btn-primary" onClick={generatePlan} disabled={loading}>{loading ? "Building agentic business plan…" : "Build Agentic Business Plan"}</button>
+                  <button type="button" className="iid-btn iid-btn-primary" onClick={generatePlan} disabled={loading}>
+                    <span className="app-plan-build-long">{loading ? "Building agentic business plan…" : "Build Agentic Business Plan"}</span>
+                    <span className="app-plan-build-short">{loading ? "Building…" : "Build Plan"}</span>
+                  </button>
                 </section>
               )}
 

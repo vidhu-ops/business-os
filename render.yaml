@@ -4,6 +4,7 @@ services:
     runtime: docker
     dockerfilePath: ./Dockerfile
     plan: free
+    # Free tier sleeps after ~15 min idle — first request after sleep can take 30–90s.
     healthCheckPath: /api/v1/health
     envVars:
       - key: API_URL

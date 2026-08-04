@@ -8,7 +8,7 @@ const modules = [
   { href: "/app/research", label: "Market Research", short: "Research" },
   { href: "/app/plan", label: "Business Plan", short: "Plan" },
   { href: "/app/team", label: "Employee OS", short: "Team" },
-  { href: "/app/automation", label: "Automation", short: "Automation" },
+  { href: "/app/automation", label: "Automation", short: "Auto" },
 ];
 
 export function AppProductNav() {

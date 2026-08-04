@@ -18,17 +18,23 @@ if [ ! -f opportunity_workspaces/demo_readonly/workspace.json ]; then
 fi
 
 echo "Starting IIDATECH API at ${API_URL} ..."
-uvicorn backend.main:app --host 127.0.0.1 --port 8000 &
+uvicorn backend.main:app --host 127.0.0.1 --port 8000 --workers 1 &
 API_PID=$!
 
+# Start Next.js in parallel once API process is up (don't wait for full cold import).
+echo "Starting Next.js on port ${WEB_PORT} (API still warming) ..."
+cd /app/web
+env API_URL="$API_URL" npm run start -- --hostname 0.0.0.0 --port "${WEB_PORT}" &
+WEB_PID=$!
+
 cleanup() {
-  kill "$API_PID" 2>/dev/null || true
+  kill "$API_PID" "$WEB_PID" 2>/dev/null || true
 }
 trap cleanup EXIT INT TERM
 
 echo "Waiting for API health check ..."
 ready=0
-for _ in $(seq 1 90); do
+for _ in $(seq 1 120); do
   if curl -fsS "${API_URL}/api/v1/health" >/dev/null 2>&1; then
     ready=1
     break
@@ -42,15 +48,9 @@ for _ in $(seq 1 90); do
 done
 
 if [ "$ready" -ne 1 ]; then
-  echo "API did not become ready at ${API_URL} within 90s." >&2
+  echo "API did not become ready at ${API_URL} within 120s." >&2
   exit 1
 fi
 
-echo "API ready. Starting Next.js on port ${WEB_PORT} ..."
-cd /app/web
-exec env \
-  API_URL="$API_URL" \
-  ZO_API_KEY="${ZO_API_KEY:-}" \
-  ANTHROPIC_API_KEY="${ANTHROPIC_API_KEY:-}" \
-  VITE_CLAUDE_API_KEY="${VITE_CLAUDE_API_KEY:-}" \
-  npm run start -- --hostname 0.0.0.0 --port "${WEB_PORT}"
+echo "API ready. Combined stack is live."
+wait "$WEB_PID"

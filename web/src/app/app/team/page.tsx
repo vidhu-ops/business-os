@@ -4,11 +4,13 @@ import Link from "next/link";
 import { Suspense, useCallback, useEffect, useMemo, useState, type ComponentProps, type ReactNode } from "react";
 import { api } from "@/lib/api";
 import { DeliverablePreview } from "@/components/DeliverablePreview";
+import { OfficeFloor } from "@/components/OfficeFloor";
 import { TaylorBubble } from "@/components/TaylorBubble";
 import { ProjectPicker } from "@/components/ProjectPicker";
 import { useProjects } from "@/hooks/useProjects";
 
 type Agent = { id: string; name?: string; role?: string; tagline?: string; starters?: string[]; department?: string; is_leader?: boolean };
+type FloorMember = { id: string; name: string; role?: string; department?: string; is_leader?: boolean };
 type DeptCatalogRow = { id: string; name: string; description?: string; parent?: string | null };
 type OrgNode = {
   id: string;
@@ -109,17 +111,36 @@ function TeamContent() {
 
   const agents = (bootstrap?.agents as Agent[]) || [];
   const hiredAgents = (bootstrap?.hired_agents as Agent[]) || [];
-  const chatAgents = agents.length ? agents : [
-    { id: "taylor", name: "Taylor — Team Leader (COO)", role: "COO", tagline: "Orchestrates your virtual team", department: "Operations", is_leader: true, starters: [] },
-    ...hiredAgents.map((a) => ({
+  const floorMembers = useMemo(() => {
+    const leader: FloorMember = {
+      id: "taylor",
+      name: "Taylor — Team Leader (COO)",
+      role: "COO",
+      department: "Operations",
+      is_leader: true,
+    };
+    const hired = hiredAgents.map((a) => ({
       id: String((a as Record<string, unknown>).harness_id || a.id),
-      name: a.name,
+      name: String(a.name || a.role || "Teammate"),
       role: a.role,
       department: a.department,
-      tagline: "",
-      starters: [],
-    })),
-  ];
+      is_leader: false,
+    }));
+    return [leader, ...hired];
+  }, [hiredAgents]);
+  const chatAgents: Agent[] = floorMembers.length > 1
+    ? floorMembers.map((m) => ({ ...m, tagline: m.is_leader ? "Orchestrates your virtual team" : "", starters: [] as string[] }))
+    : [
+        { id: "taylor", name: "Taylor — Team Leader (COO)", role: "COO", tagline: "Orchestrates your virtual team", department: "Operations", is_leader: true, starters: [] },
+        ...hiredAgents.map((a) => ({
+          id: String((a as Record<string, unknown>).harness_id || a.id),
+          name: a.name,
+          role: a.role,
+          department: a.department,
+          tagline: "",
+          starters: [] as string[],
+        })),
+      ];
   const deptOptions = (bootstrap?.departments as string[]) || [];
   const scopeConfigured = scopeMode === "full_office" || hiredDepartments.length > 0 || (scopeMode === "department" && departments.length > 0) || (scopeMode === "employee" && harnessIds.length > 0);
   const tabs = useMemo(() => tabsForMode(scopeMode), [scopeMode]);
@@ -164,6 +185,16 @@ function TeamContent() {
   useEffect(() => {
     refresh().catch(() => setBootstrap(null));
   }, [refresh]);
+
+  useEffect(() => {
+    if (!selectedId || !actionLoading) return;
+    const officeActions = new Set(["full_day", "clock_in", "standup", "next_task", "agent_sync", "delivery", "debate_sync", "company_cycle"]);
+    if (!officeActions.has(actionLoading)) return;
+    const timer = window.setInterval(() => {
+      api.getOs2Office(selectedId).then((data) => setOffice(data)).catch(() => null);
+    }, 2500);
+    return () => window.clearInterval(timer);
+  }, [selectedId, actionLoading]);
 
   useEffect(() => {
     if (!selectedId) return;
@@ -573,6 +604,10 @@ function TeamContent() {
     return <DeliverablePreview title={title} reply={reply} artifacts={paths} />;
   }
 
+  const liveChatSnippet = useMemo(() => {
+    const last = [...chat].reverse().find((m) => m.role === "assistant");
+    return last?.content ? String(last.content) : "";
+  }, [chat]);
   const checklistItems = ((checklist?.items as Array<Record<string, unknown>>) || []);
   const setupRows = (bootstrap?.setup_requirements as Array<Record<string, unknown>>) || [];
   const oauthRows = (bootstrap?.oauth_status as Array<Record<string, unknown>>) || [];
@@ -757,7 +792,24 @@ function TeamContent() {
               {activeTab === "office" && (
                 <section className="iid-card space-y-4">
                   <h3 className="font-semibold">The Office</h3>
-                  <p className="text-sm muted">One button runs the full day: standup → tasks → delivery. Taylor coordinates your hired team.</p>
+                  <p className="text-sm muted">Only your hired team appears on the floor. Run the day to watch them work — bubbles show who is talking.</p>
+
+                  <OfficeFloor
+                    members={floorMembers}
+                    phase={String(office?.phase || (bootstrap?.office_state as Record<string, unknown>)?.phase || "arrival")}
+                    board={(office?.board as Array<Record<string, unknown>>) || []}
+                    activity={(office?.activity as Array<Record<string, unknown>>) || []}
+                    lastMentor={String(office?.last_mentor || "")}
+                    activeAgentId={activeAgent}
+                    chatLoading={chatLoading}
+                    liveChatSnippet={liveChatSnippet}
+                    officeRunning={Boolean(actionLoading && ["full_day", "clock_in", "standup", "next_task", "agent_sync", "delivery"].includes(actionLoading))}
+                    onSelectMember={(id) => {
+                      setActiveAgent(id);
+                      setActiveTab("agents");
+                    }}
+                  />
+
                   <p className="text-xs muted">Full office: 50 credits/week · each department: 10 credits/week (once per calendar week).</p>
                   <p className="text-sm">Phase: <strong>{String(office?.phase || (bootstrap?.office_state as Record<string, unknown>)?.phase || "arrival")}</strong></p>
                   {office?.last_mentor ? (
