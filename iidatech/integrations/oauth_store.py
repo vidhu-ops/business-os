@@ -251,24 +251,9 @@ def connection_status_rows(report_id: str) -> list[dict[str, str]]:
 
 def _default_oauth_redirect_uri() -> str:
     """Public callback URL for OAuth providers (must be reachable from the internet)."""
-    explicit = (os.getenv("OAUTH_REDIRECT_URI") or "").strip()
-    if explicit:
-        return explicit
+    from iidatech.integrations.oauth_redirect import oauth_callback_url
 
-    frontend = (os.getenv("FRONTEND_URL") or "").strip().rstrip("/")
-    if frontend:
-        return f"{frontend}/api/v1/oauth/callback"
-
-    for env_name in ("PUBLIC_API_URL", "BACKEND_URL", "RENDER_EXTERNAL_URL", "API_URL"):
-        base = (os.getenv(env_name) or "").strip().rstrip("/")
-        if not base:
-            continue
-        if "127.0.0.1" in base or "localhost" in base:
-            continue
-        return f"{base}/api/v1/oauth/callback"
-
-    # Local combined dev: Next.js proxies /api/v1 → FastAPI
-    return "http://localhost:3000/api/v1/oauth/callback"
+    return oauth_callback_url()
 
 
 def _env_client(provider: str) -> tuple[str, str, str]:

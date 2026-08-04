@@ -14,7 +14,14 @@ services:
         value: production
       - key: JWT_SECRET
         generateValue: true
-      # FRONTEND_URL and CORS_ORIGINS auto-set from RENDER_EXTERNAL_URL in render-combined-start.sh
+      # Custom domain — used for OAuth redirects (Canva must match exactly).
+      - key: PUBLIC_APP_URL
+        value: https://iidatech.biz
+      - key: OAUTH_REDIRECT_URI
+        value: https://iidatech.biz/api/v1/oauth/callback
+      - key: CANVA_REDIRECT_URI
+        value: https://iidatech.biz/api/v1/oauth/callback
+      # FRONTEND_URL and CORS_ORIGINS default from PUBLIC_APP_URL or RENDER_EXTERNAL_URL in render-combined-start.sh
       - key: PERPLEXITY_API_KEY
         sync: false
       - key: OPENAI_API_KEY

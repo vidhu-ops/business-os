@@ -6,10 +6,18 @@ export API_URL="${API_URL:-http://127.0.0.1:8000}"
 export PYTHONPATH=/app
 WEB_PORT="${PORT:-3000}"
 
+# Custom domain (e.g. iidatech.biz) must win over *.onrender.com for OAuth redirect URIs.
+if [ -n "${PUBLIC_APP_URL:-}" ]; then
+  export FRONTEND_URL="${FRONTEND_URL:-$PUBLIC_APP_URL}"
+  export CORS_ORIGINS="${CORS_ORIGINS:-$PUBLIC_APP_URL}"
+fi
 if [ -n "${RENDER_EXTERNAL_URL:-}" ]; then
   export FRONTEND_URL="${FRONTEND_URL:-$RENDER_EXTERNAL_URL}"
   export CORS_ORIGINS="${CORS_ORIGINS:-$RENDER_EXTERNAL_URL}"
+fi
+if [ -n "${FRONTEND_URL:-}" ]; then
   export OAUTH_REDIRECT_URI="${OAUTH_REDIRECT_URI:-${FRONTEND_URL}/api/v1/oauth/callback}"
+  export CANVA_REDIRECT_URI="${CANVA_REDIRECT_URI:-$OAUTH_REDIRECT_URI}"
 fi
 
 if [ ! -f opportunity_workspaces/demo_readonly/workspace.json ]; then
