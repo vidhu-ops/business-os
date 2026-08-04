@@ -20,8 +20,9 @@ COPY backend ./backend
 COPY iidatech ./iidatech
 COPY streamlit_app.py learning_engine.py market_modeling.py chroma_config.py country_industry_packs.py ./
 COPY opportunity_workspaces/demo_readonly ./opportunity_workspaces/demo_readonly
-COPY tools/assemble_demo.py ./tools/assemble_demo.py
-RUN mkdir -p opportunity_workspaces business_build_outputs \
+COPY tools/assemble_demo.py tools/check_utf8_sources.py ./tools/
+RUN python tools/check_utf8_sources.py \
+    && mkdir -p opportunity_workspaces business_build_outputs \
     && python tools/assemble_demo.py
 
 COPY web ./web
