@@ -41,15 +41,22 @@ settings = Settings()
 
 
 def _render_public_url() -> str:
-    return (os.getenv("RENDER_EXTERNAL_URL") or os.getenv("FRONTEND_URL") or "").strip().rstrip("/")
+    # Prefer custom domain so OAuth redirects never use localhost / wrong host.
+    return (
+        os.getenv("PUBLIC_APP_URL")
+        or os.getenv("FRONTEND_URL")
+        or os.getenv("RENDER_EXTERNAL_URL")
+        or ""
+    ).strip().rstrip("/")
 
 
 _public = _render_public_url()
 if _public:
-    if not (os.getenv("FRONTEND_URL") or "").strip():
-        settings.frontend_url = _public
+    settings.frontend_url = (os.getenv("FRONTEND_URL") or _public).strip().rstrip("/") or _public
     if not (os.getenv("CORS_ORIGINS") or "").strip():
         settings.cors_origins = _public
+    elif "iidatech.biz" in _public and "iidatech.biz" not in settings.cors_origins:
+        settings.cors_origins = f"{settings.cors_origins},{_public}"
 
 settings.outputs_root.mkdir(parents=True, exist_ok=True)
 settings.workspaces_root.mkdir(parents=True, exist_ok=True)

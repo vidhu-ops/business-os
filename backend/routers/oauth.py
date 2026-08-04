@@ -1,5 +1,7 @@
 from __future__ import annotations
 
+import os
+
 from fastapi import APIRouter, Depends, HTTPException, Query
 from fastapi.responses import RedirectResponse
 from pydantic import BaseModel
@@ -22,8 +24,21 @@ router = APIRouter(prefix="/oauth", tags=["oauth"])
 
 
 def _frontend(path: str) -> str:
-    base = (settings.frontend_url or settings.cors_origin_list[0] if settings.cors_origin_list else "http://localhost:3000").rstrip("/")
-    return f"{base}{path}"
+    """Public web origin for browser redirects after OAuth (never localhost in prod)."""
+    for key in ("PUBLIC_APP_URL", "APP_URL", "FRONTEND_URL"):
+        base = (os.getenv(key) or "").strip().rstrip("/")
+        if base and "127.0.0.1" not in base and "localhost" not in base.lower():
+            return f"{base}{path}"
+    base = (settings.frontend_url or "").strip().rstrip("/")
+    if base and "127.0.0.1" not in base and "localhost" not in base.lower():
+        return f"{base}{path}"
+    if settings.cors_origin_list:
+        for origin in settings.cors_origin_list:
+            o = origin.strip().rstrip("/")
+            if o and "127.0.0.1" not in o and "localhost" not in o.lower():
+                return f"{o}{path}"
+    # Last resort for local combined Docker/dev
+    return f"http://localhost:3000{path}"
 
 
 class ManualOAuthBody(BaseModel):
@@ -39,33 +54,37 @@ def oauth_callback(
     error: str = Query(""),
 ) -> RedirectResponse:
     base = _frontend("/app/team/oauth-callback")
-    if error:
-        return RedirectResponse(url=f"{base}?error={error}", status_code=302)
-    if not code or not state:
-        return RedirectResponse(url=f"{base}?error=missing_code_or_state", status_code=302)
+    try:
+        if error:
+            return RedirectResponse(url=f"{base}?error={error}", status_code=302)
+        if not code or not state:
+            return RedirectResponse(url=f"{base}?error=missing_code_or_state", status_code=302)
 
-    if "|" not in state:
-        from iidatech.integrations.canva_client import exchange_authorization_code as exchange_canva_code
-        from iidatech.integrations.oauth_store import apply_canva_token_payload
+        if "|" not in state:
+            from iidatech.integrations.canva_client import exchange_authorization_code as exchange_canva_code
+            from iidatech.integrations.oauth_store import apply_canva_token_payload
 
-        ok, payload = exchange_canva_code(state=state, code=code)
+            ok, payload = exchange_canva_code(state=state, code=code)
+            if not ok or not isinstance(payload, dict):
+                msg = str(payload)[:120] if payload else "canva_exchange_failed"
+                return RedirectResponse(url=f"{base}?error={msg}", status_code=302)
+            if payload.get("saved") != "service_account":
+                apply_canva_token_payload(payload)
+            mode = "service" if payload.get("saved") == "service_account" else "user"
+            return RedirectResponse(url=f"{base}?success=1&provider=canva&mode={mode}", status_code=302)
+
+        report_id, provider = parse_oauth_state(state)
+        if provider not in {"linkedin", "gmail", "hubspot"}:
+            return RedirectResponse(url=f"{base}?error=invalid_provider", status_code=302)
+        ok, payload = exchange_authorization_code(provider, code)
         if not ok or not isinstance(payload, dict):
-            msg = str(payload)[:120] if payload else "canva_exchange_failed"
-            return RedirectResponse(url=f"{base}?error={msg}", status_code=302)
-        if payload.get("saved") != "service_account":
-            apply_canva_token_payload(payload)
-        mode = "service" if payload.get("saved") == "service_account" else "user"
-        return RedirectResponse(url=f"{base}?success=1&provider=canva&mode={mode}", status_code=302)
-
-    report_id, provider = parse_oauth_state(state)
-    if provider not in {"linkedin", "gmail", "hubspot"}:
-        return RedirectResponse(url=f"{base}?error=invalid_provider", status_code=302)
-    ok, payload = exchange_authorization_code(provider, code)
-    if not ok or not isinstance(payload, dict):
-        msg = str(payload)[:120] if payload else "exchange_failed"
-        return RedirectResponse(url=f"{base}?error={msg}&report_id={report_id}", status_code=302)
-    apply_token_payload(report_id, provider, payload)
-    return RedirectResponse(url=f"{base}?success=1&provider={provider}&report_id={report_id}", status_code=302)
+            msg = str(payload)[:120] if payload else "exchange_failed"
+            return RedirectResponse(url=f"{base}?error={msg}&report_id={report_id}", status_code=302)
+        apply_token_payload(report_id, provider, payload)
+        return RedirectResponse(url=f"{base}?success=1&provider={provider}&report_id={report_id}", status_code=302)
+    except Exception as exc:
+        msg = str(exc)[:120].replace(" ", "_")
+        return RedirectResponse(url=f"{base}?error=oauth_callback_failed:{msg}", status_code=302)
 
 
 @router.get("/{workspace_id}/{provider}/start")

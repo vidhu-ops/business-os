@@ -17,13 +17,25 @@ async function proxy(req: NextRequest, ctx: { params: Promise<{ path: string[] }
   const cookie = req.headers.get("cookie");
   if (cookie) headers.set("cookie", cookie);
 
-  const init: RequestInit = { method: req.method, headers, cache: "no-store" };
+  const init: RequestInit = {
+    method: req.method,
+    headers,
+    cache: "no-store",
+    redirect: "manual",
+  };
   if (req.method !== "GET" && req.method !== "HEAD") {
     init.body = await req.arrayBuffer();
   }
 
   try {
     const upstream = await fetch(target, init);
+    // OAuth and other APIs return 3xx Location — pass through to the browser.
+    if (upstream.status >= 300 && upstream.status < 400) {
+      const location = upstream.headers.get("location");
+      if (location) {
+        return NextResponse.redirect(location, upstream.status as 301 | 302 | 303 | 307 | 308);
+      }
+    }
     const body = await upstream.arrayBuffer();
     const out = new Headers();
     upstream.headers.forEach((value, key) => {
