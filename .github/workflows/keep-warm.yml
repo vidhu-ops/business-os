@@ -1,0 +1,44 @@
+# Ping the live Render service so it does not spin down from inactivity.
+# Render free/starter instances sleep after ~15 minutes with no traffic;
+# cold starts then take ~30-90s.
+#
+# Schedule: every 10 minutes. GitHub cron can drift a few minutes late.
+# For stricter uptime, also add https://iidatech.biz/api/health to UptimeRobot
+# (free, 5-minute checks).
+
+name: Keep warm
+
+on:
+  schedule:
+    - cron: "*/10 * * * *"
+  workflow_dispatch: {}
+
+jobs:
+  ping:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - name: Ping health endpoints
+        env:
+          KEEP_WARM_URL: ${{ vars.KEEP_WARM_URL }}
+        run: |
+          set -euo pipefail
+          BASE="${KEEP_WARM_URL:-https://iidatech.biz}"
+          BASE="${BASE%/}"
+          echo "Pinging ${BASE} ..."
+          code="$(curl -sS -o /tmp/keep-warm.body -w "%{http_code}" \
+            --connect-timeout 30 --max-time 90 \
+            "${BASE}/api/health" || true)"
+          echo "GET /api/health -> HTTP ${code}"
+          if [ "${code}" != "200" ]; then
+            code="$(curl -sS -o /tmp/keep-warm.body -w "%{http_code}" \
+              --connect-timeout 30 --max-time 90 \
+              "${BASE}/api/v1/health" || true)"
+            echo "GET /api/v1/health -> HTTP ${code}"
+          fi
+          if [ "${code}" != "200" ]; then
+            echo "Keep-warm ping failed (HTTP ${code})"
+            head -c 500 /tmp/keep-warm.body || true
+            exit 1
+          fi
+          echo "OK - service is warm"
