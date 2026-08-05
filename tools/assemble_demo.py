@@ -25,7 +25,7 @@ gauge_intake = {
 
 gauge_audit = {
     "overall_score": 68,
-    "overall_label": "Solid foundation — close gaps before scaling spend",
+    "overall_label": "Solid foundation â€” close gaps before scaling spend",
     "overall_summary": "Revenue growing but unit economics and retention need tracking before ad scale.",
     "plain_english_read": "You are at 68/100. Fix churn cohort tracking and CAC by channel before scaling spend.",
     "focus_areas": ["Cohort churn dashboard", "CAC by channel", "Clinic vertical SKU", "Runway model"],
@@ -75,6 +75,23 @@ ws = {
     "gauge_intake": gauge_intake,
     "gauge_audit": gauge_audit,
     "gauge_forward_plan": {"available": True, "markdown": gauge_plan, "report_markdown": gauge_plan},
+    "employee_os": {
+        "available": True,
+        "scope": {"mode": "full_office", "departments": ["sales", "marketing", "research", "operations"], "harness_ids": []},
+        "departments": [
+            {"id": "sales", "name": "Sales", "headcount": 1},
+            {"id": "marketing", "name": "Marketing", "headcount": 1},
+            {"id": "research", "name": "Research", "headcount": 1},
+            {"id": "operations", "name": "Operations", "headcount": 1},
+        ],
+        "agents": [
+            {"id": "demo_sales", "harness_id": "sales_lead", "name": "Alex — Sales Lead", "role": "Sales Lead", "department": "sales"},
+            {"id": "demo_marketing", "harness_id": "growth_marketer", "name": "Morgan — Growth Marketer", "role": "Growth Marketer", "department": "marketing"},
+            {"id": "demo_research", "harness_id": "research_analyst", "name": "Sam — Research Analyst", "role": "Research Analyst", "department": "research"},
+            {"id": "demo_ops", "harness_id": "ops_manager", "name": "Jordan — Ops Lead", "role": "Ops Lead", "department": "operations"},
+        ],
+        "humans": [{"id": "demo_founder", "name": "You (Founder)", "role": "Founder", "departments": ["executive", "sales", "marketing"]}],
+    },
     "automation": {
         "available": True, "demo_sample": True,
         "demo_queue": {"items": [

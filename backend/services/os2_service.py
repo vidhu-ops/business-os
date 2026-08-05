@@ -156,6 +156,8 @@ def build_team_checklist(workspace: dict[str, Any]) -> dict[str, Any]:
 
 
 def bootstrap_os2(workspace_id: str) -> dict[str, Any]:
+    from backend.services.demo_service import ensure_demo_employee_os, ensure_demo_os2_disk, is_readonly_workspace
+
     workspace = load_workspace(workspace_id)
     if not workspace:
         raise ValueError("Project not found")
@@ -165,15 +167,39 @@ def bootstrap_os2(workspace_id: str) -> dict[str, Any]:
     geography = str(workspace.get("country") or "Global").strip()
     seed_workspace_from_env(report_id)
     ensure_os2_team(report_id, topic=topic, industry=industry, geography=geography)
+    if is_readonly_workspace(workspace):
+        ensure_demo_os2_disk(report_id)
+    os2 = ensure_demo_employee_os(workspace)
     keys = merged_keys_for_workspace(workspace_id)
     scope = _scope_from_workspace(workspace)
+    if is_readonly_workspace(workspace) and not scope.is_configured():
+        from iidatech.execution.office_scope import OfficeScope
+
+        scope_data = os2.get("scope") if isinstance(os2.get("scope"), dict) else {}
+        if scope_data:
+            scope = OfficeScope.from_dict(scope_data)
     office_state = load_office_state_disk(report_id)
     checklist = load_checklist(report_id)
     pulse = build_taylor_pulse(report_id, checklist=checklist, has_api_keys=bool(keys))
     harnesses = merged_harnesses(_custom_harnesses(workspace))
     departments = departments_for_harnesses(harnesses)
     dept_map = {h["id"]: department_for_harness(h) for h in harnesses if h.get("id")}
-    os2 = workspace.get("employee_os") if isinstance(workspace.get("employee_os"), dict) else {}
+    hired_agents = list(os2.get("agents") or [])
+    agents = _agents_for_bootstrap(workspace, harnesses)
+    if is_readonly_workspace(workspace) and hired_agents:
+        # Prefer demo hired agents on the floor/chat roster.
+        agents = [
+            {
+                "id": str(a.get("harness_id") or a.get("id")),
+                "name": a.get("name"),
+                "role": a.get("role"),
+                "tagline": a.get("tagline") or "",
+                "department": a.get("department"),
+                "harness_id": a.get("harness_id") or a.get("id"),
+                "starters": [],
+            }
+            for a in hired_agents
+        ]
     return {
         "report_id": report_id,
         "topic": topic,
@@ -186,9 +212,9 @@ def bootstrap_os2(workspace_id: str) -> dict[str, Any]:
         "harness_departments": dept_map,
         "hired_departments": list(os2.get("departments") or []),
         "humans": list(os2.get("humans") or []),
-        "hired_agents": list(os2.get("agents") or []),
+        "hired_agents": hired_agents,
         "collaboration": os2.get("collaboration") if isinstance(os2.get("collaboration"), dict) else {},
-        "agents": _agents_for_bootstrap(workspace, harnesses),
+        "agents": agents,
         "office_state": office_state,
         "checklist": checklist,
         "setup_requirements": setup_requirements(
@@ -201,6 +227,7 @@ def bootstrap_os2(workspace_id: str) -> dict[str, Any]:
         "has_research": bool((workspace.get("research_report") or {}).get("available")),
         "has_plan": bool((workspace.get("business_plan") or {}).get("available")),
         "active_key_providers": list(keys.keys()),
+        "demo_readonly": bool(is_readonly_workspace(workspace)),
     }
 
 
@@ -394,18 +421,33 @@ def office_board_snapshot(workspace_id: str) -> dict[str, Any]:
 
     workspace, report_id, _, scope, _ = _workspace_bundle(workspace_id)
     office_state = load_office_state_disk(report_id)
-    checklist = load_checklist(report_id) or build_team_checklist(workspace)
+    checklist = load_checklist(report_id)
+    if not checklist:
+        from backend.services.demo_service import is_readonly_workspace
+
+        if is_readonly_workspace(workspace):
+            from backend.services.demo_service import demo_checklist_snapshot, ensure_demo_os2_disk
+
+            ensure_demo_os2_disk(report_id)
+            checklist = load_checklist(report_id) or demo_checklist_snapshot()
+        else:
+            checklist = build_team_checklist(workspace)
     harnesses = merged_harnesses(_custom_harnesses(workspace))
     harness_ids = scope.active_harness_ids([str(h.get("id") or "") for h in harnesses])
     board = filter_board_rows(checklist_board(checklist), harness_ids)
+    if not board:
+        board = checklist_board(checklist)
     phase = str(office_state.get("phase") or "arrival")
+    activity = recent_activity(report_id, limit=8)
+    if not activity and isinstance(office_state.get("log"), list):
+        activity = list(office_state.get("log") or [])[:8]
     return {
         "phase": phase,
         "last_mentor": office_state.get("last_mentor") or mentor_for_phase(phase),
         "goals": office_state.get("goals") or [],
         "onboarded": bool(office_state.get("onboarded")),
         "board": board,
-        "activity": recent_activity(report_id, limit=8),
+        "activity": activity,
         "delivery": office_state.get("delivery") if isinstance(office_state.get("delivery"), dict) else {},
     }
 
@@ -744,12 +786,13 @@ def _employee_os_block(workspace: dict[str, Any]) -> dict[str, Any]:
 
 
 def departments_snapshot(workspace_id: str) -> dict[str, Any]:
+    from backend.services.demo_service import ensure_demo_employee_os
     from iidatech.execution.department_catalog import catalog_list, department_display_name
 
     workspace = load_workspace(workspace_id)
     if not workspace:
         raise ValueError("Project not found")
-    os2 = _employee_os_block(workspace)
+    os2 = ensure_demo_employee_os(workspace) or _employee_os_block(workspace)
     hired = list(os2.get("departments") or [])
     return {
         "catalog": catalog_list(),
@@ -847,10 +890,12 @@ def set_departments_hiring(workspace_id: str, departments: list[dict[str, Any]])
 
 
 def list_humans_snapshot(workspace_id: str) -> dict[str, Any]:
+    from backend.services.demo_service import ensure_demo_employee_os
+
     workspace = load_workspace(workspace_id)
     if not workspace:
         raise ValueError("Project not found")
-    os2 = _employee_os_block(workspace)
+    os2 = ensure_demo_employee_os(workspace) or _employee_os_block(workspace)
     return {"humans": list(os2.get("humans") or [])}
 
 
@@ -893,12 +938,13 @@ def remove_human_employee(workspace_id: str, human_id: str) -> dict[str, Any]:
 
 
 def org_chart_snapshot(workspace_id: str) -> dict[str, Any]:
+    from backend.services.demo_service import ensure_demo_employee_os
     from iidatech.execution.department_catalog import build_org_tree, catalog_list
 
     workspace = load_workspace(workspace_id)
     if not workspace:
         raise ValueError("Project not found")
-    os2 = _employee_os_block(workspace)
+    os2 = ensure_demo_employee_os(workspace) or _employee_os_block(workspace)
     hired = list(os2.get("departments") or [])
     agents = list(os2.get("agents") or [])
     humans = list(os2.get("humans") or [])
@@ -907,10 +953,13 @@ def org_chart_snapshot(workspace_id: str) -> dict[str, Any]:
 
 
 def collaboration_snapshot(workspace_id: str) -> dict[str, Any]:
+    from backend.services.demo_service import ensure_demo_employee_os, is_readonly_workspace
     from iidatech.execution.collaboration_engine import build_collaboration_plan
 
     workspace, report_id, _, _, _ = _workspace_bundle(workspace_id)
-    os2 = _employee_os_block(workspace)
+    os2 = ensure_demo_employee_os(workspace) or _employee_os_block(workspace)
+    if is_readonly_workspace(workspace) and isinstance(os2.get("collaboration"), dict) and os2.get("collaboration"):
+        return os2["collaboration"]
     checklist = load_checklist(report_id)
     plan = build_collaboration_plan(
         checklist,

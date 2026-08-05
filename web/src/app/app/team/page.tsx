@@ -7,6 +7,8 @@ import { DeliverablePreview } from "@/components/DeliverablePreview";
 import { OfficeFloor } from "@/components/OfficeFloor";
 import { TaylorBubble } from "@/components/TaylorBubble";
 import { ProjectPicker } from "@/components/ProjectPicker";
+import { AgentChatDrawer } from "@/components/employee-os/AgentChatDrawer";
+import { EmployeeOsChrome } from "@/components/employee-os/EmployeeOsChrome";
 import { useProjects } from "@/hooks/useProjects";
 
 type Agent = { id: string; name?: string; role?: string; tagline?: string; starters?: string[]; department?: string; is_leader?: boolean };
@@ -25,28 +27,23 @@ type ChatTurn = { role: string; content?: string; artifacts?: string[] };
 
 const FULL_TABS: TabDef[] = [
   { id: "office", label: "The Office" },
-  { id: "organization", label: "Organization" },
-  { id: "tasks", label: "Tasks & approvals" },
-  { id: "war_room", label: "War room" },
-  { id: "command", label: "Command center" },
-  { id: "agents", label: "Agents & team" },
+  { id: "hiring", label: "Hiring" },
+  { id: "tasks", label: "Tasks & Approvals" },
+  { id: "war_room", label: "War Room" },
+  { id: "command", label: "Command Center" },
+  { id: "agents", label: "Agents & Team" },
   { id: "integrations", label: "Integrations" },
   { id: "advanced", label: "Advanced" },
 ];
-const DEPT_TABS: TabDef[] = [
-  { id: "office", label: "Department office" },
-  { id: "tasks", label: "Task queue" },
-  { id: "agents", label: "Department agents" },
-  { id: "integrations", label: "Setup & connect" },
-];
 const EMP_TABS: TabDef[] = [
-  { id: "agents", label: "Employee chat" },
-  { id: "tasks", label: "Their tasks" },
-  { id: "integrations", label: "Setup & connect" },
+  { id: "agents", label: "Agents & Team" },
+  { id: "tasks", label: "Tasks & Approvals" },
+  { id: "hiring", label: "Hiring" },
+  { id: "integrations", label: "Integrations" },
 ];
 
 function tabsForMode(mode: string): TabDef[] {
-  if (mode === "department") return DEPT_TABS;
+  // Keep the full Nexus-style chrome for every scope so working tabs stay one click away.
   if (mode === "employee") return EMP_TABS;
   return FULL_TABS;
 }
@@ -108,6 +105,9 @@ function TeamContent() {
   const [humanRole, setHumanRole] = useState("");
   const [humanDepts, setHumanDepts] = useState<string[]>([]);
   const [broadcastInput, setBroadcastInput] = useState("");
+  const [chatDrawerOpen, setChatDrawerOpen] = useState(false);
+  const [taskFilter, setTaskFilter] = useState("all");
+  const isDemoReadonly = Boolean(bootstrap?.demo_readonly);
 
   const agents = (bootstrap?.agents as Agent[]) || [];
   const hiredAgents = (bootstrap?.hired_agents as Agent[]) || [];
@@ -217,10 +217,10 @@ function TeamContent() {
     if (activeTab === "integrations") api.getOs2OAuth(selectedId).then((d) => setOauthProviders(d.providers || [])).catch(() => setOauthProviders([]));
     if (activeTab === "advanced") api.getOs2Memory(selectedId).then((d) => setCompanyMemory(d.memory || {})).catch(() => setCompanyMemory(null));
     if (activeTab === "advanced" || activeTab === "agents") api.getOs2Harnesses(selectedId).then((d) => setCustomHarnesses(d.custom || [])).catch(() => setCustomHarnesses([]));
-    if (activeTab === "agents" || activeTab === "organization") {
+    if (activeTab === "agents" || activeTab === "hiring" || activeTab === "organization") {
       api.getOs2Employees(selectedId).then((d) => { setEmployees(d.employees || []); setCatalogRoles(d.catalog_roles || []); setCoreRoles(d.core_roles || []); }).catch(() => { setEmployees([]); setCatalogRoles([]); setCoreRoles([]); });
     }
-    if (activeTab === "organization" || activeTab === "office") {
+    if (activeTab === "hiring" || activeTab === "organization" || activeTab === "office") {
       api.getOs2Departments(selectedId).then((d) => {
         setDeptCatalog((d.catalog as DeptCatalogRow[]) || []);
         const hired = (d.hired as Array<{ id: string; name: string; headcount: number }>) || [];
@@ -269,8 +269,8 @@ function TeamContent() {
     try {
       await api.setOs2Departments(selectedId, rows);
       setSuccessMsg(`Hired team across ${rows.length} department(s).`);
-      setScopeMode("department");
-      setActiveTab("agents");
+      if (scopeMode === "employee") setScopeMode("full_office");
+      setActiveTab("office");
       await refresh();
       const chart = await api.getOs2OrgChart(selectedId);
       setOrgTree((chart.tree as { roots?: OrgNode[] }) || null);
@@ -323,7 +323,24 @@ function TeamContent() {
 
   function openAgentChat(harnessId: string) {
     setActiveAgent(harnessId);
-    setActiveTab("agents");
+    setChatDrawerOpen(true);
+  }
+
+  function applyHirePreset(preset: "solo" | "lean" | "full") {
+    const next: Record<string, number> = {};
+    if (preset === "solo") next.operations = 1;
+    if (preset === "lean") {
+      next.operations = 1;
+      next.sales = 1;
+      next.marketing = 1;
+      next.research = 1;
+    }
+    if (preset === "full") {
+      (deptCatalog.length ? deptCatalog : [{ id: "sales" }, { id: "marketing" }, { id: "operations" }, { id: "research" }]).forEach((d) => {
+        next[d.id] = 1;
+      });
+    }
+    setDeptHeadcounts(next);
   }
 
   async function sendBroadcast() {
@@ -617,69 +634,139 @@ function TeamContent() {
   const hasLlmKeys = activeKeyProviders.some((p) => p !== "perplexity");
   const hasPerplexity = activeKeyProviders.includes("perplexity");
 
+  const approvalCount = checklistItems.filter((i) => String(i.status) === "awaiting_approval").length;
+  const tickerLines = useMemo(() => {
+    const lines: string[] = [];
+    notifications.slice(0, 2).forEach((n) => lines.push(n));
+    (((office?.activity as Array<Record<string, unknown>>) || [])).slice(0, 4).forEach((a) => {
+      const text = String(a.text || a.message || "");
+      if (text) lines.push(`${String(a.from || "Team")}: ${text.slice(0, 72)}`);
+    });
+    return lines;
+  }, [notifications, office]);
+  const filteredTasks = taskFilter === "all"
+    ? checklistItems
+    : checklistItems.filter((i) => String(i.status) === taskFilter);
+  const phaseLabel = String(office?.phase || (bootstrap?.office_state as Record<string, unknown>)?.phase || "arrival");
+
+  if (projects.length === 0) {
+    return (
+      <section className="iid-card space-y-3">
+        <h1 className="font-display text-2xl font-bold">Employee OS</h1>
+        <p className="muted">No projects yet.</p>
+        <Link href="/app/projects" className="iid-btn iid-btn-primary inline-flex">Create your first project</Link>
+      </section>
+    );
+  }
+
   return (
-    <div className="space-y-8">
-      <div>
-        <h1 className="font-display text-3xl font-bold">Team & Execution</h1>
-        <p className="mt-2 muted">
-          Hire departments with headcount, chat with each AI agent (including Taylor), add human teammates, and run a simple office day from your business plan.
-        </p>
-      </div>
-
-      {projects.length === 0 ? (
-        <section className="iid-card">
-          <p className="muted">No projects yet.</p>
-          <Link href="/app/projects" className="iid-btn iid-btn-primary mt-4 inline-flex">Create your first project</Link>
-        </section>
-      ) : (
-        <>
-          <section className="iid-card space-y-4">
-            <ProjectPicker projects={projects} selectedId={selectedId} onChange={setSelectedId} />
-            {bootstrap && (
-              <p className="text-sm muted">Project: <strong>{String(bootstrap.topic)}</strong> | {String(bootstrap.geography)} | report {String(bootstrap.report_id)}</p>
-            )}
-          </section>
-
-          <section className="iid-card space-y-4">
-            <h2 className="font-display text-lg font-bold">Step 1 — Build your team</h2>
-            <p className="text-sm muted">Pick departments and headcount, then hire. Or use the classic scope picker below.</p>
-
-            <div className="grid gap-2 md:grid-cols-2 lg:grid-cols-3">
-              {(deptCatalog.length ? deptCatalog : [{ id: "sales", name: "Sales" }, { id: "marketing", name: "Marketing" }, { id: "operations", name: "Operations" }]).map((d) => {
-                const count = deptHeadcounts[d.id] || 0;
-                return (
-                  <div key={d.id} className={`rounded-lg border px-3 py-2 text-sm ${count > 0 ? "border-[var(--iid-blue)]" : "border-[var(--iid-line)]"}`}>
-                    <div className="flex items-center justify-between gap-2">
-                      <div>
-                        <p className="font-semibold">{d.name}</p>
-                        {d.description ? <p className="text-xs muted">{d.description}</p> : null}
-                      </div>
-                      <div className="flex items-center gap-1 shrink-0">
-                        <button type="button" className="iid-btn iid-btn-ghost text-xs px-2" onClick={() => toggleDeptHeadcount(d.id, -1)}>−</button>
-                        <span className="w-6 text-center font-bold">{count}</span>
-                        <button type="button" className="iid-btn iid-btn-ghost text-xs px-2" onClick={() => toggleDeptHeadcount(d.id, 1)}>+</button>
-                      </div>
-                    </div>
-                  </div>
-                );
-              })}
+    <div className="space-y-4">
+      <EmployeeOsChrome
+        title="Employee OS"
+        subtitle={`${floorMembers.length} on the floor · phase: ${phaseLabel}${bootstrap ? ` · ${String(bootstrap.topic || "")}` : ""}`}
+        tabs={tabs}
+        activeTab={activeTab}
+        onTabChange={setActiveTab}
+        approvalCount={approvalCount}
+        onTalkToTaylor={() => openAgentChat("taylor")}
+        onOpenApprovals={() => setActiveTab("tasks")}
+        ticker={tickerLines}
+        demoReadonly={isDemoReadonly}
+        team={floorMembers.map((m) => ({ id: m.id, name: m.name, role: m.role, isLeader: Boolean(m.is_leader) }))}
+        activeChatId={chatDrawerOpen ? activeAgent : undefined}
+        onChatMember={(id) => openAgentChat(id)}
+        projectPicker={
+          <div className="flex flex-wrap items-center gap-3">
+            <div className="flex-1 min-w-[200px]">
+              <ProjectPicker projects={projects} selectedId={selectedId} onChange={setSelectedId} />
             </div>
-            <button type="button" className="iid-btn iid-btn-primary text-sm" disabled={actionLoading === "hire-depts"} onClick={hireDepartments}>
-              {actionLoading === "hire-depts" ? "Hiring…" : "Hire team"}
-            </button>
-            {hiredDepartments.length > 0 && (
-              <p className="text-xs text-emerald-300">
-                Active: {hiredDepartments.map((h) => `${h.name} (${h.headcount})`).join(" · ")}
-              </p>
-            )}
+            {isDemoReadonly ? (
+              <Link href="/login?mode=register" className="text-xs text-amber-200 underline shrink-0">Sign up to run real work</Link>
+            ) : null}
+          </div>
+        }
+      >
+        {error ? (
+          <div className="mb-4 rounded-xl border border-red-500/40 bg-red-500/5 px-3 py-2 text-sm text-red-200">
+            {error}
+            {(isDemoReadonly || /demo|read-only|view-only/i.test(error)) ? (
+              <Link href="/login?mode=register" className="iid-btn iid-btn-primary text-xs mt-2 inline-flex">Create free account</Link>
+            ) : null}
+          </div>
+        ) : null}
+        {successMsg ? <p className="mb-3 text-sm text-emerald-300">{successMsg}</p> : null}
+        {loading ? <p className="mb-3 text-sm muted">Loading workspace…</p> : null}
 
-            <details className="text-sm">
-              <summary className="cursor-pointer muted">Advanced: classic scope picker</summary>
-              <div className="mt-3 space-y-3">
+        {activeTab === "hiring" && (
+          <div className="space-y-4 max-w-5xl">
+            <div>
+              <h2 className="font-semibold text-base">Hiring</h2>
+              <p className="text-sm muted mt-1">
+                Add departments here. The Office, Tasks, and Team bar stay in the chrome above — no scrolling through hiring to work.
+              </p>
+            </div>
+
+            <details
+              key={hiredDepartments.length ? "hire-filled" : "hire-empty"}
+              className="rounded-xl border border-[var(--iid-line)] bg-[var(--iid-panel)]/40 px-4 py-3 group"
+              defaultOpen={hiredDepartments.length === 0}
+            >
+              <summary className="cursor-pointer font-semibold text-sm flex items-center justify-between gap-2">
+                <span>Build your team</span>
+                <span className="text-[11px] muted font-normal">
+                  {hiredDepartments.length
+                    ? `${hiredDepartments.reduce((n, h) => n + h.headcount, 0)} hired · expand to adjust`
+                    : "Pick departments & headcount"}
+                </span>
+              </summary>
+              <div className="mt-4 space-y-4 border-t border-[var(--iid-line)] pt-4">
                 <div className="flex flex-wrap gap-2">
+                  <button type="button" className="iid-btn iid-btn-ghost text-xs" onClick={() => applyHirePreset("solo")}>Solo founder</button>
+                  <button type="button" className="iid-btn iid-btn-ghost text-xs" onClick={() => applyHirePreset("lean")}>Lean team</button>
+                  <button type="button" className="iid-btn iid-btn-ghost text-xs" onClick={() => applyHirePreset("full")}>Full company</button>
+                </div>
+                <div className="grid gap-2 sm:grid-cols-2 lg:grid-cols-3">
+                  {(deptCatalog.length ? deptCatalog : [{ id: "sales", name: "Sales" }, { id: "marketing", name: "Marketing" }, { id: "operations", name: "Operations" }]).map((d) => {
+                    const count = deptHeadcounts[d.id] || 0;
+                    const hired = hiredDepartments.find((h) => h.id === d.id)?.headcount || 0;
+                    return (
+                      <div key={d.id} className={`rounded-xl border px-3 py-2.5 text-sm ${count > 0 || hired > 0 ? "border-[var(--iid-blue)]" : "border-[var(--iid-line)]"}`}>
+                        <div className="flex items-center justify-between gap-2">
+                          <div className="min-w-0">
+                            <p className="font-semibold truncate">{d.name}</p>
+                            <p className="text-[11px] muted truncate">{d.description || ""}{hired ? ` · ${hired} hired` : ""}</p>
+                          </div>
+                          <div className="flex items-center gap-1 shrink-0">
+                            <button type="button" className="iid-btn iid-btn-ghost text-xs px-2" onClick={() => toggleDeptHeadcount(d.id, -1)}>−</button>
+                            <span className="w-6 text-center font-bold font-mono">{count}</span>
+                            <button type="button" className="iid-btn iid-btn-ghost text-xs px-2" onClick={() => toggleDeptHeadcount(d.id, 1)}>+</button>
+                          </div>
+                        </div>
+                      </div>
+                    );
+                  })}
+                </div>
+                <button type="button" className="iid-btn iid-btn-primary text-sm" disabled={actionLoading === "hire-depts" || isDemoReadonly} onClick={hireDepartments}>
+                  {actionLoading === "hire-depts" ? "Hiring…" : "Hire team"}
+                </button>
+                {hiredDepartments.length > 0 ? (
+                  <p className="text-xs text-emerald-300">Active: {hiredDepartments.map((h) => `${h.name} (${h.headcount})`).join(" · ")}</p>
+                ) : null}
+              </div>
+            </details>
+
+            <details className="text-sm rounded-xl border border-[var(--iid-line)] px-4 py-3">
+              <summary className="cursor-pointer font-medium text-sm">Organization chart & scope</summary>
+              <div className="mt-3 space-y-3 border-t border-[var(--iid-line)] pt-3">
+                {(orgTree?.roots || []).length === 0 ? (
+                  <p className="text-sm muted">Open Build your team above to hire, then the org chart appears here.</p>
+                ) : (
+                  <ul className="space-y-2">{(orgTree?.roots || []).map((n) => renderOrgNode(n))}</ul>
+                )}
+                <div className="flex flex-wrap gap-2 pt-2 border-t border-[var(--iid-line)]">
                   {["full_office", "department", "employee"].map((m) => (
-                    <button key={m} type="button" className={`iid-btn ${scopeMode === m ? "iid-btn-primary" : "iid-btn-ghost"}`} onClick={() => setScopeMode(m)}>
-                      {m === "full_office" ? "Full office" : m === "department" ? "Department" : "Employee / team"}
+                    <button key={m} type="button" className={`iid-btn text-xs ${scopeMode === m ? "iid-btn-primary" : "iid-btn-ghost"}`} onClick={() => setScopeMode(m)}>
+                      {m === "full_office" ? "Full office" : m === "department" ? "Department" : "Employee"}
                     </button>
                   ))}
                 </div>
@@ -690,238 +777,140 @@ function TeamContent() {
                     ))}
                   </div>
                 )}
-                {scopeMode === "employee" && (
-                  <div className="flex flex-wrap gap-2">
-                    {agents.map((a) => (
-                      <button key={a.id} type="button" className={`iid-btn text-xs ${harnessIds.includes(a.id) ? "iid-btn-primary" : "iid-btn-ghost"}`} onClick={() => setHarnessIds((prev) => prev.includes(a.id) ? prev.filter((x) => x !== a.id) : [...prev, a.id])}>{a.name}</button>
-                    ))}
-                  </div>
-                )}
-                <button type="button" className="iid-btn iid-btn-ghost text-sm" onClick={saveScope}>Save workspace scope</button>
+                <button type="button" className="iid-btn iid-btn-ghost text-xs" disabled={isDemoReadonly} onClick={saveScope}>Save scope</button>
               </div>
             </details>
-          </section>
+          </div>
+        )}
 
-          {!scopeConfigured ? (
-            <section className="iid-card">
-              <p className="text-amber-300 text-sm">
-                Hire at least one department in Step 1, or choose <strong>Full office</strong> in the advanced scope picker.
-              </p>
-            </section>
-          ) : (
-            <>
-              <section className="iid-card space-y-3">
-                <div className="flex flex-wrap items-center justify-between gap-2">
-                  <h3 className="text-sm font-semibold">Setup checklist</h3>
-                  <span className="text-xs muted">{setupComplete}/{setupRows.length} ready</span>
-                </div>
-                <p className="text-xs muted">Green items are ready. Open <strong>Integrations</strong> to add API keys and connect apps.</p>
-                <div className="grid gap-2 md:grid-cols-2 text-sm">
-                  {setupRows.map((row) => (
-                    <div key={String(row.need)} className="rounded-lg border border-[var(--iid-line)] px-3 py-2">
-                      <span>{row.ok ? "✅" : "⬜"}</span> <strong>{String(row.need)}</strong>
-                      <p className="muted text-xs">{String(row.required)}</p>
-                    </div>
-                  ))}
-                </div>
-                {!hasLlmKeys && (
-                  <p className="text-sm text-amber-300">
-                    No LLM API key detected yet. Agents need OpenAI, Anthropic, or similar — add one in Integrations.
-                  </p>
-                )}
-                {hasLlmKeys && !hasPerplexity && (
-                  <p className="text-sm muted">Tip: add a Perplexity key for live research and lead search.</p>
-                )}
-              </section>
-
-              {pulse && (
-                <section className="iid-card border border-[var(--iid-blue)]/40 space-y-3">
-                  <h2 className="font-display text-lg font-bold">Taylor — Team Leader (COO)</h2>
-                  {notifications.map((n, i) => <p key={i} className="text-sm">{n}</p>)}
-                  {suggestions.slice(0, 3).map((s, i) => (
-                    <p key={i} className="text-sm muted">→ {String(s.label || s.action || JSON.stringify(s))}</p>
-                  ))}
-                  <div className="flex flex-wrap gap-2">
-                    <button type="button" className="iid-btn iid-btn-primary text-xs" disabled={!!actionLoading} onClick={() => runTaylor("approve_all")}>Approve all external</button>
-                    <button type="button" className="iid-btn iid-btn-ghost text-xs" disabled={!!actionLoading} onClick={() => runTaylor("retry_failed")}>Retry failed</button>
-                    <button type="button" className="iid-btn iid-btn-ghost text-xs" disabled={!!actionLoading} onClick={() => runTaylor("run_next")}>Run next task</button>
-                  </div>
-                </section>
-              )}
-
-              <div>
-                <h2 className="font-display text-lg font-bold mb-3">Step 2 — Work in your workspace</h2>
-                <div className="flex flex-wrap gap-2 border-b border-[var(--iid-line)] pb-2">
-                  {tabs.map((t) => (
-                    <button key={t.id} type="button" className={`rounded-full px-3 py-1.5 text-xs font-semibold ${activeTab === t.id ? "bg-[var(--iid-blue)] text-white" : "text-[var(--iid-muted)] border border-[var(--iid-line)]"}`} onClick={() => setActiveTab(t.id)}>{t.label}</button>
-                  ))}
-                </div>
+        {activeTab === "office" && (
+          <div className="space-y-4">
+            {floorMembers.length <= 1 ? (
+              <div className="rounded-xl border border-dashed border-[var(--iid-line)] p-8 text-center space-y-3">
+                <p className="font-semibold">Your office is empty</p>
+                <p className="text-sm muted">Hire at least one department to put people on the floor.</p>
+                <button type="button" className="iid-btn iid-btn-primary text-sm" onClick={() => setActiveTab("hiring")}>Go to Hiring</button>
               </div>
-
-              {error && (
-                <section className="iid-card border border-red-500/40">
-                  <p className="text-sm text-red-300">{error}</p>
-                  <p className="text-xs muted mt-1">Fix the issue above and try again. Most problems are missing API keys or OAuth connections.</p>
-                </section>
-              )}
-              {successMsg && <p className="text-sm text-emerald-300">{successMsg}</p>}
-              {loading && <p className="text-sm muted">Loading workspace…</p>}
-
-              {activeTab === "organization" && (
-                <section className="iid-card space-y-4">
-                  <h3 className="font-semibold">Organization chart</h3>
-                  <p className="text-sm muted">Hierarchy of hired departments, AI agents, and human team members.</p>
-                  {(orgTree?.roots || []).length === 0 ? (
-                    <p className="text-sm muted">Hire departments in Step 1 to see your org chart.</p>
-                  ) : (
-                    <ul className="space-y-2">{(orgTree?.roots || []).map((n) => renderOrgNode(n))}</ul>
-                  )}
-                  {humans.length > 0 && (
-                    <div className="border-t border-[var(--iid-line)] pt-4">
-                      <h4 className="text-sm font-semibold mb-2">Human team</h4>
-                      <ul className="text-sm space-y-1">
-                        {humans.map((h) => (
-                          <li key={String(h.id)}>{String(h.name)} — {String(h.role)}</li>
-                        ))}
-                      </ul>
-                    </div>
-                  )}
-                </section>
-              )}
-
-              {activeTab === "office" && (
-                <section className="iid-card space-y-4">
-                  <h3 className="font-semibold">The Office</h3>
-                  <p className="text-sm muted">Only your hired team appears on the floor. Run the day to watch them work — bubbles show who is talking.</p>
-
-                  <OfficeFloor
-                    members={floorMembers}
-                    phase={String(office?.phase || (bootstrap?.office_state as Record<string, unknown>)?.phase || "arrival")}
-                    board={(office?.board as Array<Record<string, unknown>>) || []}
-                    activity={(office?.activity as Array<Record<string, unknown>>) || []}
-                    lastMentor={String(office?.last_mentor || "")}
-                    activeAgentId={activeAgent}
-                    chatLoading={chatLoading}
-                    liveChatSnippet={liveChatSnippet}
-                    officeRunning={Boolean(actionLoading && ["full_day", "clock_in", "standup", "next_task", "agent_sync", "delivery"].includes(actionLoading))}
-                    onSelectMember={(id) => {
-                      setActiveAgent(id);
-                      setActiveTab("agents");
-                    }}
-                  />
-
-                  <p className="text-xs muted">Full office: 50 credits/week · each department: 10 credits/week (once per calendar week).</p>
-                  <p className="text-sm">Phase: <strong>{String(office?.phase || (bootstrap?.office_state as Record<string, unknown>)?.phase || "arrival")}</strong></p>
-                  {office?.last_mentor ? (
-                    <div className="rounded-lg border border-[var(--iid-line)] bg-[var(--iid-panel)] p-3 text-sm">
-                      <strong>Taylor:</strong> {String(office.last_mentor)}
-                    </div>
-                  ) : null}
-                  <label className="block text-sm font-semibold">Today&apos;s priorities (one per line)</label>
-                  <textarea className="iid-input min-h-[80px]" value={goalsText} onChange={(e) => setGoalsText(e.target.value)} placeholder="e.g. Launch outreach campaign&#10;Review competitor pricing" />
-                  <label className="flex items-center gap-2 text-sm">
-                    <input type="checkbox" checked={autoApprove} onChange={(e) => setAutoApprove(e.target.checked)} className="accent-[var(--iid-blue)]" />
-                    Auto-approve LinkedIn, email, and HubSpot actions
-                  </label>
-                  <div className="flex flex-wrap gap-2">
-                    <button type="button" className="iid-btn iid-btn-primary" disabled={!!actionLoading} onClick={() => runOfficeAction("full_day")}>
-                      {actionLoading === "full_day" ? "Running office day…" : "Run office day"}
-                    </button>
-                    <button type="button" className="iid-btn iid-btn-ghost text-sm" disabled={actionLoading === "checklist"} onClick={buildChecklist}>
-                      {actionLoading === "checklist" ? "Building…" : "Build task checklist"}
-                    </button>
-                    <button type="button" className="iid-btn iid-btn-ghost text-sm" disabled={actionLoading === "run-next"} onClick={runNextTask}>
-                      Run next task
-                    </button>
+            ) : (
+              <>
+                <div className="rounded-xl border border-[var(--iid-blue)]/30 bg-[var(--iid-blue)]/5 p-3 flex flex-wrap items-center justify-between gap-3">
+                  <div>
+                    <p className="text-sm font-semibold">Taylor — Team Leader (COO)</p>
+                    <p className="text-xs muted mt-0.5">
+                      Phase: {phaseLabel} · {approvalCount} pending · {checklistItems.filter((i) => String(i.status) === "pending").length} queued
+                    </p>
                   </div>
-                  <details className="text-sm">
-                    <summary className="cursor-pointer muted">Manual phases (advanced)</summary>
-                    <div className="mt-2 flex flex-wrap gap-2">
-                      {[
-                        { id: "clock_in", label: "Clock in" },
-                        { id: "standup", label: "Standup" },
-                        { id: "next_task", label: "Next task" },
-                        { id: "agent_sync", label: "Agent sync" },
-                        { id: "delivery", label: "Delivery" },
-                      ].map((b) => (
-                        <button key={b.id} type="button" className="iid-btn iid-btn-ghost text-xs" disabled={actionLoading === b.id} onClick={() => runOfficeAction(b.id)}>
-                          {actionLoading === b.id ? "…" : b.label}
+                  <div className="flex flex-wrap gap-2">
+                    <button type="button" className="iid-btn iid-btn-ghost text-xs" onClick={() => openAgentChat("taylor")}>Chat</button>
+                    <button type="button" className="iid-btn iid-btn-ghost text-xs" disabled={!!actionLoading || isDemoReadonly} onClick={() => runTaylor("approve_all")}>Approve all</button>
+                    <button type="button" className="iid-btn iid-btn-ghost text-xs" disabled={!!actionLoading || isDemoReadonly} onClick={() => runTaylor("run_next")}>Run next</button>
+                  </div>
+                </div>
+                <div className="grid gap-4 xl:grid-cols-3">
+                  <div className="xl:col-span-2 space-y-4">
+                    <div className="rounded-xl border border-[var(--iid-line)] bg-[var(--iid-panel)]/40 p-3 space-y-3">
+                      <textarea className="iid-input min-h-[72px] text-sm" value={goalsText} onChange={(e) => setGoalsText(e.target.value)} placeholder="Today's priorities (one per line)…" />
+                      <label className="flex items-center gap-2 text-xs muted">
+                        <input type="checkbox" checked={autoApprove} onChange={(e) => setAutoApprove(e.target.checked)} className="accent-[var(--iid-blue)]" disabled={isDemoReadonly} />
+                        Auto-approve LinkedIn, email, and HubSpot actions
+                      </label>
+                      <div className="flex flex-wrap gap-2">
+                        <button type="button" className="iid-btn iid-btn-primary text-sm" disabled={!!actionLoading || isDemoReadonly} onClick={buildChecklist}>
+                          {actionLoading === "checklist" ? "Building…" : "Build task checklist"}
                         </button>
+                        <button type="button" className="iid-btn iid-btn-ghost text-sm" disabled={!!actionLoading || isDemoReadonly} onClick={() => runOfficeAction("full_day")}>
+                          {actionLoading === "full_day" ? "Running…" : "Run office day"}
+                        </button>
+                        <button type="button" className="iid-btn iid-btn-ghost text-sm" disabled={!!actionLoading || isDemoReadonly} onClick={runNextTask}>Run next task</button>
+                      </div>
+                      {taskMsg ? <p className="text-xs text-emerald-300">{taskMsg}</p> : null}
+                    </div>
+                    <OfficeFloor
+                      members={floorMembers}
+                      phase={phaseLabel}
+                      board={(office?.board as Array<Record<string, unknown>>) || []}
+                      activity={(office?.activity as Array<Record<string, unknown>>) || []}
+                      lastMentor={String(office?.last_mentor || "")}
+                      activeAgentId={activeAgent}
+                      chatLoading={chatLoading}
+                      liveChatSnippet={liveChatSnippet}
+                      officeRunning={Boolean(actionLoading && ["full_day", "clock_in", "standup", "next_task", "agent_sync", "delivery"].includes(actionLoading))}
+                      onSelectMember={(id) => openAgentChat(id)}
+                    />
+                  </div>
+                  <aside className="rounded-xl border border-[var(--iid-line)] bg-[var(--iid-panel)]/40 flex flex-col max-h-[70vh]">
+                    <div className="px-3 py-2.5 border-b border-[var(--iid-line)] text-sm font-semibold">Activity feed</div>
+                    <div className="flex-1 overflow-y-auto px-3 py-2 space-y-2 text-sm">
+                      {(((office?.activity as Array<Record<string, unknown>>) || []).length === 0) ? (
+                        <p className="text-xs muted py-4">Activity appears as the team works. Use the Team bar above to chat with anyone.</p>
+                      ) : ((office?.activity as Array<Record<string, unknown>>) || []).map((a, i) => (
+                        <div key={i} className="border-b border-[var(--iid-line)] pb-2">
+                          <p className="text-[10px] muted font-mono">{String(a.when || "")}</p>
+                          <p><strong>{String(a.from || "Team")}</strong> — {String(a.text || a.message || "")}</p>
+                        </div>
                       ))}
                     </div>
-                  </details>
-                  {taskMsg && <p className="text-sm text-emerald-300">{taskMsg}</p>}
-                  {((office?.board as Array<Record<string, unknown>>) || []).length > 0 && (
-                    <>
-                      <h4 className="font-semibold text-sm">Task board</h4>
-                      <ul className="space-y-2 text-sm">
-                        {((office?.board as Array<Record<string, unknown>>) || []).map((row) => (
-                          <li key={String(row.id)} className="rounded-lg border border-[var(--iid-line)] px-3 py-2">
-                            <span className="font-semibold">{String(row.assignee)}</span> — {String(row.title)}
-                            <span className="muted"> ({String(row.status)})</span>
-                            {row.mentor_note ? <p className="text-xs muted mt-1">{String(row.mentor_note).slice(0, 200)}</p> : null}
-                            <div className="mt-1">{renderArtifacts((row.artifacts as unknown[]) || [], String(row.result || row.mentor_note || ""))}</div>
-                          </li>
-                        ))}
-                      </ul>
-                    </>
-                  )}
-                </section>
-              )}
+                  </aside>
+                </div>
+              </>
+            )}
+          </div>
+        )}
 
-              {activeTab === "tasks" && (
-                <section className="iid-card space-y-3">
-                  <h3 className="font-semibold">Tasks & approvals</h3>
-                  <p className="text-sm muted">External posts, emails, and CRM syncs pause here until you approve.</p>
-                  <label className="flex items-center gap-2 text-sm">
-                    <input type="checkbox" checked={autoApprove} onChange={(e) => setAutoApprove(e.target.checked)} className="accent-[var(--iid-blue)]" />
-                    Auto-approve external actions
-                  </label>
-                  <div className="flex flex-wrap gap-2">
-                    <button type="button" className="iid-btn iid-btn-primary" disabled={actionLoading === "checklist"} onClick={buildChecklist}>
-                      {actionLoading === "checklist" ? "Building…" : "Build checklist from plan"}
-                    </button>
-                    <button type="button" className="iid-btn iid-btn-ghost" disabled={actionLoading === "run-next"} onClick={runNextTask}>
-                      {actionLoading === "run-next" ? "Running…" : "Approve & run next"}
-                    </button>
-                    <button type="button" className="iid-btn iid-btn-ghost" onClick={() => runTaylor("approve_all")}>Approve all</button>
+        {activeTab === "tasks" && (
+          <div className="space-y-3 max-w-4xl">
+            <div>
+              <h2 className="font-semibold">Tasks & Approvals</h2>
+              <p className="text-sm muted mt-1">External posts, emails, and CRM syncs pause here until you approve.</p>
+            </div>
+            <div className="flex flex-wrap gap-2">
+              <button type="button" className="iid-btn iid-btn-primary text-sm" disabled={actionLoading === "checklist" || isDemoReadonly} onClick={buildChecklist}>Build checklist</button>
+              <button type="button" className="iid-btn iid-btn-ghost text-sm" disabled={!!actionLoading || isDemoReadonly} onClick={runNextTask}>Approve & run next</button>
+              <button type="button" className="iid-btn iid-btn-ghost text-sm" disabled={isDemoReadonly} onClick={() => runTaylor("approve_all")}>Approve all</button>
+              <button type="button" className="iid-btn iid-btn-ghost text-sm" disabled={isDemoReadonly} onClick={() => runTaylor("retry_failed")}>Retry failed</button>
+            </div>
+            {checklistItems.length > 0 ? (
+              <div className="flex flex-wrap gap-1.5">
+                {["all", "pending", "awaiting_approval", "completed", "failed", "qc_failed"].map((f) => (
+                  <button key={f} type="button" className={`px-2.5 py-1 rounded-full text-xs border ${taskFilter === f ? "bg-[var(--iid-blue)]/20 border-[var(--iid-blue)]/40" : "border-[var(--iid-line)] muted"}`} onClick={() => setTaskFilter(f)}>{f.replace(/_/g, " ")}</button>
+                ))}
+              </div>
+            ) : (
+              <p className="text-sm muted">No tasks yet. Build a checklist from The Office after you have a plan.</p>
+            )}
+            <ul className="space-y-2 text-sm">
+              {filteredTasks.map((item) => (
+                <li key={String(item.id)} className="rounded-xl border border-[var(--iid-line)] px-3 py-2.5">
+                  <div className="flex flex-wrap items-center gap-2">
+                    <span className="font-semibold">{String(item.title)}</span>
+                    <span className={`text-xs rounded-full px-2 py-0.5 ${item.assignee_type === "human" ? "bg-amber-500/20 text-amber-200" : "bg-[var(--iid-blue)]/20"}`}>
+                      {item.assignee_type === "human" ? "You" : "AI"}
+                    </span>
+                    <span className="muted text-xs">— {String(item.status)}</span>
                   </div>
-                  {checklistItems.length === 0 ? (
-                    <p className="text-sm muted">No tasks yet. Click <strong>Build checklist from plan</strong> after you have a business plan.</p>
+                  {item.human_action ? <p className="text-xs text-amber-300 mt-1">{String(item.human_action)}</p> : null}
+                  {item.ai_action ? <p className="text-xs muted mt-1">{String(item.ai_action)}</p> : null}
+                  <div className="mt-1">{renderArtifacts((item.artifacts as unknown[]) || [], String(item.result || ""))}</div>
+                  {(item.status === "awaiting_approval" || item.status === "qc_failed" || item.status === "failed") && !isDemoReadonly ? (
+                    <div className="mt-2 flex gap-2">
+                      {item.status === "awaiting_approval" ? (
+                        <button type="button" className="iid-btn iid-btn-primary text-xs" onClick={() => runTaskAction(String(item.id), "approve")}>Approve</button>
+                      ) : null}
+                      {(item.status === "qc_failed" || item.status === "failed") ? (
+                        <>
+                          <button type="button" className="iid-btn iid-btn-ghost text-xs" onClick={() => runTaskAction(String(item.id), "retry")}>Retry</button>
+                          <button type="button" className="iid-btn iid-btn-ghost text-xs" onClick={() => runTaskAction(String(item.id), "skip")}>Skip</button>
+                        </>
+                      ) : null}
+                    </div>
                   ) : null}
-                  <ul className="space-y-2 text-sm">
-                    {checklistItems.map((item) => (
-                      <li key={String(item.id)} className="rounded-lg border border-[var(--iid-line)] px-3 py-2">
-                        <div className="flex flex-wrap items-center gap-2">
-                          <span className="font-semibold">{String(item.title)}</span>
-                          <span className={`text-xs rounded-full px-2 py-0.5 ${item.assignee_type === "human" ? "bg-amber-500/20 text-amber-200" : "bg-[var(--iid-blue)]/20 text-[var(--iid-blue)]"}`}>
-                            {item.assignee_type === "human" ? "You" : "AI"}
-                          </span>
-                          <span className="muted text-xs">— {String(item.status)}</span>
-                        </div>
-                        {item.human_action ? <p className="text-xs text-amber-300 mt-1">{String(item.human_action)}</p> : null}
-                        {item.ai_action ? <p className="text-xs muted mt-1">{String(item.ai_action)}</p> : null}
-                        <div className="mt-1">{renderArtifacts((item.artifacts as unknown[]) || [], String(item.result || ""))}</div>
-                        {(item.status === "awaiting_approval" || item.status === "qc_failed" || item.status === "failed") && (
-                          <div className="mt-2 flex gap-2">
-                            {item.status === "awaiting_approval" && (
-                              <button type="button" className="iid-btn iid-btn-primary text-xs" onClick={() => runTaskAction(String(item.id), "approve")}>Approve</button>
-                            )}
-                            {(item.status === "qc_failed" || item.status === "failed") && (
-                              <>
-                                <button type="button" className="iid-btn iid-btn-ghost text-xs" onClick={() => runTaskAction(String(item.id), "retry")}>Retry</button>
-                                <button type="button" className="iid-btn iid-btn-ghost text-xs" onClick={() => runTaskAction(String(item.id), "skip")}>Skip</button>
-                              </>
-                            )}
-                          </div>
-                        )}
-                      </li>
-                    ))}
-                  </ul>
-                </section>
-              )}
+                </li>
+              ))}
+            </ul>
+          </div>
+        )}
 
-              {activeTab === "war_room" && (
+        {activeTab === "war_room" && (
                 <section className="iid-card space-y-4">
                   <h3 className="font-semibold">War room</h3>
                   <div className="space-y-2">
@@ -947,7 +936,7 @@ function TeamContent() {
                 </section>
               )}
 
-              {activeTab === "command" && (
+        {activeTab === "command" && (
                 <section className="iid-card space-y-4">
                   <h3 className="font-semibold">Command center</h3>
                   {command?.metrics ? (
@@ -976,7 +965,7 @@ function TeamContent() {
                 </section>
               )}
 
-              {activeTab === "agents" && (
+        {activeTab === "agents" && (
                 <section className="iid-card space-y-4">
                   <h3 className="font-semibold">Agents & team</h3>
                   <div className="grid gap-4 lg:grid-cols-[200px_1fr]">
@@ -1138,7 +1127,7 @@ function TeamContent() {
                 </section>
               )}
 
-              {activeTab === "integrations" && (
+        {activeTab === "integrations" && (
                 <section className="iid-card space-y-6">
                   <div className="space-y-3">
                     <h3 className="font-semibold">API keys (required for agents)</h3>
@@ -1248,7 +1237,7 @@ function TeamContent() {
                 </section>
               )}
 
-              {activeTab === "advanced" && (
+        {activeTab === "advanced" && (
                 <section className="iid-card space-y-4">
                   <h3 className="font-semibold">Advanced</h3>
                   <div className="space-y-3">
@@ -1283,19 +1272,32 @@ function TeamContent() {
                   </div>
                 </section>
               )}
-            </>
-          )}
-        </>
-      )}
-      {selectedId && pulse && (
+      </EmployeeOsChrome>
+
+      <AgentChatDrawer
+        open={chatDrawerOpen && Boolean(activeAgent)}
+        onClose={() => setChatDrawerOpen(false)}
+        name={String(chatAgents.find((a) => a.id === activeAgent)?.name || "Agent")}
+        role={String(chatAgents.find((a) => a.id === activeAgent)?.role || chatAgents.find((a) => a.id === activeAgent)?.department || "")}
+        chat={chat}
+        input={chatInput}
+        onInput={setChatInput}
+        onSend={() => sendChat()}
+        loading={chatLoading}
+        readOnly={isDemoReadonly}
+        starters={chatAgents.find((a) => a.id === activeAgent)?.starters || []}
+        renderArtifacts={(arts, reply) => renderArtifacts(arts, reply)}
+      />
+      {selectedId && pulse ? (
         <TaylorBubble
           pulse={pulse as ComponentProps<typeof TaylorBubble>["pulse"]}
           onAction={handleTaylorAction}
           loading={!!actionLoading}
         />
-      )}
+      ) : null}
     </div>
   );
+
 }
 
 export default function TeamPage() {

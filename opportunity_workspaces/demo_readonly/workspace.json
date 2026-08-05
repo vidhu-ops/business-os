@@ -196,5 +196,106 @@
         }
       }
     ]
+  },
+  "employee_os": {
+    "available": true,
+    "scope": {
+      "mode": "full_office",
+      "departments": [
+        "sales",
+        "marketing",
+        "research",
+        "operations"
+      ],
+      "harness_ids": []
+    },
+    "departments": [
+      {
+        "id": "sales",
+        "name": "Sales",
+        "headcount": 1
+      },
+      {
+        "id": "marketing",
+        "name": "Marketing",
+        "headcount": 1
+      },
+      {
+        "id": "research",
+        "name": "Research",
+        "headcount": 1
+      },
+      {
+        "id": "operations",
+        "name": "Operations",
+        "headcount": 1
+      }
+    ],
+    "agents": [
+      {
+        "id": "demo_sales",
+        "harness_id": "sales_lead",
+        "name": "Alex — Sales Lead",
+        "role": "Sales Lead",
+        "department": "sales",
+        "tagline": "Pipeline and outreach"
+      },
+      {
+        "id": "demo_marketing",
+        "harness_id": "growth_marketer",
+        "name": "Morgan — Growth Marketer",
+        "role": "Growth Marketer",
+        "department": "marketing",
+        "tagline": "Campaigns and brand"
+      },
+      {
+        "id": "demo_research",
+        "harness_id": "research_analyst",
+        "name": "Sam — Research Analyst",
+        "role": "Research Analyst",
+        "department": "research",
+        "tagline": "Market intel"
+      },
+      {
+        "id": "demo_ops",
+        "harness_id": "ops_manager",
+        "name": "Jordan — Ops Lead",
+        "role": "Ops Lead",
+        "department": "operations",
+        "tagline": "Execution and handoffs"
+      }
+    ],
+    "humans": [
+      {
+        "id": "demo_founder",
+        "name": "You (Founder)",
+        "role": "Founder",
+        "departments": [
+          "executive",
+          "sales",
+          "marketing"
+        ]
+      }
+    ],
+    "collaboration": {
+      "summary": {
+        "ai_done": 2,
+        "ai_total": 5,
+        "human_done": 0,
+        "human_total": 2,
+        "agents_active": 4,
+        "humans_on_team": 1
+      },
+      "human_queue": [
+        {
+          "action": "Approve LinkedIn campaign draft",
+          "status": "awaiting_you"
+        },
+        {
+          "action": "Review competitor pricing memo",
+          "status": "awaiting_you"
+        }
+      ]
+    }
   }
 }

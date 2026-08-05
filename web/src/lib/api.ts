@@ -116,6 +116,9 @@ async function request<T>(
           d.message || `Not enough credits (need ${d.required ?? "?"}, have ${d.remaining ?? 0}). Upgrade at ${href}.`,
         );
       }
+      if (detail && typeof detail === "object" && detail !== null && "message" in detail) {
+        throw new Error(String((detail as { message?: string }).message || res.statusText));
+      }
       throw new Error(typeof detail === "string" ? detail : JSON.stringify(detail || res.statusText));
     }
     return data as T;
