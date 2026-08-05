@@ -107,6 +107,7 @@ function TeamContent() {
   const [broadcastInput, setBroadcastInput] = useState("");
   const [chatDrawerOpen, setChatDrawerOpen] = useState(false);
   const [taskFilter, setTaskFilter] = useState("all");
+  const [hirePanelOpen, setHirePanelOpen] = useState(true);
   const isDemoReadonly = Boolean(bootstrap?.demo_readonly);
 
   const agents = (bootstrap?.agents as Agent[]) || [];
@@ -170,6 +171,7 @@ function TeamContent() {
       }
       const hired = (data.hired_departments as Array<{ id: string; name: string; headcount: number }>) || [];
       setHiredDepartments(hired);
+      setHirePanelOpen(hired.length === 0);
       const counts: Record<string, number> = {};
       hired.forEach((h) => { counts[h.id] = h.headcount; });
       setDeptHeadcounts(counts);
@@ -707,9 +709,9 @@ function TeamContent() {
             </div>
 
             <details
-              key={hiredDepartments.length ? "hire-filled" : "hire-empty"}
               className="rounded-xl border border-[var(--iid-line)] bg-[var(--iid-panel)]/40 px-4 py-3 group"
-              defaultOpen={hiredDepartments.length === 0}
+              open={hirePanelOpen}
+              onToggle={(e) => setHirePanelOpen(e.currentTarget.open)}
             >
               <summary className="cursor-pointer font-semibold text-sm flex items-center justify-between gap-2">
                 <span>Build your team</span>
