@@ -53,6 +53,25 @@ const TOURS: Record<string, IidaTour> = {
   },
 };
 
+const SECTION_HINTS: Array<{ match: RegExp; line: string }> = [
+  { match: /office|floor|phase/i, line: "This is the live floor — people, tasks, and chatter in one view." },
+  { match: /hiring|build your team|department/i, line: "Hiring is where you staff departments. Expand Build your team to adjust headcount." },
+  { match: /task|approval|checklist/i, line: "Tasks & approvals — review what needs your yes before agents send or post." },
+  { match: /war room/i, line: "War Room surfaces blockers and failures so you can unblock fast." },
+  { match: /command center/i, line: "Command Center is readiness — credits, integrations, and what is still missing." },
+  { match: /agent|team member|human/i, line: "Agents & Team — chat people, add humans, and see who owns what." },
+  { match: /integration|oauth|key/i, line: "Integrations connect email, LinkedIn, CRM, and LLM keys the office needs." },
+  { match: /taylor|team leader|coo/i, line: "Taylor is your COO on the floor — chat, approve, or ask for the next move." },
+  { match: /activit(y|ies)|feed|live/i, line: "Activity feed is the office ticker — who just shipped or needs you." },
+  { match: /research|market|competitor/i, line: "Research turns your idea into cited evidence you can defend." },
+  { match: /plan|investor|financial/i, line: "Business Plan packages the story, numbers, and next actions." },
+  { match: /audit|company/i, line: "Company Audit diagnoses an existing business — gaps and upside." },
+  { match: /project|workspace/i, line: "Projects are your opportunity workspaces — pick one to keep going." },
+  { match: /credit|plan|pricing|upgrade/i, line: "Credits and plan control how much you can run — I will steer high-value steps." },
+  { match: /automation|workflow/i, line: "Automation wires repeatable flows so the office keeps moving." },
+  { match: /priorit|goal|today/i, line: "Priorities tell Taylor what to push today — keep them short and sharp." },
+];
+
 export function normalizeAppPath(pathname: string | null | undefined): string {
   const p = (pathname || "/app/dashboard").split("?")[0].replace(/\/$/, "") || "/app/dashboard";
   return p.startsWith("/") ? p : `/${p}`;
@@ -90,4 +109,55 @@ export function firstNameFrom(email: string, name?: string): string {
   const raw = (name || "").trim() || (email || "").split("@")[0] || "founder";
   const token = raw.split(/[\s._-]+/)[0] || "founder";
   return token.charAt(0).toUpperCase() + token.slice(1, 24);
+}
+
+export type SectionCue = { id: string; title: string; blurb: string; explain: string };
+
+function cleanText(s: string, max = 160): string {
+  return s.replace(/\s+/g, " ").trim().slice(0, max);
+}
+
+/** Build a fast, catchy one-liner for a scrolled-into-view section. */
+export function explainSection(title: string, body = "", pageTitle = ""): string {
+  const t = cleanText(title, 80);
+  const snippet = cleanText(body, 100);
+  for (const hint of SECTION_HINTS) {
+    if (hint.match.test(`${t} ${snippet} ${pageTitle}`)) {
+      return `${t}: ${hint.line}${snippet ? ` (${snippet.slice(0, 70)}${snippet.length > 70 ? "…" : ""})` : ""}`;
+    }
+  }
+  if (snippet) return `${t} — ${snippet}${snippet.length >= 100 ? "…" : ""}`;
+  return `${t} — you are looking at this block now. Ask me if you want the next step.`;
+}
+
+/** Collect scrollable section nodes from the main app content. */
+export function collectSectionNodes(root: ParentNode = document): HTMLElement[] {
+  const main = (root as Document).querySelector?.(".app-shell-main") || root;
+  const nodes = Array.from(
+    (main as Element).querySelectorAll?.(
+      "h1, h2, h3, section, article, [data-iida-section], .iid-card, [role='tabpanel'], aside",
+    ) || [],
+  ) as HTMLElement[];
+  return nodes.filter((el) => {
+    const text = (el.innerText || el.textContent || "").trim();
+    if (text.length < 8) return false;
+    if (el.closest("[data-iida-root]")) return false;
+    return true;
+  });
+}
+
+export function sectionCueFromElement(el: HTMLElement, pageTitle = ""): SectionCue {
+  const heading =
+    el.matches("h1,h2,h3")
+      ? el
+      : (el.querySelector("h1,h2,h3,.font-semibold,.font-bold") as HTMLElement | null);
+  const title = cleanText(heading?.innerText || el.getAttribute("aria-label") || el.innerText || "This section", 72);
+  const body = cleanText(el.innerText || "", 140);
+  const id = `${title}::${body.slice(0, 40)}`;
+  return {
+    id,
+    title,
+    blurb: body,
+    explain: explainSection(title, body, pageTitle),
+  };
 }
