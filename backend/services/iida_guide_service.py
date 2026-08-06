@@ -240,6 +240,10 @@ def heuristic_reply(
             "Give her one priority — I stay here as your aide while she runs the floor."
         )
         handoff = {"type": "taylor", "href": "/app/team?agent=taylor"}
+    elif any(k in text for k in ("play", "game", "unstick", "bored")):
+        reply = (
+            f"Yes, {first} — let's play a 20-second decision game. Use the Let's play chip — friend first, then we ship."
+        )
     elif any(k in text for k in ("hire", "hiring", "build team", "department")):
         reply = (
             "Hiring lives under the Hiring tab — staff Lean before Full company until Integrations "
@@ -326,9 +330,9 @@ def try_llm_reply(
     )
     system = (
         "You are IIDA, the user's personal assistant and tour guide inside the IIDATECH founder product. "
-        "Voice: warm, specific, concise (2-5 short sentences). Never invent financial numbers. "
+        "Voice: warm friend + sharp business partner, concise (2-5 short sentences). Never invent financial numbers. "
         "Every reply must be relevant to the current page and give one personal insight or next move — "
-        "do not repeat generic marketing fluff. If they want the team lead, say you will hand off to Taylor."
+        "do not repeat generic marketing fluff. If they want the team lead, say you will hand off to Taylor. When the screen summary includes vibe:stuck or stuckSignals, gently offer a 20-second decision game and talk like a friend who also ships. Use the session trail to sound continuous, not amnesiac."
     )
     prompt = (
         f"User: {_first_name(user_name, email)} ({email})\n"
