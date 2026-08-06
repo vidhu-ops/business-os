@@ -137,6 +137,23 @@ def _execute_step(report_id: str, step: dict[str, Any], *, idea: str, industry: 
         ok, msg = publish_linkedin_post(report_id, post_text[:2900])
         return {"success": ok, "reply": msg, "artifacts": []}
 
+    if action == "outreach_personalize":
+        from iidatech.execution.outreach_pipeline import personalize_leads
+        out = personalize_leads(
+            report_id,
+            idea=idea,
+            industry=industry,
+            geography=geography,
+            max_leads=90,
+            use_llm=True,
+        )
+        return {
+            "success": bool(out.get("ok")),
+            "reply": str(out.get("message") or ""),
+            "artifacts": [str(out.get("queue_path") or "")] if out.get("queue_path") else [],
+            "drafted": out.get("drafted", 0),
+        }
+
     if action == "gmail_send":
         from iidatech.execution.os2_workflow import _find_text_artifact, _first_lead_email
         from iidatech.integrations.oauth_posting import send_gmail_message
@@ -148,6 +165,19 @@ def _execute_step(report_id: str, step: dict[str, Any], *, idea: str, industry: 
             return {"success": False, "reply": "No outreach draft found — run the 'Draft outreach sequence' step first."}
         ok, msg = send_gmail_message(report_id, to_email, subject, body)
         return {"success": ok, "reply": msg, "artifacts": []}
+
+    if action == "gmail_send_queue":
+        from iidatech.execution.outreach_pipeline import send_pending
+        # After founder approval, drain the personalized queue (cap 90 / run).
+        limit = int(step.get("batch_size") or 90)
+        out = send_pending(report_id, limit=max(1, min(90, limit)))
+        return {
+            "success": bool(out.get("ok")) or int(out.get("sent") or 0) > 0,
+            "reply": str(out.get("message") or ""),
+            "artifacts": [],
+            "sent": out.get("sent", 0),
+            "remaining": out.get("remaining", 0),
+        }
 
     if action == "hubspot_sync":
         from iidatech.execution.os2_workflow import _find_leads_csv
@@ -208,6 +238,7 @@ def process_next_queue_item(report_id: str, *, idea: str, industry: str, geograp
         action_desc = {
             "linkedin_post": "This will publish a real post to your LinkedIn profile.",
             "gmail_send": "This will send a real email to the first qualified lead.",
+            "gmail_send_queue": "This will send personalized emails from the queued lead list.",
             "hubspot_sync": "This will create real contacts in your HubSpot CRM.",
         }.get(str(merged_step.get("action") or ""), "This step performs an external action.")
         fid = founder_employee_id(report_id)

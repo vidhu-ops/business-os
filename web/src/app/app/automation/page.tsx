@@ -44,6 +44,7 @@ function AutomationContent() {
   const [loading, setLoading] = useState("");
   const [error, setError] = useState("");
   const [isDemo, setIsDemo] = useState(false);
+  const [autoApprove, setAutoApprove] = useState(false);
 
   useEffect(() => {
     api.me().then((u) => setIsDemo(Boolean(u.is_demo))).catch(() => setIsDemo(false));
@@ -53,9 +54,9 @@ function AutomationContent() {
     api.automationWorkflows().then((data) => {
       const catalog = (data.steps || []) as Step[];
       setSteps(catalog);
-      if (catalog.length >= 3) {
-        setPicked([catalog[0].id, catalog[1].id, catalog[9]?.id || catalog[2].id].filter(Boolean));
-      }
+      const preset = ["find_leads", "draft_outreach_per_lead", "send_email_queue"];
+      const hasPreset = preset.every((id) => catalog.some((s) => s.id === id));
+      setPicked(hasPreset ? preset : [catalog[0].id, catalog[1].id, catalog[2]?.id].filter(Boolean));
     }).catch(() => setSteps([]));
   }, []);
 
@@ -100,7 +101,7 @@ function AutomationContent() {
     setLoading("run");
     setError("");
     try {
-      const data = await api.runAutomationNext(selectedId, false);
+      const data = await api.runAutomationNext(selectedId, autoApprove);
       const queue = data.queue as { items?: QueueItem[] };
       setQueueItems(queue?.items || []);
       if (data.setup_requirements) {
@@ -124,7 +125,7 @@ function AutomationContent() {
         <p className="mt-2 muted">
           {isDemo
             ? "Sample completed agent workflow — watch the walkthrough below. Sign up to build and run your own automations."
-            : "Pick steps and run them with your agent team — same catalog and queue as Streamlit."}
+            : 'Pick steps (or use Find leads → Personalize → Send) and run them. You can also ask Taylor in Employee OS: "find 90 leads and email them".'}
         </p>
         {!isDemo && (
         <p className="mt-1 text-xs muted">Build: 8 credits · each step run: 8 credits. Connect apps under Employee OS → Integrations.</p>
@@ -170,6 +171,22 @@ function AutomationContent() {
               ))}
             </div>
             <input className="iid-input" value={flowName} onChange={(e) => setFlowName(e.target.value)} placeholder="Automation name" />
+            <div className="flex flex-wrap gap-2 items-center">
+              <button
+                type="button"
+                className="iid-btn iid-btn-ghost text-xs"
+                onClick={() => {
+                  setPicked(["find_leads", "draft_outreach_per_lead", "send_email_queue"]);
+                  setFlowName("Daily leads + personalized email");
+                }}
+              >
+                Use: Find leads → Personalize → Send
+              </button>
+              <label className="text-xs muted inline-flex items-center gap-2">
+                <input type="checkbox" checked={autoApprove} onChange={(e) => setAutoApprove(e.target.checked)} />
+                Auto-approve external sends
+              </label>
+            </div>
             {error && <p className="text-sm text-red-400">{error}</p>}
             <div className="flex flex-wrap gap-3">
               <button className="iid-btn iid-btn-primary" type="button" onClick={buildFlow} disabled={loading === "build"}>

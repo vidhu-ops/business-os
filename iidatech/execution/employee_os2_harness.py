@@ -54,6 +54,16 @@ def route_message_to_tools(harness_id: str, message: str, *, report_context: dic
     topic, geo = _topic_from_context(rc), str(rc.get("geography") or rc.get("country") or "Global")
     harness_id = _route_id(harness_id, extra_harnesses)
     if harness_id == "sales_lead":
+        from iidatech.execution.outreach_pipeline import is_outreach_pipeline_intent, parse_lead_target
+        if is_outreach_pipeline_intent(msg):
+            target = parse_lead_target(msg, default=30)
+            return (
+                [
+                    {"tool": "lead_scraper", "payload": {"target_count": target, "icp_segment": topic, "geography": geo}, "approved": True},
+                    {"tool": "outreach_personalizer", "payload": {"max_leads": target}, "approved": True},
+                ],
+                f"Find ~{target} leads then personalize emails.",
+            )
         # Lead-finding intent wins over outreach keywords: prompts like
         # "find 20 qualified leads ... with emails" must run the scraper, not the writer.
         lead_intent = "lead" in msg and any(
@@ -61,7 +71,7 @@ def route_message_to_tools(harness_id: str, message: str, *, report_context: dic
         )
         if lead_intent:
             target = int(m.group(1)) if (m := re.search(r"(\d+)\s*(?:qualified\s+)?lead", msg)) else 20
-            return ([{"tool": "lead_scraper", "payload": {"target_count": max(5, min(50, target)), "icp_segment": topic, "geography": geo}, "approved": True}], f"Lead search (~{target}).")
+            return ([{"tool": "lead_scraper", "payload": {"target_count": max(5, min(90, target)), "icp_segment": topic, "geography": geo}, "approved": True}], f"Lead search (~{target}).")
         if any(k in msg for k in ("meeting", "book a call", "schedule a call", "demo call", "book a demo")):
             return ([{"tool": "meeting_scheduler", "payload": {"title": str(message or "Discovery call")[:240]}, "approved": True}], "Meeting scheduling.")
         if any(k in msg for k in ("outreach", "email", "sequence", "message", "cold")):
@@ -72,7 +82,7 @@ def route_message_to_tools(harness_id: str, message: str, *, report_context: dic
         if "proposal" in msg:
             return ([{"tool": "proposal_builder", "payload": {"client_name": "Prospect"}, "approved": True}], "Proposal draft.")
         target = int(m.group(1)) if (m := re.search(r"(\d+)\s*lead", msg)) else 20
-        return ([{"tool": "lead_scraper", "payload": {"target_count": max(5, min(50, target)), "icp_segment": topic, "geography": geo}, "approved": True}], f"Lead search (~{target}).")
+        return ([{"tool": "lead_scraper", "payload": {"target_count": max(5, min(90, target)), "icp_segment": topic, "geography": geo}, "approved": True}], f"Lead search (~{target}).")
     if harness_id == "growth_marketer":
         if "campaign" in msg:
             ch = "linkedin" if "linkedin" in msg else "email"

@@ -231,6 +231,54 @@ def bootstrap_os2(workspace_id: str) -> dict[str, Any]:
     }
 
 
+
+def kickoff_outreach_pipeline(workspace_id: str, message: str = "", *, auto_approve_external: bool = False) -> dict[str, Any]:
+    """Build + start find-leads -> personalize -> send-queue on the workspace report id."""
+    from iidatech.execution.agent_queue import ensure_automation_team, init_queue_from_spec, process_next_queue_item, load_queue
+    from iidatech.execution.automation_steps import build_daily_outreach_spec
+    from iidatech.execution.outreach_pipeline import parse_lead_target
+    from iidatech.execution.os2_api_keys import merge_api_keys
+
+    workspace, report_id, report_context, _scope, keys = _workspace_bundle(workspace_id)
+    idea = str(workspace.get("idea") or report_context.get("topic") or "").strip()
+    industry = str(workspace.get("industry") or "General").strip()
+    geography = str(workspace.get("country") or report_context.get("geography") or "Global").strip()
+    target = parse_lead_target(message, default=30)
+    spec = build_daily_outreach_spec(idea=idea, industry=industry, geography=geography, target=target)
+    ensure_automation_team(report_id, topic=idea, industry=industry, geography=geography)
+    queue = init_queue_from_spec(report_id, spec)
+    # Run first non-external step(s) immediately so leads start generating
+    logs = []
+    for _ in range(2):
+        step = process_next_queue_item(
+            report_id,
+            idea=idea,
+            industry=industry,
+            geography=geography,
+            api_keys=keys or merge_api_keys(),
+            report_context=report_context,
+            auto_approve_external=auto_approve_external,
+        )
+        logs.append(step)
+        if step.get("done") or step.get("needs_approval"):
+            break
+        if step.get("item") and str(step["item"].get("status")) == "failed":
+            break
+    queue = load_queue(report_id)
+    pending = sum(1 for it in (queue.get("items") or []) if str(it.get("status")) in ("queued", "needs_founder", "running"))
+    return {
+        "success": True,
+        "target": target,
+        "report_id": report_id,
+        "queue": queue,
+        "ran": logs,
+        "message": (
+            f"Started daily outreach for ~{target} leads: find -> personalize -> send queue. "
+            f"{pending} step(s) still open. Approve sends under Tasks & Approvals or ask me to approve all / run next."
+        ),
+    }
+
+
 def run_agent_chat(
     workspace_id: str,
     harness_id: str,
@@ -247,22 +295,40 @@ def run_agent_chat(
     chat.append({"role": "user", "content": message})
 
     if harness_id == "taylor":
+        from iidatech.execution.outreach_pipeline import is_outreach_pipeline_intent
+
         msg_lower = message.strip().lower()
-        if "approve" in msg_lower:
+        if is_outreach_pipeline_intent(message):
+            outcome = kickoff_outreach_pipeline(workspace_id, message)
+            reply = str(outcome.get("message") or "Outreach pipeline started.")
+            assistant = {
+                "role": "assistant",
+                "content": reply,
+                "artifacts": [],
+                "success": bool(outcome.get("success")),
+            }
+        elif "approve" in msg_lower:
             outcome = run_taylor_action(workspace_id, "approve_all")
             reply = f"Approved {outcome.get('approved', 0)} pending items."
+            assistant = {"role": "assistant", "content": reply, "artifacts": [], "success": True}
         elif "run next" in msg_lower or "next task" in msg_lower:
             outcome = run_taylor_action(workspace_id, "run_next")
             reply = str(outcome.get("message") or "Processed next task.")
+            assistant = {"role": "assistant", "content": reply, "artifacts": [], "success": True}
         elif "retry" in msg_lower:
             outcome = run_taylor_action(workspace_id, "retry_failed")
             reply = f"Retried {outcome.get('retried', 0)} failed tasks."
+            assistant = {"role": "assistant", "content": reply, "artifacts": [], "success": True}
         else:
             checklist = load_checklist(report_id)
             pulse = build_taylor_pulse(report_id, checklist=checklist, has_api_keys=bool(keys))
             notes = list(pulse.get("notifications") or [])[:2]
-            reply = notes[0] if notes else "I'm coordinating the team. Ask me to run next task, approve all, or retry failed."
-        assistant = {"role": "assistant", "content": reply, "artifacts": [], "success": True}
+            reply = (
+                notes[0]
+                if notes
+                else "I'm coordinating the team. Ask me to find leads and email them, run next task, approve all, or retry failed."
+            )
+            assistant = {"role": "assistant", "content": reply, "artifacts": [], "success": True}
     else:
         result = execute_harness_job(
             harness_id,
@@ -587,6 +653,7 @@ def run_taylor_action(workspace_id: str, action: str) -> dict[str, Any]:
             if approved:
                 save_checklist(report_id, checklist)
         approved += approve_pending_queue_items(automation_report_id(topic, geography))
+        approved += approve_pending_queue_items(report_id)
         return {"approved": approved, "checklist": load_checklist(report_id)}
     if action == "retry_failed":
         count = 0
@@ -599,6 +666,21 @@ def run_taylor_action(workspace_id: str, action: str) -> dict[str, Any]:
                 save_checklist(report_id, checklist)
         return {"retried": count, "checklist": load_checklist(report_id)}
     if action == "run_next":
+        from iidatech.execution.agent_queue import process_next_queue_item
+        from iidatech.execution.os2_api_keys import merge_api_keys
+
+        # Prefer draining the executable outreach/automation queue when present.
+        queue_outcome = process_next_queue_item(
+            report_id,
+            idea=topic,
+            industry=str(workspace.get("industry") or "General"),
+            geography=geography,
+            api_keys=merge_api_keys(),
+            report_context=workspace_report_context(workspace),
+            auto_approve_external=False,
+        )
+        if not queue_outcome.get("done") or queue_outcome.get("needs_approval") or queue_outcome.get("item"):
+            return {"message": str(queue_outcome.get("message") or queue_outcome.get("item", {}).get("result") or "Processed queue step."), "queue": queue_outcome}
         return run_checklist_next(workspace_id, auto_approve_external=False)
     raise ValueError(f"Unknown Taylor action: {action}")
 

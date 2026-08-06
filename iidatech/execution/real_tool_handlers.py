@@ -248,7 +248,7 @@ def _tool_evidence_writer(payload: dict, context: dict) -> dict[str, Any]:
 def _tool_lead_scraper(payload: dict, context: dict) -> dict[str, Any]:
     report_id = str(payload.get("report_id") or context.get("report_id") or "")
     employee_id = str(context.get("employee_id") or "growth")
-    target = int(payload.get("target_count") or 25)
+    target = max(5, min(90, int(payload.get("target_count") or 25)))
     rc = _report_v3(context)
     icp = str(payload.get("icp_segment") or rc.get("topic") or "target companies").strip()
     geography = str(payload.get("geography") or rc.get("geography") or rc.get("country") or "Global").strip()
@@ -260,12 +260,34 @@ def _tool_lead_scraper(payload: dict, context: dict) -> dict[str, Any]:
     from iidatech.evidence_bank.perplexity_client import search_structured_leads
     from iidatech.integrations.sales import format_leads_preview, normalize_lead_records
 
-    search_out = search_structured_leads(icp=icp, geography=geography, limit=target)
-    leads = normalize_lead_records(
-        search_out.get("parsed"),
-        citations=search_out.get("citations"),
-        limit=target,
-    )
+    # Batch searches when asking for larger daily volumes (cap 90)
+    leads = []
+    citations_all = []
+    search_out = {"backend": None, "error": ""}
+    remaining = max(5, min(90, target))
+    batch_num = 0
+    while remaining > 0 and batch_num < 4 and len(leads) < target:
+        batch_num += 1
+        take = min(30, remaining)
+        variant = icp if batch_num == 1 else f"{icp} (batch {batch_num}, additional companies)"
+        search_out = search_structured_leads(icp=variant, geography=geography, limit=take)
+        batch = normalize_lead_records(
+            search_out.get("parsed"),
+            citations=search_out.get("citations"),
+            limit=take,
+        )
+        citations_all.extend(list(search_out.get("citations") or []))
+        seen = {(str(l.get("email") or "").lower(), str(l.get("company") or "").lower()) for l in leads}
+        for row in batch:
+            key = (str(row.get("email") or "").lower(), str(row.get("company") or "").lower())
+            if key in seen:
+                continue
+            seen.add(key)
+            leads.append(row)
+        remaining = target - len(leads)
+        if not batch:
+            break
+    leads = leads[:target]
     if not leads:
         err = str(search_out.get("error") or "").strip()
         detail = err or "Live search returned no parseable companies — try a narrower ICP or geography"
@@ -491,6 +513,29 @@ def _tool_outreach_writer(payload: dict, context: dict) -> dict[str, Any]:
         logs=logs,
     )
 
+
+
+def _tool_outreach_personalizer(payload: dict, context: dict) -> dict[str, Any]:
+    from iidatech.execution.outreach_pipeline import personalize_leads
+
+    report_id = str(payload.get("report_id") or context.get("report_id") or "default")
+    rc = context.get("report_context") if isinstance(context.get("report_context"), dict) else {}
+    out = personalize_leads(
+        report_id,
+        idea=str(rc.get("topic") or rc.get("idea") or ""),
+        industry=str(rc.get("industry") or ""),
+        geography=str(rc.get("geography") or rc.get("country") or "Global"),
+        max_leads=int(payload.get("max_leads") or 90),
+        use_llm=True,
+    )
+    return execution_result(
+        success=bool(out.get("ok")),
+        result=out,
+        artifacts=[str(out.get("queue_path"))] if out.get("queue_path") else [],
+        execution_mode="real",
+        verified=bool(out.get("ok")),
+        logs=[str(out.get("message") or ""), f"drafted:{out.get('drafted', 0)}"],
+    )
 
 def _tool_crm_update(payload: dict, context: dict) -> dict[str, Any]:
     records = _as_list(payload.get("records"))
@@ -744,6 +789,7 @@ TOOL_HANDLERS = {
     "campaign_builder": _tool_campaign_builder,
     "ad_copy_generator": _tool_ad_copy_generator,
     "outreach_writer": _tool_outreach_writer,
+    "outreach_personalizer": _tool_outreach_personalizer,
     "crm_update": _tool_crm_update,
     "lead_scoring": _tool_lead_scoring,
     "proposal_builder": _tool_proposal_builder,
