@@ -10,7 +10,7 @@ import {
   type SectionCue,
 } from "@/lib/iida-guide";
 import { MessageCircle, Send, Sparkles, X } from "lucide-react";
-import { usePathname, useRouter, useSearchParams } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 
 type Turn = { role: "iida" | "user"; text: string };
@@ -69,9 +69,8 @@ function publicReply(message: string, path: string, tourTitle: string, tourBlurb
 }
 
 export function IidaAssistant({ email = "" }: Props) {
-  const pathname = usePathname();
+  const pathname = usePathname() || "/";
   const router = useRouter();
-  const searchParams = useSearchParams();
   const [user, setUser] = useState<User | null>(null);
   const [open, setOpen] = useState(false);
   const [input, setInput] = useState("");
@@ -84,12 +83,22 @@ export function IidaAssistant({ email = "" }: Props) {
   const endRef = useRef<HTMLDivElement>(null);
   const seenSections = useRef<Set<string>>(new Set());
   const lastSectionId = useRef("");
-  const projectId = searchParams.get("project") || "";
+  const projectId = useMemo(() => {
+    if (typeof window === "undefined") return "";
+    try {
+      return new URLSearchParams(window.location.search).get("project") || "";
+    } catch {
+      return "";
+    }
+  }, [pathname]);
   const authed = Boolean(getToken() || email || user?.email);
 
   const tour = useMemo(() => tourForPath(pathname), [pathname]);
   const first = firstNameFrom(email || user?.email || "", user?.name);
-  const liveTip = sectionTip || tip;
+  const liveTip =
+    sectionTip ||
+    tip ||
+    `Your assistant is here ? you are on ${tour.title}. ${tour.hook}`;
 
   useEffect(() => {
     if (!getToken() && !email) {
