@@ -127,10 +127,10 @@ export function explainSection(title: string, body = "", pageTitle = ""): string
     }
   }
   if (snippet && snippet.toLowerCase() !== t.toLowerCase()) {
-    return `${t} ? ${snippet}${snippet.length >= 100 ? "?" : ""}`;
+    return `${t} - ${snippet}${snippet.length >= 100 ? "..." : ""}`;
   }
   if (pageTitle && t.toLowerCase() !== pageTitle.toLowerCase()) {
-    return `${t} ? part of ${pageTitle}. Scroll on and I will keep briefing you.`;
+    return `${t} - part of ${pageTitle}. Scroll on and I will keep briefing you.`;
   }
   return `You're looking at ${t}. I will summarize each block as you scroll - tap me to ask anything.`;
 }
