@@ -3,11 +3,10 @@
 import { AppNav } from "@/components/AppNav";
 import { AppProductNav } from "@/components/AppProductNav";
 import { DemoBanner } from "@/components/DemoBanner";
-import { IidaAssistant } from "@/components/iida/IidaAssistant";
 import { ensureSession } from "@/lib/api";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
-import { Suspense, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 
 export default function AppLayout({ children }: { children: React.ReactNode }) {
   const pathname = usePathname();
@@ -31,7 +30,7 @@ export default function AppLayout({ children }: { children: React.ReactNode }) {
         return;
       }
       setRedirecting(false);
-      // Show shell immediately when a token exists — avoids a full-screen block on every navigation.
+      // Show shell immediately when a token exists â€” avoids a full-screen block on every navigation.
       setReady(true);
       try {
         const user = await ensureSession();
@@ -60,7 +59,7 @@ export default function AppLayout({ children }: { children: React.ReactNode }) {
     return (
       <main className="flex min-h-screen flex-col items-center justify-center gap-3 px-6 text-center">
         <div className="h-8 w-8 animate-spin rounded-full border-2 border-[var(--iid-line)] border-t-[var(--iid-blue)]" />
-        <p className="text-sm text-[var(--iid-muted)]">Redirecting to sign in…</p>
+        <p className="text-sm text-[var(--iid-muted)]">Redirecting to sign inâ€¦</p>
         <p className="max-w-sm text-xs text-[var(--iid-muted)]">
           On Render free tier, the first visit after idle sleep can take up to a minute to wake.
         </p>
@@ -103,7 +102,7 @@ export default function AppLayout({ children }: { children: React.ReactNode }) {
           Retry
         </button>
         <Link href="/" className="text-sm text-[var(--iid-blue)] hover:underline">
-          ← Back to home
+          â† Back to home
         </Link>
       </main>
     );
@@ -113,9 +112,9 @@ export default function AppLayout({ children }: { children: React.ReactNode }) {
     return (
       <main className="flex min-h-screen flex-col items-center justify-center gap-3 px-6 text-center">
         <div className="h-8 w-8 animate-spin rounded-full border-2 border-[var(--iid-line)] border-t-[var(--iid-blue)]" />
-        <p className="text-sm text-[var(--iid-muted)]">Starting workspace…</p>
+        <p className="text-sm text-[var(--iid-muted)]">Starting workspaceâ€¦</p>
         <p className="max-w-sm text-xs text-[var(--iid-muted)]">
-          Waking the server — this can take 30–90 seconds on the free tier after idle sleep.
+          Waking the server â€” this can take 30â€“90 seconds on the free tier after idle sleep.
         </p>
       </main>
     );
@@ -130,11 +129,8 @@ export default function AppLayout({ children }: { children: React.ReactNode }) {
         {children}
       </div>
       <footer className="app-shell-footer">
-        <Link href="/">← Back to marketing site</Link>
+        <Link href="/">â† Back to marketing site</Link>
       </footer>
-      <Suspense fallback={null}>
-        <IidaAssistant email={email} />
-      </Suspense>
     </div>
   );
 }

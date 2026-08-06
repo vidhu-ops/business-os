@@ -1,6 +1,36 @@
 export type IidaTour = { title: string; blurb: string; hook: string };
 
 const TOURS: Record<string, IidaTour> = {
+  "/": {
+    title: "IIDATECH home",
+    blurb: "Research, plan, and run your company with an AI office.",
+    hook: "Scroll the story - I will explain each section. Or jump to Pricing / Log in.",
+  },
+  "/pricing": {
+    title: "Pricing",
+    blurb: "Plans and credits so you can pick the right runway.",
+    hook: "Compare tiers - I will tell you which fits founders vs teams.",
+  },
+  "/how-it-works": {
+    title: "How it works",
+    blurb: "The path from idea to office execution.",
+    hook: "Follow the steps - ask me what to do first.",
+  },
+  "/login": {
+    title: "Sign in",
+    blurb: "Enter your workspace or try the demo.",
+    hook: "Continue with demo to tour Employee OS instantly.",
+  },
+  "/checkout": {
+    title: "Checkout",
+    blurb: "Activate a plan so the office can run for real.",
+    hook: "I will keep you oriented while you complete payment.",
+  },
+  "/partners": {
+    title: "Partners",
+    blurb: "Humans and firms who help you ship faster.",
+    hook: "Browse when you want outside help alongside IIDA.",
+  },
   "/app/dashboard": {
     title: "Command deck",
     blurb: "Home base for credits, projects, and your next move.",
@@ -69,6 +99,11 @@ const SECTION_HINTS: Array<{ match: RegExp; line: string }> = [
   { match: /project|workspace/i, line: "Projects are your opportunity workspaces — pick one to keep going." },
   { match: /credit|plan|pricing|upgrade/i, line: "Credits and plan control how much you can run — I will steer high-value steps." },
   { match: /automation|workflow/i, line: "Automation wires repeatable flows so the office keeps moving." },
+  { match: /pricing|starter|credits|plan tier/i, line: "This is how billing works - pick a tier that matches how hard you want the office to run." },
+  { match: /how it works|product journey/i, line: "This step is part of the product journey - idea to research to plan to team." },
+  { match: /build your business|minutes/i, line: "This is the pitch - IIDATECH turns an idea into research, plan, and an AI office." },
+  { match: /sign in|log in|register|demo/i, line: "Sign in to your workspace, or Continue with demo to explore without committing." },
+
   { match: /priorit|goal|today/i, line: "Priorities tell Taylor what to push today — keep them short and sharp." },
 ];
 
@@ -137,7 +172,11 @@ export function explainSection(title: string, body = "", pageTitle = ""): string
 
 /** Collect scrollable section nodes from the main app content. */
 export function collectSectionNodes(root: ParentNode = document): HTMLElement[] {
-  const main = (root as Document).querySelector?.(".app-shell-main") || root;
+  const main =
+    (root as Document).querySelector?.(".app-shell-main") ||
+    (root as Document).querySelector?.("main") ||
+    (root as Document).body ||
+    root;
   const nodes = Array.from(
     (main as Element).querySelectorAll?.(
       "h1, h2, h3, section, article, [data-iida-section], .iid-card, [role='tabpanel'], aside",

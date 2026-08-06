@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Plus_Jakarta_Sans, Syne } from "next/font/google";
 import { ThemeProvider } from "@/components/ThemeProvider";
+import { IidaAssistantHost } from "@/components/iida/IidaAssistantHost";
 import "./globals.css";
 
 const jakarta = Plus_Jakarta_Sans({
@@ -23,7 +24,10 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
   return (
     <html lang="en" className={`${jakarta.variable} ${syne.variable} h-full`} suppressHydrationWarning>
       <body className="min-h-full antialiased">
-        <ThemeProvider>{children}</ThemeProvider>
+        <ThemeProvider>
+          {children}
+          <IidaAssistantHost />
+        </ThemeProvider>
       </body>
     </html>
   );

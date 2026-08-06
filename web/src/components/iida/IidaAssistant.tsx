@@ -1,6 +1,6 @@
 "use client";
 
-import { api, type User } from "@/lib/api";
+import { api, getToken, type User } from "@/lib/api";
 import {
   collectSectionNodes,
   firstNameFrom,
@@ -25,6 +25,49 @@ function stripMd(s: string) {
   return s.replace(/\*\*/g, "");
 }
 
+function publicReply(message: string, path: string, tourTitle: string, tourBlurb: string, tourHook: string): { reply: string; handoff?: Handoff; actions?: Action[] } {
+  const text = message.toLowerCase();
+  const actions: Action[] = [
+    { id: "what_is_this", label: "What is this?" },
+    { id: "what_next", label: "What next?" },
+  ];
+  if (path === "/" || path.startsWith("/pricing") || path.startsWith("/how-it-works")) {
+    actions.push({ id: "go_demo", label: "Try demo" });
+    actions.push({ id: "go_pricing", label: "See pricing" });
+  }
+  if (/price|pricing|cost|plan|credit/.test(text)) {
+    return {
+      reply: "Pricing is where you pick runway - starter for solo founders, higher tiers when the office runs harder. Want me to open Pricing?",
+      handoff: { type: "navigate", href: "/pricing" },
+      actions,
+    };
+  }
+  if (/demo|try|sign|login|account/.test(text)) {
+    return {
+      reply: "Easiest path: Continue with demo on the login page - you can tour Employee OS without paying first.",
+      handoff: { type: "navigate", href: "/login" },
+      actions,
+    };
+  }
+  if (/how|work|start|next/.test(text)) {
+    return {
+      reply: `On ${tourTitle}: ${tourHook} Next moves - try the demo, or read Pricing if you are ready to run for real.`,
+      actions,
+    };
+  }
+  if (/employee|office|taylor|team/.test(text)) {
+    return {
+      reply: "Employee OS is the office after you sign in - Taylor leads, you approve, IIDA stays as your aide. Open demo to see it live.",
+      handoff: { type: "navigate", href: "/login" },
+      actions,
+    };
+  }
+  return {
+    reply: `You are on ${tourTitle}. ${tourBlurb} ${tourHook}`,
+    actions,
+  };
+}
+
 export function IidaAssistant({ email = "" }: Props) {
   const pathname = usePathname();
   const router = useRouter();
@@ -42,14 +85,19 @@ export function IidaAssistant({ email = "" }: Props) {
   const seenSections = useRef<Set<string>>(new Set());
   const lastSectionId = useRef("");
   const projectId = searchParams.get("project") || "";
+  const authed = Boolean(getToken() || email || user?.email);
 
   const tour = useMemo(() => tourForPath(pathname), [pathname]);
   const first = firstNameFrom(email || user?.email || "", user?.name);
   const liveTip = sectionTip || tip;
 
   useEffect(() => {
+    if (!getToken() && !email) {
+      setUser(null);
+      return;
+    }
     api.me().then(setUser).catch(() => setUser(null));
-  }, [email]);
+  }, [email, pathname]);
 
   const pushIidaNote = useCallback((text: string, intoChat: boolean) => {
     const clean = stripMd(text);
@@ -69,20 +117,35 @@ export function IidaAssistant({ email = "" }: Props) {
 
   const refreshTip = useCallback(async () => {
     const screen = readScreenSummary();
+    const localFallback = () => {
+      const fallback = `Hey ${first} - you are on ${tour.title}. ${tour.blurb} ${tour.hook}`;
+      const base: Action[] = [
+        { id: "what_is_this", label: "What is this?" },
+        { id: "what_next", label: "What next?" },
+      ];
+      if (!authed) {
+        base.push({ id: "go_demo", label: "Try demo" });
+        if (!(pathname || "").startsWith("/pricing")) base.push({ id: "go_pricing", label: "See pricing" });
+      } else if ((pathname || "").startsWith("/app/team")) {
+        base.push({ id: "brief_taylor", label: "Brief Taylor" });
+      }
+      setActions(base);
+      pushIidaNote(fallback, true);
+    };
+
+    if (!authed) {
+      localFallback();
+      return;
+    }
     try {
       const data = await api.iidaTip(pathname || "/app/dashboard", screen);
       const msg = stripMd(String(data.message || ""));
       setActions((data.actions as Action[]) || []);
       pushIidaNote(msg, true);
     } catch {
-      const fallback = `Hey ${first} — you are on ${tour.title}. ${tour.blurb} ${tour.hook}`;
-      setActions([
-        { id: "what_is_this", label: "What is this?" },
-        { id: "what_next", label: "What next?" },
-      ]);
-      pushIidaNote(fallback, true);
+      localFallback();
     }
-  }, [pathname, first, tour.title, tour.blurb, tour.hook, pushIidaNote]);
+  }, [pathname, first, tour.title, tour.blurb, tour.hook, pushIidaNote, authed]);
 
   useEffect(() => {
     seenSections.current.clear();
@@ -95,7 +158,6 @@ export function IidaAssistant({ email = "" }: Props) {
     return () => window.clearTimeout(t);
   }, [pathname, refreshTip]);
 
-  // Auto-narrate sections as the user scrolls
   useEffect(() => {
     let cancelled = false;
     let observer: IntersectionObserver | null = null;
@@ -121,7 +183,6 @@ export function IidaAssistant({ email = "" }: Props) {
             lastSectionId.current = cue.id;
             const firstVisit = !seenSections.current.has(cue.id);
             seenSections.current.add(cue.id);
-            // Always update the popup tip quickly; add to chat on first visit of a section
             pushIidaNote(cue.explain, firstVisit);
           }, 120);
         },
@@ -167,6 +228,13 @@ export function IidaAssistant({ email = "" }: Props) {
     setChat((prev) => [...prev, { role: "user", text: message }]);
     setLoading(true);
     try {
+      if (!authed) {
+        const local = publicReply(message, pathname || "/", tour.title, tour.blurb, tour.hook);
+        setChat((prev) => [...prev, { role: "iida", text: local.reply }]);
+        if (local.actions) setActions(local.actions);
+        if (local.handoff) runHandoff(local.handoff);
+        return;
+      }
       const data = await api.iidaChat({
         message,
         path: pathname || "/app/dashboard",
@@ -177,7 +245,7 @@ export function IidaAssistant({ email = "" }: Props) {
       if (Array.isArray(data.actions)) setActions(data.actions as Action[]);
       if (data.handoff) runHandoff(data.handoff as Handoff);
     } catch (err) {
-      const msg = err instanceof Error ? err.message : "I hit a snag — try again in a moment.";
+      const msg = err instanceof Error ? err.message : "I hit a snag - try again in a moment.";
       setChat((prev) => [...prev, { role: "iida", text: msg }]);
     } finally {
       setLoading(false);
@@ -187,6 +255,14 @@ export function IidaAssistant({ email = "" }: Props) {
   function onAction(id: string) {
     if (id === "brief_taylor" || id === "open_taylor") {
       void sendMessage("Brief Taylor for me");
+      return;
+    }
+    if (id === "go_demo") {
+      runHandoff({ type: "navigate", href: "/login" });
+      return;
+    }
+    if (id === "go_pricing") {
+      runHandoff({ type: "navigate", href: "/pricing" });
       return;
     }
     if (id === "open_hiring") {
@@ -221,7 +297,7 @@ export function IidaAssistant({ email = "" }: Props) {
           <span className="iida-float-tip-label">Your assistant</span>
           <span className="iida-float-tip-text">
             {liveTip.slice(0, 150)}
-            {liveTip.length > 150 ? "…" : ""}
+            {liveTip.length > 150 ? "?" : ""}
           </span>
         </button>
       ) : null}
@@ -234,7 +310,7 @@ export function IidaAssistant({ email = "" }: Props) {
                 <Sparkles className="w-3.5 h-3.5 text-[var(--iid-sky)]" /> Your assistant
               </p>
               <p className="text-[11px] muted truncate">
-                IIDA · {first} · narrating {tour.title}
+                IIDA ? {first} ? narrating {tour.title}
               </p>
             </div>
             <button type="button" className="iid-btn iid-btn-ghost text-xs px-2" onClick={() => setOpen(false)} aria-label="Close assistant">
@@ -251,22 +327,17 @@ export function IidaAssistant({ email = "" }: Props) {
                 <div className={`iida-msg ${t.role === "user" ? "iida-msg-user" : "iida-msg-bot"}`}>{t.text}</div>
               </div>
             ))}
-            {loading ? <p className="text-xs muted">IIDA is thinking…</p> : null}
+            {loading ? <p className="text-xs muted">IIDA is thinking?</p> : null}
             <div ref={endRef} />
           </div>
 
           {actions.length > 0 ? (
             <div className="iida-popup-chips">
-              {actions.slice(0, 3).map((a) => (
+              {actions.slice(0, 4).map((a) => (
                 <button key={a.id} type="button" className="iida-chip" disabled={loading} onClick={() => onAction(a.id)}>
                   {a.label}
                 </button>
               ))}
-              {pathname?.startsWith("/app/team") ? (
-                <button type="button" className="iida-chip iida-chip-accent" disabled={loading} onClick={() => onAction("brief_taylor")}>
-                  Brief Taylor
-                </button>
-              ) : null}
             </div>
           ) : null}
 
@@ -281,7 +352,7 @@ export function IidaAssistant({ email = "" }: Props) {
               className="iida-input"
               value={input}
               onChange={(e) => setInput(e.target.value)}
-              placeholder="Ask your assistant…"
+              placeholder="Ask your assistant?"
               disabled={loading}
               aria-label="Message your assistant"
             />
