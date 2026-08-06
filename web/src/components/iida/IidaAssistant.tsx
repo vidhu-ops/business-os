@@ -35,35 +35,45 @@ function publicReply(message: string, path: string, tourTitle: string, tourBlurb
     actions.push({ id: "go_demo", label: "Try demo" });
     actions.push({ id: "go_pricing", label: "See pricing" });
   }
-  if (/price|pricing|cost|plan|credit/.test(text)) {
+  if (/what is this|where am i|explain/.test(text)) {
+    return { reply: `${tourTitle}: ${tourBlurb} ${tourHook}`, actions };
+  }
+  if (/price|pricing|cost|credit|tier|starter|growth/.test(text)) {
     return {
-      reply: "Pricing is where you pick runway - starter for solo founders, higher tiers when the office runs harder. Want me to open Pricing?",
+      reply: "Pricing is runway, not a feature list — Free/Starter to validate, Growth when research + Employee OS run weekly. Want me to open Pricing?",
       handoff: { type: "navigate", href: "/pricing" },
       actions,
     };
   }
   if (/demo|try|sign|login|account/.test(text)) {
     return {
-      reply: "Easiest path: Continue with demo on the login page - you can tour Employee OS without paying first.",
+      reply: "Continue with demo on Login to tour Employee OS without a card. Create an account when you want audits and projects to persist.",
       handoff: { type: "navigate", href: "/login" },
       actions,
     };
   }
-  if (/how|work|start|next/.test(text)) {
+  if (/audit|gauge|existing company/.test(text)) {
     return {
-      reply: `On ${tourTitle}: ${tourHook} Next moves - try the demo, or read Pricing if you are ready to run for real.`,
+      reply: "Company Audit (GAUGE) is the free health check for an operating business — honest checklist answers beat polished guesses. Start free after you sign in.",
+      handoff: { type: "navigate", href: "/login" },
       actions,
     };
   }
-  if (/employee|office|taylor|team/.test(text)) {
+  if (/employee|office|taylor|team|hire/.test(text)) {
     return {
-      reply: "Employee OS is the office after you sign in - Taylor leads, you approve, IIDA stays as your aide. Open demo to see it live.",
+      reply: "Employee OS is the office: Taylor leads the floor, Hiring staffs it, Approvals gate outbound work. Open demo to see it live — I stay as your aide.",
       handoff: { type: "navigate", href: "/login" },
+      actions,
+    };
+  }
+  if (/next|start|stuck|help|should i/.test(text)) {
+    return {
+      reply: `On ${tourTitle}: ${tourHook}`,
       actions,
     };
   }
   return {
-    reply: `You are on ${tourTitle}. ${tourBlurb} ${tourHook}`,
+    reply: `You are on ${tourTitle}. ${tourHook}`,
     actions,
   };
 }
@@ -127,7 +137,7 @@ export function IidaAssistant({ email = "" }: Props) {
   const refreshTip = useCallback(async () => {
     const screen = readScreenSummary();
     const localFallback = () => {
-      const fallback = `Hey ${first} - you are on ${tour.title}. ${tour.blurb} ${tour.hook}`;
+      const fallback = `Hey ${first} — ${tour.title}. ${tour.hook}`;
       const base: Action[] = [
         { id: "what_is_this", label: "What is this?" },
         { id: "what_next", label: "What next?" },
@@ -185,13 +195,14 @@ export function IidaAssistant({ email = "" }: Props) {
             .sort((a, b) => b.intersectionRatio - a.intersectionRatio);
           const top = visible[0]?.target as HTMLElement | undefined;
           if (!top) return;
-          const cue: SectionCue = sectionCueFromElement(top, tour.title);
+          const cue: SectionCue = sectionCueFromElement(top, tour.title, pathname || "");
           if (cue.id === lastSectionId.current) return;
           window.clearTimeout(debounce);
           debounce = window.setTimeout(() => {
             lastSectionId.current = cue.id;
             const firstVisit = !seenSections.current.has(cue.id);
             seenSections.current.add(cue.id);
+            // Always refresh the float tip; only chat on first sight so insights stay distinct.
             pushIidaNote(cue.explain, firstVisit);
           }, 120);
         },
