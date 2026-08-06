@@ -132,7 +132,7 @@ export function explainSection(title: string, body = "", pageTitle = ""): string
   if (pageTitle && t.toLowerCase() !== pageTitle.toLowerCase()) {
     return `${t} ? part of ${pageTitle}. Scroll on and I will keep briefing you.`;
   }
-  return `You're looking at ${t}. I will summarize each block as you scroll ? tap me to ask anything.`;
+  return `You're looking at ${t}. I will summarize each block as you scroll - tap me to ask anything.`;
 }
 
 /** Collect scrollable section nodes from the main app content. */
