@@ -3,10 +3,11 @@
 import { AppNav } from "@/components/AppNav";
 import { AppProductNav } from "@/components/AppProductNav";
 import { DemoBanner } from "@/components/DemoBanner";
+import { IidaAssistant } from "@/components/iida/IidaAssistant";
 import { ensureSession } from "@/lib/api";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
-import { useEffect, useState } from "react";
+import { Suspense, useEffect, useState } from "react";
 
 export default function AppLayout({ children }: { children: React.ReactNode }) {
   const pathname = usePathname();
@@ -131,6 +132,9 @@ export default function AppLayout({ children }: { children: React.ReactNode }) {
       <footer className="app-shell-footer">
         <Link href="/">← Back to marketing site</Link>
       </footer>
+      <Suspense fallback={null}>
+        <IidaAssistant email={email} />
+      </Suspense>
     </div>
   );
 }

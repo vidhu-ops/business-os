@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import { Suspense, useCallback, useEffect, useMemo, useState, type ComponentProps, type ReactNode } from "react";
+import { useSearchParams } from "next/navigation";
 import { api } from "@/lib/api";
 import { DeliverablePreview } from "@/components/DeliverablePreview";
 import { OfficeFloor } from "@/components/OfficeFloor";
@@ -50,6 +51,7 @@ function tabsForMode(mode: string): TabDef[] {
 
 function TeamContent() {
   const { projects, selectedId, setSelectedId } = useProjects();
+  const searchParams = useSearchParams();
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
   const [bootstrap, setBootstrap] = useState<Record<string, unknown> | null>(null);
@@ -211,6 +213,16 @@ function TeamContent() {
   useEffect(() => {
     if (!tabs.find((t) => t.id === activeTab)) setActiveTab(tabs[0]?.id || "agents");
   }, [tabs, activeTab]);
+
+  useEffect(() => {
+    const tab = searchParams.get("tab");
+    if (tab && tabs.some((t) => t.id === tab)) setActiveTab(tab);
+    const agent = searchParams.get("agent");
+    if (agent) {
+      setActiveAgent(agent);
+      setChatDrawerOpen(true);
+    }
+  }, [searchParams, tabs]);
 
   useEffect(() => {
     if (!selectedId || !scopeConfigured) return;
@@ -682,6 +694,9 @@ function TeamContent() {
             <div className="flex-1 min-w-[200px]">
               <ProjectPicker projects={projects} selectedId={selectedId} onChange={setSelectedId} />
             </div>
+            <p className="text-[11px] muted hidden lg:block shrink-0" data-iida-live>
+              IIDA is your personal aide below — she can brief Taylor anytime.
+            </p>
             {isDemoReadonly ? (
               <Link href="/login?mode=register" className="text-xs text-amber-200 underline shrink-0">Sign up to run real work</Link>
             ) : null}

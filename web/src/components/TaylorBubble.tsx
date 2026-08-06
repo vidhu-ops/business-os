@@ -49,9 +49,9 @@ export function TaylorBubble({ pulse, onAction, loading }: Props) {
   if (!pulse) return null;
 
   return (
-    <div className="fixed bottom-6 right-6 z-[9999]">
+    <div className="fixed bottom-24 left-6 z-[70]">
       {open && (
-        <div className="mb-3 w-[min(360px,calc(100vw-3rem))] rounded-2xl border border-[var(--iid-line)] bg-[var(--iid-panel)] p-4 shadow-2xl space-y-3 max-h-[70vh] overflow-y-auto">
+        <div className="mb-3 w-[min(360px,calc(100vw-3rem))] rounded-2xl border border-[var(--iid-line)] bg-[var(--iid-panel)] p-4 shadow-2xl space-y-3 max-h-[55vh] overflow-y-auto">
           <p className="font-semibold text-sm">{headline}</p>
           {Number(progress.total) > 0 && (
             <div>
@@ -111,7 +111,7 @@ export function TaylorBubble({ pulse, onAction, loading }: Props) {
       <button
         type="button"
         className="rounded-full px-5 py-3 font-semibold text-white shadow-lg"
-        style={{ background: "linear-gradient(135deg, #4f46e5, #7c3aed)" }}
+        style={{ background: "linear-gradient(135deg, var(--iid-blue), var(--iid-blue-dark))" }}
         onClick={() => setOpen((v) => !v)}
       >
         Taylor{badge}

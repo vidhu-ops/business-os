@@ -179,6 +179,28 @@ export const api = {
     return data;
   },
   me: () => request<User>("/api/v1/auth/me"),
+  iidaTip: (path: string, screen_summary?: string) => {
+    const q = new URLSearchParams({ path });
+    if (screen_summary) q.set("screen_summary", screen_summary);
+    return request<{
+      message: string;
+      tour?: { title?: string; blurb?: string; hook?: string };
+      actions?: Array<{ id: string; label: string }>;
+    }>(`/api/v1/iida/tip?${q.toString()}`);
+  },
+  iidaChat: (body: {
+    message: string;
+    path: string;
+    screen_summary?: string;
+    project_id?: string;
+    prefer_llm?: boolean;
+  }) =>
+    request<{
+      reply: string;
+      actions?: Array<{ id: string; label: string }>;
+      handoff?: { type?: string; href?: string } | null;
+      mode?: string;
+    }>("/api/v1/iida/chat", { method: "POST", body: JSON.stringify(body) }),
   auditStatus: () => request<AuditStatus>("/api/v1/audit/status"),
   ensureAuditWorkspace: () =>
     request<{ workspace_id: string; project: Project; is_demo?: boolean }>("/api/v1/audit/workspace"),
