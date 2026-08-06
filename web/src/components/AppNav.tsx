@@ -4,6 +4,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useState } from "react";
 import { Menu, X } from "lucide-react";
+import { AuthNavLinks } from "@/components/AuthNavLinks";
 import { ThemeToggle } from "@/components/ThemeToggle";
 import { isDemoEmail } from "@/lib/api";
 
@@ -47,17 +48,10 @@ export function AppNav({ email }: { email?: string }) {
           ))}
         </nav>
 
-        <div className="flex items-center gap-2">
+        <div className="app-nav-actions">
           <ThemeToggle className="mkt-nav-desktop-only" />
           {demo ? (
-            <div className="auth-nav-links auth-nav-links-compact mkt-nav-desktop-only">
-              <Link href="/login" className="auth-nav-signin">
-                Sign in
-              </Link>
-              <Link href="/login?mode=register" className="iid-btn iid-btn-primary auth-nav-signup-compact">
-                Sign up free
-              </Link>
-            </div>
+            <AuthNavLinks compact className="mkt-nav-desktop-only" />
           ) : (
             <span className="app-nav-email text-xs text-[var(--iid-muted)] mkt-nav-desktop-only">{email || ""}</span>
           )}
@@ -87,14 +81,7 @@ export function AppNav({ email }: { email?: string }) {
           <div className="mkt-mobile-nav-actions">
             <ThemeToggle />
             {demo ? (
-              <div className="auth-nav-links auth-nav-links-compact">
-                <Link href="/login" className="auth-nav-signin" onClick={() => setOpen(false)}>
-                  Sign in
-                </Link>
-                <Link href="/login?mode=register" className="iid-btn iid-btn-primary auth-nav-signup-compact" onClick={() => setOpen(false)}>
-                  Sign up free
-                </Link>
-              </div>
+              <AuthNavLinks compact onNavigate={() => setOpen(false)} />
             ) : email ? (
               <span className="text-xs text-[var(--iid-muted)]">{email}</span>
             ) : null}

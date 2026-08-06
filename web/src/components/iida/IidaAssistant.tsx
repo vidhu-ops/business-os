@@ -251,6 +251,8 @@ export function IidaAssistant({ email = "" }: Props) {
         base.push({ id: "go_signup", label: "Sign up free" });
       } else if ((pathname || "").startsWith("/app/team")) {
         base.push({ id: "brief_taylor", label: "Brief Taylor" });
+        base.push({ id: "open_integrations", label: "Open Integrations" });
+        base.push({ id: "open_approvals", label: "Open Tasks" });
       }
       setActions(base);
       pushIidaNote(fallback, true, moodForContext({ vibe: j.vibe, open: true }));
@@ -458,6 +460,10 @@ export function IidaAssistant({ email = "" }: Props) {
     }
     if (id === "open_approvals") {
       runHandoff({ type: "navigate", href: "/app/team?tab=tasks" });
+      return;
+    }
+    if (id === "open_integrations") {
+      runHandoff({ type: "navigate", href: "/app/team?tab=integrations" });
       return;
     }
     if (id === "go_team") {

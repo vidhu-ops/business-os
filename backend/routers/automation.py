@@ -18,7 +18,7 @@ from iidatech.execution.agent_queue import (
     process_next_queue_item,
 )
 from iidatech.execution.automation_steps import AUTOMATION_STEP_CATALOG, automation_report_id, build_spec_from_steps
-from iidatech.execution.os2_api_keys import merge_api_keys
+from backend.services.os2_service import merged_keys_for_workspace
 
 router = APIRouter(prefix="/automation", tags=["automation"])
 
@@ -124,7 +124,7 @@ def run_next_step(body: AutoRunBody, email: str = Depends(get_current_user)) -> 
     industry = str(workspace.get("industry") or "General").strip()
     geography = str(workspace.get("country") or "Global").strip()
     report_id = _automation_id(workspace)
-    api_keys = merge_api_keys()
+    api_keys = merged_keys_for_workspace(body.workspace_id)
     report_context = workspace_report_context(workspace)
 
     ensure_automation_team(report_id, topic=idea, industry=industry, geography=geography)

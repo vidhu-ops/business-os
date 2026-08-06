@@ -37,10 +37,10 @@ export function LandingPage() {
       <section className="mkt-wrap mkt-hero">
         <div className="mkt-hero-grid">
           <div className="mkt-hero-copy">
-            <p className="mkt-eyebrow">IIDATECH / BUSINESS OS</p>
+            <p className="mkt-eyebrow">IIDATECH / BUSINESS ECOSYSTEM</p>
             <h1 className="mkt-hero-title">
-              <span className="mkt-hero-os">The operating system for</span>
-              <span className="mkt-hero-accent">BUSINESSES</span>
+              <span className="mkt-hero-os">Your</span>
+              <span className="mkt-hero-accent">BUSINESS ECOSYSTEM</span>
             </h1>
             <div className="mkt-pipe">
               <span>RESEARCH</span><i>→</i><span>PLAN</span><i>→</i><span>EXECUTE</span><i>→</i><span>AUTOMATE</span>

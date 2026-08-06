@@ -112,7 +112,7 @@ def _live_competitor_fetch(context: dict) -> list[dict]:
         return []
     rc = context.get("report_context") if isinstance(context.get("report_context"), dict) else context
     v3 = _report_v3(context)
-    topic = str(rc.get("topic") or v3.get("topic") or "").strip()
+    topic = str(rc.get("topic") or rc.get("idea") or v3.get("topic") or "").strip()
     industry = str(rc.get("industry") or v3.get("industry") or "General").strip()
     geography = str(rc.get("geography") or rc.get("country") or v3.get("geography") or "Global").strip()
     if not topic:
@@ -134,48 +134,125 @@ def _live_competitor_fetch(context: dict) -> list[dict]:
                     "pricing": str(ent.get("pricing") or ent.get("firecrawl_pricing") or "").strip(),
                     "positioning": str(ent.get("positioning") or "").strip(),
                     "source": str(ent.get("source_url") or ent.get("source") or "perplexity_sonar").strip(),
-                    "url": str(ent.get("source_url") or "").strip(),
+                    "url": str(
+                        ent.get("source_url")
+                        or ((_as_list(ent.get("source_urls")) or [""])[0])
+                        or ""
+                    ).strip(),
                     "discovered_via": "perplexity_live",
                     "evidence_backed": True,
                 }
             )
+        if not rows:
+            for rec in _as_list(intel.get("structured_records")):
+                if not isinstance(rec, dict) or str(rec.get("record_type") or "") != "competitor":
+                    continue
+                name = str(rec.get("name") or "").strip()
+                if not name:
+                    continue
+                rows.append(
+                    {
+                        "name": name,
+                        "pricing": str(rec.get("price") or rec.get("pricing") or "").strip(),
+                        "positioning": str(rec.get("positioning") or "").strip(),
+                        "source": str(rec.get("source_url") or "perplexity_sonar").strip(),
+                        "url": str(rec.get("source_url") or "").strip(),
+                        "discovered_via": "perplexity_live",
+                        "evidence_backed": True,
+                    }
+                )
         return rows
     except Exception:
         return []
+
+
+def _write_research_markdown(
+    report_id: str,
+    employee_id: str,
+    *,
+    title: str,
+    body: str,
+    stem: str,
+) -> tuple[str, str]:
+    out_dir = _artifact_dir(report_id, employee_id)
+    path = out_dir / f"{stem}_{datetime.now(timezone.utc).strftime('%Y%m%d_%H%M%S')}.md"
+    content = f"# {title}\n\n{body.strip()}\n"
+    path.write_text(content, encoding="utf-8")
+    return str(path), content
 
 
 def _tool_serp_search(payload: dict, context: dict) -> dict[str, Any]:
     query = str(payload.get("query") or _report_v3(context).get("topic") or "").strip()
     limit = int(payload.get("max_results") or 10)
     logs: list[str] = []
+    report_id = str(payload.get("report_id") or context.get("report_id") or "default")
+    employee_id = str(context.get("employee_id") or "research")
+    rows: list[dict] = []
+    metrics: list[dict[str, Any]] = []
+    source = "live_api"
     if query and _live_search_configured():
         rows, metrics = unified_search(query, limit=limit)
         logs.append(f"live_search:{len(rows)} results")
-        if rows:
-            return execution_result(
-                success=True,
-                result={"results": rows, "result_count": len(rows), "query": query, "source": "live_api"},
-                execution_mode="real",
-                verified=False,
-                metrics={"search_providers": metrics},
-                logs=logs,
+        if not rows:
+            logs.append(f"live_search_empty:{metrics}")
+    if not rows:
+        verified = _competitors_from_report_context(context)
+        if not verified:
+            verified = _live_competitor_fetch(context)
+        if not verified:
+            detail = (
+                "Live search returned no results. Check that your Perplexity key is valid "
+                "(Integrations), or run Understand your market first so we can use report competitors."
             )
-    verified = _competitors_from_report_context(context)
-    if not verified:
-        verified = _live_competitor_fetch(context)
-    if not verified:
-        return validation_required_result(field="competitor_search")
-    results = [
-        {"title": r.get("name"), "snippet": r.get("positioning") or "", "source": r.get("source")}
-        for r in verified[:limit]
-    ]
-    logs.append("fallback:verified_report_competitors")
+            if not _live_search_configured():
+                detail = (
+                    "No Perplexity key available for live search. Add one under Team → Integrations, "
+                    "or rely on the server PERPLEXITY_API_KEY."
+                )
+            return validation_required_result(field="competitor_search", detail=detail)
+        rows = [
+            {"title": r.get("name"), "snippet": r.get("positioning") or "", "source": r.get("source"), "url": r.get("url") or ""}
+            for r in verified[:limit]
+        ]
+        source = "verified_report"
+        logs.append("fallback:verified_report_competitors")
+
+    lines = [f"**Query:** {query or '(competitors from report)'}", ""]
+    for i, r in enumerate(rows[:limit], 1):
+        title = str(r.get("title") or r.get("name") or f"Result {i}")
+        snippet = str(r.get("snippet") or r.get("positioning") or "").strip()
+        url = str(r.get("url") or r.get("source") or "").strip()
+        lines.append(f"{i}. **{title}**")
+        if snippet:
+            lines.append(f"   - {snippet[:400]}")
+        if url:
+            lines.append(f"   - Source: {url}")
+        lines.append("")
+    preview = "\n".join(lines)
+    path, _ = _write_research_markdown(
+        report_id,
+        employee_id,
+        title=f"Search results — {query or 'competitors'}",
+        body=preview,
+        stem="serp_search",
+    )
+    json_path = Path(path).with_suffix(".json")
+    json_path.write_text(json.dumps({"query": query, "results": rows[:limit], "source": source}, indent=2), encoding="utf-8")
     return execution_result(
         success=True,
-        result={"results": results, "result_count": len(results), "query": query, "source": "verified_report"},
+        result={
+            "results": rows[:limit],
+            "result_count": len(rows[:limit]),
+            "query": query,
+            "source": source,
+            "preview_markdown": preview,
+        },
+        artifacts=[path, str(json_path)],
         execution_mode="real",
-        verified=True,
+        verified=source == "verified_report",
+        metrics={"search_providers": metrics} if source == "live_api" else {},
         logs=logs,
+        kpis={"search_results": len(rows[:limit])},
     )
 
 
@@ -198,30 +275,64 @@ def _tool_sql_memory_query(payload: dict, context: dict) -> dict[str, Any]:
 
 def _tool_competitor_lookup(payload: dict, context: dict) -> dict[str, Any]:
     verified = _competitors_from_report_context(context)
+    source = "report_context"
     if not verified:
         verified = _live_competitor_fetch(context)
+        source = "perplexity_live"
     if not verified:
-        return validation_required_result(
-            field="competitors",
-            detail="Run Understand your market first, or add a Perplexity API key for live competitor search",
+        live = _live_search_configured()
+        detail = (
+            "Perplexity is configured but returned no competitors. Try a clearer project idea/topic, "
+            "or paste a stronger Perplexity key under Integrations (complex research needs a paid key)."
+            if live
+            else (
+                "Run Understand your market first, or add a Perplexity API key under Team → Integrations "
+                "(the server may already have PERPLEXITY_API_KEY for basic runs)."
+            )
         )
+        return validation_required_result(field="competitors", detail=detail)
     report_id = str(payload.get("report_id") or context.get("report_id") or "default")
     employee_id = str(context.get("employee_id") or "research")
     out_dir = _artifact_dir(report_id, employee_id)
-    path = out_dir / f"competitors_{datetime.now(timezone.utc).strftime('%Y%m%d_%H%M%S')}.json"
+    stamp = datetime.now(timezone.utc).strftime("%Y%m%d_%H%M%S")
+    path = out_dir / f"competitors_{stamp}.json"
     path.write_text(json.dumps(verified, indent=2), encoding="utf-8")
     competitors = [
         {"name": r.get("name"), "pricing": r.get("pricing"), "source": r.get("source") or r.get("url")}
         for r in verified
     ]
+    lines = [f"**Source:** {source}", f"**Competitors found:** {len(competitors)}", ""]
+    for i, c in enumerate(competitors, 1):
+        lines.append(f"{i}. **{c.get('name') or 'Unknown'}**")
+        if c.get("pricing"):
+            lines.append(f"   - Pricing: {c.get('pricing')}")
+        if c.get("source"):
+            lines.append(f"   - Source: {c.get('source')}")
+        pos = next((str(r.get("positioning") or "") for r in verified if r.get("name") == c.get("name")), "")
+        if pos:
+            lines.append(f"   - Positioning: {pos[:300]}")
+        lines.append("")
+    preview = "\n".join(lines)
+    md_path, _ = _write_research_markdown(
+        report_id,
+        employee_id,
+        title="Competitor and pricing evidence",
+        body=preview,
+        stem="competitors",
+    )
     return execution_result(
         success=True,
-        result={"competitors": competitors, "competitor_count": len(competitors), "source": "perplexity_live"},
-        artifacts=[str(path)],
+        result={
+            "competitors": competitors,
+            "competitor_count": len(competitors),
+            "source": source,
+            "preview_markdown": preview,
+        },
+        artifacts=[str(path), md_path],
         execution_mode="real",
         verified=True,
         kpis={"competitors_found": len(competitors)},
-        logs=["competitor_lookup:live"],
+        logs=[f"competitor_lookup:{source}"],
     )
 
 

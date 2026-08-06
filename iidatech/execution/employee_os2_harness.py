@@ -25,6 +25,7 @@ OS2_HARNESSES: list[dict[str, Any]] = [
 ]
 
 _SEARCH_TOOLS = frozenset({"lead_scraper", "serp_search"})
+_RESEARCH_TOOLS = frozenset({"lead_scraper", "serp_search", "competitor_lookup"})
 
 
 def merged_harnesses(extra: list[dict[str, Any]] | None = None) -> list[dict[str, Any]]:
@@ -241,11 +242,22 @@ def execute_harness_job(
             "success": False,
             "reply": (
                 f"**{harness['name']}** — this task needs a **Perplexity** key for live search/leads. "
-                f"You can still use OpenAI/Anthropic/DeepSeek keys for copy and documents — add a Perplexity key "
-                f"under additional keys, or ask for outreach/creative/SOP work instead."
+                f"Add one under Team → Integrations (or rely on the server PERPLEXITY_API_KEY). "
+                f"For complex multi-market research, use a paid Perplexity key. "
+                f"You can still ask for outreach/creative/SOP work with an LLM key."
             ),
             "artifacts": [],
+            "guidance": {
+                "needs_perplexity": True,
+                "open_integrations": True,
+                "retry": True,
+            },
         }
+
+    # Soft hint when competitor tools run without Perplexity (report fallback may still work)
+    research_without_pplx = any(str(c.get("tool") or "") in _RESEARCH_TOOLS for c in tool_calls) and not keys.get(
+        "perplexity"
+    )
 
     eid, role = f"os2_{harness_id}", str(harness["role"])
     try:
@@ -273,8 +285,16 @@ def execute_harness_job(
 
     prov_note = ", ".join(provider_label(p) for p in active_providers(keys)) or "session keys"
     reply = f"**{harness['name']}** — {reasoning}\n\n*Using: {prov_note}*\n\n"
+    if research_without_pplx:
+        reply += (
+            "ℹ️ No Perplexity key in this session — trying report evidence / server fallback. "
+            "For live competitor & pricing passes, add Perplexity under Integrations "
+            "(paid key recommended for complex markets).\n\n"
+        )
     if execution.get("error"):
         reply += f"⚠️ {execution['error']}\n\n"
+
+    tool_issues: list[str] = []
     preview = ""
     template_fallback = False
     for out in (execution.get("result") or {}).get("outputs") or []:
@@ -285,16 +305,58 @@ def execute_harness_job(
             template_fallback = True
         if isinstance(res, dict) and res.get("preview_markdown") and not preview:
             preview = str(res.get("preview_markdown") or "")
-            count = res.get("leads_generated")
+            count = res.get("leads_generated") or res.get("competitor_count") or res.get("result_count")
             if count:
-                reply += f"**{count} live leads** (company, contact, website in CSV)\n\n{preview}\n\n"
+                reply += f"**{count} items** ready\n\n{preview}\n\n"
+            else:
+                reply += f"{preview}\n\n"
+        if isinstance(res, dict) and str(res.get("status") or "") == "validation_required":
+            detail = str(res.get("detail") or res.get("reason") or "needs more evidence").strip()
+            field = str(res.get("field") or "input").strip()
+            tool_issues.append(f"{field}: {detail}")
+        err = out.get("error")
+        if err:
+            tool_issues.append(str(err)[:240])
+
     if template_fallback:
         reply += (
             "⚠️ **Heads up:** no AI provider responded, so this deliverable is a labeled template draft. "
             "Check your API keys and re-run for tailored output.\n\n"
         )
+    if tool_issues and not (arts or preview):
+        reply += "⚠️ **Blocked / needs attention:**\n" + "\n".join(f"- {t}" for t in tool_issues[:4]) + "\n\n"
+    elif tool_issues:
+        reply += "Note — partial tool warnings:\n" + "\n".join(f"- {t}" for t in tool_issues[:3]) + "\n\n"
+
+    ok = bool(arts or preview)
     if arts:
         reply += "\n\nYour deliverable is ready in the preview below. You can download it as PDF or Word."
-    elif not preview:
-        reply += "No deliverable was produced yet."
-    return {"success": bool(execution.get("success")), "reply": reply, "artifacts": arts, "tool_calls": tool_calls, "execution": execution}
+    elif preview:
+        reply += "\n\nPreview above — download PDF/Word once the file finishes writing."
+    else:
+        has_pplx = bool(keys.get("perplexity"))
+        if not has_pplx:
+            reply += (
+                "No deliverable yet — research tasks need a **Perplexity** key. "
+                "Open **Integrations**, paste your key (or use the server’s embedded Perplexity key if already set), then **Retry**. "
+                "For complex multi-market competitor work, use a paid Perplexity key."
+            )
+        else:
+            reply += (
+                "No deliverable yet — the run used your keys but produced no file. "
+                "Confirm the project idea/topic is set, then **Retry**. "
+                "If it still fails, paste a stronger Perplexity key under Integrations (complex research often needs a paid plan)."
+            )
+    return {
+        "success": ok,
+        "reply": reply,
+        "artifacts": arts,
+        "tool_calls": tool_calls,
+        "execution": execution,
+        "guidance": {
+            "needs_perplexity": bool(_needs_perplexity(tool_calls) and not keys.get("perplexity")),
+            "needs_stronger_key": bool(keys.get("perplexity") and not ok),
+            "open_integrations": not bool(keys.get("perplexity")) or not ok,
+            "retry": not ok,
+        },
+    }

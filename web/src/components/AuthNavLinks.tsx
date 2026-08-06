@@ -12,15 +12,16 @@ type Props = {
   onNavigate?: () => void;
 };
 
-/** Sign in / Sign up (and optional See demo) for headers next to ThemeToggle. */
+/** Single auth CTA (+ optional See demo) for headers next to ThemeToggle. */
 export function AuthNavLinks({ showDemo = false, compact = false, className = "", onNavigate }: Props) {
   return (
     <div className={`auth-nav-links${compact ? " auth-nav-links-compact" : ""}${className ? ` ${className}` : ""}`}>
-      <Link href="/login" className="auth-nav-signin" onClick={onNavigate}>
+      <Link
+        href="/login"
+        className={`iid-btn iid-btn-primary auth-nav-cta${compact ? " auth-nav-cta-compact" : ""}`}
+        onClick={onNavigate}
+      >
         Sign in
-      </Link>
-      <Link href="/login?mode=register" className={`iid-btn iid-btn-primary${compact ? " auth-nav-signup-compact" : " mkt-nav-cta"}`} onClick={onNavigate}>
-        Sign up
       </Link>
       {showDemo ? (
         <WorkspaceEntryLink className="iid-btn iid-btn-ghost auth-nav-demo" onClick={onNavigate}>

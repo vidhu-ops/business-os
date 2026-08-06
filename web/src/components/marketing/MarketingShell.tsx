@@ -103,8 +103,6 @@ export function MarketingShell({ children }: { children: React.ReactNode }) {
             <p>
               <Link href="/login">Sign in</Link>
               <br />
-              <Link href="/login?mode=register">Sign up free</Link>
-              <br />
               <WorkspaceEntryLink>See demo</WorkspaceEntryLink>
             </p>
           </div>
@@ -117,7 +115,7 @@ export function MarketingShell({ children }: { children: React.ReactNode }) {
             </p>
           </div>
         </div>
-        <p className="mkt-wrap mkt-footer-copy">IIDATECH - Business Operating System</p>
+        <p className="mkt-wrap mkt-footer-copy">IIDATECH - Business Ecosystem</p>
       </footer>
     </main>
   );

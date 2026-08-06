@@ -816,6 +816,9 @@ function TeamContent() {
                     <p className="text-xs muted mt-0.5">
                       Phase: {phaseLabel} · {approvalCount} pending · {checklistItems.filter((i) => String(i.status) === "pending").length} queued
                     </p>
+                    {String(pulse?.headline || "") ? (
+                      <p className="text-xs mt-1 text-[var(--iid-ink)]">{String(pulse?.headline)}</p>
+                    ) : null}
                   </div>
                   <div className="flex flex-wrap gap-2">
                     <button type="button" className="iid-btn iid-btn-ghost text-xs" onClick={() => openAgentChat("taylor")}>Chat</button>
@@ -823,6 +826,35 @@ function TeamContent() {
                     <button type="button" className="iid-btn iid-btn-ghost text-xs" disabled={!!actionLoading || isDemoReadonly} onClick={() => runTaylor("run_next")}>Run next</button>
                   </div>
                 </div>
+                {suggestions.length > 0 ? (
+                  <div className="flex flex-wrap gap-2">
+                    {suggestions.slice(0, 4).map((s, i) => {
+                      const kind = String(s.kind || "");
+                      const label = String(s.label || "Next step");
+                      return (
+                        <button
+                          key={`${kind}-${i}`}
+                          type="button"
+                          className="iid-btn iid-btn-ghost text-xs"
+                          disabled={!!actionLoading || isDemoReadonly}
+                          onClick={() => {
+                            if (kind === "open_keys") setActiveTab("integrations");
+                            else if (kind === "review_approvals") setActiveTab("tasks");
+                            else if (kind === "retry_failed") void runTaylor("retry_failed");
+                            else if (kind === "run_next") void runTaylor("run_next");
+                            else if (kind === "employee_prompt" && s.harness_id) {
+                              void openAgentChat(String(s.harness_id));
+                            } else {
+                              void openAgentChat("taylor");
+                            }
+                          }}
+                        >
+                          {label}
+                        </button>
+                      );
+                    })}
+                  </div>
+                ) : null}
                 <div className="grid gap-4 xl:grid-cols-3">
                   <div className="xl:col-span-2 space-y-4">
                     <div className="rounded-xl border border-[var(--iid-line)] bg-[var(--iid-panel)]/40 p-3 space-y-3">
@@ -1149,12 +1181,13 @@ function TeamContent() {
                   <div className="space-y-3">
                     <h3 className="font-semibold">API keys (required for agents)</h3>
                     <p className="text-sm muted">
-                      Keys are stored for your browser session only — not saved to disk. Your server can also provide keys via environment variables.
+                      Keys merge with any server env keys (including the embedded Perplexity key). Saving one provider no longer wipes the others.
+                      Research &amp; leads need Perplexity — use a paid key for complex multi-market work. LLM keys power copy and documents.
                     </p>
                     {activeKeyProviders.length > 0 ? (
                       <p className="text-sm text-emerald-300">Active: {activeKeyProviders.join(", ")}</p>
                     ) : (
-                      <p className="text-sm text-amber-300">No keys active — agents cannot run until you add at least one LLM key.</p>
+                      <p className="text-sm text-amber-300">No keys active — add Perplexity for research, or an LLM key for copy. Server env keys also count when present.</p>
                     )}
                     <div className="grid gap-3 md:grid-cols-2">
                       <div className="space-y-2">

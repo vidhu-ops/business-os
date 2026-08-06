@@ -19,10 +19,7 @@ export function DemoBanner() {
         <strong>Demo mode</strong> - browse the sample workspace. Research, hiring, and saves stay locked until you create an account.
       </p>
       <div className="demo-banner-actions">
-        <Link href="/login?mode=register" className="iid-btn iid-btn-primary demo-banner-signup">
-          Sign up free
-        </Link>
-        <Link href="/login" className="demo-banner-signin">
+        <Link href="/login" className="iid-btn iid-btn-primary demo-banner-signup">
           Sign in
         </Link>
       </div>

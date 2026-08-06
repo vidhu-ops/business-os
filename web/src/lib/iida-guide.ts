@@ -3,7 +3,7 @@ export type IidaTour = { title: string; blurb: string; hook: string };
 const TOURS: Record<string, IidaTour> = {
   "/": {
     title: "IIDATECH home",
-    blurb: "Research, plan, and run a company from one Business OS  -  not five disconnected tools.",
+    blurb: "Research, plan, and run a company from one business ecosystem  -  not five disconnected tools.",
     hook: "Start with the free company audit if you already operate; otherwise scroll  -  I brief each block with a concrete next move.",
   },
   "/pricing": {
@@ -59,7 +59,7 @@ const TOURS: Record<string, IidaTour> = {
   "/app/team": {
     title: "Employee OS",
     blurb: "Live office floor  -  Taylor leads, you approve outbound work, departments execute.",
-    hook: "Office is the floor; Hiring staffs it; Tasks and Approvals is your control gate. I can brief Taylor whenever you want leverage without micromanaging.",
+    hook: "If a task says no deliverable: open Integrations, confirm Perplexity is active (server key covers basic research; paid key for complex passes), then Retry. I can brief Taylor so she retries with the right keys.",
   },
   "/app/automation": {
     title: "Automation",
@@ -84,7 +84,7 @@ type SectionRule = { match: RegExp; tip: string };
 const PAGE_SECTIONS: Record<string, SectionRule[]> = {
   "/": [
     {
-      match: /operating system for|iidatech\s*\/\s*business os|RESEARCH\s*->\s*PLAN\s*->\s*EXECUTE/i,
+      match: /business ecosystem for|iidatech\s*\/\s*business ecosystem|operating system for|iidatech\s*\/\s*business os|RESEARCH\s*->\s*PLAN\s*->\s*EXECUTE/i,
       tip: "Hero pitch: one OS from research to execute. Best first click for operators is Run free audit; for new ideas, See demo then Pricing.",
     },
     {
@@ -366,6 +366,14 @@ const PAGE_SECTIONS: Record<string, SectionRule[]> = {
   ],
   "/app/team": [
     {
+      match: /no deliverable|failed|qc_failed|retry|using: openai|using: perplexity/i,
+      tip: "Empty deliverable usually means the research tool ran without writing a file, or the Perplexity key was rejected. Confirm Active keys under Integrations, then Retry. Complex competitor/pricing passes often need a paid Perplexity key — tell Taylor to retry after you paste it.",
+    },
+    {
+      match: /integration|api keys|connect apps|oauth|hubspot|linkedin|gmail/i,
+      tip: "Integrations are oxygen. Perplexity powers research/leads (server embed works for basics; paid for complex). LLM keys power copy. Saving one key no longer wipes the other.",
+    },
+    {
       match: /employee os|talk to taylor/i,
       tip: "Employee OS chrome. Talk to Taylor for floor leadership; I stay as your aide and can brief her without you rewriting context.",
     },
@@ -379,7 +387,7 @@ const PAGE_SECTIONS: Record<string, SectionRule[]> = {
     },
     {
       match: /tasks & approvals|tasks and approvals|approve & run|approve all|retry failed/i,
-      tip: "Tasks and Approvals = your control gate for email, LinkedIn, CRM. Review before Approve all  -  that is how the office stays safe.",
+      tip: "Tasks and Approvals = your control gate for email, LinkedIn, CRM. Review before Approve all  -  that is how the office stays safe. Failed research? Retry after keys are green.",
     },
     {
       match: /war room|team debate|team channel/i,
@@ -392,10 +400,6 @@ const PAGE_SECTIONS: Record<string, SectionRule[]> = {
     {
       match: /agents & team|agents and team|human team members|ai vs human|chat with/i,
       tip: "Agents and Team: chat specialists and add humans. Humans own judgment calls; agents draft and queue  -  Approvals still decide send.",
-    },
-    {
-      match: /integration|api keys|connect apps|oauth|hubspot|linkedin|gmail/i,
-      tip: "Integrations are oxygen for outreach agents. Missing keys = pretty floor, silent outbound. Connect the channel you will actually approve this week.",
     },
     {
       match: /advanced|custom harness|company memory/i,

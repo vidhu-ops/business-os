@@ -172,9 +172,23 @@ def build_taylor_pulse(
         ).encode()
     ).hexdigest()[:16]
 
+    notifications: list[str] = []
+    if headline:
+        notifications.append(headline)
+    for f in failed[:2]:
+        err = str(f.get("error") or "").strip()
+        title = str(f.get("title") or "Task")
+        if err:
+            notifications.append(f"{title}: {err[:120]}")
+        else:
+            notifications.append(f"{title} failed — open Tasks, Retry, or check Integrations keys.")
+    if not has_api_keys:
+        notifications.append("IIDA tip: paste Perplexity under Integrations (research) — server key covers basic runs; paid key for complex work.")
+
     return {
         "report_id": report_id,
         "headline": headline,
+        "notifications": notifications[:5],
         "approvals": approvals,
         "done": done,
         "failed": failed,
@@ -196,16 +210,19 @@ def _build_headline(
     has_api_keys: bool,
 ) -> str:
     if not has_api_keys:
-        return "Add an API key so the team can start working."
+        return "Add a Perplexity or LLM key in Integrations so the team can start (server Perplexity also works for basic research)."
     if qc_failed:
         title = str(qc_failed[0].get("title") or "Task")
-        return f"QC failed on {title} — retry or fix API keys before continuing."
+        return f"QC failed on {title} — Retry, or open Integrations if the key was rejected."
     if approvals:
         first = approvals[0]
         more = f" (+{len(approvals) - 1} more)" if len(approvals) > 1 else ""
         return f"I need your approval: {first['title']}{more}."
     if failed:
-        return f"{len(failed)} task(s) need attention — open my panel for fixes."
+        err = str(failed[0].get("error") or "")
+        if "perplexity" in err.lower() or "api key" in err.lower() or "no deliverable" in err.lower():
+            return "A research task failed — check Integrations keys, then Retry. Complex work may need a paid Perplexity key."
+        return f"{len(failed)} task(s) need attention — Retry or ask me what broke."
     if total and done_count >= total:
         return "All tasks delivered. Review the artifacts or plan the next sprint."
     if done:
@@ -228,7 +245,7 @@ def _build_suggestions(
     """Ordered, founder-friendly next actions. Each has a kind the UI can act on."""
     out: list[dict[str, Any]] = []
     if not has_api_keys:
-        out.append({"kind": "open_keys", "label": "Add an API key to activate the team"})
+        out.append({"kind": "open_keys", "label": "Add Perplexity (or LLM) key in Integrations"})
         return out
     if approvals:
         out.append(
@@ -237,12 +254,17 @@ def _build_suggestions(
                 "label": f"Review {len(approvals)} pending approval(s)",
             }
         )
-    retryable = [f for f in failed if f.get("qc_failed")]
-    if retryable:
+    if failed:
         out.append(
             {
                 "kind": "retry_failed",
-                "label": f"Retry {len(retryable)} QC-failed task(s)",
+                "label": f"Retry {len(failed)} failed task(s)",
+            }
+        )
+        out.append(
+            {
+                "kind": "open_keys",
+                "label": "Check Integrations keys (use paid Perplexity for complex research)",
             }
         )
 

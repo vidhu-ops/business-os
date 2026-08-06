@@ -104,7 +104,7 @@ const SERVICE_PACKAGES: PlanCard[] = [
       "Growth Business Plan",
       "Department AI pack (5 employees)",
       "Department automation (up to 5 workflows)",
-      "Business OS (BOS) setup",
+      "Business ecosystem setup",
       "Dedicated delivery manager",
     ],
     cta: { label: "Request package", href: "/#contact" },

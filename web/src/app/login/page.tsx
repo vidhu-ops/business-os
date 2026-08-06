@@ -71,7 +71,7 @@ function LoginForm() {
             <ThemeToggle />
           </div>
           <h1 className="login-title">Build your business in minutes.</h1>
-          <p className="login-lead">Research, plan, and execute with an AI team — built for companies and teams.</p>
+          <p className="login-lead">Research, plan, and execute in one business ecosystem — built for companies and teams.</p>
           <div className="login-pills">
             <span>1 free company audit</span>
             <span>No card required</span>

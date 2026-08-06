@@ -58,10 +58,12 @@ def get_session_keys(workspace_id: str) -> dict[str, str]:
 
 
 def set_session_keys(workspace_id: str, keys: dict[str, str]) -> dict[str, str]:
-    cleaned = {k: str(v).strip() for k, v in keys.items() if str(v or "").strip()}
-    merged = merge_api_keys(cleaned)
-    _SESSION_KEYS[workspace_id] = cleaned
-    return merged
+    """Merge new keys into the workspace session — never wipe previously saved providers."""
+    cleaned = {str(k).strip().lower(): str(v).strip() for k, v in keys.items() if str(v or "").strip()}
+    existing = dict(_SESSION_KEYS.get(workspace_id) or {})
+    existing.update(cleaned)
+    _SESSION_KEYS[workspace_id] = existing
+    return merge_api_keys(existing)
 
 
 def merged_keys_for_workspace(workspace_id: str) -> dict[str, str]:
@@ -107,16 +109,21 @@ def save_scope(workspace: dict[str, Any], scope: OfficeScope) -> dict[str, Any]:
 def setup_requirements(report_id: str, keys: dict[str, str], *, has_plan: bool = True) -> list[dict[str, Any]]:
     from iidatech.execution.session_api_keys import has_any_llm_key
 
+    has_pplx = bool(keys.get("perplexity"))
+    has_llm = has_any_llm_key(keys)
     return [
         {
             "need": "Run agents & write copy",
-            "ok": has_any_llm_key(keys),
-            "required": "Yes — add an LLM key in Integrations or set OPENAI_API_KEY on the server",
+            "ok": has_llm or has_pplx,
+            "required": (
+                "Yes — add Perplexity (research) and/or an LLM key in Integrations. "
+                "Server PERPLEXITY_API_KEY also unlocks basic research runs."
+            ),
         },
         {
             "need": "Live research & lead search",
-            "ok": bool(keys.get("perplexity")),
-            "required": "Recommended for research and lead-finding tasks",
+            "ok": has_pplx,
+            "required": "Recommended — Perplexity for research/leads (use a paid key for complex multi-market work)",
         },
         {"need": "Send emails from agents", "ok": is_connected(report_id, "gmail"), "required": "Only if tasks send email"},
         {"need": "Post to LinkedIn", "ok": is_connected(report_id, "linkedin"), "required": "Only if tasks post to LinkedIn"},
@@ -322,12 +329,30 @@ def run_agent_chat(
         else:
             checklist = load_checklist(report_id)
             pulse = build_taylor_pulse(report_id, checklist=checklist, has_api_keys=bool(keys))
-            notes = list(pulse.get("notifications") or [])[:2]
-            reply = (
-                notes[0]
-                if notes
-                else "I'm coordinating the team. Ask me to find leads and email them, run next task, approve all, or retry failed."
-            )
+            notes = list(pulse.get("notifications") or [])[:3]
+            sugg = [str(s.get("label") or "") for s in (pulse.get("suggestions") or [])[:3] if isinstance(s, dict)]
+            lines: list[str] = []
+            headline = str(pulse.get("headline") or "").strip()
+            if headline:
+                lines.append(headline)
+            for n in notes:
+                if n and n not in lines:
+                    lines.append(n)
+            if not keys:
+                lines.append(
+                    "IIDA and I agree: open Integrations and add a Perplexity key (research) "
+                    "or an LLM key (copy). The server may already have Perplexity for basic runs."
+                )
+            elif not keys.get("perplexity"):
+                lines.append(
+                    "Research tasks need Perplexity. Basic runs can use the server key; "
+                    "for complex competitor/pricing work, paste a paid Perplexity key under Integrations."
+                )
+            if sugg:
+                lines.append("Next moves: " + " · ".join(sugg))
+            else:
+                lines.append("Ask me to run next task, approve all, retry failed, or find leads and email them.")
+            reply = "\n\n".join(lines)
             assistant = {"role": "assistant", "content": reply, "artifacts": [], "success": True}
     else:
         result = execute_harness_job(
@@ -667,7 +692,6 @@ def run_taylor_action(workspace_id: str, action: str) -> dict[str, Any]:
         return {"retried": count, "checklist": load_checklist(report_id)}
     if action == "run_next":
         from iidatech.execution.agent_queue import process_next_queue_item
-        from iidatech.execution.os2_api_keys import merge_api_keys
 
         # Prefer draining the executable outreach/automation queue when present.
         queue_outcome = process_next_queue_item(
@@ -675,7 +699,7 @@ def run_taylor_action(workspace_id: str, action: str) -> dict[str, Any]:
             idea=topic,
             industry=str(workspace.get("industry") or "General"),
             geography=geography,
-            api_keys=merge_api_keys(),
+            api_keys=merged_keys_for_workspace(workspace_id),
             report_context=workspace_report_context(workspace),
             auto_approve_external=False,
         )

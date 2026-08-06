@@ -423,13 +423,16 @@ html.light body {
 .mkt-nav-actions {
   display: flex;
   align-items: center;
-  gap: 0.75rem;
+  gap: 0.5rem;
   justify-self: end;
+  flex-shrink: 0;
 }
 
 .mkt-nav-cta {
-  padding: 0.75rem 1.25rem !important;
-  font-size: 0.7rem !important;
+  padding: 0.55rem 1.05rem !important;
+  font-size: 0.78rem !important;
+  line-height: 1.1;
+  white-space: nowrap;
 }
 
 .mkt-nav {
@@ -3893,43 +3896,66 @@ html.light .theme-toggle:hover {
   .iida-fab-open { padding: 0.65rem; border-radius: 999px; }
 }
 
-/* Auth CTAs next to theme toggle */
+/* Auth CTA cluster next to theme toggle */
 .auth-nav-links {
   display: inline-flex;
   align-items: center;
-  gap: 0.45rem;
-  flex-wrap: wrap;
+  gap: 0.4rem;
+  flex-wrap: nowrap;
 }
-.auth-nav-signin {
-  font-size: 0.8rem;
-  font-weight: 600;
-  color: var(--iid-text);
-  padding: 0.35rem 0.55rem;
-  border-radius: 999px;
-  text-decoration: none;
+.auth-nav-cta {
+  padding: 0 1.1rem !important;
+  font-size: 0.8rem !important;
+  font-weight: 700 !important;
+  letter-spacing: 0.01em;
+  line-height: 1;
+  border-radius: 999px !important;
   white-space: nowrap;
+  height: 2.5rem;
+  min-height: 2.5rem;
+  display: inline-flex !important;
+  align-items: center;
+  justify-content: center;
+  box-sizing: border-box;
 }
-.auth-nav-signin:hover {
-  color: var(--iid-blue);
+.auth-nav-links-compact .auth-nav-cta-compact {
+  padding: 0 0.95rem !important;
+  font-size: 0.76rem !important;
+  height: 2.35rem;
+  min-height: 2.35rem;
 }
 .auth-nav-demo {
-  font-size: 0.78rem !important;
-  padding: 0.4rem 0.75rem !important;
+  font-size: 0.76rem !important;
+  padding: 0 0.9rem !important;
+  height: 2.5rem;
+  min-height: 2.5rem;
+  border-radius: 999px !important;
   white-space: nowrap;
+  display: inline-flex !important;
+  align-items: center;
+  justify-content: center;
+  box-sizing: border-box;
 }
-.auth-nav-links-compact .auth-nav-signup-compact {
-  font-size: 0.72rem !important;
-  padding: 0.35rem 0.7rem !important;
-  border-radius: 999px;
-  white-space: nowrap;
+.mkt-nav-actions .theme-toggle,
+.app-nav-actions .theme-toggle {
+  width: 2.5rem;
+  height: 2.5rem;
+  flex-shrink: 0;
+}
+.app-nav-actions {
+  display: flex;
+  align-items: center;
+  gap: 0.45rem;
+  flex-shrink: 0;
 }
 .mkt-mobile-nav-actions .auth-nav-links {
   width: 100%;
   flex-direction: column;
   align-items: stretch;
+  gap: 0.5rem;
 }
-.mkt-mobile-nav-actions .auth-nav-links .iid-btn,
-.mkt-mobile-nav-actions .auth-nav-signin {
+.mkt-mobile-nav-actions .auth-nav-links .iid-btn {
+  width: 100%;
   text-align: center;
   justify-content: center;
 }

@@ -6,8 +6,8 @@ from pydantic import BaseModel, Field
 from backend.auth import get_current_user
 from backend.services.workspace_context import workspace_report_context, workspace_report_id
 from backend.services.workspaces import load_workspace, require_workspace_access, save_workspace
+from backend.services.os2_service import merged_keys_for_workspace
 from iidatech.execution.employee_os2_harness import OS2_HARNESSES, execute_harness_job
-from iidatech.execution.os2_api_keys import merge_api_keys
 
 router = APIRouter(prefix="/team", tags=["team"])
 
@@ -54,7 +54,7 @@ def run_team_task(body: TeamRunBody, email: str = Depends(get_current_user)) -> 
         raise HTTPException(status_code=404, detail="Project not found")
 
     report_id = workspace_report_id(workspace)
-    api_keys = merge_api_keys()
+    api_keys = merged_keys_for_workspace(body.workspace_id)
     report_context = workspace_report_context(workspace)
 
     result = execute_harness_job(
