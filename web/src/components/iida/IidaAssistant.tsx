@@ -98,7 +98,7 @@ export function IidaAssistant({ email = "" }: Props) {
   const liveTip =
     sectionTip ||
     tip ||
-    `Your assistant is here ? you are on ${tour.title}. ${tour.hook}`;
+    `Your assistant is here — you are on ${tour.title}. ${tour.hook}`;
 
   useEffect(() => {
     if (!getToken() && !email) {
@@ -306,7 +306,7 @@ export function IidaAssistant({ email = "" }: Props) {
           <span className="iida-float-tip-label">Your assistant</span>
           <span className="iida-float-tip-text">
             {liveTip.slice(0, 150)}
-            {liveTip.length > 150 ? "?" : ""}
+            {liveTip.length > 150 ? "…" : ""}
           </span>
         </button>
       ) : null}
@@ -319,7 +319,7 @@ export function IidaAssistant({ email = "" }: Props) {
                 <Sparkles className="w-3.5 h-3.5 text-[var(--iid-sky)]" /> Your assistant
               </p>
               <p className="text-[11px] muted truncate">
-                IIDA ? {first} ? narrating {tour.title}
+                IIDA · {first} · narrating {tour.title}
               </p>
             </div>
             <button type="button" className="iid-btn iid-btn-ghost text-xs px-2" onClick={() => setOpen(false)} aria-label="Close assistant">
@@ -336,7 +336,7 @@ export function IidaAssistant({ email = "" }: Props) {
                 <div className={`iida-msg ${t.role === "user" ? "iida-msg-user" : "iida-msg-bot"}`}>{t.text}</div>
               </div>
             ))}
-            {loading ? <p className="text-xs muted">IIDA is thinking?</p> : null}
+            {loading ? <p className="text-xs muted">IIDA is thinking…</p> : null}
             <div ref={endRef} />
           </div>
 
@@ -361,7 +361,7 @@ export function IidaAssistant({ email = "" }: Props) {
               className="iida-input"
               value={input}
               onChange={(e) => setInput(e.target.value)}
-              placeholder="Ask your assistant?"
+              placeholder="Ask your assistant…"
               disabled={loading}
               aria-label="Message your assistant"
             />
