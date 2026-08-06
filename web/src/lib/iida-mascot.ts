@@ -8,15 +8,18 @@ export type IidaMood =
   | "surprised"
   | "happy-blink";
 
+/** Cache-bust so redeployed transparent cutouts replace old opaque plates. */
+const V = "v2";
+
 export const IIDA_MOOD_SRC: Record<IidaMood, string> = {
-  happy: "/iida/moods/happy.png",
-  excited: "/iida/moods/excited.png",
-  love: "/iida/moods/love.png",
-  curious: "/iida/moods/curious.png",
-  thinking: "/iida/moods/thinking.png",
-  focused: "/iida/moods/focused.png",
-  surprised: "/iida/moods/surprised.png",
-  "happy-blink": "/iida/moods/happy-blink.png",
+  happy: `/iida/moods/happy.png?${V}`,
+  excited: `/iida/moods/excited.png?${V}`,
+  love: `/iida/moods/love.png?${V}`,
+  curious: `/iida/moods/curious.png?${V}`,
+  thinking: `/iida/moods/thinking.png?${V}`,
+  focused: `/iida/moods/focused.png?${V}`,
+  surprised: `/iida/moods/surprised.png?${V}`,
+  "happy-blink": `/iida/moods/happy-blink.png?${V}`,
 };
 
 export const IIDA_MOOD_LABEL: Record<IidaMood, string> = {
