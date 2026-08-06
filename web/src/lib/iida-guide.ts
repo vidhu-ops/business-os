@@ -108,14 +108,19 @@ const SECTION_HINTS: Array<{ match: RegExp; line: string }> = [
 ];
 
 export function normalizeAppPath(pathname: string | null | undefined): string {
-  const p = (pathname || "/app/dashboard").split("?")[0].replace(/\/$/, "") || "/app/dashboard";
+  const raw = (pathname || "/").split("?")[0] || "/";
+  if (raw === "/") return "/";
+  const p = raw.replace(/\/$/, "") || "/";
   return p.startsWith("/") ? p : `/${p}`;
 }
 
 export function tourForPath(pathname: string | null | undefined): IidaTour {
   const p = normalizeAppPath(pathname);
   if (TOURS[p]) return TOURS[p];
-  const hit = Object.keys(TOURS).find((k) => p.startsWith(k));
+  const hit = Object.keys(TOURS)
+    .filter((k) => k !== "/")
+    .sort((a, b) => b.length - a.length)
+    .find((k) => p === k || p.startsWith(k + "/"));
   return (
     (hit && TOURS[hit]) || {
       title: "IIDATECH workspace",
