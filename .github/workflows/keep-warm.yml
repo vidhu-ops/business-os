@@ -1,16 +1,19 @@
-# Ping the live Render service so it does not spin down from inactivity.
-# Render free/starter instances sleep after ~15 minutes with no traffic;
-# cold starts then take ~30-90s.
+# Keep the Render Free instance from spinning down (~15 min idle → ~60s cold start).
 #
-# Schedule: every 10 minutes. GitHub cron can drift a few minutes late.
-# For stricter uptime, also add https://iidatech.biz/api/health to UptimeRobot
-# (free, 5-minute checks).
+# IMPORTANT LIMITS
+# - GitHub scheduled Actions often drift 5–20+ minutes late (or skip). That alone
+#   is NOT enough. Also add a free 5-minute monitor (UptimeRobot / cron-job.org).
+# - Free instances get ~750 hours/month. 24/7 keep-warm ≈ 720h — near the cap.
+#   For always-on without hour limits: upgrade the service to Starter (paid).
+#
+# Optional repo variable: KEEP_WARM_URL (default https://iidatech.biz)
 
 name: Keep warm
 
 on:
   schedule:
-    - cron: "*/10 * * * *"
+    # Every 5 minutes — Render free sleeps at ~15 min; GH cron still may drift.
+    - cron: "*/5 * * * *"
   workflow_dispatch: {}
 
 jobs:
@@ -25,20 +28,30 @@ jobs:
           set -euo pipefail
           BASE="${KEEP_WARM_URL:-https://iidatech.biz}"
           BASE="${BASE%/}"
-          echo "Pinging ${BASE} ..."
-          code="$(curl -sS -o /tmp/keep-warm.body -w "%{http_code}" \
-            --connect-timeout 30 --max-time 90 \
-            "${BASE}/api/health" || true)"
-          echo "GET /api/health -> HTTP ${code}"
-          if [ "${code}" != "200" ]; then
+          TS="$(date +%s)"
+          echo "Pinging ${BASE} (cache-bust t=${TS}) ..."
+
+          ping_one() {
+            local path="$1"
+            local url="${BASE}${path}?warm=1&t=${TS}"
+            local code
             code="$(curl -sS -o /tmp/keep-warm.body -w "%{http_code}" \
-              --connect-timeout 30 --max-time 90 \
-              "${BASE}/api/v1/health" || true)"
-            echo "GET /api/v1/health -> HTTP ${code}"
+              -H "Cache-Control: no-cache" \
+              -H "Pragma: no-cache" \
+              --connect-timeout 20 --max-time 100 \
+              -L "${url}" || true)"
+            echo "GET ${path} -> HTTP ${code}"
+            echo "${code}"
+          }
+
+          code="$(ping_one /api/health)"
+          if [ "${code}" != "200" ]; then
+            code="$(ping_one /api/v1/health)"
           fi
+
           if [ "${code}" != "200" ]; then
             echo "Keep-warm ping failed (HTTP ${code})"
-            head -c 500 /tmp/keep-warm.body || true
+            head -c 800 /tmp/keep-warm.body || true
             exit 1
           fi
           echo "OK - service is warm"

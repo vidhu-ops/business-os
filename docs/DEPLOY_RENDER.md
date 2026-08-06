@@ -94,15 +94,41 @@ After OAuth completes, copy the refresh token into Render as `CANVA_REFRESH_TOKE
 
 ## Keep warm (avoid cold starts)
 
-Render free/low-tier instances sleep after ~15 minutes with no traffic; the next request can take ~60s.
+Render **Free** web services spin down after ~15 minutes with no traffic. The next
+visit then takes ~30–90s while the container cold-starts. That is platform behavior,
+not an app bug.
 
-This repo includes a GitHub Action that pings `/api/health` every 10 minutes:
+### Why the GitHub ping alone fails
 
-- Workflow: `.github/workflows/keep-warm.yml`
-- After push to `main` on `vidhu-ops/business-os` (or your deploy repo), open **Actions → Keep warm → Run workflow** once to verify.
-- Optional repo variable `KEEP_WARM_URL` overrides the default `https://iidatech.biz`.
+The repo Action (`.github/workflows/keep-warm.yml`) pings every **5 minutes**, but
+GitHub’s scheduled cron often runs late or skips. If any gap exceeds ~15 minutes,
+Render sleeps again.
 
-For more reliable 5-minute checks (GitHub cron can drift), add a free monitor at [UptimeRobot](https://uptimerobot.com/) pointing at `https://iidatech.biz/api/health`.
+### What actually works (pick one)
+
+| Option | Cost | Reliability |
+|--------|------|-------------|
+| **1. Upgrade Render instance → Starter** | ~$7/mo | Best. Paid instances **do not** spin down. |
+| **2. External 5‑min monitor (UptimeRobot / cron-job.org)** | Free | Good. More reliable than GitHub Actions. |
+| **3. GitHub Keep warm Action only** | Free | Weak. Use as backup only. |
+
+**Also:** Free workspaces get ~**750 instance hours/month**. Keeping the box warm
+24/7 uses most of that (~720h). If hours run out, Render suspends Free services
+until next month — another reason Starter is better for a real product.
+
+### Setup (recommended free path)
+
+1. Create a monitor at [UptimeRobot](https://uptimerobot.com/) (or [cron-job.org](https://cron-job.org/)):
+   - URL: `https://iidatech.biz/api/health?warm=1`
+   - Interval: **every 5 minutes**
+   - Type: HTTP(s)
+2. Confirm **Actions → Keep warm** is enabled on the deploy repo (backup ping).
+3. Optional repo variable `KEEP_WARM_URL` overrides the default `https://iidatech.biz`.
+
+### Setup (always-on)
+
+In the Render dashboard → your web service → **Instance type** → change **Free → Starter**.
+No redeploy required. Cold starts stop.
 
 Local loop while developing:
 
@@ -112,6 +138,6 @@ powershell -File scripts/keep-warm.ps1
 
 ## Troubleshooting
 
-- **Cold start**: Free tier sleeps; first load may take ~60s. Use the keep-warm workflow or UptimeRobot above.
+- **Cold start / ~1 min load**: Free tier slept. Add UptimeRobot (5 min) or upgrade to Starter.
 - **Research timeout**: Ensure `PERPLEXITY_API_KEY` is set on the server.
 - **Employee OS**: Add LLM key under **Integrations** in the app, or set `OPENAI_API_KEY` in Render env.
