@@ -5,6 +5,7 @@ import { usePathname } from "next/navigation";
 import { useState } from "react";
 import { Menu, X } from "lucide-react";
 import { ThemeToggle } from "@/components/ThemeToggle";
+import { isDemoEmail } from "@/lib/api";
 
 const links = [
   { href: "/", label: "Home" },
@@ -22,6 +23,7 @@ const links = [
 export function AppNav({ email }: { email?: string }) {
   const pathname = usePathname();
   const [open, setOpen] = useState(false);
+  const demo = isDemoEmail(email);
 
   return (
     <header className="app-nav-shell">
@@ -47,7 +49,18 @@ export function AppNav({ email }: { email?: string }) {
 
         <div className="flex items-center gap-2">
           <ThemeToggle className="mkt-nav-desktop-only" />
-          <span className="app-nav-email text-xs text-[var(--iid-muted)]">{email || ""}</span>
+          {demo ? (
+            <div className="auth-nav-links auth-nav-links-compact mkt-nav-desktop-only">
+              <Link href="/login" className="auth-nav-signin">
+                Sign in
+              </Link>
+              <Link href="/login?mode=register" className="iid-btn iid-btn-primary auth-nav-signup-compact">
+                Sign up free
+              </Link>
+            </div>
+          ) : (
+            <span className="app-nav-email text-xs text-[var(--iid-muted)] mkt-nav-desktop-only">{email || ""}</span>
+          )}
           <button
             type="button"
             className="app-mobile-menu-btn"
@@ -73,7 +86,18 @@ export function AppNav({ email }: { email?: string }) {
           ))}
           <div className="mkt-mobile-nav-actions">
             <ThemeToggle />
-            {email ? <span className="text-xs text-[var(--iid-muted)]">{email}</span> : null}
+            {demo ? (
+              <div className="auth-nav-links auth-nav-links-compact">
+                <Link href="/login" className="auth-nav-signin" onClick={() => setOpen(false)}>
+                  Sign in
+                </Link>
+                <Link href="/login?mode=register" className="iid-btn iid-btn-primary auth-nav-signup-compact" onClick={() => setOpen(false)}>
+                  Sign up free
+                </Link>
+              </div>
+            ) : email ? (
+              <span className="text-xs text-[var(--iid-muted)]">{email}</span>
+            ) : null}
           </div>
         </nav>
       ) : null}

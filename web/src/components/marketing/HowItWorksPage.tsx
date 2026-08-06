@@ -206,7 +206,8 @@ export function HowItWorksPage() {
           Every screen tells you what to press next. Research, planning, reference tools, and Employee OS — one workspace, one flow.
         </p>
         <div className="mkt-hero-cta">
-          <WorkspaceEntryLink className="iid-btn iid-btn-primary">Start free now</WorkspaceEntryLink>
+          <Link href="/login?mode=register" className="iid-btn iid-btn-primary">Sign up free</Link>
+          <WorkspaceEntryLink className="iid-btn iid-btn-ghost">See demo</WorkspaceEntryLink>
           <Link href="/pricing" className="iid-btn iid-btn-ghost">
             View pricing
           </Link>
@@ -317,7 +318,8 @@ export function HowItWorksPage() {
               <strong> Approve all external</strong>, <strong>Retry failed</strong>, and <strong>Run next task</strong>. When you run The Office day, Taylor mentors each phase
               and posts notes on the task board.
             </p>
-            <WorkspaceEntryLink className="iid-btn iid-btn-primary mkt-section-cta">Open Employee OS</WorkspaceEntryLink>
+            <Link href="/login?mode=register" className="iid-btn iid-btn-primary mkt-section-cta">Sign up free</Link>
+            <WorkspaceEntryLink className="iid-btn iid-btn-ghost mkt-section-cta">Open Employee OS demo</WorkspaceEntryLink>
           </div>
         </div>
       </section>
@@ -350,7 +352,8 @@ export function HowItWorksPage() {
             <p className="mkt-sub">
               Mobile-friendly, generous spacing, and clear next steps — so you spend time deciding, not fighting the tool.
             </p>
-            <WorkspaceEntryLink className="iid-btn iid-btn-primary">Open your workspace</WorkspaceEntryLink>
+            <Link href="/login?mode=register" className="iid-btn iid-btn-primary">Sign up free</Link>
+            <WorkspaceEntryLink className="iid-btn iid-btn-ghost">Open demo workspace</WorkspaceEntryLink>
           </div>
         </div>
       </section>
@@ -360,7 +363,8 @@ export function HowItWorksPage() {
           <span className="mkt-label">Ready?</span>
           <h2 className="mkt-h2">Your first report in under a minute.</h2>
           <p className="mkt-sub">No card required. 30 free credits to start.</p>
-          <WorkspaceEntryLink className="iid-btn iid-btn-primary mkt-section-cta">Start free now</WorkspaceEntryLink>
+          <Link href="/login?mode=register" className="iid-btn iid-btn-primary mkt-section-cta">Sign up free</Link>
+          <WorkspaceEntryLink className="iid-btn iid-btn-ghost mkt-section-cta">See demo</WorkspaceEntryLink>
         </div>
       </section>
     </>

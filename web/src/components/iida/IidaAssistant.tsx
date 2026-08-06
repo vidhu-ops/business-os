@@ -133,7 +133,7 @@ export function IidaAssistant({ email = "" }: Props) {
             { id: "what_is_this", label: "Explain page" },
           ]);
         }
-      }, 90_000);
+      }, 45_000);
     };
     const onAct = () => arm();
     arm();
@@ -147,6 +147,55 @@ export function IidaAssistant({ email = "" }: Props) {
       window.removeEventListener("scroll", onAct);
     };
   }, [pathname, first, tour.title, applyJourney, bumpMood]);
+
+  // Keep explaining while the panel is closed — nudge, don't go silent.
+  useEffect(() => {
+    if (open) return;
+    const tick = window.setInterval(() => {
+      const j = journeyRef.current || loadJourney();
+      const line =
+        friendStuckNudge(first, j, tour.title) ||
+        "Still with you on " + tour.title + ": " + tour.hook + " Tap Explain if you want me to walk this screen.";
+      setTip(line);
+      setSectionTip(line);
+      setPulse(true);
+      window.setTimeout(() => setPulse(false), 700);
+      bumpMood(moodForContext({ vibe: j.vibe, pulseTip: true }));
+      setActions([
+        { id: "what_is_this", label: "Explain this" },
+        { id: "what_next", label: "What next?" },
+        { id: "play_game", label: "Let's play" },
+        ...((user?.is_demo || (!authed && !(pathname || "").startsWith("/login")))
+          ? [{ id: "go_signup", label: "Sign up free" }]
+          : []),
+      ]);
+    }, 35_000);
+    return () => window.clearInterval(tick);
+  }, [open, first, tour.title, tour.hook, pathname, bumpMood, user?.is_demo, authed]);
+
+  // Soft-open once per browser session so people notice IIDA is interactable.
+  useEffect(() => {
+    if (typeof window === "undefined") return;
+    const key = "iida_soft_open_session";
+    if (sessionStorage.getItem(key)) return;
+    const t = window.setTimeout(() => {
+      sessionStorage.setItem(key, "1");
+      setOpen(true);
+      bumpMood("curious");
+      const explain =
+        "Quick orientation: you are on " + tour.title + ". " + tour.blurb + " " + tour.hook;
+      setChat((prev) => {
+        if (prev.some((x) => x.role === "iida" && x.text.includes("Quick orientation"))) return prev;
+        return [...prev, { role: "iida", text: explain }];
+      });
+      setActions([
+        { id: "what_is_this", label: "Explain more" },
+        { id: "what_next", label: "What next?" },
+        { id: "play_game", label: "Let's play" },
+      ]);
+    }, 3500);
+    return () => window.clearTimeout(t);
+  }, [pathname, bumpMood, tour.title, tour.blurb, tour.hook]);
 
   const pushIidaNote = useCallback(
     (text: string, intoChat: boolean, nextMood?: IidaMood) => {
@@ -190,13 +239,16 @@ export function IidaAssistant({ email = "" }: Props) {
         nudge ||
         `Hey ${first} - ${tour.title}. ${tour.hook} I am keeping your session trail so I can talk like a partner, not a stranger.`;
       const base: Action[] = [
-        { id: "what_is_this", label: "What is this?" },
+        { id: "what_is_this", label: "Explain this" },
         { id: "what_next", label: "What next?" },
       ];
       if (shouldOfferGame(j)) base.unshift({ id: "play_game", label: "Let's play" });
       if (!authed) {
+        base.push({ id: "go_signup", label: "Sign up free" });
         base.push({ id: "go_demo", label: "Try demo" });
         if (!(pathname || "").startsWith("/pricing")) base.push({ id: "go_pricing", label: "See pricing" });
+      } else if (user?.is_demo || (email || "").includes("demo@")) {
+        base.push({ id: "go_signup", label: "Sign up free" });
       } else if ((pathname || "").startsWith("/app/team")) {
         base.push({ id: "brief_taylor", label: "Brief Taylor" });
       }
@@ -388,6 +440,10 @@ export function IidaAssistant({ email = "" }: Props) {
       void sendMessage("Brief Taylor for me");
       return;
     }
+    if (id === "go_signup") {
+      runHandoff({ type: "navigate", href: "/login?mode=register" });
+      return;
+    }
     if (id === "go_demo") {
       runHandoff({ type: "navigate", href: "/login" });
       return;
@@ -421,23 +477,29 @@ export function IidaAssistant({ email = "" }: Props) {
 
   return (
     <div className="iida-popup-root" data-iida-root>
-      {!open && liveTip ? (
-        <button
-          type="button"
-          className={`iida-float-tip${pulse ? " iida-float-tip-pulse" : ""}`}
-          onClick={() => setOpen(true)}
-        >
-          <span className="iida-float-tip-row">
-            <IidaMascot mood={displayMood} size={36} bob={false} />
-            <span className="min-w-0">
-              <span className="iida-float-tip-label">IIDA · your partner</span>
-              <span className="iida-float-tip-text">
-                {liveTip.slice(0, 150)}
-                {liveTip.length > 150 ? "..." : ""}
+            {!open && liveTip ? (
+        <div className={`iida-float-card${pulse ? " iida-float-card-pulse" : ""}`}>
+          <button type="button" className="iida-float-card-btn" onClick={() => { setOpen(true); bumpMood("curious"); void sendMessage("Explain this page simply and tell me the best next step."); }}>
+            <span className="iida-float-tip-row">
+              <IidaMascot mood={displayMood} size={36} bob={false} />
+              <span className="min-w-0">
+                <span className="iida-float-tip-label">IIDA · tap me · I explain</span>
+                <span className="iida-float-tip-text">
+                  {liveTip.slice(0, 160)}
+                  {liveTip.length > 160 ? "..." : ""}
+                </span>
               </span>
             </span>
-          </span>
-        </button>
+          </button>
+          <div className="iida-float-quick">
+            <button type="button" className="iida-chip" onClick={() => { setOpen(true); void sendMessage("Explain this page simply and tell me the best next step."); }}>Explain</button>
+            <button type="button" className="iida-chip" onClick={() => { setOpen(true); void sendMessage("What should I do next?"); }}>Next step</button>
+            <button type="button" className="iida-chip" onClick={() => startGame()}>Let's play</button>
+            {(user?.is_demo || !authed) && !(pathname || "").startsWith("/login") ? (
+              <button type="button" className="iida-chip" onClick={() => runHandoff({ type: "navigate", href: "/login?mode=register" })}>Sign up</button>
+            ) : null}
+          </div>
+        </div>
       ) : null}
 
       {open ? (

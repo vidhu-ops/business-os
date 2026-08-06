@@ -4,6 +4,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useState } from "react";
 import { Menu, X } from "lucide-react";
+import { AuthNavLinks } from "@/components/AuthNavLinks";
 import { ThemeToggle } from "@/components/ThemeToggle";
 import { WorkspaceEntryLink } from "@/components/WorkspaceEntryLink";
 
@@ -47,12 +48,7 @@ export function MarketingShell({ children }: { children: React.ReactNode }) {
 
           <div className="mkt-nav-actions">
             <ThemeToggle className="mkt-nav-desktop-only" />
-            <Link href="/login" className="mkt-nav-login mkt-nav-desktop-only">
-              Log in
-            </Link>
-            <WorkspaceEntryLink className="iid-btn iid-btn-primary mkt-nav-cta mkt-nav-desktop-only">
-              Start now
-            </WorkspaceEntryLink>
+            <AuthNavLinks showDemo className="mkt-nav-desktop-only" />
             <button
               type="button"
               className="mkt-mobile-menu-btn"
@@ -81,12 +77,7 @@ export function MarketingShell({ children }: { children: React.ReactNode }) {
                   ))}
               <div className="mkt-mobile-nav-actions">
                 <ThemeToggle />
-                <Link href="/login" onClick={() => setOpen(false)}>
-                  Log in
-                </Link>
-                <WorkspaceEntryLink className="iid-btn iid-btn-primary w-full" onClick={() => setOpen(false)}>
-                  Start now
-                </WorkspaceEntryLink>
+                <AuthNavLinks showDemo onNavigate={() => setOpen(false)} />
               </div>
             </div>
           </div>
@@ -110,9 +101,11 @@ export function MarketingShell({ children }: { children: React.ReactNode }) {
           <div>
             <h4>Workspace</h4>
             <p>
-              <Link href="/login">Log in</Link>
+              <Link href="/login">Sign in</Link>
               <br />
-              <WorkspaceEntryLink>Start free</WorkspaceEntryLink>
+              <Link href="/login?mode=register">Sign up free</Link>
+              <br />
+              <WorkspaceEntryLink>See demo</WorkspaceEntryLink>
             </p>
           </div>
           <div>
@@ -124,7 +117,7 @@ export function MarketingShell({ children }: { children: React.ReactNode }) {
             </p>
           </div>
         </div>
-        <p className="mkt-wrap mkt-footer-copy">IIDATECH — Business Operating System</p>
+        <p className="mkt-wrap mkt-footer-copy">IIDATECH - Business Operating System</p>
       </footer>
     </main>
   );

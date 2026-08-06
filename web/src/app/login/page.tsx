@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { useRouter, useSearchParams } from "next/navigation";
 import { FormEvent, Suspense, useEffect, useState } from "react";
+import { ThemeToggle } from "@/components/ThemeToggle";
 import { api } from "@/lib/api";
 
 function LoginForm() {
@@ -65,7 +66,10 @@ function LoginForm() {
     <main className="login-shell">
       <div className="login-grid">
         <section className="login-brand">
-          <Link href="/" className="mkt-logo">IIDA<span>TECH</span></Link>
+          <div className="login-brand-top">
+            <Link href="/" className="mkt-logo">IIDA<span>TECH</span></Link>
+            <ThemeToggle />
+          </div>
           <h1 className="login-title">Build your business in minutes.</h1>
           <p className="login-lead">Research, plan, and execute with an AI team — built for companies and teams.</p>
           <div className="login-pills">

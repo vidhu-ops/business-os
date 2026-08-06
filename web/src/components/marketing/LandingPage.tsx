@@ -171,7 +171,8 @@ export function LandingPage() {
                   </article>
                 ))}
               </div>
-              <WorkspaceEntryLink className="iid-btn iid-btn-primary mkt-section-cta">Open workspace</WorkspaceEntryLink>
+              <Link href="/login?mode=register" className="iid-btn iid-btn-primary mkt-section-cta">Sign up free</Link>
+              <WorkspaceEntryLink className="iid-btn iid-btn-ghost mkt-section-cta">Open demo</WorkspaceEntryLink>
             </div>
           </div>
         </div>

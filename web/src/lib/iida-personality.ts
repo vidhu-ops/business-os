@@ -124,10 +124,10 @@ export function moodForContext(opts: {
 
 export function friendStuckNudge(first: string, journey: IidaJourney, pageTitle: string): string {
   if (journey.vibe === "stuck" || journey.idleHits >= 2) {
-    return `Hey ${first} - you have been circling ${pageTitle}. I am still here as your partner, not a lecture bot. Want to play a 20-second game to unstick, or tell me what feels heavy?`;
+    return `Hey ${first} - still on ${pageTitle}. Here is the plain version: pick one next click, or play a 20-second game with me so we unstick together.`;
   }
   if (shouldOfferGame(journey)) {
-    return `${first}, quick friend interrupt: brains stall under too many tabs. Want a tiny this-or-that game, or a straight next move on ${pageTitle}?`;
+    return `${first}, quick partner nudge on ${pageTitle}: brains stall under too many options. Want me to explain this screen, or play this-or-that?`;
   }
   return "";
 }

@@ -3880,3 +3880,122 @@ html.light .theme-toggle:hover {
   .iida-fab-label { display: none; }
   .iida-fab-open { padding: 0.65rem; border-radius: 999px; }
 }
+
+/* Auth CTAs next to theme toggle */
+.auth-nav-links {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  flex-wrap: wrap;
+}
+.auth-nav-signin {
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: var(--iid-text);
+  padding: 0.35rem 0.55rem;
+  border-radius: 999px;
+  text-decoration: none;
+  white-space: nowrap;
+}
+.auth-nav-signin:hover {
+  color: var(--iid-blue);
+}
+.auth-nav-demo {
+  font-size: 0.78rem !important;
+  padding: 0.4rem 0.75rem !important;
+  white-space: nowrap;
+}
+.auth-nav-links-compact .auth-nav-signup-compact {
+  font-size: 0.72rem !important;
+  padding: 0.35rem 0.7rem !important;
+  border-radius: 999px;
+  white-space: nowrap;
+}
+.mkt-mobile-nav-actions .auth-nav-links {
+  width: 100%;
+  flex-direction: column;
+  align-items: stretch;
+}
+.mkt-mobile-nav-actions .auth-nav-links .iid-btn,
+.mkt-mobile-nav-actions .auth-nav-signin {
+  text-align: center;
+  justify-content: center;
+}
+
+.demo-banner-bar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: 0.65rem 1rem;
+  border-bottom: 1px solid rgba(245, 158, 11, 0.35);
+  background: rgba(245, 158, 11, 0.12);
+  padding: 0.65rem 1rem;
+  text-align: center;
+}
+.demo-banner-copy {
+  margin: 0;
+  font-size: 0.85rem;
+  color: #78350f;
+  max-width: 42rem;
+}
+html.dark .demo-banner-copy,
+html:not(.light) .demo-banner-copy {
+  color: #fde68a;
+}
+.demo-banner-actions {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.55rem;
+}
+.demo-banner-signup {
+  font-size: 0.78rem !important;
+  padding: 0.4rem 0.85rem !important;
+}
+.demo-banner-signin {
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: inherit;
+  text-decoration: underline;
+}
+
+.iida-float-card {
+  width: 100%;
+  border: 1px solid var(--iid-accent-border);
+  background: var(--iid-float-bg);
+  backdrop-filter: blur(16px);
+  border-radius: 1.1rem;
+  padding: 0.7rem 0.85rem;
+  box-shadow: var(--iid-shadow-md);
+  display: flex;
+  flex-direction: column;
+  gap: 0.45rem;
+}
+.iida-float-card-pulse {
+  animation: iida-tip-pop 0.55s ease;
+  border-color: var(--iid-blue);
+  box-shadow: 0 0 0 1px rgba(11, 95, 255, 0.35), var(--iid-shadow-md);
+}
+.iida-float-card-btn {
+  all: unset;
+  cursor: pointer;
+  display: block;
+  width: 100%;
+}
+.iida-float-quick {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.35rem;
+}
+.iida-float-quick .iida-chip {
+  font-size: 10px;
+  padding: 0.28rem 0.55rem;
+}
+
+.login-brand-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-bottom: 1.25rem;
+}
