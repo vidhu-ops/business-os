@@ -4,7 +4,7 @@ This repo ships a **combined Docker image**: FastAPI on `127.0.0.1:8000` + Next.
 
 ## Auto-deploy from GitHub
 
-1. Connect repo `vidhu-ops/business-os` to Render (Blueprint or Web Service).
+1. Connect repo `vidhu-ops/iida-final-vercel` to Render (Blueprint or Web Service).
 2. Use root `Dockerfile` and `render.yaml`.
 3. Push to `main` — Render rebuilds automatically.
 

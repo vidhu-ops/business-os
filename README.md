@@ -4,7 +4,7 @@ One GitHub repo: **Next.js UI + FastAPI + iidatech research engine**.
 
 ## Quick deploy (one URL)
 
-**Render:** connect `vidhu-ops/business-os` → Blueprint or Web Service. Uses root **`Dockerfile`** (Next.js UI + API in one container).
+**Render:** connect `vidhu-ops/iida-final-vercel` → Blueprint or Web Service. Uses root **`Dockerfile`** (Next.js UI + API in one container).
 
 Full steps: **[docs/DEPLOY_RENDER.md](docs/DEPLOY_RENDER.md)**
 
@@ -84,7 +84,7 @@ See [docs/DEPLOY_RENDER.md](docs/DEPLOY_RENDER.md) for the combined (one-URL) pa
 
 ## Replit
 
-1. Import `vidhu-ops/business-os`
+1. Import `vidhu-ops/iida-final-vercel`
 2. Secrets: `JWT_SECRET`, `PERPLEXITY_API_KEY`
 3. Leave `API_URL` unset (defaults to `http://127.0.0.1:8000`)
 4. Run — opens Next.js on port 3000
