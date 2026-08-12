@@ -103,3 +103,19 @@ def cookie_secure() -> bool:
         or ""
     ).lower()
     return public.startswith("https://") or bool(os.getenv("RENDER"))
+
+
+def admin_emails() -> set[str]:
+    raw = (os.getenv("ADMIN_EMAIL") or os.getenv("PARTNER_NOTIFY_EMAIL") or "").strip()
+    return {part.strip().lower() for part in raw.split(",") if part.strip()}
+
+
+def is_admin_email(email: str) -> bool:
+    key = (email or "").strip().lower()
+    return bool(key) and key in admin_emails()
+
+
+def require_admin_email(email: str = Depends(get_current_user)) -> str:
+    if not is_admin_email(email):
+        raise HTTPException(status_code=403, detail="Admin access required")
+    return email

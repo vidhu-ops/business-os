@@ -8,7 +8,7 @@ import { AuthNavLinks } from "@/components/AuthNavLinks";
 import { ThemeToggle } from "@/components/ThemeToggle";
 import { isDemoEmail } from "@/lib/api";
 
-const links = [
+const baseLinks = [
   { href: "/", label: "Home" },
   { href: "/app/dashboard", label: "Dashboard" },
   { href: "/app/projects", label: "Projects" },
@@ -21,10 +21,17 @@ const links = [
   { href: "/app/profile", label: "Profile" },
 ];
 
-export function AppNav({ email }: { email?: string }) {
+export function AppNav({ email, isAdmin = false }: { email?: string; isAdmin?: boolean }) {
   const pathname = usePathname();
   const [open, setOpen] = useState(false);
   const demo = isDemoEmail(email);
+  const links = isAdmin
+    ? [
+        ...baseLinks.slice(0, 8),
+        { href: "/app/crm", label: "CRM" },
+        ...baseLinks.slice(8),
+      ]
+    : baseLinks;
 
   return (
     <header className="app-nav-shell">

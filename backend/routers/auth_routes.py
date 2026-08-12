@@ -10,6 +10,7 @@ from backend.auth import (
     create_token,
     get_current_user,
     hash_password,
+    is_admin_email,
     load_users,
     save_users,
     verify_password,
@@ -127,4 +128,5 @@ def me(email: str = Depends(get_current_user)) -> dict:
         "plan": plan,
         "audit": audit_status(email),
         "is_demo": is_demo_user(email),
+        "is_admin": is_admin_email(email),
     }

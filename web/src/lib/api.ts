@@ -24,7 +24,15 @@ export function setToken(token: string | null) {
   else localStorage.removeItem("iida_token");
 }
 
-export type User = { email: string; name: string; member_since?: string; plan?: PlanSnapshot; is_demo?: boolean; audit?: AuditStatus };
+export type User = {
+  email: string;
+  name: string;
+  member_since?: string;
+  plan?: PlanSnapshot;
+  is_demo?: boolean;
+  is_admin?: boolean;
+  audit?: AuditStatus;
+};
 export type PlanSnapshot = {
   id: string;
   name: string;
@@ -41,6 +49,25 @@ export type AuditStatus = {
   free_audit_granted: number;
   free_audit_used: number;
   free_audit_available: boolean;
+};
+export type AdminCrmUser = {
+  email: string;
+  name: string;
+  joined_at: string;
+  plan_id?: string;
+  plan_name?: string;
+  credits_remaining?: number | null;
+  credits_total?: number | null;
+  credits_used?: number | null;
+  is_unlimited?: boolean;
+  projects: number;
+  reports_ready: number;
+  plans_ready: number;
+  free_audit_used: number;
+  free_audit_granted: number;
+  last_activity_at?: string;
+  recent_actions?: Array<{ action: string; amount?: number | null; at?: string }>;
+  project_ideas?: string[];
 };
 export type DashboardData = {
   user: { email: string; name: string; member_since: string };
@@ -210,6 +237,12 @@ export const api = {
   ensureAuditWorkspace: () =>
     request<{ workspace_id: string; project: Project; is_demo?: boolean }>("/api/v1/audit/workspace"),
   dashboard: () => request<DashboardData>("/api/v1/dashboard"),
+  adminUsers: (q = "") =>
+    request<{
+      users: AdminCrmUser[];
+      total: number;
+      totals: { users: number; projects: number; credits_remaining: number };
+    }>(`/api/v1/admin/users${q ? `?q=${encodeURIComponent(q)}` : ""}`),
   logout: async () => {
     const data = await request<{ ok: boolean }>("/api/v1/auth/logout", { method: "POST" });
     setToken(null);

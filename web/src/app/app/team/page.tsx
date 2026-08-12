@@ -1025,7 +1025,10 @@ function TeamContent() {
                           key={a.id}
                           type="button"
                           className={`w-full text-left rounded-lg px-3 py-2 text-xs ${activeAgent === a.id ? "bg-[var(--iid-blue)] text-white" : "border border-[var(--iid-line)]"}`}
-                          onClick={() => setActiveAgent(a.id)}
+                          onClick={() => {
+                            setActiveAgent(a.id);
+                            setChatDrawerOpen(true);
+                          }}
                         >
                           <span className="font-semibold block">{a.name}</span>
                           <span className="opacity-70">{a.department || a.role}</span>
@@ -1033,32 +1036,40 @@ function TeamContent() {
                       ))}
                     </div>
                     <div className="space-y-3">
-                      {activeAgent && (
+                      {activeAgent ? (
                         <>
                           <p className="text-sm muted">{chatAgents.find((a) => a.id === activeAgent)?.tagline}</p>
-                          <div className="max-h-64 overflow-y-auto space-y-2 rounded-xl border border-[var(--iid-line)] p-3">
-                            {chat.map((turn, i) => (
-                              <div key={i} className={turn.role === "user" ? "text-right" : ""}>
-                                <p className="text-xs muted">{turn.role}</p>
-                                <p className="text-sm whitespace-pre-wrap">{turn.content}</p>
-                                {turn.role === "assistant" ? (
-                                  <div className="mt-1 text-left">{renderArtifacts(turn.artifacts || [], String(turn.content || ""))}</div>
-                                ) : turn.artifacts && turn.artifacts.length > 0 ? (
-                                  <div className="mt-1">{renderArtifacts(turn.artifacts)}</div>
-                                ) : null}
-                              </div>
-                            ))}
-                          </div>
-                          <div className="flex flex-wrap gap-2">
-                            {(chatAgents.find((a) => a.id === activeAgent)?.starters || []).map((s) => (
-                              <button key={s} type="button" className="iid-btn iid-btn-ghost text-xs" onClick={() => sendChat(s)} disabled={chatLoading}>{s}</button>
-                            ))}
-                          </div>
-                          <div className="flex gap-2">
-                            <input className="iid-input flex-1" value={chatInput} onChange={(e) => setChatInput(e.target.value)} placeholder="Tell this agent what to deliver…" onKeyDown={(e) => e.key === "Enter" && sendChat()} />
-                            <button type="button" className="iid-btn iid-btn-primary" onClick={() => sendChat()} disabled={chatLoading}>{chatLoading ? "Working…" : "Send"}</button>
-                          </div>
+                          <p className="text-xs muted">
+                            Open the full chat drawer for a clearer thread, starters, and deliverables.
+                          </p>
+                          <button
+                            type="button"
+                            className="iid-btn iid-btn-primary text-sm"
+                            onClick={() => setChatDrawerOpen(true)}
+                          >
+                            Open chat with {String(chatAgents.find((a) => a.id === activeAgent)?.name || "agent").split("—")[0].trim()}
+                          </button>
+                          {(chatAgents.find((a) => a.id === activeAgent)?.starters || []).length > 0 ? (
+                            <div className="flex flex-wrap gap-2">
+                              {(chatAgents.find((a) => a.id === activeAgent)?.starters || []).map((s) => (
+                                <button
+                                  key={s}
+                                  type="button"
+                                  className="iid-btn iid-btn-ghost text-xs"
+                                  onClick={() => {
+                                    setChatDrawerOpen(true);
+                                    void sendChat(s);
+                                  }}
+                                  disabled={chatLoading}
+                                >
+                                  {s}
+                                </button>
+                              ))}
+                            </div>
+                          ) : null}
                         </>
+                      ) : (
+                        <p className="text-sm muted">Pick an agent on the left to open chat.</p>
                       )}
                     </div>
                   </div>
@@ -1332,7 +1343,7 @@ function TeamContent() {
         chat={chat}
         input={chatInput}
         onInput={setChatInput}
-        onSend={() => sendChat()}
+        onSend={(msg) => sendChat(msg)}
         loading={chatLoading}
         readOnly={isDemoReadonly}
         starters={chatAgents.find((a) => a.id === activeAgent)?.starters || []}

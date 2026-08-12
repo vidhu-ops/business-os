@@ -40,7 +40,10 @@ export function LandingPage() {
             <p className="mkt-eyebrow">IIDATECH / BUSINESS ECOSYSTEM</p>
             <h1 className="mkt-hero-title">
               <span className="mkt-hero-os">Your</span>
-              <span className="mkt-hero-accent">BUSINESS ECOSYSTEM</span>
+              <span className="mkt-hero-accent">
+                <span className="mkt-hero-accent-word">BUSINESS</span>
+                <span className="mkt-hero-accent-word">ECOSYSTEM</span>
+              </span>
             </h1>
             <div className="mkt-pipe">
               <span>RESEARCH</span><i>→</i><span>PLAN</span><i>→</i><span>EXECUTE</span><i>→</i><span>AUTOMATE</span>

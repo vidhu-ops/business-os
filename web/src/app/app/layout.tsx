@@ -15,6 +15,7 @@ export default function AppLayout({ children }: { children: React.ReactNode }) {
     (p) => pathname === p || pathname?.startsWith(p + "/"),
   );
   const [email, setEmail] = useState<string>("");
+  const [isAdmin, setIsAdmin] = useState(false);
   const [ready, setReady] = useState(false);
   const [redirecting, setRedirecting] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -36,6 +37,7 @@ export default function AppLayout({ children }: { children: React.ReactNode }) {
         const user = await ensureSession();
         if (!cancelled) {
           setEmail(user.email);
+          setIsAdmin(Boolean(user.is_admin));
         }
       } catch (err) {
         if (!cancelled) {
@@ -87,6 +89,7 @@ export default function AppLayout({ children }: { children: React.ReactNode }) {
             ensureSession()
               .then((user) => {
                 setEmail(user.email);
+                setIsAdmin(Boolean(user.is_admin));
                 setReady(true);
               })
               .catch((err) => {
@@ -122,7 +125,7 @@ export default function AppLayout({ children }: { children: React.ReactNode }) {
 
   return (
     <div className="app-shell">
-      <AppNav email={email} />
+      <AppNav email={email} isAdmin={isAdmin} />
       <div className="app-shell-main">
         {showProductNav ? <AppProductNav /> : null}
         <DemoBanner />

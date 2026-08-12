@@ -15,7 +15,7 @@ from iidatech.env_bootstrap import ensure_env_loaded
 ensure_env_loaded()
 
 from backend.config import settings
-from backend.routers import audit, auth_routes, automation, canva, credits, dashboard, deliverables, files, health, iida_guide, oauth, os2, partners, payments, plan, pricing, projects, research, team
+from backend.routers import admin, audit, auth_routes, automation, canva, credits, dashboard, deliverables, files, health, iida_guide, oauth, os2, partners, payments, plan, pricing, projects, research, team
 
 app = FastAPI(
     title="IIDATECH API",
@@ -62,3 +62,4 @@ app.include_router(pricing.router, prefix="/api/v1")
 app.include_router(canva.router, prefix="/api/v1")
 app.include_router(credits.router, prefix="/api/v1")
 app.include_router(iida_guide.router, prefix="/api/v1")
+app.include_router(admin.router, prefix="/api/v1")
