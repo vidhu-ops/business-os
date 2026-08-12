@@ -62,8 +62,8 @@ PAGE_TOURS: dict[str, dict[str, str]] = {
     },
     "/app/team": {
         "title": "Employee OS",
-        "blurb": "Live office floor — Taylor leads, you approve outbound work, departments execute.",
-        "hook": "Office is the floor; Hiring staffs it; Tasks and Approvals is your control gate. I can brief Taylor anytime.",
+        "blurb": "Live office floor — Taylor leads research, plan staffing, tasks, and automation; you approve outbound work.",
+        "hook": "Ask me to brief Taylor — she can build checklists, run next, approve, retry, run office day, or kick competitor/lead work.",
     },
     "/app/automation": {
         "title": "Automation",
@@ -192,8 +192,10 @@ def _actions_for_path(path: str) -> list[dict[str, str]]:
         actions.extend(
             [
                 {"id": "brief_taylor", "label": "Brief Taylor"},
-                {"id": "open_hiring", "label": "Open Hiring"},
+                {"id": "taylor_run_next", "label": "Taylor: run next"},
+                {"id": "taylor_checklist", "label": "Taylor: build checklist"},
                 {"id": "open_approvals", "label": "Check approvals"},
+                {"id": "open_hiring", "label": "Open Hiring"},
             ]
         )
     elif p.startswith("/app/research"):
@@ -217,6 +219,7 @@ def heuristic_reply(
     credits_remaining: int | None,
     screen_summary: str | None,
     is_demo: bool,
+    project_id: str | None = None,
 ) -> dict[str, Any]:
     tip = build_proactive_tip(
         path=path,
@@ -233,13 +236,51 @@ def heuristic_reply(
     reply = ""
     handoff = None
     screen_bit = _screen_insight(screen_summary, path)
+    pid = (project_id or "").strip()
+    team_href = "/app/team" + (f"?project={pid}" if pid else "")
 
-    if any(k in text for k in ("taylor", "team lead", "coo", "brief the lead", "brief taylor")):
+    def _taylor(action: str | None = None, taylor_message: str | None = None, tab: str | None = None) -> dict[str, Any]:
+        href = team_href
+        if tab:
+            href += ("&" if "?" in href else "?") + f"tab={tab}&agent=taylor"
+        else:
+            href += ("&" if "?" in href else "?") + "agent=taylor"
+        out: dict[str, Any] = {"type": "taylor", "href": href}
+        if action:
+            out["action"] = action
+        if taylor_message:
+            out["taylor_message"] = taylor_message
+        return out
+
+    if any(k in text for k in ("run next", "next task", "keep going", "run the next")):
+        reply = f"Got it, {first}. I am telling Taylor to run the next task and opening the office so you can watch."
+        handoff = _taylor("run_next", "run next task")
+    elif any(k in text for k in ("approve all", "approve pending")) or (
+        "approve" in text and any(k in text for k in ("taylor", "task", "all"))
+    ):
+        reply = f"I will have Taylor approve pending items, {first}. Review outbound before anything sends."
+        handoff = _taylor("approve_all", "approve all", tab="tasks")
+    elif any(k in text for k in ("retry failed", "retry the", "retry task")):
+        reply = "Briefing Taylor to retry failed tasks and keep the floor moving."
+        handoff = _taylor("retry_failed", "retry failed")
+    elif any(k in text for k in ("build checklist", "staff the plan", "create checklist")):
+        reply = "I am asking Taylor to build the task checklist from your plan."
+        handoff = _taylor("build_checklist", "build checklist from the plan")
+    elif any(k in text for k in ("office day", "run the office", "full day")):
+        reply = "Taylor will run an office day — I am opening Employee OS so you can see the floor."
+        handoff = _taylor("full_day", "run office day")
+    elif any(k in text for k in ("find leads", "daily outreach", "email them", "leads and email")):
+        reply = "I will brief Taylor to find leads and queue personalized email — you still approve sends."
+        handoff = _taylor(None, "find leads and email them")
+    elif any(k in text for k in ("competitor", "pricing pass", "ask sam")):
+        reply = "I am asking Taylor to put Sam on a competitor and pricing pass."
+        handoff = _taylor(None, "run competitor and pricing evidence pass")
+    elif any(k in text for k in ("taylor", "team lead", "coo", "brief the lead", "brief taylor")):
         reply = (
-            f"On it, {first}. I will open Employee OS with Taylor ready. "
-            "Give her one priority — I stay here as your aide while she runs the floor."
+            f"On it, {first}. Opening Employee OS with Taylor ready — I already brief her with your ask. "
+            "She can build checklists, run next, approve, retry, and kick research or outreach."
         )
-        handoff = {"type": "taylor", "href": "/app/team?agent=taylor"}
+        handoff = _taylor(None, message.strip()[:400] or "status brief")
     elif any(k in text for k in ("play", "game", "unstick", "bored")):
         reply = (
             f"Yes, {first} — let's play a 20-second decision game. Use the Let's play chip — friend first, then we ship."
@@ -247,15 +288,22 @@ def heuristic_reply(
     elif any(k in text for k in ("hire", "hiring", "build team", "department")):
         reply = (
             "Hiring lives under the Hiring tab — staff Lean before Full company until Integrations "
-            "and approval habits exist. Want me to open Hiring?"
+            "and approval habits exist. Opening Hiring for you."
         )
-        handoff = {"type": "navigate", "href": "/app/team?tab=hiring"}
+        handoff = {"type": "navigate", "href": f"{team_href}{'&' if '?' in team_href else '?'}tab=hiring"}
+    elif any(k in text for k in ("integration", "api key", "perplexity key")):
+        reply = "Opening Integrations — Perplexity for research/leads, LLM for copy, OAuth for outbound."
+        handoff = {"type": "navigate", "href": f"{team_href}{'&' if '?' in team_href else '?'}tab=integrations"}
     elif any(k in text for k in ("approv", "notification", "pending")):
         reply = (
             "Tasks and Approvals is your control gate for email, LinkedIn, and CRM. "
             "Review before Approve all — that keeps the office safe."
         )
-        handoff = {"type": "navigate", "href": "/app/team?tab=tasks"}
+        handoff = {"type": "navigate", "href": f"{team_href}{'&' if '?' in team_href else '?'}tab=tasks"}
+    elif any(k in text for k in ("automation", "workflow queue")):
+        reply = "Automation composes multi-step agent flows. I will take you there — wire one flow, then let Taylor drain the queue."
+        href = "/app/automation" + (f"?project={pid}" if pid else "")
+        handoff = {"type": "navigate", "href": href}
     elif any(k in text for k in ("what is this", "where am i", "explain", "tour", "screen")):
         reply = f"You are on **{tour['title']}**. {tour['blurb']} {tour['hook']}"
         if screen_bit:
@@ -264,16 +312,22 @@ def heuristic_reply(
         reply = f"Next on **{tour['title']}**: {tour['hook']}"
         if screen_bit:
             reply += f" {screen_bit}"
-    elif any(k in text for k in ("credit", "plan", "pricing", "upgrade")):
+        if normalize_path(path).startswith("/app/team"):
+            reply += " I can tell Taylor to **run next** or **build checklist** if you want me to act."
+            tip["actions"] = list(tip["actions"]) + [
+                {"id": "taylor_run_next", "label": "Tell Taylor: run next"},
+                {"id": "brief_taylor", "label": "Brief Taylor"},
+            ]
+    elif any(k in text for k in ("credit", "pricing", "upgrade")) and "plan" not in text:
         plan_bit = f"You are on **{plan_name}**." if plan_name else "Open Profile to see your plan."
         credit_bit = f" About **{credits_remaining}** credits remain." if credits_remaining is not None else ""
         reply = f"{plan_bit}{credit_bit} Protect credits for scoped research and plans — one deep run beats five regenerations."
     elif any(k in text for k in ("research", "market")):
         reply = (
             "Market Research turns a tight scope into cited evidence. "
-            "Lock topic, industry, and country, generate once, then move to Plan."
+            "Lock topic, industry, and country, generate once, then move to Plan — or ask Taylor to run a competitor pass."
         )
-        handoff = {"type": "navigate", "href": "/app/research"}
+        handoff = {"type": "navigate", "href": "/app/research" + (f"?project={pid}" if pid else "")}
     elif any(k in text for k in ("audit", "gauge")):
         reply = (
             "Company Audit (GAUGE) scores an existing business in four honest steps. "
@@ -283,9 +337,9 @@ def heuristic_reply(
     elif any(k in text for k in ("business plan",)) or text.strip() in ("plan", "the plan"):
         reply = (
             "Business Plan packages research or a GAUGE audit into something you can pitch and staff. "
-            "After it is readable, hand owners to Employee OS."
+            "After it is readable, hand owners to Employee OS — I can ask Taylor to build the checklist."
         )
-        handoff = {"type": "navigate", "href": "/app/plan"}
+        handoff = {"type": "navigate", "href": "/app/plan" + (f"?project={pid}" if pid else "")}
     else:
         reply = f"Got it, {first}. {tour['hook']}"
         if screen_bit:
@@ -312,6 +366,7 @@ def try_llm_reply(
     credits_remaining: int | None,
     screen_summary: str | None,
     is_demo: bool,
+    project_id: str | None = None,
 ) -> dict[str, Any] | None:
     try:
         from iidatech.llm.text_request import cloud_llm_configured, llm_text_request
@@ -332,7 +387,10 @@ def try_llm_reply(
         "You are IIDA, the user's personal assistant and tour guide inside the IIDATECH founder product. "
         "Voice: warm friend + sharp business partner, concise (2-5 short sentences). Never invent financial numbers. "
         "Every reply must be relevant to the current page and give one personal insight or next move — "
-        "do not repeat generic marketing fluff. If they want the team lead, say you will hand off to Taylor. When the screen summary includes vibe:stuck or stuckSignals, gently offer a 20-second decision game and talk like a friend who also ships. Use the session trail to sound continuous, not amnesiac."
+        "do not repeat generic marketing fluff. You can hand work to Taylor (Employee OS COO) who runs checklists, "
+        "next tasks, approvals, office day, research, and outreach — say when you are doing that. "
+        "When the screen summary includes vibe:stuck or stuckSignals, gently offer a 20-second decision game. "
+        "Use the session trail to sound continuous, not amnesiac."
     )
     prompt = (
         f"User: {_first_name(user_name, email)} ({email})\n"
@@ -353,10 +411,19 @@ def try_llm_reply(
     text = (text or "").strip()
     if not text:
         return None
-    handoff = None
-    low = message.lower()
-    if any(k in low for k in ("taylor", "team lead", "coo")):
-        handoff = {"type": "taylor", "href": "/app/team?agent=taylor"}
+    # Prefer structured handoffs from the heuristic layer for actionable asks.
+    structured = heuristic_reply(
+        message=message,
+        path=path,
+        user_name=user_name,
+        email=email,
+        plan_name=plan_name,
+        credits_remaining=credits_remaining,
+        screen_summary=screen_summary,
+        is_demo=is_demo,
+        project_id=project_id,
+    )
+    handoff = structured.get("handoff")
     return {
         "assistant": "IIDA",
         "role": "personal_guide",

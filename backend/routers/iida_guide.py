@@ -66,6 +66,7 @@ def post_chat(body: GuideChatBody, email: str = Depends(get_current_user)) -> di
         credits_remaining=profile.get("credits_remaining") if isinstance(profile.get("credits_remaining"), int) else None,
         screen_summary=body.screen_summary,
         is_demo=bool(profile.get("is_demo")),
+        project_id=body.project_id,
     )
     if body.prefer_llm:
         llm = try_llm_reply(**kwargs)

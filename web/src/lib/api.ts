@@ -198,7 +198,12 @@ export const api = {
     request<{
       reply: string;
       actions?: Array<{ id: string; label: string }>;
-      handoff?: { type?: string; href?: string } | null;
+      handoff?: {
+        type?: string;
+        href?: string;
+        action?: string;
+        taylor_message?: string;
+      } | null;
       mode?: string;
     }>("/api/v1/iida/chat", { method: "POST", body: JSON.stringify(body) }),
   auditStatus: () => request<AuditStatus>("/api/v1/audit/status"),

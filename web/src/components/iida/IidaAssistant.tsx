@@ -37,7 +37,14 @@ import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 
 type Turn = { role: "iida" | "user"; text: string };
 type Action = { id: string; label: string };
-type Handoff = { type?: string; href?: string } | null;
+type Handoff = {
+  type?: string;
+  href?: string;
+  action?: string;
+  taylor_message?: string;
+} | null;
+
+const ORB_KEY = "iida_orb_mode";
 
 type Props = {
   email?: string;
@@ -52,8 +59,10 @@ export function IidaAssistant({ email = "" }: Props) {
   const router = useRouter();
   const [user, setUser] = useState<User | null>(null);
   const [open, setOpen] = useState(false);
+  const [orbMode, setOrbMode] = useState(false);
   const [input, setInput] = useState("");
   const [loading, setLoading] = useState(false);
+  const [acting, setActing] = useState(false);
   const [tip, setTip] = useState("");
   const [actions, setActions] = useState<Action[]>([]);
   const [chat, setChat] = useState<Turn[]>([]);
@@ -102,6 +111,27 @@ export function IidaAssistant({ email = "" }: Props) {
     const j = recordPath(loadJourney(), pathname || "/");
     applyJourney(j);
   }, [pathname, applyJourney]);
+
+  useEffect(() => {
+    if (typeof window === "undefined") return;
+    setOrbMode(sessionStorage.getItem(ORB_KEY) === "1");
+  }, []);
+
+  const dockToOrb = useCallback(() => {
+    setOpen(false);
+    setOrbMode(true);
+    if (typeof window !== "undefined") sessionStorage.setItem(ORB_KEY, "1");
+    bumpMood("happy-blink");
+  }, [bumpMood]);
+
+  const wakeFromOrb = useCallback(() => {
+    setOrbMode(false);
+    if (typeof window !== "undefined") sessionStorage.removeItem(ORB_KEY);
+    setOpen(false);
+    bumpMood("excited");
+    setPulse(true);
+    window.setTimeout(() => setPulse(false), 700);
+  }, [bumpMood]);
 
   useEffect(() => {
     if (!getToken() && !email) {
@@ -176,9 +206,11 @@ export function IidaAssistant({ email = "" }: Props) {
   // Soft-open once per browser session so people notice IIDA is interactable.
   useEffect(() => {
     if (typeof window === "undefined") return;
+    if (sessionStorage.getItem(ORB_KEY) === "1") return;
     const key = "iida_soft_open_session";
     if (sessionStorage.getItem(key)) return;
     const t = window.setTimeout(() => {
+      if (sessionStorage.getItem(ORB_KEY) === "1") return;
       sessionStorage.setItem(key, "1");
       setOpen(true);
       bumpMood("curious");
@@ -343,14 +375,61 @@ export function IidaAssistant({ email = "" }: Props) {
     if (open) endRef.current?.scrollIntoView({ behavior: "smooth" });
   }, [chat, open, loading, activeGame]);
 
-  function runHandoff(handoff: Handoff) {
-    if (!handoff?.href) return;
-    let href = handoff.href;
-    if (projectId && href.startsWith("/app/team") && !href.includes("project=")) {
+  async function runHandoff(handoff: Handoff) {
+    if (!handoff) return;
+    let href = handoff.href || "";
+    if (href && projectId && href.startsWith("/app/") && !href.includes("project=")) {
       href += (href.includes("?") ? "&" : "?") + `project=${encodeURIComponent(projectId)}`;
     }
-    router.push(href);
-    if (handoff.type === "taylor") setOpen(true);
+
+    const action = String(handoff.action || "").trim();
+    const taylorMsg = String(handoff.taylor_message || "").trim();
+    const canAct = Boolean(projectId && authed && !user?.is_demo);
+
+    if (canAct && (action || taylorMsg || handoff.type === "taylor")) {
+      setActing(true);
+      try {
+        let ranDirect = false;
+        if (action === "run_next") {
+          await api.runTaylorAction(projectId, "run_next");
+          pushIidaNote("Taylor ran the next task. Check the deliverable under Tasks.", true, "excited");
+          ranDirect = true;
+        } else if (action === "approve_all") {
+          await api.runTaylorAction(projectId, "approve_all");
+          pushIidaNote("Taylor approved pending items. Review anything outbound before it sends.", true, "happy");
+          ranDirect = true;
+        } else if (action === "retry_failed") {
+          await api.runTaylorAction(projectId, "retry_failed");
+          pushIidaNote("Taylor retried failed tasks.", true, "curious");
+          ranDirect = true;
+        } else if (action === "build_checklist") {
+          await api.buildOs2Checklist(projectId);
+          pushIidaNote("Taylor built the checklist from your plan. Ask her to run next when ready.", true, "excited");
+          ranDirect = true;
+        } else if (action === "full_day") {
+          await api.runOs2OfficeAction(projectId, "full_day");
+          pushIidaNote("Taylor kicked off an office day. Watch the floor and Approvals.", true, "excited");
+          ranDirect = true;
+        }
+        // Chat Taylor for free-form asks (or when no direct action already ran).
+        if (!ranDirect && (taylorMsg || handoff.type === "taylor")) {
+          const data = await api.postOs2Chat(projectId, "taylor", taylorMsg || "status brief");
+          const result = (data.result as Record<string, unknown>) || {};
+          const reply = String(result.content || "Taylor is on it.");
+          pushIidaNote(`Taylor: ${stripMd(reply).slice(0, 420)}`, true, "happy");
+        }
+      } catch (err) {
+        const msg = err instanceof Error ? err.message : "Taylor could not run that yet.";
+        pushIidaNote(msg, true, "surprised");
+      } finally {
+        setActing(false);
+      }
+    }
+
+    if (href) {
+      router.push(href);
+      if (handoff.type === "taylor" || action) setOpen(true);
+    }
   }
 
   async function sendMessage(raw: string) {
@@ -399,7 +478,7 @@ export function IidaAssistant({ email = "" }: Props) {
         acts.unshift({ id: "play_game", label: "Let's play" });
       }
       setActions(acts);
-      if (data.handoff) runHandoff(data.handoff as Handoff);
+      if (data.handoff) void runHandoff(data.handoff as Handoff);
     } catch (err) {
       const msg = err instanceof Error ? err.message : "I hit a snag - try again in a moment.";
       setChat((prev) => [...prev, { role: "iida", text: msg }]);
@@ -442,6 +521,18 @@ export function IidaAssistant({ email = "" }: Props) {
       void sendMessage("Brief Taylor for me");
       return;
     }
+    if (id === "taylor_run_next") {
+      void sendMessage("Tell Taylor to run next task");
+      return;
+    }
+    if (id === "taylor_approve") {
+      void sendMessage("Tell Taylor to approve all pending");
+      return;
+    }
+    if (id === "taylor_checklist") {
+      void sendMessage("Tell Taylor to build checklist from the plan");
+      return;
+    }
     if (id === "go_signup") {
       runHandoff({ type: "navigate", href: "/login?mode=register" });
       return;
@@ -479,127 +570,176 @@ export function IidaAssistant({ email = "" }: Props) {
     else void sendMessage(id.replace(/_/g, " "));
   }
 
-  const displayMood = loading ? "thinking" : mood;
+  const displayMood = loading || acting ? "thinking" : mood;
 
   return (
     <div className="iida-popup-root" data-iida-root>
-            {!open && liveTip ? (
-        <div className={`iida-float-card${pulse ? " iida-float-card-pulse" : ""}`}>
-          <button type="button" className="iida-float-card-btn" onClick={() => { setOpen(true); bumpMood("curious"); void sendMessage("Explain this page simply and tell me the best next step."); }}>
-            <span className="iida-float-tip-row">
-              <IidaMascot mood={displayMood} size={36} bob={false} />
-              <span className="min-w-0">
-                <span className="iida-float-tip-label">IIDA · tap me · I explain</span>
-                <span className="iida-float-tip-text">
-                  {liveTip.slice(0, 160)}
-                  {liveTip.length > 160 ? "..." : ""}
+      {orbMode ? (
+        <button
+          type="button"
+          className={`iida-orb${pulse ? " iida-orb-pulse" : ""}`}
+          onClick={() => wakeFromOrb()}
+          aria-label="Wake IIDA"
+          title="Tap to bring IIDA back"
+        >
+          <span className="iida-orb-core" />
+          <span className="iida-orb-ring" />
+        </button>
+      ) : (
+        <>
+          {!open && liveTip ? (
+            <div
+              className={`iida-float-card${pulse ? " iida-float-card-pulse" : ""}`}
+              role="dialog"
+              aria-label="IIDA tip"
+              onClick={(e) => {
+                // Clicking the message card (not a chip) closes / docks to orb
+                if ((e.target as HTMLElement).closest("button")) return;
+                dockToOrb();
+              }}
+            >
+              <button
+                type="button"
+                className="iida-float-card-btn"
+                onClick={(e) => {
+                  e.stopPropagation();
+                  setOpen(true);
+                  bumpMood("curious");
+                  void sendMessage("Explain this page simply and tell me the best next step.");
+                }}
+              >
+                <span className="iida-float-tip-row">
+                  <IidaMascot mood={displayMood} size={36} bob={false} />
+                  <span className="min-w-0">
+                    <span className="iida-float-tip-label">IIDA · tap chips · card docks me</span>
+                    <span className="iida-float-tip-text">
+                      {liveTip.slice(0, 160)}
+                      {liveTip.length > 160 ? "..." : ""}
+                    </span>
+                  </span>
                 </span>
-              </span>
-            </span>
-          </button>
-          <div className="iida-float-quick">
-            <button type="button" className="iida-chip" onClick={() => { setOpen(true); void sendMessage("Explain this page simply and tell me the best next step."); }}>Explain</button>
-            <button type="button" className="iida-chip" onClick={() => { setOpen(true); void sendMessage("What should I do next?"); }}>Next step</button>
-            <button type="button" className="iida-chip" onClick={() => startGame()}>Let's play</button>
-            {(user?.is_demo || !authed) && !(pathname || "").startsWith("/login") ? (
-              <button type="button" className="iida-chip" onClick={() => runHandoff({ type: "navigate", href: "/login?mode=register" })}>Sign up</button>
-            ) : null}
-          </div>
-        </div>
-      ) : null}
-
-      {open ? (
-        <div className="iida-popup">
-          <div className="iida-popup-head">
-            <div className="flex items-center gap-2 min-w-0">
-              <IidaMascot mood={displayMood} size={44} />
-              <div className="min-w-0">
-                <p className="font-semibold text-sm">IIDA</p>
-                <p className="text-[11px] muted truncate">
-                  Friend + business partner · {first} · {tour.title}
-                </p>
+              </button>
+              <div className="iida-float-quick">
+                <button type="button" className="iida-chip" onClick={() => { setOpen(true); void sendMessage("Explain this page simply and tell me the best next step."); }}>Explain</button>
+                <button type="button" className="iida-chip" onClick={() => { setOpen(true); void sendMessage("What should I do next?"); }}>Next step</button>
+                {(pathname || "").startsWith("/app/team") ? (
+                  <button type="button" className="iida-chip" onClick={() => { setOpen(true); void sendMessage("Tell Taylor to run next task"); }}>Ask Taylor</button>
+                ) : null}
+                <button type="button" className="iida-chip" onClick={() => startGame()}>Let's play</button>
+                {(user?.is_demo || !authed) && !(pathname || "").startsWith("/login") ? (
+                  <button type="button" className="iida-chip" onClick={() => void runHandoff({ type: "navigate", href: "/login?mode=register" })}>Sign up</button>
+                ) : null}
               </div>
             </div>
-            <button type="button" className="iid-btn iid-btn-ghost text-xs px-2" onClick={() => setOpen(false)} aria-label="Close IIDA">
-              <X className="w-4 h-4" />
-            </button>
-          </div>
+          ) : null}
 
-          <div className="iida-popup-body">
-            {chat.length === 0 ? (
-              <p className="text-xs muted">
-                I watch your journey, match your energy, and unstick you with a game when you stall.
-              </p>
-            ) : null}
-            {chat.map((t, i) => (
-              <div key={i} className={`flex ${t.role === "user" ? "justify-end" : "justify-start"} gap-1.5 items-end`}>
-                {t.role === "iida" ? <IidaMascot mood={displayMood} size={22} bob={false} /> : null}
-                <div className={`iida-msg ${t.role === "user" ? "iida-msg-user" : "iida-msg-bot"}`}>{t.text}</div>
-              </div>
-            ))}
-            {loading ? (
-              <p className="text-xs muted flex items-center gap-2">
-                <IidaMascot mood="thinking" size={22} bob={false} /> IIDA is thinking...
-              </p>
-            ) : null}
-            <div ref={endRef} />
-          </div>
-
-          {actions.length > 0 ? (
-            <div className="iida-popup-chips">
-              {actions.slice(0, 5).map((a) => (
-                <button key={a.id} type="button" className="iida-chip" disabled={loading} onClick={() => onAction(a.id)}>
-                  {a.label}
+          {open ? (
+            <div className="iida-popup">
+              <div
+                className="iida-popup-head"
+                onClick={(e) => {
+                  if ((e.target as HTMLElement).closest("button")) return;
+                  dockToOrb();
+                }}
+              >
+                <button
+                  type="button"
+                  className="iida-popup-mascot-btn"
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    dockToOrb();
+                  }}
+                  aria-label="Dock IIDA to orb"
+                  title="Hide IIDA as a glowing orb"
+                >
+                  <IidaMascot mood={displayMood} size={44} />
                 </button>
-              ))}
+                <div className="min-w-0 flex-1">
+                  <p className="font-semibold text-sm">IIDA</p>
+                  <p className="text-[11px] muted truncate">
+                    Friend + partner · tap me to hide · {tour.title}
+                  </p>
+                </div>
+                <button type="button" className="iid-btn iid-btn-ghost text-xs px-2" onClick={() => dockToOrb()} aria-label="Close IIDA">
+                  <X className="w-4 h-4" />
+                </button>
+              </div>
+
+              <div className="iida-popup-body">
+                {chat.length === 0 ? (
+                  <p className="text-xs muted">
+                    I guide the site and can brief Taylor to run real office work — checklist, next task, research, outreach.
+                  </p>
+                ) : null}
+                {chat.map((t, i) => (
+                  <div key={i} className={`flex ${t.role === "user" ? "justify-end" : "justify-start"} gap-1.5 items-end`}>
+                    {t.role === "iida" ? <IidaMascot mood={displayMood} size={22} bob={false} /> : null}
+                    <div className={`iida-msg ${t.role === "user" ? "iida-msg-user" : "iida-msg-bot"}`}>{t.text}</div>
+                  </div>
+                ))}
+                {loading || acting ? (
+                  <p className="text-xs muted flex items-center gap-2">
+                    <IidaMascot mood="thinking" size={22} bob={false} /> {acting ? "Working with Taylor..." : "IIDA is thinking..."}
+                  </p>
+                ) : null}
+                <div ref={endRef} />
+              </div>
+
+              {actions.length > 0 ? (
+                <div className="iida-popup-chips">
+                  {actions.slice(0, 6).map((a) => (
+                    <button key={a.id} type="button" className="iida-chip" disabled={loading || acting} onClick={() => onAction(a.id)}>
+                      {a.label}
+                    </button>
+                  ))}
+                </div>
+              ) : null}
+
+              <form
+                className="iida-popup-input"
+                onSubmit={(e) => {
+                  e.preventDefault();
+                  void sendMessage(input);
+                }}
+              >
+                <input
+                  className="iida-input"
+                  value={input}
+                  onChange={(e) => setInput(e.target.value)}
+                  placeholder="Ask me — or tell Taylor to run next..."
+                  disabled={loading || acting}
+                  aria-label="Message IIDA"
+                />
+                <button type="submit" className="iida-send" disabled={loading || acting || !input.trim()} aria-label="Send">
+                  <Send className="w-4 h-4" />
+                </button>
+              </form>
+              {journey ? (
+                <p className="iida-journey-foot">
+                  Session vibe: {journey.vibe} · {journey.pathOrder.slice(-2).join(" -> ") || "just started"}
+                </p>
+              ) : null}
             </div>
           ) : null}
 
-          <form
-            className="iida-popup-input"
-            onSubmit={(e) => {
-              e.preventDefault();
-              void sendMessage(input);
+          <button
+            type="button"
+            className={`iida-fab iida-fab-mascot${open ? " iida-fab-open" : ""}${pulse ? " iida-fab-pulse" : ""}`}
+            onClick={() => {
+              if (open) {
+                dockToOrb();
+                return;
+              }
+              setOpen(true);
+              bumpMood("excited");
             }}
+            aria-label={open ? "Hide IIDA as orb" : "Open IIDA"}
           >
-            <input
-              className="iida-input"
-              value={input}
-              onChange={(e) => setInput(e.target.value)}
-              placeholder="Talk to IIDA like a partner..."
-              disabled={loading}
-              aria-label="Message IIDA"
-            />
-            <button type="submit" className="iida-send" disabled={loading || !input.trim()} aria-label="Send">
-              <Send className="w-4 h-4" />
-            </button>
-          </form>
-          {journey ? (
-            <p className="iida-journey-foot">
-              Session vibe: {journey.vibe} · {journey.pathOrder.slice(-2).join(" -> ") || "just started"}
-            </p>
-          ) : null}
-        </div>
-      ) : null}
-
-      <button
-        type="button"
-        className={`iida-fab iida-fab-mascot${open ? " iida-fab-open" : ""}${pulse ? " iida-fab-pulse" : ""}`}
-        onClick={() => {
-          setOpen((v) => !v);
-          bumpMood(open ? "happy" : "excited");
-        }}
-        aria-label={open ? "Close IIDA" : "Open IIDA"}
-      >
-        {open ? (
-          <span className="iida-fab-close-x">
-            <X className="w-5 h-5" />
-          </span>
-        ) : (
-          <IidaMascot mood={displayMood} size={64} />
-        )}
-        <span className="iida-fab-label">{open ? "Close" : "IIDA"}</span>
-      </button>
+            <IidaMascot mood={displayMood} size={64} />
+            <span className="iida-fab-label">{open ? "Hide" : "IIDA"}</span>
+          </button>
+        </>
+      )}
     </div>
   );
 }

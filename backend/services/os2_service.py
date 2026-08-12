@@ -286,6 +286,270 @@ def kickoff_outreach_pipeline(workspace_id: str, message: str = "", *, auto_appr
     }
 
 
+def _taylor_office_brief(workspace: dict[str, Any], report_id: str, keys: dict[str, str]) -> str:
+    """COO-style status across research, plan, Employee OS tasks, and automation."""
+    checklist = load_checklist(report_id)
+    pulse = build_taylor_pulse(report_id, checklist=checklist, has_api_keys=bool(keys))
+    research = workspace.get("research_report") if isinstance(workspace.get("research_report"), dict) else {}
+    plan = workspace.get("business_plan") if isinstance(workspace.get("business_plan"), dict) else {}
+    auto = workspace.get("automation") if isinstance(workspace.get("automation"), dict) else {}
+    idea = str(workspace.get("idea") or "this project").strip()
+    industry = str(workspace.get("industry") or "").strip()
+    geo = str(workspace.get("country") or "").strip()
+
+    lines = [
+        f"Taylor here — floor lead for **{idea}**"
+        + (f" ({industry}" + (f", {geo}" if geo else "") + ")" if industry else "")
+        + ".",
+    ]
+    if pulse.get("headline"):
+        lines.append(str(pulse["headline"]))
+
+    lines.append(
+        "Research: "
+        + ("ready — use it for competitor/lead tasks." if research.get("available") else "not generated yet — run Market Research or ask Sam.")
+    )
+    lines.append(
+        "Plan: "
+        + ("available — I can build the task checklist from it." if plan.get("available") else "missing — build a plan so I can staff the office.")
+    )
+
+    items = list((checklist or {}).get("items") or []) if isinstance(checklist, dict) else []
+    if items:
+        by = {}
+        for it in items:
+            st = str(it.get("status") or "pending")
+            by[st] = by.get(st, 0) + 1
+        parts = [f"{k}={v}" for k, v in sorted(by.items())]
+        lines.append("Tasks: " + ", ".join(parts) + f" (total {len(items)}).")
+    else:
+        lines.append("Tasks: no checklist yet — say **build checklist** after the plan is ready.")
+
+    queue = auto.get("active_spec") if isinstance(auto.get("active_spec"), dict) else {}
+    if queue or auto.get("last_run"):
+        lines.append("Automation: a workflow is wired — say **run next** to advance the queue, or ask for daily leads + email.")
+    else:
+        lines.append("Automation: none active — ask me to find leads and email them, or open Automation to compose a flow.")
+
+    if not keys.get("perplexity") and not keys:
+        lines.append("Blocked: add API keys under Integrations (Perplexity for research/leads).")
+    elif not keys.get("perplexity"):
+        lines.append("Note: Perplexity unlocks live research/leads; server key may cover basics.")
+
+    sugg = [str(s.get("label") or "") for s in (pulse.get("suggestions") or [])[:3] if isinstance(s, dict)]
+    if sugg:
+        lines.append("Next moves: " + " · ".join(sugg))
+    else:
+        lines.append(
+            "I can: build checklist · run next task · approve all · retry failed · run office day · "
+            "ask Sam for competitors · kick off daily leads + email."
+        )
+    return "\n\n".join(lines)
+
+
+def _taylor_run_intent(workspace_id: str, message: str) -> dict[str, Any]:
+    """Parse founder language and execute real Employee OS / research / automation work."""
+    from iidatech.execution.outreach_pipeline import is_outreach_pipeline_intent
+
+    workspace = load_workspace(workspace_id)
+    if not workspace:
+        raise ValueError("Project not found")
+    report_id = workspace_report_id(workspace)
+    keys = merged_keys_for_workspace(workspace_id)
+    report_context = workspace_report_context(workspace)
+    extra = merged_harnesses(_custom_harnesses(workspace))
+    msg = message.strip().lower()
+
+    if is_outreach_pipeline_intent(message):
+        outcome = kickoff_outreach_pipeline(workspace_id, message)
+        return {
+            "role": "assistant",
+            "content": str(outcome.get("message") or "Outreach pipeline started."),
+            "artifacts": [],
+            "success": bool(outcome.get("success")),
+            "acted": "outreach",
+        }
+
+    if any(k in msg for k in ("build checklist", "build task", "create checklist", "staff the plan", "from the plan")):
+        if not (workspace.get("business_plan") or {}).get("available") and not (workspace.get("idea") or "").strip():
+            return {
+                "role": "assistant",
+                "content": "I need a business plan (or at least a project idea) before I can build the task checklist. Open Plan, generate one, then ask me again.",
+                "artifacts": [],
+                "success": False,
+                "acted": "build_checklist_blocked",
+            }
+        checklist = build_team_checklist(workspace)
+        n = len(list(checklist.get("items") or []))
+        return {
+            "role": "assistant",
+            "content": f"Checklist built — {n} tasks queued from the plan. Say **run next** and I will put the first agent to work.",
+            "artifacts": [],
+            "success": True,
+            "acted": "build_checklist",
+        }
+
+    if any(k in msg for k in ("approve all", "approve pending", "approve everything")) or (
+        "approve" in msg and "task" in msg
+    ):
+        outcome = run_taylor_action(workspace_id, "approve_all")
+        return {
+            "role": "assistant",
+            "content": f"Approved {outcome.get('approved', 0)} pending item(s). External sends stay gated until you confirm.",
+            "artifacts": [],
+            "success": True,
+            "acted": "approve_all",
+        }
+
+    if any(k in msg for k in ("retry failed", "retry", "qc failed", "try again")):
+        outcome = run_taylor_action(workspace_id, "retry_failed")
+        retried = int(outcome.get("retried") or 0)
+        if retried:
+            # Immediately run next so retry actually ships work
+            nxt = run_taylor_action(workspace_id, "run_next")
+            return {
+                "role": "assistant",
+                "content": f"Retried {retried} failed task(s). {nxt.get('message') or 'Running the next one now.'}",
+                "artifacts": [],
+                "success": True,
+                "acted": "retry_failed",
+            }
+        return {
+            "role": "assistant",
+            "content": "No QC-failed tasks to retry. Say **run next** or ask for a status brief.",
+            "artifacts": [],
+            "success": True,
+            "acted": "retry_failed",
+        }
+
+    if any(
+        k in msg
+        for k in (
+            "run next",
+            "next task",
+            "run the next",
+            "keep going",
+            "continue the office",
+            "process next",
+        )
+    ):
+        outcome = run_taylor_action(workspace_id, "run_next")
+        return {
+            "role": "assistant",
+            "content": str(outcome.get("message") or "Processed the next task."),
+            "artifacts": list((outcome.get("queue") or {}).get("item", {}).get("artifacts") or [])
+            if isinstance(outcome.get("queue"), dict)
+            else [],
+            "success": True,
+            "acted": "run_next",
+        }
+
+    if any(k in msg for k in ("office day", "full day", "run the office", "start the day", "standup")):
+        outcome = run_office_action(workspace_id, "full_day", goals=[], auto_approve=False)
+        return {
+            "role": "assistant",
+            "content": "Office day kicked off — arrival, standup, execution, and delivery. Check Tasks & Approvals for anything that needs your sign-off.",
+            "artifacts": [],
+            "success": True,
+            "acted": "full_day",
+            "outcome": outcome,
+        }
+
+    if any(k in msg for k in ("company cycle", "full cycle", "run cycle")):
+        outcome = run_office_action(workspace_id, "company_cycle", goals=[], auto_approve=False)
+        return {
+            "role": "assistant",
+            "content": "Full company cycle started across hired agents. I will surface blockers in Approvals.",
+            "artifacts": [],
+            "success": True,
+            "acted": "company_cycle",
+            "outcome": outcome,
+        }
+
+    if any(k in msg for k in ("competitor", "pricing evidence", "research pass", "ask sam", "sam —", "sam research")):
+        result = execute_harness_job(
+            "research_analyst",
+            message if len(message.strip()) > 12 else "Search competitors and pricing",
+            report_id=report_id,
+            api_keys=keys,
+            report_context=report_context,
+            extra_harnesses=extra,
+        )
+        return {
+            "role": "assistant",
+            "content": "I put Sam on it.\n\n" + str(result.get("reply") or "Research run finished."),
+            "artifacts": list(result.get("artifacts") or []),
+            "success": bool(result.get("success")),
+            "acted": "research_analyst",
+        }
+
+    if any(k in msg for k in ("find leads", "lead list", "qualified leads")) and "email" not in msg:
+        result = execute_harness_job(
+            "sales_lead",
+            message if len(message.strip()) > 8 else "Find 20 qualified leads and export CSV",
+            report_id=report_id,
+            api_keys=keys,
+            report_context=report_context,
+            extra_harnesses=extra,
+        )
+        return {
+            "role": "assistant",
+            "content": "Alex is on leads.\n\n" + str(result.get("reply") or "Lead run finished."),
+            "artifacts": list(result.get("artifacts") or []),
+            "success": bool(result.get("success")),
+            "acted": "sales_lead",
+        }
+
+    if any(k in msg for k in ("integration", "api key", "perplexity", "gmail", "linkedin", "hubspot")):
+        return {
+            "role": "assistant",
+            "content": (
+                "Integrations are under Employee OS → Integrations. "
+                "Perplexity powers research/leads; an LLM key powers prompts; Gmail/LinkedIn/HubSpot unlock outbound. "
+                "IIDA can open that tab for you — or paste keys there, then tell me to **run next**."
+            ),
+            "artifacts": [],
+            "success": True,
+            "acted": "guide_integrations",
+        }
+
+    if any(
+        k in msg
+        for k in (
+            "status",
+            "what's going",
+            "whats going",
+            "how are we",
+            "brief me",
+            "update me",
+            "overview",
+            "where are we",
+            "what should we",
+        )
+    ) or msg in ("hi", "hello", "hey", "help"):
+        return {
+            "role": "assistant",
+            "content": _taylor_office_brief(workspace, report_id, keys),
+            "artifacts": [],
+            "success": True,
+            "acted": "brief",
+        }
+
+    # Default: COO brief + acknowledge the ask
+    brief = _taylor_office_brief(workspace, report_id, keys)
+    return {
+        "role": "assistant",
+        "content": (
+            f"Understood — \"{message.strip()[:160]}\".\n\n{brief}\n\n"
+            "Say the verb and I execute: **build checklist**, **run next**, **approve all**, "
+            "**retry failed**, **run office day**, **find leads**, or **competitor pass**."
+        ),
+        "artifacts": [],
+        "success": True,
+        "acted": "brief_default",
+    }
+
+
 def run_agent_chat(
     workspace_id: str,
     harness_id: str,
@@ -302,58 +566,7 @@ def run_agent_chat(
     chat.append({"role": "user", "content": message})
 
     if harness_id == "taylor":
-        from iidatech.execution.outreach_pipeline import is_outreach_pipeline_intent
-
-        msg_lower = message.strip().lower()
-        if is_outreach_pipeline_intent(message):
-            outcome = kickoff_outreach_pipeline(workspace_id, message)
-            reply = str(outcome.get("message") or "Outreach pipeline started.")
-            assistant = {
-                "role": "assistant",
-                "content": reply,
-                "artifacts": [],
-                "success": bool(outcome.get("success")),
-            }
-        elif "approve" in msg_lower:
-            outcome = run_taylor_action(workspace_id, "approve_all")
-            reply = f"Approved {outcome.get('approved', 0)} pending items."
-            assistant = {"role": "assistant", "content": reply, "artifacts": [], "success": True}
-        elif "run next" in msg_lower or "next task" in msg_lower:
-            outcome = run_taylor_action(workspace_id, "run_next")
-            reply = str(outcome.get("message") or "Processed next task.")
-            assistant = {"role": "assistant", "content": reply, "artifacts": [], "success": True}
-        elif "retry" in msg_lower:
-            outcome = run_taylor_action(workspace_id, "retry_failed")
-            reply = f"Retried {outcome.get('retried', 0)} failed tasks."
-            assistant = {"role": "assistant", "content": reply, "artifacts": [], "success": True}
-        else:
-            checklist = load_checklist(report_id)
-            pulse = build_taylor_pulse(report_id, checklist=checklist, has_api_keys=bool(keys))
-            notes = list(pulse.get("notifications") or [])[:3]
-            sugg = [str(s.get("label") or "") for s in (pulse.get("suggestions") or [])[:3] if isinstance(s, dict)]
-            lines: list[str] = []
-            headline = str(pulse.get("headline") or "").strip()
-            if headline:
-                lines.append(headline)
-            for n in notes:
-                if n and n not in lines:
-                    lines.append(n)
-            if not keys:
-                lines.append(
-                    "IIDA and I agree: open Integrations and add a Perplexity key (research) "
-                    "or an LLM key (copy). The server may already have Perplexity for basic runs."
-                )
-            elif not keys.get("perplexity"):
-                lines.append(
-                    "Research tasks need Perplexity. Basic runs can use the server key; "
-                    "for complex competitor/pricing work, paste a paid Perplexity key under Integrations."
-                )
-            if sugg:
-                lines.append("Next moves: " + " · ".join(sugg))
-            else:
-                lines.append("Ask me to run next task, approve all, retry failed, or find leads and email them.")
-            reply = "\n\n".join(lines)
-            assistant = {"role": "assistant", "content": reply, "artifacts": [], "success": True}
+        assistant = _taylor_run_intent(workspace_id, message)
     else:
         result = execute_harness_job(
             harness_id,
@@ -371,6 +584,8 @@ def run_agent_chat(
         }
     chat.append(assistant)
     save_agent_chat(report_id, harness_id, chat)
+    # Reload workspace — Taylor actions may have mutated it
+    workspace = load_workspace(workspace_id) or workspace
     runs = workspace.get("employee_os") if isinstance(workspace.get("employee_os"), dict) else {}
     history = list(runs.get("runs") or [])
     history.insert(0, {"harness_id": harness_id, "message": message, "success": assistant["success"], "reply": assistant["content"]})
