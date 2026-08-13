@@ -329,6 +329,54 @@ def compute_from_base_figures(
     }
 
 
+def metric_value_missing(row: Any) -> bool:
+    """True when a TAM/SAM/SOM (or similar) cell has no usable figure."""
+    if not isinstance(row, dict):
+        return True
+    raw = str(row.get("value") or "").strip()
+    if not raw:
+        return True
+    upper = raw.upper().replace("—", "-")
+    if upper in {"[NOT FOUND]", "NOT FOUND", "N/A", "NA", "-", "—", "NONE", "UNKNOWN"}:
+        return True
+    if "NOT FOUND" in upper:
+        return True
+    return False
+
+
+def _base_figures_usable(base: dict[str, Any]) -> bool:
+    """True when Opus base_figures contain at least one parseable sizing input."""
+    if not isinstance(base, dict) or not base:
+        return False
+    industry = base.get("industry_revenue") if isinstance(base.get("industry_revenue"), dict) else {}
+    buyers = base.get("buyer_count") if isinstance(base.get("buyer_count"), dict) else {}
+    arpu = base.get("arpu_annual") if isinstance(base.get("arpu_annual"), dict) else {}
+    refs = base.get("published_reference") if isinstance(base.get("published_reference"), list) else []
+    if _figure_numeric(industry):
+        return True
+    if _figure_numeric(buyers) and _figure_numeric(arpu):
+        return True
+    for ref in refs:
+        if isinstance(ref, dict) and _figure_numeric(ref):
+            return True
+    return False
+
+
+def _attach_opus_extras(computed: dict[str, Any], opus_parsed: dict[str, Any]) -> dict[str, Any]:
+    for key in ("commentary", "illustrative_scenario"):
+        if opus_parsed.get(key):
+            computed[key] = opus_parsed[key]
+    extra_rows = [
+        r
+        for r in (opus_parsed.get("financial_rows") or [])
+        if isinstance(r, dict)
+        and not re.search(r"\bTAM\b|\bSAM\b|\bSOM\b", str(r.get("metric") or ""), re.I)
+    ]
+    if extra_rows:
+        computed["financial_rows"] = list(computed.get("financial_rows") or []) + extra_rows
+    return computed
+
+
 def build_canonical_financials(
     opus_parsed: dict[str, Any],
     *,
@@ -336,39 +384,51 @@ def build_canonical_financials(
     topic: str,
     sizing_fallback: dict[str, Any] | None = None,
 ) -> dict[str, Any]:
-    """Merge Opus base-figure extraction with deterministic TAM/SAM/SOM math."""
+    """Merge Opus base-figure extraction with deterministic TAM/SAM/SOM math.
+
+    Empty Opus ``base_figures`` must not block Perplexity sizing harvest — otherwise
+    reports keep showing ``[NOT FOUND]`` even when Sonar returned real TAM/SAM inputs.
+    """
     if not isinstance(opus_parsed, dict):
         opus_parsed = {}
 
     base = opus_parsed.get("base_figures") if isinstance(opus_parsed.get("base_figures"), dict) else {}
-    if base:
+    if base and _base_figures_usable(base):
         computed = compute_from_base_figures(base, geography=geography, topic=topic)
-        for key in ("commentary", "illustrative_scenario"):
-            if opus_parsed.get(key):
-                computed[key] = opus_parsed[key]
-        extra_rows = [
-            r
-            for r in (opus_parsed.get("financial_rows") or [])
-            if isinstance(r, dict)
-            and not re.search(r"\bTAM\b|\bSAM\b|\bSOM\b", str(r.get("metric") or ""), re.I)
-        ]
-        if extra_rows:
-            computed["financial_rows"] = list(computed.get("financial_rows") or []) + extra_rows
-        return computed
+        computed = _attach_opus_extras(computed, opus_parsed)
+        if not metric_value_missing(computed.get("tam")):
+            return computed
+        # Usable-looking inputs still yielded NOT FOUND — try Perplexity harvest next.
 
-    if any(
-        str((opus_parsed.get(k) or {}).get("value") or "").strip() not in ("", "[NOT FOUND]")
-        for k in ("tam", "sam", "som")
-    ):
-        opus_parsed.setdefault("computed", False)
-        return opus_parsed
+    if any(not metric_value_missing(opus_parsed.get(k)) for k in ("tam", "sam", "som")):
+        # Prefer already-populated tam/sam/som only when they are real figures.
+        if not metric_value_missing(opus_parsed.get("tam")):
+            opus_parsed.setdefault("computed", False)
+            return opus_parsed
 
     if isinstance(sizing_fallback, dict) and sizing_fallback:
-        base = _base_from_sizing_harvest(sizing_fallback, topic=topic)
-        if base:
-            computed = compute_from_base_figures(base, geography=geography, topic=topic)
-            computed["computed"] = True
-            return computed
+        # Prefer harvest from Perplexity sizing JSON (market_size_facts / tam_candidates).
+        # Do not treat a pre-built {tam,sam,som} dict as harvest input — that wipes numbers.
+        harvest_keys = ("market_size_facts", "tam_candidates", "denominator_facts", "bottom_up_inputs")
+        looks_like_harvest = any(isinstance(sizing_fallback.get(k), list) for k in harvest_keys)
+        if looks_like_harvest:
+            harvested = _base_from_sizing_harvest(sizing_fallback, topic=topic)
+            if harvested:
+                computed = compute_from_base_figures(harvested, geography=geography, topic=topic)
+                computed["computed"] = True
+                computed = _attach_opus_extras(computed, opus_parsed)
+                if not metric_value_missing(computed.get("tam")):
+                    return computed
+        elif not metric_value_missing(sizing_fallback.get("tam")):
+            # Already a financial block from _fallback_financial_from_sizing — keep it.
+            out = dict(sizing_fallback)
+            out.setdefault("computed", True)
+            return _attach_opus_extras(out, opus_parsed)
+
+    if base:
+        # Last resort: return Opus-derived NOT FOUND block with commentary attached.
+        computed = compute_from_base_figures(base, geography=geography, topic=topic)
+        return _attach_opus_extras(computed, opus_parsed)
 
     return opus_parsed
 

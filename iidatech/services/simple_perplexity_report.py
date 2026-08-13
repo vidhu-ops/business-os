@@ -101,7 +101,7 @@ from iidatech.llm.usage_ledger import perplexity_usage_row, sum_ledger
 
 
 from iidatech.services.market_currency import currency_for_geography
-from iidatech.services.financial_sizing_calc import build_canonical_financials
+from iidatech.services.financial_sizing_calc import build_canonical_financials, metric_value_missing
 from iidatech.services.perplexity_report_engine import format_market_geography
 
 
@@ -2303,23 +2303,8 @@ def build_financial_snapshot_section(
 
 
     has_rows = isinstance(financial, dict) and any(
-
-
-
-
-
-        isinstance(financial.get(k), dict) and str(financial.get(k, {}).get('value') or '').strip()
-
-
-
-
-
+        isinstance(financial.get(k), dict) and not metric_value_missing(financial.get(k))
         for k in ('tam', 'sam', 'som')
-
-
-
-
-
     )
 
 
@@ -4232,16 +4217,18 @@ def generate_simple_perplexity_report(
                 sizing_fallback=parsed_sizing,
             )
 
-            if not financial_parsed or not str((financial_parsed.get("tam") or {}).get("value") or "").strip():
-
-                financial_parsed = _fallback_financial_from_sizing(parsed_sizing)
-
-                financial_parsed = build_canonical_financials(
-                    {},
-                    geography=market_label,
-                    topic=topic,
-                    sizing_fallback=financial_parsed or parsed_sizing,
-                )
+            # Treat [NOT FOUND] as missing so Perplexity harvest can still fill the snapshot.
+            if not financial_parsed or metric_value_missing((financial_parsed or {}).get("tam")):
+                harvested = _fallback_financial_from_sizing(parsed_sizing)
+                if harvested and not metric_value_missing(harvested.get("tam")):
+                    financial_parsed = harvested
+                else:
+                    financial_parsed = build_canonical_financials(
+                        {},
+                        geography=market_label,
+                        topic=topic,
+                        sizing_fallback=parsed_sizing,
+                    )
 
 
 
