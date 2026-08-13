@@ -76,11 +76,15 @@ def financial_sizing_prompt(topic: str, industry: str, geography: str) -> str:
         "Search explicitly for:\n"
         f'- "{topic} TAM SAM SOM market size {geography}"\n'
         f'- "{industry} market size {geography} {year}"\n'
-        "- MOSPI, RBI, NASSCOM, DPIIT, IBEF, Tracxn, Crunchbase, Zinnov, ESOMAR, Statista, Grand View, Mordor\n"
-        f'- Total addressable buyers: SMB counts, enterprise counts, households, professionals, startups in {geography}\n'
-        f'- ARPU / ACV / average contract value for {topic} or adjacent category\n'
+        f'- "{industry} warehousing stock million sq ft {geography}" and Grade-A rents per sq ft\n'
+        f'- "{industry} India market size crore / billion" and "{geography} share of India industrial / logistics"\n'
+        "- MOSPI, RBI, NASSCOM, DPIIT, IBEF, Tracxn, Crunchbase, Zinnov, ESOMAR, Statista, Grand View, Mordor, "
+        "JLL, Knight Frank, CBRE, Cushman & Wakefield industrial/warehousing reports\n"
+        f'- Total addressable buyers: SMB counts, enterprise counts, households, professionals, startups, '
+        f'occupiers, manufacturers, 3PLs in {geography}\n'
+        f'- ARPU / ACV / average contract value / brokerage commission / annual rent for {topic} or adjacent category\n'
         f'- Penetration rates, adoption %, market share of incumbents, CAGR\n'
-        f'- Geographic share of global market for {industry}\n\n'
+        f'- Geographic share of national/global market for {industry}\n\n'
         "Return STRICT JSON only:\n"
         "{\n"
         '  "market_size_facts": [\n'
@@ -100,7 +104,8 @@ def financial_sizing_prompt(topic: str, industry: str, geography: str) -> str:
         '"source_url": "https://...", "notes": ""}\n'
         "  ],\n"
         '  "bottom_up_inputs": [\n'
-        '    {"metric": "buyer_count|penetration_pct|ARPU|ACV|conversion_pct|competitor_count", "value": "", '
+        '    {"metric": "buyer_count|penetration_pct|ARPU|ACV|conversion_pct|stock_sqft|rent_psf_month|'
+        'construction_cost_psf|competitor_count", "value": "", '
         '"source_url": "https://...", "notes": ""}\n'
         "  ],\n"
         f'  "reporting_currency": "{currency_for_geography(geography)["code"]}",\n'
@@ -109,6 +114,11 @@ def financial_sizing_prompt(topic: str, industry: str, geography: str) -> str:
         "Rules:\n"
         "- Find at least 3 market_size_facts or tam_candidates when public data exists.\n"
         "- Collect at least 2 denominator_facts and 2 bottom_up_inputs (buyer count + price/ARPU) when available.\n"
+        "- For real estate / warehousing / industrial parks: ALWAYS capture stock (million sq ft / MSF) and "
+        "rents (₹ or $ per sq ft per month) even when no single INR revenue TAM is published — "
+        "put them in bottom_up_inputs as stock_sqft and rent_psf_month.\n"
+        "- If only a national market figure exists, still return it PLUS a state/geo share % "
+        "(e.g. Maharashtra % of India industrial output) in top_down_inputs.\n"
         "- Prefer sources and figures in the primary reporting currency for this geography.\n"
         "- If published SAM/SOM do not exist, leave value empty but gather filter inputs (geo %, segment %, ARPU).\n"
         "- Never invent figures — only cite numbers with real https URLs.\n"
@@ -216,15 +226,20 @@ def financial_opus_prompt(
         "Do NOT output final TAM/SAM/SOM values — Python will compute them from your base_figures.\n"
         "Pick ONE industry revenue figure and ONE niche-slice % for top-down. "
         "Pick buyer count + ARPU for bottom-up. "
+        "If no published INR/USD revenue TAM exists (common for industrial real estate), you MUST still extract "
+        "stock_sqft (warehousing / industrial inventory) and rent_psf (rent per sq ft, note month vs year) "
+        "so Python can compute a stock×rent proxy TAM. "
         "Put conflicting published TAMs in published_reference only (reference — not primary).\n\n"
         "Return STRICT JSON only:\n"
         "{\n"
         '  "base_figures": {\n'
         '    "industry_revenue": {"value": "e.g. ₹9.2 lakh crore", "source_url": "https://...", "source_name": "IBEF", "notes": "what market this measures"},\n'
-        '    "niche_slice_pct": {"value_pct": 12.5, "label": "ESTIMATE|DERIVED", "source_url": "https://...", "notes": "% of industry revenue for this niche"},\n'
+        '    "niche_slice_pct": {"value_pct": 12.5, "label": "ESTIMATE|DERIVED", "source_url": "https://...", "notes": "% of industry revenue for this niche / state share"},\n'
         '    "buyer_count": {"value": "140 million households", "source_url": "https://...", "notes": ""},\n'
         '    "addressable_pct": {"value_pct": 35, "label": "ESTIMATE", "notes": "% of buyers realistically reachable"},\n'
         '    "arpu_annual": {"value": "₹12,000", "source_url": "https://...", "notes": "annual spend per buyer"},\n'
+        '    "stock_sqft": {"value": "346 million sq ft", "source_url": "https://...", "source_name": "JLL", "notes": "institutional warehousing stock"},\n'
+        '    "rent_psf": {"value": "₹28 per sq ft per month", "source_url": "https://...", "notes": "Grade-A industrial/warehouse rent"},\n'
         '    "geo_filter_pct": {"value_pct": 100, "label": "DERIVED", "notes": "geography filter for SAM"},\n'
         '    "segment_filter_pct": {"value_pct": 25, "label": "ESTIMATE", "notes": "segment filter for SAM"},\n'
         '    "product_fit_pct": {"value_pct": 60, "label": "ESTIMATE", "notes": "product/category fit filter for SAM"},\n'
@@ -255,7 +270,9 @@ def financial_opus_prompt(
         "4. niche_slice_pct + segment_filter_pct must reflect THIS topic (e.g. festive household e-commerce), not all of e-commerce.\n"
         "5. unit_economics: extract any available price, variable cost, fixed costs, CAC inputs — Python applies standard formulas (Revenue, CM, break-even, CLV, ROI, etc.).\n"
         f"6. All monetary values in {primary['code']} ({primary['symbol']}).\n"
-        "7. Do NOT include tam, sam, or som fields — they are computed downstream."
+        "7. Do NOT include tam, sam, or som fields — they are computed downstream.\n"
+        "8. NEVER leave all monetary inputs empty when the research mentions stock (sq ft / MSF) and rents — "
+        "fill stock_sqft + rent_psf so sizing is not [NOT FOUND]."
     )
 
 def report_sonnet_prompt(

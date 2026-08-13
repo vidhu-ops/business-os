@@ -12,6 +12,16 @@ _NUM_RE = re.compile(
     r"(lakh\s*crore|lakh\s*cr|crore|cr|lakh|lac|billion|million|bn|m|thousand|k)?",
     re.I,
 )
+_SQFT_RE = re.compile(
+    r"([\d,]+(?:\.\d+)?)\s*(million|bn|billion|m|msf)?\s*(?:sq\.?\s*ft|square\s*feet|msf)\b",
+    re.I,
+)
+_RENT_PSF_RE = re.compile(
+    r"(?:₹|Rs\.?|INR|\$)?\s*([\d,]+(?:\.\d+)?)\s*(?:-|to|–)?\s*([\d,]+(?:\.\d+)?)?\s*"
+    r"(?:per\s*)?(?:sq\.?\s*ft|square\s*foot|psf)\s*(?:per\s*)?(month|mo|annum|year|yr|pa)?",
+    re.I,
+)
+_AREA_UNIT_RE = re.compile(r"\b(sq\.?\s*ft|square\s*feet|\bmsf\b|psf)\b", re.I)
 
 
 def _pct_value(raw: Any) -> float | None:
@@ -42,6 +52,11 @@ def parse_market_value(text: str) -> float | None:
     if not s:
         return None
     s = re.sub(r"\[(?:NOT FOUND|FACT|DERIVED|ESTIMATE)\]", "", s, flags=re.I).strip()
+    # Physical area / rent-per-area strings are not currency TAM figures.
+    if _AREA_UNIT_RE.search(s) and not re.search(r"(crore|cr|lakh|billion|million|₹|\$|INR|USD)", s, re.I):
+        return None
+    if re.search(r"per\s*(sq|square)|/\s*sq|psf", s, re.I):
+        return None
     m = _NUM_RE.search(s)
     if not m:
         return None
@@ -66,6 +81,49 @@ def parse_market_value(text: str) -> float | None:
     return amount * mult
 
 
+def parse_sqft(text: str) -> float | None:
+    """Parse warehouse/industrial stock into square feet."""
+    s = str(text or "").strip()
+    if not s:
+        return None
+    m = _SQFT_RE.search(s)
+    if not m:
+        return None
+    try:
+        amount = float(m.group(1).replace(",", ""))
+    except ValueError:
+        return None
+    unit = (m.group(2) or "").lower()
+    if unit in {"million", "m", "msf"}:
+        return amount * 1e6
+    if unit in {"billion", "bn"}:
+        return amount * 1e9
+    # Bare "346 msf" style sometimes omits the word million before msf
+    if "msf" in s.lower() and unit == "":
+        return amount * 1e6
+    return amount
+
+
+def parse_rent_psf_annual(text: str) -> float | None:
+    """Parse rent/rate per sq ft into an annual amount (currency units)."""
+    s = str(text or "").strip()
+    if not s:
+        return None
+    m = _RENT_PSF_RE.search(s)
+    if not m:
+        return None
+    try:
+        lo = float(m.group(1).replace(",", ""))
+        hi = float(m.group(2).replace(",", "")) if m.group(2) else lo
+    except ValueError:
+        return None
+    mid = (lo + hi) / 2.0
+    period = (m.group(3) or "month").lower()
+    if period in {"annum", "year", "yr", "pa"}:
+        return mid
+    return mid * 12.0  # default monthly → annual
+
+
 def _figure_numeric(row: dict[str, Any]) -> float | None:
     if not isinstance(row, dict):
         return None
@@ -76,6 +134,30 @@ def _figure_numeric(row: dict[str, Any]) -> float | None:
             except (TypeError, ValueError):
                 pass
     return parse_market_value(str(row.get("value") or ""))
+
+
+def _figure_sqft(row: dict[str, Any]) -> float | None:
+    if not isinstance(row, dict):
+        return None
+    for key in ("sqft", "numeric_sqft", "stock_sqft"):
+        if row.get(key) is not None:
+            try:
+                return float(row[key])
+            except (TypeError, ValueError):
+                pass
+    return parse_sqft(str(row.get("value") or ""))
+
+
+def _figure_rent_annual(row: dict[str, Any]) -> float | None:
+    if not isinstance(row, dict):
+        return None
+    for key in ("rent_annual", "numeric_rent_annual"):
+        if row.get(key) is not None:
+            try:
+                return float(row[key])
+            except (TypeError, ValueError):
+                pass
+    return parse_rent_psf_annual(str(row.get("value") or ""))
 
 
 def _figure_pct(row: dict[str, Any]) -> float | None:
@@ -172,6 +254,8 @@ def compute_from_base_figures(
     buyers = base.get("buyer_count") if isinstance(base.get("buyer_count"), dict) else {}
     addressable = base.get("addressable_pct") if isinstance(base.get("addressable_pct"), dict) else {}
     arpu = base.get("arpu_annual") if isinstance(base.get("arpu_annual"), dict) else {}
+    stock = base.get("stock_sqft") if isinstance(base.get("stock_sqft"), dict) else {}
+    rent = base.get("rent_psf") if isinstance(base.get("rent_psf"), dict) else {}
     geo_f = base.get("geo_filter_pct") if isinstance(base.get("geo_filter_pct"), dict) else {}
     seg_f = base.get("segment_filter_pct") if isinstance(base.get("segment_filter_pct"), dict) else {}
     fit_f = base.get("product_fit_pct") if isinstance(base.get("product_fit_pct"), dict) else {}
@@ -182,6 +266,8 @@ def compute_from_base_figures(
     buyer_n = _figure_numeric(buyers)
     addr_pct = _figure_pct(addressable) or 1.0
     arpu_n = _figure_numeric(arpu)
+    stock_sqft = _figure_sqft(stock)
+    rent_annual = _figure_rent_annual(rent)
     geo_pct = _figure_pct(geo_f) if geo_f else 1.0
     seg_pct = _figure_pct(seg_f) if seg_f else 1.0
     fit_pct = _figure_pct(fit_f) if fit_f else 1.0
@@ -197,6 +283,11 @@ def compute_from_base_figures(
     bottom_up_tam: float | None = None
     if buyer_n and arpu_n and buyer_n > 0 and arpu_n > 0:
         bottom_up_tam = buyer_n * addr_pct * arpu_n
+
+    proxy_tam: float | None = None
+    if stock_sqft and rent_annual and stock_sqft > 0 and rent_annual > 0:
+        # Physical real-estate proxy: occupied/leasable stock × annual rent/sqft.
+        proxy_tam = stock_sqft * rent_annual * addr_pct
 
     tam_val: float | None = None
     tam_notes = ""
@@ -231,6 +322,16 @@ def compute_from_base_figures(
             f"Top-down: {_format_currency(industry_val, currency)} industry × {niche_pct*100:.1f}% niche slice"
         )
         tam_label = "DERIVED"
+    elif proxy_tam:
+        tam_val = proxy_tam
+        tam_notes = (
+            f"Stock × rent proxy: {stock_sqft:,.0f} sq ft × "
+            f"{_format_currency(rent_annual, currency)}/sq ft/year"
+            + (f" × {addr_pct*100:.0f}% addressable" if addr_pct < 1 else "")
+        )
+        tam_label = "DERIVED"
+        tam_source = str(stock.get("source_url") or rent.get("source_url") or "")
+        tam_source_name = str(stock.get("source_name") or rent.get("source_name") or "")
     elif pub_tam:
         tam_val = pub_tam
         tam_notes = str((pub_row or {}).get("notes") or "Published reference TAM for niche/category")
@@ -351,10 +452,14 @@ def _base_figures_usable(base: dict[str, Any]) -> bool:
     industry = base.get("industry_revenue") if isinstance(base.get("industry_revenue"), dict) else {}
     buyers = base.get("buyer_count") if isinstance(base.get("buyer_count"), dict) else {}
     arpu = base.get("arpu_annual") if isinstance(base.get("arpu_annual"), dict) else {}
+    stock = base.get("stock_sqft") if isinstance(base.get("stock_sqft"), dict) else {}
+    rent = base.get("rent_psf") if isinstance(base.get("rent_psf"), dict) else {}
     refs = base.get("published_reference") if isinstance(base.get("published_reference"), list) else []
     if _figure_numeric(industry):
         return True
     if _figure_numeric(buyers) and _figure_numeric(arpu):
+        return True
+    if _figure_sqft(stock) and _figure_rent_annual(rent):
         return True
     for ref in refs:
         if isinstance(ref, dict) and _figure_numeric(ref):
@@ -433,59 +538,91 @@ def build_canonical_financials(
     return opus_parsed
 
 
+def _row_from_fact(fact: dict[str, Any]) -> dict[str, Any]:
+    return {
+        "value": str(fact.get("value") or ""),
+        "source_url": str(fact.get("source_url") or ""),
+        "source_name": str(fact.get("source_name") or ""),
+        "notes": str(fact.get("notes") or ""),
+        "scope": str(fact.get("geography_scope") or fact.get("scope") or "domestic"),
+    }
+
+
+def _is_stock_metric(metric: str, value: str) -> bool:
+    blob = f"{metric} {value}".lower()
+    return any(k in blob for k in ("sq ft", "sq.ft", "square feet", "msf", "stock", "inventory", "warehous"))
+
+
+def _is_rent_metric(metric: str, value: str) -> bool:
+    blob = f"{metric} {value}".lower()
+    return any(k in blob for k in ("rent", "rental", "psf", "per sq", "/sq"))
+
+
 def _base_from_sizing_harvest(parsed_sizing: dict[str, Any], *, topic: str) -> dict[str, Any]:
     refs: list[dict[str, Any]] = []
     industry: dict[str, Any] = {}
     buyers: dict[str, Any] = {}
     arpu: dict[str, Any] = {}
+    stock: dict[str, Any] = {}
+    rent: dict[str, Any] = {}
+    niche_pct_row: dict[str, Any] = {
+        "value_pct": 100,
+        "label": "ESTIMATE",
+        "notes": "Full category — refine in Opus pass",
+    }
 
-    for fact in parsed_sizing.get("market_size_facts") or []:
+    fact_bags = [
+        *(parsed_sizing.get("market_size_facts") or []),
+        *(parsed_sizing.get("top_down_inputs") or []),
+        *(parsed_sizing.get("denominator_facts") or []),
+        *(parsed_sizing.get("bottom_up_inputs") or []),
+    ]
+    for fact in fact_bags:
         if not isinstance(fact, dict):
             continue
-        metric = str(fact.get("metric") or "").lower()
-        row = {
-            "value": str(fact.get("value") or ""),
-            "source_url": str(fact.get("source_url") or ""),
-            "source_name": str(fact.get("source_name") or ""),
-            "notes": str(fact.get("notes") or ""),
-            "scope": str(fact.get("geography_scope") or "domestic"),
-        }
-        if "tam" in metric or "market" in metric or "revenue" in metric:
-            refs.append({**row, "metric": fact.get("metric")})
-        elif "industry" in metric or "category" in metric:
-            industry = row
+        metric = str(fact.get("metric") or fact.get("step") or "").lower()
+        row = _row_from_fact(fact)
+        value = row["value"]
+        if not value or "not found" in value.lower() or "no live-web" in value.lower():
+            continue
+        if _is_stock_metric(metric, value) and _figure_sqft(row):
+            stock = stock or row
+            continue
+        if _is_rent_metric(metric, value) and _figure_rent_annual(row):
+            rent = rent or row
+            continue
+        if any(k in metric for k in ("buyer", "household", "customer", "user", "smb", "company", "occupier")):
+            if _figure_numeric(row):
+                buyers = buyers or row
+            continue
+        if any(k in metric for k in ("arpu", "acv", "price", "spend", "commission")):
+            if _figure_numeric(row):
+                arpu = arpu or row
+            continue
+        if any(k in metric for k in ("share", "pct", "%", "maharashtra share", "state share", "geo share")):
+            pct = _figure_pct(row) or _pct_value(value)
+            if pct:
+                niche_pct_row = {
+                    "value_pct": pct * 100.0 if pct <= 1 else pct,
+                    "label": "FACT" if fact.get("source_url") else "ESTIMATE",
+                    "source_url": row["source_url"],
+                    "notes": row["notes"] or metric,
+                }
+            continue
+        if any(k in metric for k in ("tam", "market", "revenue", "industry", "category", "gmv", "aum")):
+            if _figure_numeric(row):
+                refs.append({**row, "metric": fact.get("metric") or fact.get("step") or "market"})
+                if "industry" in metric or "category" in metric or "national" in metric:
+                    industry = industry or row
 
     for cand in parsed_sizing.get("tam_candidates") or []:
-        if isinstance(cand, dict):
-            refs.append(cand)
-
-    for fact in parsed_sizing.get("denominator_facts") or []:
-        if not isinstance(fact, dict):
+        if not isinstance(cand, dict):
             continue
-        metric = str(fact.get("metric") or "").lower()
-        row = {
-            "value": str(fact.get("value") or ""),
-            "source_url": str(fact.get("source_url") or ""),
-            "notes": str(fact.get("notes") or ""),
-        }
-        if any(k in metric for k in ("buyer", "household", "customer", "user", "smb", "company")):
-            buyers = row
-        elif "arpu" in metric or "acv" in metric or "price" in metric or "spend" in metric:
-            arpu = row
-
-    for inp in parsed_sizing.get("bottom_up_inputs") or []:
-        if not isinstance(inp, dict):
+        row = _row_from_fact(cand)
+        if not row["value"] or "not found" in row["value"].lower() or "no live-web" in row["value"].lower():
             continue
-        metric = str(inp.get("metric") or "").lower()
-        row = {
-            "value": str(inp.get("value") or ""),
-            "source_url": str(inp.get("source_url") or ""),
-            "notes": str(inp.get("notes") or ""),
-        }
-        if "buyer" in metric or "count" in metric:
-            buyers = buyers or row
-        elif "arpu" in metric or "acv" in metric or "price" in metric:
-            arpu = arpu or row
+        if _figure_numeric(row):
+            refs.append(cand if isinstance(cand, dict) else row)
 
     if not industry and refs:
         _, best = _pick_tam_from_candidates(refs, topic)
@@ -497,18 +634,43 @@ def _base_from_sizing_harvest(parsed_sizing: dict[str, Any], *, topic: str) -> d
                 "notes": best.get("notes", ""),
             }
 
-    if not refs and not industry and not buyers:
+    usable_refs = [r for r in refs if isinstance(r, dict) and _figure_numeric(r)]
+    if not usable_refs and not industry and not buyers and not (stock and rent):
         return {}
+
+    # When stock is national (India) but report geography is a state, apply sourced state share.
+    addressable: dict[str, Any] = {
+        "value_pct": 100,
+        "label": "ESTIMATE",
+        "notes": "All sourced buyers / stock",
+    }
+    stock_blob = f"{stock.get('value', '')} {stock.get('notes', '')}".lower()
+    niche_pct_val = _figure_pct(niche_pct_row)
+    if (
+        stock
+        and rent
+        and niche_pct_val
+        and niche_pct_val < 1.0
+        and any(k in stock_blob for k in ("india", "national", "pan-india", "country"))
+    ):
+        addressable = {
+            "value_pct": niche_pct_val * 100.0,
+            "label": str(niche_pct_row.get("label") or "FACT"),
+            "source_url": str(niche_pct_row.get("source_url") or ""),
+            "notes": str(niche_pct_row.get("notes") or "State/geo share applied to national stock"),
+        }
 
     return {
         "industry_revenue": industry,
-        "niche_slice_pct": {"value_pct": 100, "label": "ESTIMATE", "notes": "Full category — refine in Opus pass"},
+        "niche_slice_pct": niche_pct_row,
         "buyer_count": buyers,
-        "addressable_pct": {"value_pct": 100, "label": "ESTIMATE", "notes": "All sourced buyers"},
+        "addressable_pct": addressable,
         "arpu_annual": arpu,
+        "stock_sqft": stock,
+        "rent_psf": rent,
         "geo_filter_pct": {"value_pct": 100, "label": "DERIVED", "notes": "Geography filter from report market"},
         "segment_filter_pct": {"value_pct": 100, "label": "ESTIMATE", "notes": "Segment filter — Opus should refine"},
         "product_fit_pct": {"value_pct": 100, "label": "ESTIMATE", "notes": "Product-fit filter — Opus should refine"},
         "som_capture_pct": {"value_pct": 4, "label": "ESTIMATE", "notes": "Default 4% SAM capture (3–5 year planning)"},
-        "published_reference": refs,
+        "published_reference": usable_refs,
     }
