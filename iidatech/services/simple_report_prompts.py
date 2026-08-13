@@ -122,7 +122,9 @@ def financial_sizing_prompt(topic: str, industry: str, geography: str) -> str:
         "- Prefer sources and figures in the primary reporting currency for this geography.\n"
         "- If published SAM/SOM do not exist, leave value empty but gather filter inputs (geo %, segment %, ARPU).\n"
         "- Never invent figures — only cite numbers with real https URLs.\n"
-        "- Prefer niche-scoped TAM over inflated global category TAM when both exist; note scope in tam_candidates."
+        "- Prefer niche-scoped TAM over inflated global category TAM when both exist; note scope in tam_candidates.\n"
+        "- DO NOT cite generic 'how to calculate TAM/SAM/SOM' blog posts. Prefer IBEF, MOSPI, JLL, Knight Frank, "
+        "CBRE, Cushman, Colliers, company filings, and government industrial policy PDFs."
     )
 
 def competitor_harvest_prompt(topic: str, industry: str, geography: str) -> str:

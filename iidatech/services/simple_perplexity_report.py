@@ -1675,6 +1675,97 @@ def _format_financial_block(parsed: dict[str, Any]) -> str:
 
 
 
+
+
+def _enrich_sizing_from_research(
+    parsed_sizing: dict[str, Any],
+    parsed_research: dict[str, Any],
+    research_block: str = "",
+) -> dict[str, Any]:
+    """Fold general-research facts (and prose numbers) into sizing harvest for Financial Snapshot."""
+    from iidatech.services.financial_sizing_calc import (
+        parse_market_value,
+        parse_rent_psf_annual,
+        parse_sqft,
+    )
+
+    out = dict(parsed_sizing or {})
+    facts = list(out.get("market_size_facts") or [])
+    bottoms = list(out.get("bottom_up_inputs") or [])
+    tops = list(out.get("top_down_inputs") or [])
+    dens = list(out.get("denominator_facts") or [])
+
+    def _push(bucket: list, item: dict):
+        val = str(item.get("value") or "").strip()
+        if not val:
+            return
+        key = (str(item.get("metric") or item.get("step") or "").lower(), val.lower()[:120])
+        existing = {
+            (str(x.get("metric") or x.get("step") or "").lower(), str(x.get("value") or "").lower()[:120])
+            for x in bucket
+            if isinstance(x, dict)
+        }
+        if key not in existing:
+            bucket.append(item)
+
+    candidates: list[tuple[str, str, str]] = []
+    for item in (parsed_research or {}).get("market_facts") or []:
+        if not isinstance(item, dict):
+            continue
+        fact = str(item.get("fact") or item.get("value") or "").strip()
+        if fact:
+            candidates.append((fact, str(item.get("source_url") or ""), str(item.get("source_name") or "")))
+
+    # Also harvest numbers already present in the research prose block.
+    blob = str(research_block or "")
+    if blob:
+        for m in re.finditer(
+            r"([^.\n]{0,120}?(?:\d[\d,]*(?:\.\d+)?\s*(?:million|bn|billion)?\s*(?:sq\.?\s*ft|square\s*feet|msf))[^.\n]{0,80})",
+            blob,
+            flags=re.I,
+        ):
+            candidates.append((m.group(1).strip(), "", "research prose"))
+        for m in re.finditer(
+            r"([^.\n]{0,80}?(?:Rs\.?|INR|₹)\s*[\d,]+(?:\.\d+)?\s*(?:-|to|–)?\s*[\d,.]*(?:per\s*)?(?:sq\.?\s*ft|psf)[^.\n]{0,60})",
+            blob,
+            flags=re.I,
+        ):
+            candidates.append((m.group(1).strip(), "", "research prose"))
+        for m in re.finditer(
+            r"([^.\n]{0,80}?\d+(?:\.\d+)?%\s+of\s+(?:national|india(?:'s)?|industrial)[^.\n]{0,80})",
+            blob,
+            flags=re.I,
+        ):
+            candidates.append((m.group(1).strip(), "", "research prose"))
+        for m in re.finditer(
+            r"([^.\n]{0,100}?(?:market\s+size|TAM|revenue)\s[^.\n]{0,40}?(?:₹|Rs\.?|\$|INR)?\s*[\d,]+(?:\.\d+)?\s*(?:lakh\s*crore|crore|cr|billion|million|bn)?[^.\n]{0,40})",
+            blob,
+            flags=re.I,
+        ):
+            candidates.append((m.group(1).strip(), "", "research prose"))
+
+    for fact, url, name in candidates:
+        low = fact.lower()
+        row_common = {"value": fact, "source_url": url, "source_name": name, "notes": "from general research"}
+        if parse_sqft(fact) and any(k in low for k in ("sq ft", "sq.ft", "square feet", "msf", "warehous", "stock", "inventory")):
+            _push(bottoms, {"metric": "stock_sqft", **row_common})
+        elif parse_rent_psf_annual(fact) and any(k in low for k in ("rent", "rental", "psf", "per sq", "/sq")):
+            _push(bottoms, {"metric": "rent_psf_month", **row_common})
+        elif "%" in fact and any(k in low for k in ("share", "percent", "contribution", "of india", "of national", "industrial output")):
+            _push(tops, {"step": "geo/state share", **row_common})
+        elif parse_market_value(fact) and any(k in low for k in ("market", "tam", "revenue", "billion", "crore", "million", "gmv", "valuation")):
+            _push(facts, {"metric": "market revenue", "geography_scope": "domestic", **row_common})
+        elif parse_market_value(fact) and any(k in low for k in ("buyer", "compan", "smb", "occupier", "household")):
+            _push(dens, {"metric": "buyer count", **row_common})
+
+    out["market_size_facts"] = facts
+    out["bottom_up_inputs"] = bottoms
+    out["top_down_inputs"] = tops
+    out["denominator_facts"] = dens
+    return out
+
+
+
 def _fallback_financial_from_sizing(parsed_sizing: dict[str, Any]) -> dict[str, Any]:
 
 
@@ -4214,7 +4305,7 @@ def generate_simple_perplexity_report(
                 financial_parsed,
                 geography=market_label,
                 topic=topic,
-                sizing_fallback=parsed_sizing,
+                sizing_fallback=_enrich_sizing_from_research(parsed_sizing, parsed_research, research_block),
             )
 
             # Treat [NOT FOUND] as missing so Perplexity harvest can still fill the snapshot.
@@ -4227,7 +4318,7 @@ def generate_simple_perplexity_report(
                         {},
                         geography=market_label,
                         topic=topic,
-                        sizing_fallback=parsed_sizing,
+                        sizing_fallback=_enrich_sizing_from_research(parsed_sizing, parsed_research, research_block),
                     )
 
 
@@ -4252,7 +4343,7 @@ def generate_simple_perplexity_report(
             {},
             geography=market_label,
             topic=topic,
-            sizing_fallback=parsed_sizing,
+            sizing_fallback=_enrich_sizing_from_research(parsed_sizing, parsed_research, research_block),
         )
 
     financial_block = _format_financial_block(financial_parsed)
