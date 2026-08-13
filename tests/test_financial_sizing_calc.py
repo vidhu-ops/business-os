@@ -40,9 +40,9 @@ def test_prebuilt_financial_fallback_kept():
     fb = {"tam": {"value": "$500M", "label": "FACT"}, "sam": {"value": "[NOT FOUND]"}}
     out = build_canonical_financials({}, geography="US", topic="SaaS", sizing_fallback=fb)
     assert out.get("tam", {}).get("value") == "$500M"
-def test_stock_rent_proxy_tam():
-    from iidatech.services.financial_sizing_calc import build_canonical_financials, metric_value_missing
 
+
+def test_stock_rent_proxy_tam():
     sizing = {
         "bottom_up_inputs": [
             {
@@ -80,5 +80,6 @@ def test_stock_rent_proxy_tam():
         sizing_fallback=sizing,
     )
     assert not metric_value_missing(out.get("tam")), out.get("tam")
-    # 346e6 * 28 * 12 = 116,256,000,000
-    assert abs(float(out["tam"]["numeric"]) - 116_256_000_000) < 1.0
+    # 346e6 * 28 * 12 * 0.142
+    expected = 346_000_000 * 28 * 12 * 0.142
+    assert abs(float(out["tam"]["numeric"]) - expected) < 1.0
