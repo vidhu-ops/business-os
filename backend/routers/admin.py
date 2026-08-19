@@ -25,17 +25,24 @@ def _ledger_summary(record: dict[str, Any]) -> list[dict[str, Any]]:
     if not isinstance(ledger, list):
         return []
     rows: list[dict[str, Any]] = []
-    for item in ledger[-8:]:
+    # Ledger is newest-first; take the first 8 recent entries.
+    for item in ledger[:8]:
         if not isinstance(item, dict):
             continue
+        amount = item.get("amount")
+        try:
+            amount_n = int(amount) if amount is not None else 0
+        except (TypeError, ValueError):
+            amount_n = 0
         rows.append(
             {
                 "action": str(item.get("action") or ""),
-                "amount": item.get("amount"),
+                "amount": amount_n,
+                # Positive amount = spend; negative = grant/refund
+                "direction": "spend" if amount_n > 0 else "grant" if amount_n < 0 else "zero",
                 "at": str(item.get("at") or ""),
             }
         )
-    rows.reverse()
     return rows
 
 

@@ -66,7 +66,7 @@ export type AdminCrmUser = {
   free_audit_used: number;
   free_audit_granted: number;
   last_activity_at?: string;
-  recent_actions?: Array<{ action: string; amount?: number | null; at?: string }>;
+  recent_actions?: Array<{ action: string; amount?: number | null; at?: string; direction?: string }>;
   project_ideas?: string[];
 };
 export type DashboardData = {

@@ -27,3 +27,8 @@ def test_credit_cost_for_research_with_sections():
 
 def test_signup_credits():
     assert signup_credits_for_plan("starter") == 30
+
+
+def test_employee_work_and_mentor_cost_one_credit():
+    assert credit_cost_for_action("employee_work") == 1
+    assert credit_cost_for_action("mentor") == 1

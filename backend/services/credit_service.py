@@ -157,6 +157,67 @@ def charge_office_week(email: str, workspace: dict[str, Any], *, mode: str, depa
     return result
 
 
+def charge_employee_work(
+    email: str | None,
+    *,
+    metadata: dict[str, Any] | None = None,
+) -> dict[str, Any] | None:
+    """Charge 1 credit for one Employee OS work unit. No-op when email missing."""
+    if not email or not str(email).strip():
+        return None
+    from backend.services.demo_service import is_demo_user
+
+    key = str(email).strip().lower()
+    if is_demo_user(key):
+        return {"charged": 0, "is_demo": True, "action": "employee_work"}
+    return spend_credits(key, "employee_work", metadata=metadata or {})
+
+
+def ensure_can_spend(email: str | None, action: str = "employee_work", *, quantity: int = 1) -> None:
+    """Raise 402 early when the account cannot afford the action."""
+    if not email or not str(email).strip():
+        return
+    key = str(email).strip().lower()
+    from backend.services.demo_service import is_demo_user
+
+    if is_demo_user(key) or is_unlimited(key):
+        return
+    try:
+        unit = credit_cost_for_action(action)
+    except ValueError as exc:
+        raise HTTPException(status_code=400, detail=str(exc)) from exc
+    amount = max(1, int(quantity)) * int(unit)
+    record = ensure_account(key)
+    remaining = int(record.get("credits_remaining") or 0)
+    if remaining < amount:
+        raise HTTPException(
+            status_code=402,
+            detail={
+                "message": f"Not enough credits. This action needs {amount}; you have {remaining}.",
+                "required": amount,
+                "remaining": remaining,
+                "action": action,
+                "upgrade_href": "/pricing",
+            },
+        )
+
+
+def charge_mentor_turn(
+    email: str | None,
+    *,
+    metadata: dict[str, Any] | None = None,
+) -> dict[str, Any] | None:
+    """Charge 1 credit for one Mentor chat turn. No-op when email missing."""
+    if not email or not str(email).strip():
+        return None
+    from backend.services.demo_service import is_demo_user
+
+    key = str(email).strip().lower()
+    if is_demo_user(key):
+        return {"charged": 0, "is_demo": True, "action": "mentor"}
+    return spend_credits(key, "mentor", metadata=metadata or {})
+
+
 def add_credits(email: str, amount: int, *, reason: str = "purchase", metadata: dict[str, Any] | None = None) -> dict[str, Any]:
     users = load_users()
     key = email.strip().lower()

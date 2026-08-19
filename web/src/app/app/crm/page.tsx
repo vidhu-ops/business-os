@@ -26,6 +26,8 @@ export default function CrmPage() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
   const [selected, setSelected] = useState<string>("");
+  const [grantAmount, setGrantAmount] = useState("1000000");
+  const [granting, setGranting] = useState(false);
 
   async function refresh(q = query) {
     setLoading(true);
@@ -180,22 +182,58 @@ export default function CrmPage() {
                 </div>
               </dl>
               {!active.is_unlimited ? (
-                <button
-                  type="button"
-                  className="iid-btn iid-btn-primary w-full"
-                  disabled={loading}
-                  onClick={async () => {
-                    try {
-                      setError("");
-                      await api.adminGrantCredits(active.email, 1_000_000);
-                      await refresh(query);
-                    } catch (err) {
-                      setError(err instanceof Error ? err.message : "Could not grant credits");
-                    }
-                  }}
-                >
-                  Grant +1,000,000 credits
-                </button>
+                <div className="space-y-2">
+                  <label className="block text-xs muted" htmlFor="crm-grant-amount">
+                    Grant credits
+                  </label>
+                  <div className="flex flex-wrap gap-2">
+                    <input
+                      id="crm-grant-amount"
+                      className="iid-input min-w-0 flex-1"
+                      type="number"
+                      min={1}
+                      max={10_000_000}
+                      value={grantAmount}
+                      onChange={(e) => setGrantAmount(e.target.value)}
+                    />
+                    <button
+                      type="button"
+                      className="iid-btn iid-btn-primary"
+                      disabled={loading || granting}
+                      onClick={async () => {
+                        const amount = Math.max(1, Math.min(10_000_000, Number(grantAmount) || 0));
+                        if (!amount) {
+                          setError("Enter a valid credit amount");
+                          return;
+                        }
+                        try {
+                          setGranting(true);
+                          setError("");
+                          await api.adminGrantCredits(active.email, amount);
+                          await refresh(query);
+                        } catch (err) {
+                          setError(err instanceof Error ? err.message : "Could not grant credits");
+                        } finally {
+                          setGranting(false);
+                        }
+                      }}
+                    >
+                      {granting ? "Granting…" : `Grant +${Number(grantAmount || 0).toLocaleString()}`}
+                    </button>
+                  </div>
+                  <div className="flex flex-wrap gap-2">
+                    {[100, 1000, 10000, 1_000_000].map((n) => (
+                      <button
+                        key={n}
+                        type="button"
+                        className="iid-btn iid-btn-ghost text-xs"
+                        onClick={() => setGrantAmount(String(n))}
+                      >
+                        {n.toLocaleString()}
+                      </button>
+                    ))}
+                  </div>
+                </div>
               ) : null}
               <div>
                 <h3 className="text-sm font-semibold">Projects</h3>
@@ -215,15 +253,19 @@ export default function CrmPage() {
                 <h3 className="text-sm font-semibold">Recent credit actions</h3>
                 {(active.recent_actions || []).length ? (
                   <ul className="mt-2 space-y-1 text-sm">
-                    {active.recent_actions!.map((row, i) => (
+                    {active.recent_actions!.map((row, i) => {
+                      const amount = typeof row.amount === "number" ? row.amount : 0;
+                      const spend = row.direction === "spend" || amount > 0;
+                      const label = spend ? `−${Math.abs(amount)}` : `+${Math.abs(amount)}`;
+                      return (
                       <li key={`${row.at}-${i}`} className="flex justify-between gap-3 border-b border-[var(--iid-line)] py-1.5">
                         <span>{row.action || "action"}</span>
                         <span className="muted whitespace-nowrap">
-                          {typeof row.amount === "number" ? `${row.amount > 0 ? "+" : ""}${row.amount}` : ""} ·{" "}
-                          {formatDate(row.at)}
+                          {label} · {formatDate(row.at)}
                         </span>
                       </li>
-                    ))}
+                      );
+                    })}
                   </ul>
                 ) : (
                   <p className="mt-2 text-sm muted">No credit ledger entries yet.</p>

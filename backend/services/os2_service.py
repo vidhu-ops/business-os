@@ -6,6 +6,7 @@ from typing import Any
 
 from backend.services.workspace_context import workspace_report_context, workspace_report_id
 from backend.services.workspaces import load_workspace, save_workspace
+from backend.services.credit_service import charge_employee_work, ensure_can_spend
 from iidatech.execution.employee_os2_harness import OS2_HARNESSES, execute_harness_job, merged_harnesses
 from iidatech.execution.office_scope import (
     OfficeScope,
@@ -384,7 +385,7 @@ def _taylor_office_brief(workspace: dict[str, Any], report_id: str, keys: dict[s
     return "\n\n".join(lines)
 
 
-def _taylor_run_intent(workspace_id: str, message: str) -> dict[str, Any]:
+def _taylor_run_intent(workspace_id: str, message: str, *, billing_email: str | None = None) -> dict[str, Any]:
     """Parse founder language and execute real Employee OS / research / automation work."""
     from iidatech.execution.outreach_pipeline import is_outreach_pipeline_intent
 
@@ -398,6 +399,10 @@ def _taylor_run_intent(workspace_id: str, message: str) -> dict[str, Any]:
     msg = message.strip().lower()
 
     if is_outreach_pipeline_intent(message):
+        charge_employee_work(
+            billing_email,
+            metadata={"workspace_id": workspace_id, "via": "taylor_outreach"},
+        )
         outcome = kickoff_outreach_pipeline(workspace_id, message)
         return {
             "role": "assistant",
@@ -429,7 +434,7 @@ def _taylor_run_intent(workspace_id: str, message: str) -> dict[str, Any]:
     if any(k in msg for k in ("approve all", "approve pending", "approve everything")) or (
         "approve" in msg and "task" in msg
     ):
-        outcome = run_taylor_action(workspace_id, "approve_all")
+        outcome = run_taylor_action(workspace_id, "approve_all", billing_email=billing_email)
         return {
             "role": "assistant",
             "content": f"Approved {outcome.get('approved', 0)} pending item(s). External sends stay gated until you confirm.",
@@ -439,11 +444,11 @@ def _taylor_run_intent(workspace_id: str, message: str) -> dict[str, Any]:
         }
 
     if any(k in msg for k in ("retry failed", "retry", "qc failed", "try again")):
-        outcome = run_taylor_action(workspace_id, "retry_failed")
+        outcome = run_taylor_action(workspace_id, "retry_failed", billing_email=billing_email)
         retried = int(outcome.get("retried") or 0)
         if retried:
             # Immediately run next so retry actually ships work
-            nxt = run_taylor_action(workspace_id, "run_next")
+            nxt = run_taylor_action(workspace_id, "run_next", billing_email=billing_email)
             return {
                 "role": "assistant",
                 "content": f"Retried {retried} failed task(s). {nxt.get('message') or 'Running the next one now.'}",
@@ -470,7 +475,7 @@ def _taylor_run_intent(workspace_id: str, message: str) -> dict[str, Any]:
             "process next",
         )
     ):
-        outcome = run_taylor_action(workspace_id, "run_next")
+        outcome = run_taylor_action(workspace_id, "run_next", billing_email=billing_email)
         return {
             "role": "assistant",
             "content": str(outcome.get("message") or "Processed the next task."),
@@ -482,7 +487,7 @@ def _taylor_run_intent(workspace_id: str, message: str) -> dict[str, Any]:
         }
 
     if any(k in msg for k in ("office day", "full day", "run the office", "start the day", "standup")):
-        outcome = run_office_action(workspace_id, "full_day", goals=[], auto_approve=False)
+        outcome = run_office_action(workspace_id, "full_day", goals=[], auto_approve=False, billing_email=billing_email)
         return {
             "role": "assistant",
             "content": "Office day kicked off — arrival, standup, execution, and delivery. Check Tasks & Approvals for anything that needs your sign-off.",
@@ -493,7 +498,7 @@ def _taylor_run_intent(workspace_id: str, message: str) -> dict[str, Any]:
         }
 
     if any(k in msg for k in ("company cycle", "full cycle", "run cycle")):
-        outcome = run_office_action(workspace_id, "company_cycle", goals=[], auto_approve=False)
+        outcome = run_office_action(workspace_id, "company_cycle", goals=[], auto_approve=False, billing_email=billing_email)
         return {
             "role": "assistant",
             "content": "Full company cycle started across hired agents. I will surface blockers in Approvals.",
@@ -504,6 +509,10 @@ def _taylor_run_intent(workspace_id: str, message: str) -> dict[str, Any]:
         }
 
     if any(k in msg for k in ("competitor", "pricing evidence", "research pass", "ask sam", "sam —", "sam research")):
+        charge_employee_work(
+            billing_email,
+            metadata={"workspace_id": workspace_id, "via": "taylor_research", "harness_id": "research_analyst"},
+        )
         result = execute_harness_job(
             "research_analyst",
             message if len(message.strip()) > 12 else "Search competitors and pricing",
@@ -521,6 +530,10 @@ def _taylor_run_intent(workspace_id: str, message: str) -> dict[str, Any]:
         }
 
     if any(k in msg for k in ("find leads", "lead list", "qualified leads")) and "email" not in msg:
+        charge_employee_work(
+            billing_email,
+            metadata={"workspace_id": workspace_id, "via": "taylor_leads", "harness_id": "sales_lead"},
+        )
         result = execute_harness_job(
             "sales_lead",
             message if len(message.strip()) > 8 else "Find 20 qualified leads and export CSV",
@@ -591,6 +604,8 @@ def run_agent_chat(
     workspace_id: str,
     harness_id: str,
     message: str,
+    *,
+    billing_email: str | None = None,
 ) -> dict[str, Any]:
     workspace = load_workspace(workspace_id)
     if not workspace:
@@ -602,9 +617,15 @@ def run_agent_chat(
     chat = load_agent_chat(report_id, harness_id)
     chat.append({"role": "user", "content": message})
 
+    credit_info = None
     if harness_id == "taylor":
-        assistant = _taylor_run_intent(workspace_id, message)
+        assistant = _taylor_run_intent(workspace_id, message, billing_email=billing_email)
     else:
+        ensure_can_spend(billing_email, "employee_work")
+        credit_info = charge_employee_work(
+            billing_email,
+            metadata={"workspace_id": workspace_id, "harness_id": harness_id, "via": "agent_chat"},
+        )
         result = execute_harness_job(
             harness_id,
             message,
@@ -640,10 +661,18 @@ def run_agent_chat(
     except Exception:
         pass
     save_workspace(workspace)
-    return {"success": assistant["success"], "result": assistant, "chat": chat}
+    out = {"success": assistant["success"], "result": assistant, "chat": chat}
+    if credit_info is not None:
+        out["credit"] = credit_info
+    return out
 
 
-def run_checklist_next(workspace_id: str, *, auto_approve_external: bool = False) -> dict[str, Any]:
+def run_checklist_next(
+    workspace_id: str,
+    *,
+    auto_approve_external: bool = False,
+    billing_email: str | None = None,
+) -> dict[str, Any]:
     workspace = load_workspace(workspace_id)
     if not workspace:
         raise ValueError("Project not found")
@@ -663,6 +692,18 @@ def run_checklist_next(workspace_id: str, *, auto_approve_external: bool = False
         auto_approve_external=auto_approve_external,
         harness_ids=harness_filter,
     )
+    # Bill only when an employee actually executed a task (not approval waits / empty queue).
+    if outcome.get("result") is not None:
+        credit_info = charge_employee_work(
+            billing_email,
+            metadata={
+                "workspace_id": workspace_id,
+                "via": "checklist_run_next",
+                "task_id": str((outcome.get("item") or {}).get("id") or ""),
+            },
+        )
+        if credit_info is not None:
+            outcome["credit"] = credit_info
     return outcome
 
 
@@ -811,6 +852,7 @@ def run_office_action(
     *,
     goals: list[str] | None = None,
     auto_approve: bool = False,
+    billing_email: str | None = None,
 ) -> dict[str, Any]:
     from iidatech.execution.office_day import (
         run_office_agent_cycle,
@@ -831,6 +873,7 @@ def run_office_action(
     checklist = load_checklist(report_id) or build_team_checklist(workspace)
     goal_list = goals if goals else list(state.get("goals") or [])
     outcome: dict[str, Any] = {"action": action}
+    credits_charged = 0
 
     if action == "clock_in":
         out = run_office_arrival(report_id, report_context=report_context)
@@ -855,6 +898,15 @@ def run_office_action(
             auto_approve=auto_approve,
             harness_ids=harness_ids,
         )
+        if step.get("result") is not None:
+            credit_info = charge_employee_work(
+                billing_email,
+                metadata={"workspace_id": workspace_id, "via": "office_next_task"},
+            )
+            if credit_info and int(credit_info.get("charged") or 0):
+                credits_charged += int(credit_info["charged"])
+            if credit_info is not None:
+                outcome["credit"] = credit_info
         if step.get("done"):
             state["phase"] = "agent_cycle"
         state["last_mentor"] = mentor_for_phase("execution")
@@ -875,12 +927,14 @@ def run_office_action(
                 "No AI API keys found. Add OPENAI_API_KEY or PERPLEXITY_API_KEY in your server settings, "
                 "or enter keys under Integrations → API keys."
             )
+        ensure_can_spend(billing_email, "employee_work")
         run_office_arrival(report_id, report_context=report_context)
         out = run_office_standup(report_id, goal_list, report_v3=report_v3, report_context=report_context)
         state["last_mentor"] = out.get("mentor")
         items = checklist.get("items") or []
         scoped_count = len([i for i in items if str(i.get("harness_id") or "") in harness_ids])
         for _ in range(min(25, scoped_count or 1)):
+            ensure_can_spend(billing_email, "employee_work")
             step = run_office_execution_step(
                 report_id,
                 checklist,
@@ -890,6 +944,13 @@ def run_office_action(
                 auto_approve=auto_approve,
                 harness_ids=harness_ids,
             )
+            if step.get("result") is not None:
+                credit_info = charge_employee_work(
+                    billing_email,
+                    metadata={"workspace_id": workspace_id, "via": "office_full_day_step"},
+                )
+                if credit_info and int(credit_info.get("charged") or 0):
+                    credits_charged += int(credit_info["charged"])
             if step.get("done") or step.get("needs_approval"):
                 break
         if scope.is_full_office():
@@ -897,11 +958,18 @@ def run_office_action(
         delivery = run_office_delivery(report_id, report_v3=report_v3, report_context=report_context)
         state.update({"phase": "closed", "last_mentor": delivery.get("mentor"), "delivery": delivery, "goals": goal_list})
         outcome["delivery"] = delivery
+        outcome["credit"] = {"charged": credits_charged, "action": "employee_work"}
     elif action == "company_cycle":
         from iidatech.execution.agent_runtime import run_agent_company_cycle
 
+        credit_info = charge_employee_work(
+            billing_email,
+            metadata={"workspace_id": workspace_id, "via": "company_cycle"},
+        )
         cycle = run_agent_company_cycle(report_id, report_v3=report_v3 if isinstance(report_v3, dict) else None)
         outcome["cycle"] = cycle
+        if credit_info is not None:
+            outcome["credit"] = credit_info
     elif action == "debate_sync":
         from iidatech.execution.agent_runtime import run_agent_company_cycle
 
@@ -917,7 +985,7 @@ def run_office_action(
     return outcome
 
 
-def run_taylor_action(workspace_id: str, action: str) -> dict[str, Any]:
+def run_taylor_action(workspace_id: str, action: str, *, billing_email: str | None = None) -> dict[str, Any]:
     from iidatech.execution.agent_queue import approve_pending_queue_items
     from iidatech.execution.os2_workflow import retry_task, save_checklist
 
@@ -964,12 +1032,30 @@ def run_taylor_action(workspace_id: str, action: str) -> dict[str, Any]:
             auto_approve_external=False,
         )
         if not queue_outcome.get("done") or queue_outcome.get("needs_approval") or queue_outcome.get("item"):
-            return {"message": str(queue_outcome.get("message") or queue_outcome.get("item", {}).get("result") or "Processed queue step."), "queue": queue_outcome}
-        return run_checklist_next(workspace_id, auto_approve_external=False)
+            credit_info = None
+            if queue_outcome.get("item") and not queue_outcome.get("needs_approval"):
+                credit_info = charge_employee_work(
+                    billing_email,
+                    metadata={"workspace_id": workspace_id, "via": "taylor_queue_next"},
+                )
+            out = {
+                "message": str(queue_outcome.get("message") or queue_outcome.get("item", {}).get("result") or "Processed queue step."),
+                "queue": queue_outcome,
+            }
+            if credit_info is not None:
+                out["credit"] = credit_info
+            return out
+        return run_checklist_next(workspace_id, auto_approve_external=False, billing_email=billing_email)
     raise ValueError(f"Unknown Taylor action: {action}")
 
 
-def run_task_action(workspace_id: str, task_id: str, action: str) -> dict[str, Any]:
+def run_task_action(
+    workspace_id: str,
+    task_id: str,
+    action: str,
+    *,
+    billing_email: str | None = None,
+) -> dict[str, Any]:
     from iidatech.execution.os2_workflow import approve_task, retry_task, run_task, skip_task
 
     workspace, report_id, report_context, _, keys = _workspace_bundle(workspace_id)
@@ -977,6 +1063,7 @@ def run_task_action(workspace_id: str, task_id: str, action: str) -> dict[str, A
     if not checklist:
         raise ValueError("No checklist — build from plan first")
     harnesses = merged_harnesses(_custom_harnesses(workspace))
+    credit_info = None
     if action == "approve":
         approve_task(checklist, task_id)
     elif action == "skip":
@@ -985,6 +1072,10 @@ def run_task_action(workspace_id: str, task_id: str, action: str) -> dict[str, A
         retry_task(checklist, task_id)
         target = next((i for i in (checklist.get("items") or []) if str(i.get("id")) == task_id), None)
         if target:
+            credit_info = charge_employee_work(
+                billing_email,
+                metadata={"workspace_id": workspace_id, "task_id": task_id, "via": "task_retry"},
+            )
             run_task(
                 report_id,
                 checklist,
@@ -996,7 +1087,10 @@ def run_task_action(workspace_id: str, task_id: str, action: str) -> dict[str, A
     else:
         raise ValueError(f"Unknown task action: {action}")
     save_checklist(report_id, checklist)
-    return {"checklist": checklist, "office": office_board_snapshot(workspace_id)}
+    out = {"checklist": checklist, "office": office_board_snapshot(workspace_id)}
+    if credit_info is not None:
+        out["credit"] = credit_info
+    return out
 
 
 def oauth_links(workspace_id: str) -> list[dict[str, Any]]:

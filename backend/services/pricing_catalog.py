@@ -223,13 +223,23 @@ CREDIT_ACTIONS: dict[str, dict[str, Any]] = {
             "enterprise": {"label": "Enterprise strategic", "service_inr": 6999, "credits": 15},
         },
     },
+    "employee_work": {
+        "label": "Employee OS — one task / agent work unit",
+        "credits": 1,
+        "tool_inr_from": 200,
+    },
+    "mentor": {
+        "label": "Mentor conversation turn",
+        "credits": 1,
+        "tool_inr_from": 200,
+    },
     "department_week": {
-        "label": "Employee OS — one department (1 week)",
+        "label": "Employee OS — one department (legacy weekly pass)",
         "credits": 10,
         "tool_inr_from": 2000,
     },
     "full_office_week": {
-        "label": "Employee OS — full office (1 week)",
+        "label": "Employee OS — full office (legacy weekly pass)",
         "credits": 50,
         "tool_inr_from": 25000,
     },

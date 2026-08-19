@@ -247,21 +247,21 @@ def mentor_reply(
             from backend.services.os2_service import run_agent_chat, run_taylor_action, run_office_action
 
             if "office day" in msg_l or "full day" in msg_l:
-                run_office_action(workspace_id, "full_day", goals=[], auto_approve=False)
+                run_office_action(workspace_id, "full_day", goals=[], auto_approve=False, billing_email=email)
                 acted = "full_day"
             elif "approve" in msg_l:
-                run_taylor_action(workspace_id, "approve_all")
+                run_taylor_action(workspace_id, "approve_all", billing_email=email)
                 acted = "approve_all"
             elif "retry" in msg_l:
-                run_taylor_action(workspace_id, "retry_failed")
+                run_taylor_action(workspace_id, "retry_failed", billing_email=email)
                 acted = "retry_failed"
             elif "checklist" in msg_l or "staff" in msg_l:
                 # Prefer natural language so Taylor builds from plan
-                out = run_agent_chat(workspace_id, "taylor", "Build checklist from the plan")
+                out = run_agent_chat(workspace_id, "taylor", "Build checklist from the plan", billing_email=email)
                 acted = "build_checklist"
                 handoff = {"type": "taylor", "result": out}
             elif "run next" in msg_l or "execute" in msg_l or "keep going" in msg_l:
-                out = run_taylor_action(workspace_id, "run_next")
+                out = run_taylor_action(workspace_id, "run_next", billing_email=email)
                 acted = "run_next"
                 handoff = {"type": "taylor", "result": out}
                 # Nudge goal progress when work ships

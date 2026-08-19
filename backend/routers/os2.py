@@ -5,9 +5,8 @@ from pydantic import BaseModel, Field
 
 from backend.auth import get_current_user
 from backend.services import os2_service
-from backend.services.credit_service import charge_office_week
 from backend.services.demo_service import block_workspace_mutation
-from backend.services.workspaces import require_workspace_access, save_workspace
+from backend.services.workspaces import require_workspace_access
 
 router = APIRouter(prefix="/os2", tags=["os2"])
 
@@ -75,7 +74,7 @@ def get_chat(workspace_id: str, harness_id: str, email: str = Depends(get_curren
 def post_chat(workspace_id: str, harness_id: str, body: ChatBody, email: str = Depends(get_current_user)) -> dict:
     _write_workspace(email, workspace_id, action="chat with agents")
     try:
-        return os2_service.run_agent_chat(workspace_id, harness_id, body.message)
+        return os2_service.run_agent_chat(workspace_id, harness_id, body.message, billing_email=email)
     except ValueError as exc:
         raise HTTPException(status_code=404, detail=str(exc)) from exc
 
@@ -91,7 +90,11 @@ def build_checklist(workspace_id: str, email: str = Depends(get_current_user)) -
 def checklist_run_next(workspace_id: str, body: RunNextBody, email: str = Depends(get_current_user)) -> dict:
     _write_workspace(email, workspace_id, action="run checklist tasks")
     try:
-        return os2_service.run_checklist_next(workspace_id, auto_approve_external=body.auto_approve_external)
+        return os2_service.run_checklist_next(
+            workspace_id,
+            auto_approve_external=body.auto_approve_external,
+            billing_email=email,
+        )
     except ValueError as exc:
         raise HTTPException(status_code=404, detail=str(exc)) from exc
 
@@ -141,24 +144,15 @@ class OfficeActionBody(BaseModel):
 
 @router.post("/{workspace_id}/office/action")
 def office_action(workspace_id: str, body: OfficeActionBody, email: str = Depends(get_current_user)) -> dict:
-    credit: dict | None = None
-    workspace = _write_workspace(email, workspace_id, action="run office actions")
-    if body.action == "full_day":
-        scope = os2_service._scope_from_workspace(workspace)
-        mode = "full_office" if scope.is_full_office() else "department"
-        departments = list(scope.departments) if scope.mode == "department" else []
-        credit = charge_office_week(email, workspace, mode=mode, departments=departments)
-        save_workspace(workspace)
+    _write_workspace(email, workspace_id, action="run office actions")
     try:
-        result = os2_service.run_office_action(
+        return os2_service.run_office_action(
             workspace_id,
             body.action,
             goals=body.goals,
             auto_approve=body.auto_approve,
+            billing_email=email,
         )
-        if credit is not None:
-            result["credit"] = credit
-        return result
     except ValueError as exc:
         raise HTTPException(status_code=400, detail=str(exc)) from exc
 
@@ -171,7 +165,7 @@ class TaylorActionBody(BaseModel):
 def taylor_action(workspace_id: str, body: TaylorActionBody, email: str = Depends(get_current_user)) -> dict:
     _write_workspace(email, workspace_id, action="run Taylor actions")
     try:
-        return os2_service.run_taylor_action(workspace_id, body.action)
+        return os2_service.run_taylor_action(workspace_id, body.action, billing_email=email)
     except ValueError as exc:
         raise HTTPException(status_code=400, detail=str(exc)) from exc
 
@@ -184,7 +178,7 @@ class TaskActionBody(BaseModel):
 def task_action(workspace_id: str, task_id: str, body: TaskActionBody, email: str = Depends(get_current_user)) -> dict:
     _write_workspace(email, workspace_id, action="change tasks")
     try:
-        return os2_service.run_task_action(workspace_id, task_id, body.action)
+        return os2_service.run_task_action(workspace_id, task_id, body.action, billing_email=email)
     except ValueError as exc:
         raise HTTPException(status_code=400, detail=str(exc)) from exc
 

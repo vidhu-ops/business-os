@@ -6,6 +6,7 @@ from fastapi import APIRouter, Depends, HTTPException
 from pydantic import BaseModel, Field
 
 from backend.auth import get_current_user, load_users
+from backend.services.credit_service import charge_mentor_turn
 from backend.services.demo_service import is_demo_user
 from backend.services.mentor_service import build_project_brief, mentor_reply, opening_message
 from backend.services.workspaces import list_workspaces_for_user, load_workspace, require_workspace_access
@@ -76,13 +77,19 @@ def mentor_chat(body: MentorChatBody, email: str = Depends(get_current_user)) ->
     if body.workspace_id and not workspace:
         raise HTTPException(status_code=404, detail="Project not found")
     brief = build_project_brief(workspace)
+    credit = charge_mentor_turn(
+        email,
+        metadata={"workspace_id": body.workspace_id or "", "via": "mentor_chat"},
+    )
     result = mentor_reply(
         message=body.message,
         user_name=profile["name"],
         email=email,
         brief=brief,
         history=body.history,
-        workspace_id=body.workspace_id,
+        workspace_id=body.workspace_id or str((workspace or {}).get("workspace_id") or "") or None,
     )
     result["workspace_id"] = str((workspace or {}).get("workspace_id") or body.workspace_id or "") or None
+    if credit is not None:
+        result["credit"] = credit
     return result
