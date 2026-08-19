@@ -2,14 +2,22 @@ from __future__ import annotations
 
 from typing import Any
 
-from fastapi import APIRouter, Depends, Query
+from fastapi import APIRouter, Depends, HTTPException, Query
+from pydantic import BaseModel, Field
 
 from backend.auth import load_users, require_admin_email
 from backend.services.account_service import get_plan_snapshot
 from backend.services.audit_service import audit_status
+from backend.services.credit_service import add_credits
 from backend.services.workspaces import list_workspaces_for_user
 
 router = APIRouter(prefix="/admin", tags=["admin"])
+
+
+class AdminCreditsBody(BaseModel):
+    email: str = Field(min_length=3)
+    amount: int = Field(default=1_000_000, ge=1, le=10_000_000)
+    reason: str = "admin_grant"
 
 
 def _ledger_summary(record: dict[str, Any]) -> list[dict[str, Any]]:
@@ -95,3 +103,13 @@ def list_crm_users(
             ),
         },
     }
+
+@router.post("/credits")
+def grant_credits(body: AdminCreditsBody, admin: str = Depends(require_admin_email)) -> dict:
+    key = body.email.strip().lower()
+    users = load_users()
+    if key not in users:
+        raise HTTPException(status_code=404, detail="User not found")
+    result = add_credits(key, int(body.amount), reason=body.reason, metadata={"granted_by": admin})
+    return {"success": True, "email": key, **result}
+

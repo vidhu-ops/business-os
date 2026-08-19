@@ -15,7 +15,7 @@ from iidatech.env_bootstrap import ensure_env_loaded
 ensure_env_loaded()
 
 from backend.config import settings
-from backend.routers import admin, audit, auth_routes, automation, canva, credits, dashboard, deliverables, files, health, iida_guide, oauth, os2, partners, payments, plan, pricing, projects, research, team
+from backend.routers import admin, audit, auth_routes, automation, canva, credits, dashboard, deliverables, files, health, iida_guide, mentor, oauth, org_memory, os2, partners, payments, plan, pricing, projects, research, team
 
 app = FastAPI(
     title="IIDATECH API",
@@ -62,4 +62,37 @@ app.include_router(pricing.router, prefix="/api/v1")
 app.include_router(canva.router, prefix="/api/v1")
 app.include_router(credits.router, prefix="/api/v1")
 app.include_router(iida_guide.router, prefix="/api/v1")
+app.include_router(mentor.router, prefix="/api/v1")
+app.include_router(org_memory.router, prefix="/api/v1")
 app.include_router(admin.router, prefix="/api/v1")
+
+
+def _bootstrap_admin_credits() -> None:
+    """Ensure ADMIN_EMAIL accounts have at least ADMIN_GRANT_CREDITS (default 1_000_000)."""
+    import os
+
+    from backend.auth import admin_emails
+    from backend.services.credit_service import add_credits
+    from backend.services.user_store import load_users
+
+    target = int(os.getenv("ADMIN_GRANT_CREDITS") or "1000000")
+    if target <= 0:
+        return
+    users = load_users()
+    for email in admin_emails():
+        rec = users.get(email) if isinstance(users, dict) else None
+        if not isinstance(rec, dict):
+            continue
+        remaining = rec.get("credits_remaining")
+        if remaining is None:
+            continue  # unlimited
+        rem = int(remaining or 0)
+        if rem >= target:
+            continue
+        add_credits(email, target - rem, reason="admin_bootstrap", metadata={"target": target})
+
+
+try:
+    _bootstrap_admin_credits()
+except Exception:
+    pass

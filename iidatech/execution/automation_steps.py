@@ -27,8 +27,16 @@ DAILY_OUTREACH_STEP_IDS = ["find_leads", "draft_outreach_per_lead", "send_email_
 
 
 def automation_report_id(idea: str, geography: str) -> str:
-    raw = f"{str(idea or '').strip()}|{str(geography or '').strip()}|automation"
-    return f"auto_{hashlib.sha256(raw.encode()).hexdigest()[:12]}"
+    """Stable workspace-aligned id so Automation shares OAuth, queues, and Taylor with Employee OS.
+
+    Historically used an ``auto_`` prefix which split queues from ``os2_*`` Employee OS state.
+    Keep the same hash of idea|geography (without the legacy '|automation' suffix) so Integrations
+    and run-next operate on one report_id per project.
+    """
+    topic = str(idea or "").strip()
+    geo = str(geography or "Global").strip()
+    raw = f"{topic}|{geo}".strip().lower()
+    return f"os2_{hashlib.sha256(raw.encode()).hexdigest()[:12]}"
 
 
 def build_spec_from_steps(step_ids: list[str], *, idea: str, industry: str, geography: str, name: str = "Custom automation") -> dict[str, Any]:

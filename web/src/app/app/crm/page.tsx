@@ -179,6 +179,24 @@ export default function CrmPage() {
                   </dd>
                 </div>
               </dl>
+              {!active.is_unlimited ? (
+                <button
+                  type="button"
+                  className="iid-btn iid-btn-primary w-full"
+                  disabled={loading}
+                  onClick={async () => {
+                    try {
+                      setError("");
+                      await api.adminGrantCredits(active.email, 1_000_000);
+                      await refresh(query);
+                    } catch (err) {
+                      setError(err instanceof Error ? err.message : "Could not grant credits");
+                    }
+                  }}
+                >
+                  Grant +1,000,000 credits
+                </button>
+              ) : null}
               <div>
                 <h3 className="text-sm font-semibold">Projects</h3>
                 {(active.project_ideas || []).length ? (

@@ -22,6 +22,8 @@ function initials(name: string) {
 
 const quickLinksBase = [
   { href: "/app/audit", label: "Free company audit" },
+  { href: "/app/mentor", label: "Mentor" },
+  { href: "/app/onboarding", label: "Org memory" },
   { href: "/", label: "Homepage" },
   { href: "/partners", label: "Service providers" },
   { href: "/app/research", label: "Market research" },

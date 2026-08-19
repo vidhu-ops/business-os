@@ -9,7 +9,7 @@ from backend.auth import get_current_user
 from backend.services.automation_setup import automation_setup_requirements
 from backend.services.credit_service import spend_credits
 from backend.services.demo_service import DEMO_WORKSPACE_ID, block_workspace_mutation, is_demo_user
-from backend.services.workspace_context import workspace_report_context
+from backend.services.workspace_context import workspace_report_context, workspace_report_id
 from backend.services.workspaces import load_workspace, require_workspace_access, save_workspace
 from iidatech.execution.agent_queue import (
     ensure_automation_team,
@@ -17,7 +17,7 @@ from iidatech.execution.agent_queue import (
     load_queue,
     process_next_queue_item,
 )
-from iidatech.execution.automation_steps import AUTOMATION_STEP_CATALOG, automation_report_id, build_spec_from_steps
+from iidatech.execution.automation_steps import AUTOMATION_STEP_CATALOG, build_spec_from_steps
 from backend.services.os2_service import merged_keys_for_workspace
 
 router = APIRouter(prefix="/automation", tags=["automation"])
@@ -35,7 +35,8 @@ class AutoRunBody(BaseModel):
 
 
 def _automation_id(workspace: dict) -> str:
-    return automation_report_id(str(workspace.get("idea") or ""), str(workspace.get("country") or "Global"))
+    # Same id as Employee OS so OAuth, queues, and Taylor share one workspace state.
+    return workspace_report_id(workspace)
 
 
 def _finalize_spec(spec: dict, name: str) -> dict:
@@ -119,12 +120,20 @@ def run_next_step(body: AutoRunBody, email: str = Depends(get_current_user)) -> 
     if not workspace:
         raise HTTPException(status_code=404, detail="Project not found")
     block_workspace_mutation(email, workspace, action="run automations")
-    credit = spend_credits(email, "automation_run", metadata={"workspace_id": body.workspace_id})
     idea = str(workspace.get("idea") or "").strip()
     industry = str(workspace.get("industry") or "General").strip()
     geography = str(workspace.get("country") or "Global").strip()
     report_id = _automation_id(workspace)
     api_keys = merged_keys_for_workspace(body.workspace_id)
+    if not api_keys:
+        raise HTTPException(
+            status_code=400,
+            detail=(
+                "No API keys configured. Add OPENAI_API_KEY / PERPLEXITY_API_KEY on the server, "
+                "or save keys under Employee OS → Integrations before running automation."
+            ),
+        )
+    credit = spend_credits(email, "automation_run", metadata={"workspace_id": body.workspace_id})
     report_context = workspace_report_context(workspace)
 
     ensure_automation_team(report_id, topic=idea, industry=industry, geography=geography)
@@ -137,6 +146,19 @@ def run_next_step(body: AutoRunBody, email: str = Depends(get_current_user)) -> 
         report_context=report_context,
         auto_approve_external=body.auto_approve_external,
     )
+    # Soft refund when the step hard-fails for missing search keys (no deliverable produced).
+    reply = str((outcome or {}).get("reply") or "")
+    if not outcome.get("success") and ("No API keys" in reply or "needs a **Perplexity**" in reply or "Perplexity" in reply and "key" in reply.lower()):
+        try:
+            from backend.services.credit_service import add_credits
+            from backend.services.pricing_catalog import credit_cost_for_action
+
+            cost = int(credit_cost_for_action("automation_run") or 0)
+            if cost > 0:
+                add_credits(email, cost, reason="automation_run_refund", metadata={"workspace_id": body.workspace_id})
+                credit = {**(credit if isinstance(credit, dict) else {}), "refunded": cost}
+        except Exception:
+            pass
     queue = load_queue(report_id)
     auto = workspace.get("automation") if isinstance(workspace.get("automation"), dict) else {}
     log = list(auto.get("log") or [])

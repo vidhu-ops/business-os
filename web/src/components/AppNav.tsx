@@ -15,6 +15,8 @@ const baseLinks = [
   { href: "/app/research", label: "Research" },
   { href: "/app/plan", label: "Plan" },
   { href: "/app/team", label: "Employee OS" },
+  { href: "/app/mentor", label: "Mentor" },
+  { href: "/app/onboarding", label: "Org Memory" },
   { href: "/app/automation", label: "Automation" },
   { href: "/app/saved", label: "Saved Files" },
   { href: "/partners", label: "Partners" },
@@ -27,9 +29,9 @@ export function AppNav({ email, isAdmin = false }: { email?: string; isAdmin?: b
   const demo = isDemoEmail(email);
   const links = isAdmin
     ? [
-        ...baseLinks.slice(0, 8),
+        ...baseLinks.slice(0, 10),
         { href: "/app/crm", label: "CRM" },
-        ...baseLinks.slice(8),
+        ...baseLinks.slice(10),
       ]
     : baseLinks;
 

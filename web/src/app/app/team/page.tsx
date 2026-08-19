@@ -697,6 +697,18 @@ function TeamContent() {
             <p className="text-[11px] muted hidden lg:block shrink-0" data-iida-live>
               IIDA is your personal aide below — she can brief Taylor anytime.
             </p>
+            <Link
+              href={selectedId ? `/app/mentor?project=${encodeURIComponent(selectedId)}` : "/app/mentor"}
+              className="iid-btn iid-btn-ghost text-xs shrink-0"
+            >
+              Mentor
+            </Link>
+            <Link
+              href={selectedId ? `/app/onboarding?project=${encodeURIComponent(selectedId)}` : "/app/onboarding"}
+              className="iid-btn iid-btn-ghost text-xs shrink-0"
+            >
+              Org memory
+            </Link>
             {isDemoReadonly ? (
               <Link href="/login?mode=register" className="text-xs text-amber-200 underline shrink-0">Sign up to run real work</Link>
             ) : null}

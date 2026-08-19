@@ -5,11 +5,12 @@ import json
 from pathlib import Path
 from typing import Any
 
+from iidatech.execution.output_paths import employee_os2_root, employee_runtime_root
 from iidatech.execution.team_leader import next_runnable_item
 from iidatech.integrations.oauth_posting import publish_linkedin_post, send_gmail_message, sync_hubspot_contacts
 from iidatech.integrations.oauth_store import is_connected
 
-_WORKFLOW_ROOT = Path(__file__).resolve().parents[2] / "business_build_outputs" / "employee_os2"
+_WORKFLOW_ROOT = employee_os2_root()
 
 
 def _post_task_notify(
@@ -98,7 +99,7 @@ def _find_leads_csv(artifacts: list[str], report_id: str) -> str:
             return str(p)
     roots = [
         _WORKFLOW_ROOT / report_id,
-        Path(__file__).resolve().parents[2] / "business_build_outputs" / "employee_runtime" / report_id,
+        employee_runtime_root() / report_id,
     ]
     for root in roots:
         if root.is_dir():

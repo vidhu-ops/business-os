@@ -66,6 +66,12 @@ def _persist_research(workspace: dict, result: dict, section_count: int) -> None
         "warnings": client.get("warnings") or [],
         "full_result": client,
     }
+    try:
+        from backend.services import org_memory as om
+        if result.get("success"):
+            workspace = om.advance_execution_loop(workspace, phase="plan", event="Research complete — generate business plan next")
+    except Exception:
+        pass
     save_workspace(workspace)
 
 
@@ -100,9 +106,20 @@ def _run_research_background(
 ) -> None:
     try:
         keys = merged_keys_for_workspace(workspace_id)
+        research_topic = topic
+        try:
+            ws0 = load_workspace(workspace_id) or {}
+            from backend.services.org_memory import effective_business_profile, profile_prompt_block
+
+            prompt = profile_prompt_block(effective_business_profile(ws0))
+            if "not filled yet" not in prompt:
+                # Ground research in persistent org memory without changing the generator API.
+                research_topic = f"{topic}\n\n{prompt}"
+        except Exception:
+            pass
         with session_api_keys(keys):
             result = generate_simple_perplexity_report(
-                topic,
+                research_topic,
                 industry=industry,
                 geography=geography,
                 areas=areas,

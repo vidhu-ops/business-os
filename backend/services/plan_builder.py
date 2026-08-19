@@ -18,6 +18,14 @@ def build_business_plan(workspace: dict[str, Any]) -> dict[str, Any]:
     else:
         report_context = dict(report_context)
     report_context["reporting_currency"] = currency_for_geography(geography)
+    if report_context.get("org_memory_prompt"):
+        report_context["business_context_prompt"] = report_context["org_memory_prompt"]
+    elif report_context.get("business_profile"):
+        try:
+            from backend.services.org_memory import profile_prompt_block
+            report_context["business_context_prompt"] = profile_prompt_block(report_context["business_profile"])
+        except Exception:
+            pass
     existing_profile = workspace.get("existing_business_profile") if isinstance(workspace.get("existing_business_profile"), dict) else None
     if existing_profile:
         report_context = dict(report_context)

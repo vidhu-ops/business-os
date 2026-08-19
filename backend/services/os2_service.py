@@ -25,6 +25,60 @@ _SESSION_KEYS: dict[str, dict[str, str]] = {}
 _CHAT_DIR_NAME = "agent_chats"
 
 
+def _persisted_keys_from_workspace(workspace_id: str) -> dict[str, str]:
+    try:
+        ws = load_workspace(workspace_id)
+    except Exception:
+        return {}
+    if not isinstance(ws, dict):
+        return {}
+    os2 = ws.get("employee_os") if isinstance(ws.get("employee_os"), dict) else {}
+    raw = os2.get("api_keys") if isinstance(os2.get("api_keys"), dict) else {}
+    return {str(k).strip().lower(): str(v).strip() for k, v in raw.items() if str(v or "").strip()}
+
+
+def _persist_keys_to_workspace(workspace_id: str, keys: dict[str, str]) -> None:
+    try:
+        ws = load_workspace(workspace_id)
+    except Exception:
+        return
+    if not isinstance(ws, dict):
+        return
+    os2 = ws.get("employee_os") if isinstance(ws.get("employee_os"), dict) else {}
+    existing = dict(os2.get("api_keys") or {}) if isinstance(os2.get("api_keys"), dict) else {}
+    existing.update({str(k).strip().lower(): str(v).strip() for k, v in keys.items() if str(v or "").strip()})
+    os2["api_keys"] = existing
+    os2["available"] = True
+    ws["employee_os"] = os2
+    try:
+        save_workspace(ws)
+    except Exception:
+        pass
+
+
+def get_session_keys(workspace_id: str) -> dict[str, str]:
+    persisted = _persisted_keys_from_workspace(workspace_id)
+    mem = dict(_SESSION_KEYS.get(workspace_id) or {})
+    merged = {**persisted, **mem}
+    if merged:
+        _SESSION_KEYS[workspace_id] = merged
+    return dict(merged)
+
+
+def set_session_keys(workspace_id: str, keys: dict[str, str]) -> dict[str, str]:
+    """Merge new keys into the workspace session — never wipe previously saved providers."""
+    cleaned = {str(k).strip().lower(): str(v).strip() for k, v in keys.items() if str(v or "").strip()}
+    existing = dict(get_session_keys(workspace_id))
+    existing.update(cleaned)
+    _SESSION_KEYS[workspace_id] = existing
+    _persist_keys_to_workspace(workspace_id, existing)
+    return merge_api_keys(existing)
+
+
+def merged_keys_for_workspace(workspace_id: str) -> dict[str, str]:
+    return merge_api_keys(get_session_keys(workspace_id))
+
+
 def _office_state_path(report_id: str) -> Path:
     p = _WORKFLOW_ROOT / str(report_id).strip() / "office_day_state.json"
     p.parent.mkdir(parents=True, exist_ok=True)
@@ -51,23 +105,6 @@ def load_office_state_disk(report_id: str) -> dict[str, Any]:
 
 def save_office_state_disk(report_id: str, state: dict[str, Any]) -> None:
     _office_state_path(report_id).write_text(json.dumps(state, indent=2, ensure_ascii=False), encoding="utf-8")
-
-
-def get_session_keys(workspace_id: str) -> dict[str, str]:
-    return dict(_SESSION_KEYS.get(workspace_id) or {})
-
-
-def set_session_keys(workspace_id: str, keys: dict[str, str]) -> dict[str, str]:
-    """Merge new keys into the workspace session — never wipe previously saved providers."""
-    cleaned = {str(k).strip().lower(): str(v).strip() for k, v in keys.items() if str(v or "").strip()}
-    existing = dict(_SESSION_KEYS.get(workspace_id) or {})
-    existing.update(cleaned)
-    _SESSION_KEYS[workspace_id] = existing
-    return merge_api_keys(existing)
-
-
-def merged_keys_for_workspace(workspace_id: str) -> dict[str, str]:
-    return merge_api_keys(get_session_keys(workspace_id))
 
 
 def load_agent_chat(report_id: str, harness_id: str) -> list[dict[str, Any]]:
@@ -592,6 +629,16 @@ def run_agent_chat(
     runs["runs"] = history[:30]
     runs["available"] = True
     workspace["employee_os"] = runs
+    try:
+        from backend.services import org_memory as om
+        if assistant.get("success"):
+            workspace = om.advance_execution_loop(
+                workspace,
+                phase="execute",
+                event=f"{harness_id} completed a task",
+            )
+    except Exception:
+        pass
     save_workspace(workspace)
     return {"success": assistant["success"], "result": assistant, "chat": chat}
 
@@ -872,7 +919,6 @@ def run_office_action(
 
 def run_taylor_action(workspace_id: str, action: str) -> dict[str, Any]:
     from iidatech.execution.agent_queue import approve_pending_queue_items
-    from iidatech.execution.automation_steps import automation_report_id
     from iidatech.execution.os2_workflow import retry_task, save_checklist
 
     workspace, report_id, _, _, _ = _workspace_bundle(workspace_id)
@@ -892,7 +938,6 @@ def run_taylor_action(workspace_id: str, action: str) -> dict[str, Any]:
                     approved += 1
             if approved:
                 save_checklist(report_id, checklist)
-        approved += approve_pending_queue_items(automation_report_id(topic, geography))
         approved += approve_pending_queue_items(report_id)
         return {"approved": approved, "checklist": load_checklist(report_id)}
     if action == "retry_failed":

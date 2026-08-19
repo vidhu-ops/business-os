@@ -6,10 +6,11 @@ from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any
 
+from iidatech.execution.output_paths import employee_os2_root
 from iidatech.execution.session_api_keys import active_providers, has_any_llm_key, provider_label, session_api_keys
 from iidatech.execution.tool_runtime import run_tool_calls
 
-_ARTIFACT_ROOT = Path(__file__).resolve().parents[2] / "business_build_outputs" / "employee_os2"
+_ARTIFACT_ROOT = employee_os2_root()
 
 OS2_HARNESSES: list[dict[str, Any]] = [
     {"id": "research_analyst", "name": "Sam — Research", "role": "Research Analyst", "tagline": "Search and evidence",
@@ -221,6 +222,13 @@ def execute_harness_job(
 ) -> dict[str, Any]:
     harness = harness_by_id(harness_id, extra_harnesses)
     keys = {k: v for k, v in (api_keys or {}).items() if str(v or "").strip()}
+    if not keys:
+        try:
+            from iidatech.execution.os2_api_keys import merge_api_keys
+
+            keys = merge_api_keys()
+        except Exception:
+            keys = {}
     if not harness:
         return {"success": False, "reply": "Unknown employee.", "artifacts": []}
     if not keys:

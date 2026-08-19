@@ -23,9 +23,10 @@ from iidatech.integrations.sales import (
 from iidatech.integrations.scheduling import book_calcom_meeting, create_calendar_event
 from iidatech.integrations.search import unified_search
 from iidatech.storage.execution_repository import list_kpi_history
+from iidatech.execution.output_paths import employee_os2_root, employee_runtime_root
 from iidatech.validation.competitor_evidence import is_verified_competitor_row
 
-_ARTIFACT_ROOT = Path(__file__).resolve().parents[2] / "business_build_outputs" / "employee_runtime"
+_ARTIFACT_ROOT = employee_runtime_root()
 
 
 def _as_dict(v: Any) -> dict:
@@ -39,8 +40,8 @@ def _as_list(v: Any) -> list:
 def _artifact_dir(report_id: str, employee_id: str) -> Path:
     rid = str(report_id or "default")
     root = _ARTIFACT_ROOT
-    if rid.startswith(("os2_", "exec_")):
-        root = Path(__file__).resolve().parents[2] / "business_build_outputs" / "employee_os2"
+    if rid.startswith(("os2_", "exec_", "auto_")):
+        root = employee_os2_root()
     path = root / rid / str(employee_id)
     path.mkdir(parents=True, exist_ok=True)
     return path

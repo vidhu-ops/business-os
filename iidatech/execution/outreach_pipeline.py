@@ -8,9 +8,10 @@ from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any
 
+from iidatech.execution.output_paths import employee_os2_root
 from iidatech.execution.team_memory import get_shared_team_memory, update_shared_team_memory
 
-_ARTIFACT_ROOT = Path(__file__).resolve().parents[2] / "business_build_outputs" / "employee_os2"
+_ARTIFACT_ROOT = employee_os2_root()
 
 
 def _queue_path(report_id: str) -> Path:

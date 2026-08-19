@@ -7,14 +7,13 @@ from typing import Any
 
 from iidatech.execution.chat_engine import send_agent_message
 from iidatech.execution.employees import hire_default_team, infer_business_type
+from iidatech.execution.output_paths import automation_queues_root
 from iidatech.execution.task_engine import founder_employee_id
 from iidatech.storage.execution_repository import list_employees
 
-_QUEUE_ROOT = Path(__file__).resolve().parents[2] / "business_build_outputs" / "automation_queues"
-
 
 def _queue_path(report_id: str) -> Path:
-    p = _QUEUE_ROOT / f"{str(report_id).strip()}.json"
+    p = automation_queues_root() / f"{str(report_id).strip()}.json"
     p.parent.mkdir(parents=True, exist_ok=True)
     return p
 

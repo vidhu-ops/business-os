@@ -64,9 +64,23 @@ def build_project_payload(
         "business_plan": {"available": False},
         "employee_os": {"available": False, "runs": []},
         "automation": {"available": False, "log": []},
+        "business_profile": {
+            "mode": "new",
+            "answers": {},
+            "onboarding_step": "profile",
+            "onboarding_complete": False,
+        },
+        "integrations": {},
+        "execution_loop": {"phase": "intake", "events": [], "pending_approvals": []},
     }
     if owner_email:
         payload["owner_email"] = owner_email.strip().lower()
+        try:
+            from backend.services import org_memory as om
+
+            payload = om.seed_workspace_from_account(payload, owner_email.strip().lower())
+        except Exception:
+            pass
     return payload
 
 

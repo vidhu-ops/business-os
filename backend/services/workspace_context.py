@@ -77,4 +77,26 @@ def workspace_report_context(workspace: dict[str, Any]) -> dict[str, Any]:
     if isinstance(plan.get("plan_json"), dict) and plan["plan_json"]:
         ctx["business_plan"] = plan["plan_json"]
 
+    # Organizational memory — research, plan, and agents all see this context.
+    try:
+        from backend.services import org_memory as om
+
+        profile = om.effective_business_profile(workspace)
+        ctx["business_profile"] = profile
+        ctx["org_memory_prompt"] = om.profile_prompt_block(profile)
+        ctx["integrations"] = om.effective_integrations(workspace)
+        ebp = workspace.get("existing_business_profile")
+        if isinstance(ebp, dict) and ebp:
+            ctx["existing_business_profile"] = ebp
+        owner = str(workspace.get("owner_email") or "")
+        loop = om.execution_loop_snapshot(workspace, owner)
+        ctx["execution_loop"] = {
+            "phase": loop.get("phase"),
+            "goal_progress_avg": loop.get("goal_progress_avg"),
+            "goals": loop.get("goals") or [],
+            "pending_approvals": loop.get("pending_approvals") or [],
+        }
+    except Exception:
+        pass
+
     return ctx

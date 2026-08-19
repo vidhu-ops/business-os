@@ -15,7 +15,9 @@ try:
     ensure_env_loaded()
 except Exception:
     pass
-_OAUTH_ROOT = Path(__file__).resolve().parents[2] / "business_build_outputs" / "employee_os2"
+from iidatech.execution.output_paths import employee_os2_root
+
+_OAUTH_ROOT = employee_os2_root()
 
 PROVIDER_SCOPES: dict[str, str] = {
     "linkedin": "openid profile email w_member_social",

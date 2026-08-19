@@ -83,7 +83,12 @@ def set_plan_mode(workspace_id: str, body: PlanModeBody, email: str = Depends(ge
         workspace["business_builder_is_existing"] = False
     elif mode == "existing":
         workspace["business_builder_is_existing"] = True
-    save_workspace(workspace)
+    try:
+        from backend.services import org_memory as om
+        workspace = om.advance_execution_loop(workspace, phase="staff", event="GAUGE plan built — Employee OS staffing next")
+        save_workspace(workspace)
+    except Exception:
+        save_workspace(workspace)
     return {"company_mode": mode}
 
 
@@ -203,6 +208,23 @@ def run_gauge_audit_endpoint(workspace_id: str, email: str = Depends(get_current
 
     profile_with_audit = merge_gauge_audit_into_profile(profile, audit)
     workspace["gauge_audit"] = audit
+    try:
+        from backend.services import org_memory as om
+        workspace = om.advance_execution_loop(workspace, phase="research", event="GAUGE audit completed — ready for research/plan")
+        # Seed org profile fields from existing business when empty
+        ebp = workspace.get("existing_business_profile") if isinstance(workspace.get("existing_business_profile"), dict) else {}
+        owner = str(workspace.get("owner_email") or email)
+        if ebp and owner:
+            answers = {}
+            if ebp.get("description"): answers["sell"] = str(ebp.get("description"))[:1200]
+            if ebp.get("competitors"): answers["competitors"] = str(ebp.get("competitors"))[:1200]
+            if ebp.get("goals"): answers["goals"] = str(ebp.get("goals"))[:1200]
+            if ebp.get("team_size"): answers["team"] = str(ebp.get("team_size"))
+            if answers:
+                om.save_account_org(owner, {"business_profile": answers})
+                workspace = om.apply_profile_to_workspace(workspace, answers)
+    except Exception:
+        pass
     workspace["existing_business_profile"] = profile_with_audit
     workspace["gauge_intake"] = {**draft, "step": 5}
     save_workspace(workspace)
@@ -245,5 +267,10 @@ def build_gauge_plan(workspace_id: str, email: str = Depends(get_current_user)) 
         "plan_forward_profile": profile_with_audit,
     }
     workspace["idea"] = result.get("idea") or workspace.get("idea")
+    try:
+        from backend.services import org_memory as om
+        workspace = om.advance_execution_loop(workspace, phase="staff", event="GAUGE plan built — Employee OS staffing next")
+    except Exception:
+        pass
     save_workspace(workspace)
     return result

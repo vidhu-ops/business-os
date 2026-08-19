@@ -8,6 +8,8 @@ const modules = [
   { href: "/app/research", label: "Market Research", short: "Research" },
   { href: "/app/plan", label: "Business Plan", short: "Plan" },
   { href: "/app/team", label: "Employee OS", short: "Team" },
+  { href: "/app/mentor", label: "Mentor", short: "Mentor" },
+  { href: "/app/onboarding", label: "Org Memory", short: "Memory" },
   { href: "/app/automation", label: "Automation", short: "Auto" },
 ];
 

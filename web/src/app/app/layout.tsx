@@ -11,7 +11,7 @@ import { useEffect, useState } from "react";
 export default function AppLayout({ children }: { children: React.ReactNode }) {
   const pathname = usePathname();
   const router = useRouter();
-  const showProductNav = ["/app/research", "/app/plan", "/app/team", "/app/automation", "/app/workspace", "/app/audit"].some(
+  const showProductNav = ["/app/research", "/app/plan", "/app/team", "/app/mentor", "/app/onboarding", "/app/automation", "/app/workspace", "/app/audit"].some(
     (p) => pathname === p || pathname?.startsWith(p + "/"),
   );
   const [email, setEmail] = useState<string>("");

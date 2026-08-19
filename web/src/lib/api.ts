@@ -243,16 +243,97 @@ export const api = {
       total: number;
       totals: { users: number; projects: number; credits_remaining: number };
     }>(`/api/v1/admin/users${q ? `?q=${encodeURIComponent(q)}` : ""}`),
+  adminGrantCredits: (email: string, amount = 1_000_000) =>
+    request<{ success: boolean; email: string; added: number; credits_remaining: number | null }>(
+      "/api/v1/admin/credits",
+      { method: "POST", body: JSON.stringify({ email, amount, reason: "admin_grant" }) },
+    ),
+  orgMemoryCatalog: () => request<{ profile_fields: Array<{ id: string; label: string; hint?: string }>; integrations: Array<{ id: string; label: string; kind?: string }> }>("/api/v1/org-memory/catalog"),
+  orgMemoryAccount: () =>
+    request<{
+      org: Record<string, unknown>;
+      completeness: { filled: number; total: number; pct: number; missing: string[] };
+      catalog: { profile_fields: Array<{ id: string; label: string; hint?: string }>; integrations: Array<{ id: string; label: string }> };
+    }>("/api/v1/org-memory/account"),
+  orgMemoryProject: (workspace_id: string) =>
+    request<{
+      workspace_id: string;
+      business_profile: Record<string, unknown>;
+      effective_profile: Record<string, string>;
+      completeness: { filled: number; total: number; pct: number; missing: string[] };
+      integrations: Record<string, unknown>;
+      execution_loop: Record<string, unknown>;
+      catalog: { profile_fields: Array<{ id: string; label: string; hint?: string }>; integrations: Array<{ id: string; label: string }> };
+      mode?: string;
+      has_gauge?: boolean;
+    }>(`/api/v1/org-memory/projects/${encodeURIComponent(workspace_id)}`),
+  orgMemorySaveProfile: (workspace_id: string, body: { answers: Record<string, string>; mode?: string; save_to_account?: boolean; onboarding_complete?: boolean }) =>
+    request<Record<string, unknown>>(`/api/v1/org-memory/projects/${encodeURIComponent(workspace_id)}/profile`, {
+      method: "PATCH",
+      body: JSON.stringify(body),
+    }),
+  orgMemorySaveIntegration: (body: {
+    integration_id: string;
+    connected?: boolean;
+    url?: string;
+    credential?: string;
+    notes?: string;
+    save_to_account?: boolean;
+    workspace_id?: string;
+  }) =>
+    request<Record<string, unknown>>("/api/v1/org-memory/account/integrations", {
+      method: "POST",
+      body: JSON.stringify(body),
+    }),
+  orgMemoryLoop: (body: Record<string, unknown>) =>
+    request<{ execution_loop: Record<string, unknown> }>("/api/v1/org-memory/loop", {
+      method: "POST",
+      body: JSON.stringify(body),
+    }),
+  orgMemoryGoalProgress: (body: { goal_id: string; current?: string; progress_pct?: number; status?: string }) =>
+    request<{ goals: Array<Record<string, unknown>> }>("/api/v1/org-memory/goals/progress", {
+      method: "POST",
+      body: JSON.stringify(body),
+    }),
+  mentorBootstrap: (workspace_id?: string) =>
+    request<{
+      opening: string;
+      workspace_id?: string | null;
+      brief: Record<string, unknown>;
+      projects: Array<{
+        workspace_id?: string;
+        idea?: string;
+        industry?: string;
+        country?: string;
+        has_report?: boolean;
+        has_plan?: boolean;
+      }>;
+      is_demo?: boolean;
+    }>(`/api/v1/mentor/bootstrap${workspace_id ? `?workspace_id=${encodeURIComponent(workspace_id)}` : ""}`),
+  mentorChat: (body: {
+    message: string;
+    workspace_id?: string;
+    history?: Array<{ role: string; content: string }>;
+  }) =>
+    request<{
+      reply: string;
+      workspace_id?: string | null;
+      brief?: Record<string, unknown>;
+      actions?: Array<{ id: string; label: string; href?: string }>;
+      mode?: string;
+      industry?: string;
+      market?: string;
+    }>("/api/v1/mentor/chat", { method: "POST", body: JSON.stringify(body) }),
   logout: async () => {
     const data = await request<{ ok: boolean }>("/api/v1/auth/logout", { method: "POST" });
     setToken(null);
     return data;
   },
   projects: () => request<{ projects: Project[]; is_demo?: boolean }>("/api/v1/projects"),
-  createProject: (idea: string, industry: string, country: string, areas = "") =>
-    request<{ project: Project }>("/api/v1/projects", {
+  createProject: (idea: string, industry: string, country: string, areas = "", mode: "new" | "existing" = "new") =>
+    request<{ project: Project; next?: { onboarding?: string; gauge?: string | null; mentor?: string } }>("/api/v1/projects", {
       method: "POST",
-      body: JSON.stringify({ idea, industry, country, areas }),
+      body: JSON.stringify({ idea, industry, country, areas, mode }),
     }),
   project: (id: string) => request<{ project: Record<string, unknown> }>(`/api/v1/projects/${id}`),
   updateIntake: (workspace_id: string, idea: string, industry: string, country: string, areas = "") =>
