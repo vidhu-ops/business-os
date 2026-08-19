@@ -1,19 +1,17 @@
-# Keep the Render Free instance from spinning down (~15 min idle → ~60s cold start).
+# Keep the Render Free instance from spinning down (~15 min idle → cold start).
 #
-# IMPORTANT LIMITS
-# - GitHub scheduled Actions often drift 5–20+ minutes late (or skip). That alone
-#   is NOT enough. Also add a free 5-minute monitor (UptimeRobot / cron-job.org).
-# - Free instances get ~750 hours/month. 24/7 keep-warm ≈ 720h — near the cap.
-#   For always-on without hour limits: upgrade the service to Starter (paid).
-#
+# Fixed: status-code capture no longer mixes log lines into the HTTP code check.
 # Optional repo variable: KEEP_WARM_URL (default https://iidatech.biz)
+#
+# Note: GitHub scheduled Actions can still drift/skip. For stricter uptime, also
+# use UptimeRobot / cron-job.org every 5 minutes, or upgrade Render off Free.
 
 name: Keep warm
 
 on:
   schedule:
-    # Every 5 minutes — Render free sleeps at ~15 min; GH cron still may drift.
-    - cron: "*/5 * * * *"
+    # Every 10 minutes — under Render's ~15 min idle sleep window.
+    - cron: "*/10 * * * *"
   workflow_dispatch: {}
 
 jobs:
@@ -29,9 +27,9 @@ jobs:
           BASE="${KEEP_WARM_URL:-https://iidatech.biz}"
           BASE="${BASE%/}"
           TS="$(date +%s)"
-          echo "Pinging ${BASE} (cache-bust t=${TS}) ..."
+          echo "Pinging ${BASE} (cache-bust t=${TS})"
 
-          ping_one() {
+          http_code() {
             local path="$1"
             local url="${BASE}${path}?warm=1&t=${TS}"
             local code
@@ -39,19 +37,40 @@ jobs:
               -H "Cache-Control: no-cache" \
               -H "Pragma: no-cache" \
               --connect-timeout 20 --max-time 100 \
-              -L "${url}" || true)"
-            echo "GET ${path} -> HTTP ${code}"
-            echo "${code}"
+              -L "${url}" || echo "000")"
+            echo "GET ${path} -> HTTP ${code}" >&2
+            printf '%s' "${code}"
           }
 
-          code="$(ping_one /api/health)"
-          if [ "${code}" != "200" ]; then
-            code="$(ping_one /api/v1/health)"
-          fi
+          try_warm() {
+            local code
+            code="$(http_code /api/health)"
+            if [ "${code}" = "200" ]; then
+              return 0
+            fi
+            code="$(http_code /api/v1/health)"
+            if [ "${code}" = "200" ]; then
+              return 0
+            fi
+            echo "Last body:" >&2
+            head -c 800 /tmp/keep-warm.body >&2 || true
+            echo >&2
+            return 1
+          }
 
-          if [ "${code}" != "200" ]; then
-            echo "Keep-warm ping failed (HTTP ${code})"
-            head -c 800 /tmp/keep-warm.body || true
+          # Cold starts on Free can take ~60s; retry a couple times.
+          ok=0
+          for attempt in 1 2 3; do
+            echo "Attempt ${attempt}/3..."
+            if try_warm; then
+              ok=1
+              break
+            fi
+            sleep 15
+          done
+
+          if [ "${ok}" != "1" ]; then
+            echo "Keep-warm ping failed after retries"
             exit 1
           fi
           echo "OK - service is warm"

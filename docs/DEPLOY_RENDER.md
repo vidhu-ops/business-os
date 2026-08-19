@@ -98,11 +98,12 @@ Render **Free** web services spin down after ~15 minutes with no traffic. The ne
 visit then takes ~30–90s while the container cold-starts. That is platform behavior,
 not an app bug.
 
-### Why the GitHub ping alone fails
+### Why the GitHub ping alone can fail
 
-The repo Action (`.github/workflows/keep-warm.yml`) pings every **5 minutes**, but
+The repo Action (`.github/workflows/keep-warm.yml`) pings every **10 minutes**, but
 GitHub’s scheduled cron often runs late or skips. If any gap exceeds ~15 minutes,
-Render sleeps again.
+Render sleeps again. (The Action itself was also fixed so HTTP status checks no
+longer fail from mixed log output.)
 
 ### What actually works (pick one)
 
