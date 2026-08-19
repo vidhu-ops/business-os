@@ -2412,6 +2412,31 @@ html.light body {
   margin-right: 0.1em;
 }
 
+.mkt-price-coming {
+  display: block;
+  font-size: clamp(1.15rem, 3vw, 1.45rem);
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  color: var(--iid-blue);
+}
+
+.mkt-price:has(.mkt-price-coming) small {
+  display: block;
+  margin: 0.45rem 0 0;
+  margin-left: 0;
+}
+
+.mkt-price-cta-row {
+  margin-top: 0.5rem;
+}
+
+.mkt-price-cta-row .mkt-price-cta {
+  width: auto;
+  flex: 1 1 auto;
+  min-width: 8rem;
+  text-align: center;
+}
+
 .mkt-price-list {
   list-style: none;
   margin: 0;

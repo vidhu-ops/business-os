@@ -6,7 +6,6 @@ import { useState } from "react";
 import { Menu, X } from "lucide-react";
 import { AuthNavLinks } from "@/components/AuthNavLinks";
 import { ThemeToggle } from "@/components/ThemeToggle";
-import { WorkspaceEntryLink } from "@/components/WorkspaceEntryLink";
 
 const NAV = [
   { label: "Home", href: "/" },
@@ -101,9 +100,7 @@ export function MarketingShell({ children }: { children: React.ReactNode }) {
           <div>
             <h4>Workspace</h4>
             <p>
-              <Link href="/login">Sign in</Link>
-              <br />
-              <WorkspaceEntryLink>See demo</WorkspaceEntryLink>
+              <AuthNavLinks showDemo />
             </p>
           </div>
           <div>
@@ -112,6 +109,8 @@ export function MarketingShell({ children }: { children: React.ReactNode }) {
               <a href="mailto:vidhu@pronto.me">vidhu@pronto.me</a>
               <br />
               <a href="tel:+919545403431">+91 95454 03431</a>
+              <br />
+              <a href="https://wa.me/919545403431" target="_blank" rel="noreferrer">WhatsApp</a>
             </p>
           </div>
         </div>

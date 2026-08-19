@@ -2,7 +2,7 @@
 
 import { Suspense, useEffect, useState } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
-import { setToken } from "@/lib/api";
+import { api, setToken } from "@/lib/api";
 
 function GoogleCallbackInner() {
   const router = useRouter();
@@ -10,15 +10,33 @@ function GoogleCallbackInner() {
   const [error, setError] = useState("");
 
   useEffect(() => {
-    const token = params.get("token");
-    const next = params.get("next") || "/app/dashboard";
-    if (!token) {
-      setError("Missing sign-in token from Google.");
-      return;
+    let cancelled = false;
+    async function finish() {
+      const token = params.get("token");
+      const next = params.get("next") || "/app/dashboard";
+      const dest = next.startsWith("/app") ? next : "/app/dashboard";
+      try {
+        if (token) {
+          setToken(token);
+        }
+        // Confirm session (cookie and/or token). Do not clear token on transient errors.
+        await api.me();
+        if (!cancelled) router.replace(dest);
+      } catch (err) {
+        if (token) {
+          // Token was set — still enter workspace; layout will revalidate.
+          if (!cancelled) router.replace(dest);
+          return;
+        }
+        if (!cancelled) {
+          setError(err instanceof Error ? err.message : "Google sign-in failed.");
+        }
+      }
     }
-    setToken(token);
-    const dest = next.startsWith("/app") ? next : "/app/dashboard";
-    router.replace(dest);
+    finish();
+    return () => {
+      cancelled = true;
+    };
   }, [params, router]);
 
   if (error) {

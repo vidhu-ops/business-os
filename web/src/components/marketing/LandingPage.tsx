@@ -111,7 +111,10 @@ export function LandingPage() {
             <p className="mkt-sub">
               Review reports on your phone, approve plans between meetings, and manage Employee OS from anywhere — with generous spacing and touch-friendly controls.
             </p>
-            <Link href="/pricing" className="iid-btn iid-btn-primary">View pricing</Link>
+            <div className="flex flex-wrap gap-2">
+              <Link href="/pricing" className="iid-btn iid-btn-primary">Pricing (coming soon)</Link>
+              <a href="https://wa.me/919545403431" target="_blank" rel="noreferrer" className="iid-btn iid-btn-ghost">WhatsApp for quote</a>
+            </div>
           </div>
         </div>
       </section>
@@ -270,7 +273,8 @@ export function LandingPage() {
             <Link href="/login?intent=audit&mode=register" className="iid-btn iid-btn-primary">
               Run free audit
             </Link>
-            <Link href="/pricing" className="iid-btn iid-btn-ghost">See pricing</Link>
+            <Link href="/pricing" className="iid-btn iid-btn-ghost">Pricing coming soon</Link>
+            <a href="https://wa.me/919545403431" target="_blank" rel="noreferrer" className="iid-btn iid-btn-ghost">WhatsApp +91 95454 03431</a>
           </div>
         </div>
       </section>
@@ -282,7 +286,7 @@ export function LandingPage() {
             <MarketingPhoto id="founder-team" />
             <div className="mkt-contact-stack">
             <div className="mkt-contact-card"><span className="mkt-icon-ring sm"><IconMail /></span><div><strong>Email</strong><a href="mailto:vidhugupta1996@gmail.com">vidhugupta1996@gmail.com</a></div></div>
-            <div className="mkt-contact-card"><span className="mkt-icon-ring sm"><IconPhone /></span><div><strong>Phone</strong><a href="tel:+919545403431">+91 95454 03431</a></div></div>
+            <div className="mkt-contact-card"><span className="mkt-icon-ring sm"><IconPhone /></span><div><strong>Call / WhatsApp</strong><a href="tel:+919545403431">+91 95454 03431</a> · <a href="https://wa.me/919545403431" target="_blank" rel="noreferrer">WhatsApp</a></div></div>
             <div className="mkt-contact-card"><span className="mkt-icon-ring sm"><IconPin /></span><div><strong>Based in</strong><span>Serving companies globally</span></div></div>
             </div>
           </div>

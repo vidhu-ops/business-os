@@ -146,13 +146,21 @@ export default function DashboardPage() {
           </div>
           {plan.id === "starter" ? (
             <Link href="/pricing" className="iid-btn iid-btn-primary w-full sm:w-auto">
-              Upgrade to Growth
+              Upgrade / talk pricing
             </Link>
           ) : (
             <Link href="/pricing" className="iid-btn iid-btn-ghost w-full sm:w-auto">
-              View pricing
+              Pricing coming soon
             </Link>
           )}
+          <a
+            href="https://wa.me/919545403431"
+            target="_blank"
+            rel="noreferrer"
+            className="iid-btn iid-btn-ghost w-full sm:w-auto"
+          >
+            WhatsApp +91 95454 03431
+          </a>
         </section>
       </div>
 

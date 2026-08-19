@@ -209,7 +209,7 @@ export function HowItWorksPage() {
           <Link href="/login?mode=register" className="iid-btn iid-btn-primary">Sign up free</Link>
           <WorkspaceEntryLink className="iid-btn iid-btn-ghost">See demo</WorkspaceEntryLink>
           <Link href="/pricing" className="iid-btn iid-btn-ghost">
-            View pricing
+            Pricing coming soon
           </Link>
         </div>
       </section>
