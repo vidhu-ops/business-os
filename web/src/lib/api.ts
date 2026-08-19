@@ -206,6 +206,13 @@ export const api = {
     return data;
   },
   me: () => request<User>("/api/v1/auth/me"),
+  googleAuthStatus: () =>
+    request<{ enabled: boolean; redirect_uri?: string | null }>("/api/v1/auth/google/status", undefined, { auth: false }),
+  googleAuthStartUrl: (next = "/app/dashboard") => {
+    const q = new URLSearchParams({ next });
+    const base = typeof window !== "undefined" ? window.location.origin : "";
+    return `${base}/api/v1/auth/google/start?${q.toString()}`;
+  },
   iidaTip: (path: string, screen_summary?: string) => {
     const q = new URLSearchParams({ path });
     if (screen_summary) q.set("screen_summary", screen_summary);
