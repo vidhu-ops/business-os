@@ -14,7 +14,6 @@ import {
 import { IconClock, IconGlobe, IconMail, IconPhone, IconPin, IconSearch, IconUser } from "./icons";
 import { IndustryBanner } from "./IndustryBanner";
 import { MarketingShell } from "./MarketingShell";
-import { PlatformWheel } from "./PlatformWheel";
 import { WorkspaceEntryLink } from "@/components/WorkspaceEntryLink";
 import {
   AUDIENCE,
