@@ -183,10 +183,14 @@ export function VideoShowcase({
   title,
   subtitle,
   videoId,
+  videoSrc,
+  poster,
 }: {
   title: string;
   subtitle: string;
-  videoId: string;
+  videoId?: string;
+  videoSrc?: string;
+  poster?: string;
 }) {
   return (
     <div className="mkt-video-block">
@@ -195,12 +199,18 @@ export function VideoShowcase({
         <p className="mkt-sub">{subtitle}</p>
       </div>
       <div className="mkt-video-frame">
-        <iframe
-          title={title}
-          src={`https://www.youtube.com/embed/${videoId}?rel=0`}
-          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-          allowFullScreen
-        />
+        {videoSrc ? (
+          <video controls playsInline preload="metadata" poster={poster}>
+            <source src={videoSrc} type="video/mp4" />
+          </video>
+        ) : (
+          <iframe
+            title={title}
+            src={`https://www.youtube.com/embed/${videoId || ""}?rel=0`}
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+            allowFullScreen
+          />
+        )}
       </div>
     </div>
   );

@@ -15,12 +15,14 @@ export const TOOLS: Array<{
   founder: { title: string; body: string; inApp: string };
   company: { title: string; body: string; inApp: string };
   videoId?: string;
+  videoSrc?: string;
 }> = [
   {
     id: "research",
     label: "Market Research",
     short: "Research",
-    videoId: "9No-FiEInLA",
+
+    videoSrc: "/marketing/videos/research.mp4",
     founder: {
       title: "Market research for founders",
       body: "Validate your idea with sourced competitor maps, TAM/SAM/SOM, buyer pain, and pricing evidence — before you spend on ads or inventory.",
@@ -36,6 +38,8 @@ export const TOOLS: Array<{
     id: "plan",
     label: "Business Planning",
     short: "Plan",
+
+    videoSrc: "/marketing/videos/plan.mp4",
     founder: {
       title: "Bank- and investor-ready business plans",
       body: "Turn research into ICP, GTM, unit economics, and a structured plan you can submit for funding, loans, or co-founder alignment.",
@@ -51,6 +55,8 @@ export const TOOLS: Array<{
     id: "execute",
     label: "Employee OS",
     short: "Execute",
+
+    videoSrc: "/marketing/videos/execute.mp4",
     founder: {
       title: "AI employees that execute your plan",
       body: "Taylor (COO) plus specialists turn the plan into tasks — research follow-ups, leads, decks, and outreach — with approvals before anything external sends.",
@@ -66,6 +72,8 @@ export const TOOLS: Array<{
     id: "automate",
     label: "Automation",
     short: "Automate",
+
+    videoSrc: "/marketing/videos/automate.mp4",
     founder: {
       title: "Automations that close the loop",
       body: "Build workflows across CRM, inbox, and reporting so research and outreach do not die in spreadsheets.",
@@ -81,6 +89,8 @@ export const TOOLS: Array<{
     id: "mentor",
     label: "Mentor",
     short: "Mentor",
+
+    videoSrc: "/marketing/videos/mentor.mp4",
     founder: {
       title: "A mentor that knows your project",
       body: "Ask what to do next, get grounded advice from your research and plan, and hand work to Taylor when you are ready to execute.",
@@ -96,6 +106,8 @@ export const TOOLS: Array<{
     id: "brand",
     label: "Brand & Deliverables",
     short: "Brand",
+
+    videoSrc: "/marketing/videos/brand.mp4",
     founder: {
       title: "Founder-ready decks and one-pagers",
       body: "Package research and plans into pitch decks, memos, and branded exports you can send to investors and partners.",

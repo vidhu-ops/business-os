@@ -4698,3 +4698,27 @@ html:not(.light) .demo-banner-copy {
 html.light .mkt-client-logo {
   background: #0b1220;
 }
+
+.mkt-wheel-video video,
+.mkt-demo-video video {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  background: #05070f;
+}
+
+.mkt-demo-video {
+  max-width: 56rem;
+  margin: 0 auto;
+}
+
+.mkt-video-frame video {
+  width: 100%;
+  height: 100%;
+  display: block;
+  object-fit: cover;
+  background: #05070f;
+  border: 0;
+}

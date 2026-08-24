@@ -10,7 +10,6 @@ import {
   HumanScene,
   MarketingPhoto,
   PhotoStrip,
-  VideoShowcase,
 } from "./illustrations";
 import { IconClock, IconGlobe, IconMail, IconPhone, IconPin, IconSearch, IconUser } from "./icons";
 import { IndustryBanner } from "./IndustryBanner";
@@ -231,7 +230,13 @@ export function LandingPage() {
             </div>
           </div>
           <div className="mkt-service-detail-media">
-            {activeService.videoId ? (
+            {activeService.videoSrc ? (
+              <div className="mkt-wheel-video">
+                <video key={activeService.videoSrc} controls playsInline preload="metadata">
+                  <source src={activeService.videoSrc} type="video/mp4" />
+                </video>
+              </div>
+            ) : activeService.videoId ? (
               <div className="mkt-wheel-video">
                 <iframe
                   title={`${activeService.label} screen walkthrough`}
@@ -244,7 +249,7 @@ export function LandingPage() {
               <MarketingPhoto id="analytics" />
             )}
             <p className="mkt-service-video-note">
-              Screen walkthrough for {activeService.label}. More product recordings publish as we ship each flow.
+              Product walkthrough for {activeService.label} — recorded from the live IIDATECH workspace.
             </p>
           </div>
         </article>
@@ -429,11 +434,29 @@ export function LandingPage() {
       </section>
 
       <section id="demo" className="mkt-wrap mkt-section-tight">
-        <VideoShowcase
-          title={audience === "founder" ? "Watch a founder go from idea to report" : "Watch a company audit and research flow"}
-          subtitle="Screen walkthrough of the IIDATECH workspace — research to plan in one project."
-          videoId="9No-FiEInLA"
-        />
+        <div className="mkt-section-head">
+          <span className="mkt-label">Walkthrough</span>
+          <h2 className="mkt-h2">
+            {audience === "founder" ? "Watch how founders use IIDATECH" : "Watch how B2B teams use IIDATECH"}
+          </h2>
+          <p className="mkt-sub">
+            Screen walkthrough of the live workspace — research intake through Mentor coaching.
+          </p>
+        </div>
+        <div className="mkt-wheel-video mkt-demo-video">
+          <video
+            key={audience}
+            controls
+            playsInline
+            preload="metadata"
+            poster="/marketing/frames/research2.png"
+          >
+            <source
+              src={audience === "founder" ? "/marketing/videos/research.mp4" : "/marketing/videos/mentor.mp4"}
+              type="video/mp4"
+            />
+          </video>
+        </div>
       </section>
 
       <section className="mkt-wrap mkt-section">

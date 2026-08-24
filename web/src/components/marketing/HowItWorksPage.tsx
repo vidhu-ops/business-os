@@ -218,7 +218,8 @@ export function HowItWorksPage() {
         <VideoShowcase
           title="See the full flow"
           subtitle="Research → Plan → Reference → Employee OS in one workspace."
-          videoId="9No-FiEInLA"
+          videoSrc="/marketing/videos/research.mp4"
+          poster="/marketing/frames/research2.png"
         />
       </section>
 
