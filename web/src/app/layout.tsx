@@ -16,8 +16,27 @@ const syne = Syne({
 });
 
 export const metadata: Metadata = {
-  title: "IIDATECH | Build Your Business",
-  description: "Research, business plans, and team execution in one IIDA workspace.",
+  metadataBase: new URL("https://iidatech.biz"),
+  title: {
+    default: "IIDATECH | Business OS for Founders & B2B Companies",
+    template: "%s | IIDATECH",
+  },
+  description:
+    "IIDATECH helps founders and established B2B companies research markets, build business plans, mentor decisions, execute with Employee OS, and automate workflows — in one business ecosystem.",
+  keywords: [
+    "IIDATECH",
+    "founder business OS",
+    "B2B market research platform",
+    "AI business plan",
+    "Employee OS",
+    "MSME automation India",
+  ],
+  openGraph: {
+    type: "website",
+    siteName: "IIDATECH",
+    locale: "en_IN",
+  },
+  robots: { index: true, follow: true },
 };
 
 export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
