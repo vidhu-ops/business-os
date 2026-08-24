@@ -1,3 +1,5 @@
+import type { MarketingPhotoId } from "./marketingImages";
+
 export type Audience = "founder" | "company";
 
 export type ToolId =
@@ -196,3 +198,246 @@ export const CLIENT_LOGOS = [
   { name: "JP Infralease", src: "/partners/white/jp-infralease.png" },
   { name: "IIDATECH platform", src: "/marketing/platform-wheel.png" },
 ];
+
+export type ServiceDetail = {
+  id: ToolId;
+  slug: string;
+  label: string;
+  short: string;
+  photoId: MarketingPhotoId;
+  videoSrc?: string;
+  summary: string;
+  outcomes: string[];
+  whoFor: string[];
+  steps: string[];
+  faqs: Array<{ q: string; a: string }>;
+};
+
+export const SERVICE_DETAILS: ServiceDetail[] = [
+  {
+    id: "research",
+    slug: "research",
+    label: "Market Research",
+    short: "Research",
+    photoId: "market-research",
+    videoSrc: "/marketing/videos/research.mp4",
+    summary:
+      "IIDATECH Market Research turns a niche into a sourced intelligence report — competitors, TAM/SAM/SOM, buyer pain, pricing, and citations you can share with co-founders, investors, or your GTM team.",
+    outcomes: [
+      "Multi-section report with citations",
+      "Competitor and pricing maps",
+      "TAM / SAM / SOM framing for your market",
+      "Markdown export for decks and memos",
+    ],
+    whoFor: [
+      "Founders validating an idea before spend",
+      "B2B teams refreshing category intelligence",
+      "Operators preparing investor or board packs",
+    ],
+    steps: [
+      "Create or open a project for your idea or company.",
+      "Open Market Research and set topic, industry, and market.",
+      "Choose depth and click Generate report.",
+      "Review sections, export Markdown, or feed the report into Plan.",
+    ],
+    faqs: [
+      {
+        q: "How is this different from generic ChatGPT research?",
+        a: "IIDATECH structures the report for founders and B2B operators, ties it to a project vault, and keeps outputs ready for planning and Employee OS — not a one-off chat paste.",
+      },
+      {
+        q: "Can I reuse research across plan and Mentor?",
+        a: "Yes. Keep the same project selected so Plan, Mentor, and Employee OS can ground on the latest research artifact.",
+      },
+    ],
+  },
+  {
+    id: "plan",
+    slug: "plan",
+    label: "Business Planning",
+    short: "Plan",
+    photoId: "presentation",
+    videoSrc: "/marketing/videos/plan.mp4",
+    summary:
+      "Business Planning turns research into ICP, GTM, unit economics, and a structured plan you can use for funding, loans, co-founder alignment, or B2B growth roadmaps.",
+    outcomes: [
+      "Investor- or bank-ready plan structure",
+      "ICP and GTM sections linked to research",
+      "Financial framing for decisions",
+      "Handoff into Employee OS checklists",
+    ],
+    whoFor: [
+      "Founders raising or applying for credit",
+      "Established companies building growth plans",
+      "Teams that need one shared operating narrative",
+    ],
+    steps: [
+      "Open Plan with the same project as your research.",
+      "Choose new-company or existing-company / growth mode.",
+      "Use research as input where available.",
+      "Click Build Agentic Business Plan and review Plan Output.",
+    ],
+    faqs: [
+      {
+        q: "Does the plan stay connected to research?",
+        a: "Yes — keep one project selected so research, plan, and execution stay in the same vault.",
+      },
+      {
+        q: "Can Employee OS use the plan?",
+        a: "Yes. Build checklist from plan in Employee OS to turn sections into runnable tasks.",
+      },
+    ],
+  },
+  {
+    id: "execute",
+    slug: "execute",
+    label: "Employee OS",
+    short: "Execute",
+    photoId: "collaboration",
+    videoSrc: "/marketing/videos/execute.mp4",
+    summary:
+      "Employee OS is your AI workforce — Taylor (COO) plus specialists that turn plans into tasks, drafts, research follow-ups, and outreach with human approval before anything external sends.",
+    outcomes: [
+      "Checklist built from your plan",
+      "Office-day runs with specialist agents",
+      "Approvals before outbound actions",
+      "CRM / inbox / deliverable outputs",
+    ],
+    whoFor: [
+      "Founders without a full ops team",
+      "B2B companies needing virtual capacity",
+      "Managers who want approved automation, not black-box sends",
+    ],
+    steps: [
+      "Open Employee OS and select your project.",
+      "Configure Full office, Department, or Employee mode.",
+      "Build checklist from plan, then Run next or Run full office day.",
+      "Approve tasks in Tasks & Approvals before external send.",
+    ],
+    faqs: [
+      {
+        q: "Will agents send emails without me?",
+        a: "External actions are designed to sit behind approvals so you stay in control of outreach.",
+      },
+      {
+        q: "How do credits work?",
+        a: "Real Employee OS work units consume credits. Demo mode lets you explore without spend.",
+      },
+    ],
+  },
+  {
+    id: "automate",
+    slug: "automate",
+    label: "Automation",
+    short: "Automate",
+    photoId: "analytics",
+    videoSrc: "/marketing/videos/automate.mp4",
+    summary:
+      "Automation closes the loop across CRM, inbox, and reporting so research and outreach do not die in spreadsheets — with credit-metered workflow steps and integrations.",
+    outcomes: [
+      "Reusable workflows across tools",
+      "Lead routing and follow-up packs",
+      "Reporting automation for operators",
+      "Integration hooks under your project",
+    ],
+    whoFor: [
+      "Founders tired of manual CRM hygiene",
+      "B2B teams standardizing department follow-ups",
+      "Ops leads connecting HubSpot, Gmail, and reports",
+    ],
+    steps: [
+      "Open Automation and pick a workflow template or blank flow.",
+      "Connect tools under Integrations where needed.",
+      "Build steps, then run with credits.",
+      "Monitor outcomes from the project workspace.",
+    ],
+    faqs: [
+      {
+        q: "Do I need paid plans for automation?",
+        a: "You can explore with demo and free credits. Paid pricing is finalizing — WhatsApp the team for stage-specific quotes.",
+      },
+      {
+        q: "What can I connect?",
+        a: "Use Integrations for LLM keys and optional Gmail / LinkedIn / HubSpot-style connections as enabled in your workspace.",
+      },
+    ],
+  },
+  {
+    id: "mentor",
+    slug: "mentor",
+    label: "Mentor",
+    short: "Mentor",
+    photoId: "strategy-meeting",
+    videoSrc: "/marketing/videos/mentor.mp4",
+    summary:
+      "Mentor is context-aware coaching grounded in your project — research, plan, and company memory — so next steps are specific, not generic advice.",
+    outcomes: [
+      "Advice tied to your live artifacts",
+      "Prioritized next actions",
+      "Handoff prompts into Employee OS",
+      "Operator coaching for company projects",
+    ],
+    whoFor: [
+      "Founders stuck on what to do next",
+      "Managers coaching teams from shared project context",
+      "Operators who want grounded, not generic, advice",
+    ],
+    steps: [
+      "Open Mentor with your project selected.",
+      "Ask about blockers, priorities, or GTM choices.",
+      "Use guidance to refine the plan or research.",
+      "Hand work to Taylor / Employee OS when ready to execute.",
+    ],
+    faqs: [
+      {
+        q: "Does Mentor know my research?",
+        a: "When the same project is selected, Mentor can ground on workspace context instead of starting from zero.",
+      },
+      {
+        q: "Can Mentor trigger execution?",
+        a: "You can ask for next steps and hand work into Employee OS flows like run next or build checklist.",
+      },
+    ],
+  },
+  {
+    id: "gauge",
+    slug: "gauge",
+    label: "GAUGE Company Audit",
+    short: "Gauge",
+    photoId: "msme-business",
+    videoSrc: "/marketing/videos/gauge.mp4",
+    summary:
+      "GAUGE is a structured company / idea audit across traction, market fit, operations, and readiness — scored so founders and B2B operators know what to fix before scaling or fundraising.",
+    outcomes: [
+      "Scored dimensions you can act on",
+      "Readiness gaps before hire or raise",
+      "Shared report for leadership",
+      "Natural handoff into Mentor and Plan",
+    ],
+    whoFor: [
+      "Founders stress-testing an idea",
+      "Established companies running a free health audit",
+      "Leadership teams aligning on priorities",
+    ],
+    steps: [
+      "Open GAUGE / Company Audit (or start via free company audit signup).",
+      "Complete the questionnaire for your stage.",
+      "Review scored dimensions and recommended actions.",
+      "Share with Mentor or fold gaps into Plan and Employee OS.",
+    ],
+    faqs: [
+      {
+        q: "Is the company audit free?",
+        a: "You can start a free company audit path from signup. Demo and free credits help you explore while paid pricing finalizes.",
+      },
+      {
+        q: "What happens after the score?",
+        a: "Use Mentor for prioritization, Plan for the operating narrative, and Employee OS to execute the fixes.",
+      },
+    ],
+  },
+];
+
+export function getServiceBySlug(slug: string): ServiceDetail | undefined {
+  return SERVICE_DETAILS.find((s) => s.slug === slug);
+}

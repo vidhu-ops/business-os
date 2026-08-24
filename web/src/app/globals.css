@@ -376,7 +376,7 @@ html.light body {
 .mkt-page {
   --iid-sky: var(--iid-sky);
   --iid-max: 1200px;
-  --mkt-section-gap: 7.5rem;
+  --mkt-section-gap: 8.5rem;
   position: relative;
   overflow-x: clip;
   color: var(--iid-text);
@@ -516,31 +516,65 @@ html.light body {
 .mkt-hero-grid {
   display: grid;
   grid-template-columns: 1.05fr 0.95fr;
-  gap: clamp(2.5rem, 6vw, 5rem);
+  grid-template-areas:
+    "intro aside"
+    "copy aside";
+  gap: clamp(1.5rem, 4vw, 2.5rem) clamp(2.5rem, 6vw, 5rem);
   padding: clamp(2.75rem, 7vw, 5.5rem) clamp(1.5rem, 5vw, 4rem);
-  align-items: center;
+  align-items: start;
 }
 
 .mkt-hero-grid > * {
   min-width: 0;
 }
 
+.mkt-hero-intro {
+  grid-area: intro;
+  display: flex;
+  flex-direction: column;
+  gap: 0.15rem;
+}
+
+.mkt-hero-intro .mkt-eyebrow {
+  margin-bottom: 1rem;
+}
+
+.mkt-hero-intro .mkt-hero-title {
+  margin-bottom: 0;
+}
+
+.mkt-hero-aside {
+  grid-area: aside;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  align-self: center;
+}
+
+.mkt-hero-copy {
+  grid-area: copy;
+}
+
 @media (max-width: 960px) {
   .mkt-hero-grid {
     grid-template-columns: 1fr;
+    grid-template-areas:
+      "intro"
+      "aside"
+      "copy";
     padding: 2.5rem 1.5rem 2rem;
-    gap: 2.5rem;
+    gap: 1.75rem;
   }
 
-  .mkt-hero-visual {
-    order: 2;
+  .mkt-hero-aside {
     max-width: 520px;
-    margin: 0 auto;
     width: 100%;
+    margin: 0 auto;
+    align-self: stretch;
   }
 
+  .mkt-hero-intro,
   .mkt-hero-copy {
-    order: 1;
     text-align: left;
   }
 
@@ -3291,7 +3325,7 @@ html.light body {
   }
 
   .mkt-page {
-    --mkt-section-gap: 5rem;
+    --mkt-section-gap: 6.25rem;
   }
 
   .mkt-section {
@@ -4488,6 +4522,69 @@ html:not(.light) .demo-banner-copy {
 .mkt-hero-photo {
   width: 100%;
   margin: 0;
+}
+
+.mkt-section-visual {
+  margin-bottom: clamp(2.5rem, 5vw, 4rem);
+}
+
+.mkt-section-visual .mkt-photo-strip {
+  margin: 0;
+}
+
+.mkt-about-grid + .mkt-section-head-tight,
+.mkt-photo-strip {
+  margin-top: clamp(1.5rem, 3vw, 2.5rem);
+  margin-bottom: clamp(1.5rem, 3vw, 2.5rem);
+}
+
+.mkt-split-reviews {
+  align-items: stretch;
+  gap: clamp(1.5rem, 4vw, 2.5rem);
+}
+
+.mkt-reviews-photo {
+  min-height: 100%;
+}
+
+.mkt-service-page-hero {
+  margin-bottom: clamp(2.5rem, 5vw, 4rem);
+}
+
+.mkt-service-page-grid {
+  display: grid;
+  grid-template-columns: 1.05fr 0.95fr;
+  gap: clamp(1.5rem, 4vw, 2.5rem);
+  padding: clamp(2rem, 5vw, 3.5rem) clamp(1.5rem, 5vw, 3rem);
+  align-items: start;
+}
+
+@media (max-width: 900px) {
+  .mkt-service-page-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+.mkt-service-page-video {
+  margin-top: 1rem;
+}
+
+.mkt-service-list {
+  margin: 1rem 0 0;
+  padding-left: 1.15rem;
+  color: var(--iid-muted);
+  line-height: 1.7;
+}
+
+.mkt-service-list li + li {
+  margin-top: 0.55rem;
+}
+
+.mkt-service-more-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.65rem;
+  margin-top: 1.25rem;
 }
 
 .mkt-section-head-tight {

@@ -67,7 +67,7 @@ export function LandingPage() {
       {/* 1. Hero — audience toggle */}
       <section className="mkt-wrap mkt-hero" aria-labelledby="hero-heading">
         <div className="mkt-hero-grid">
-          <div className="mkt-hero-copy">
+          <div className="mkt-hero-intro">
             <div className="mkt-audience-toggle" role="group" aria-label="Choose how to read IIDATECH">
               <button
                 type="button"
@@ -98,7 +98,18 @@ export function LandingPage() {
                 ))}
               </span>
             </h1>
+          </div>
 
+          <div className="mkt-hero-aside">
+            <MarketingPhoto id="workspace" className="mkt-hero-photo" />
+            <p className="mkt-hero-aside-caption">
+              {audience === "founder"
+                ? "Founder workspace: research, plan, Mentor, and Employee OS in one place."
+                : "Company workspace: GAUGE audit, market intelligence, plans, and approved automation."}
+            </p>
+          </div>
+
+          <div className="mkt-hero-copy">
             <div className="mkt-pipe" aria-hidden>
               {copy.pipe.flatMap((step, i) =>
                 i === 0
@@ -131,15 +142,6 @@ export function LandingPage() {
               <a href="https://wa.me/919545403431">+91 95454 03431</a> for pricing
             </p>
           </div>
-
-          <div className="mkt-hero-aside">
-            <MarketingPhoto id="workspace" className="mkt-hero-photo" />
-            <p className="mkt-hero-aside-caption">
-              {audience === "founder"
-                ? "Founder workspace: research, plan, Mentor, and Employee OS in one place."
-                : "Company workspace: GAUGE audit, market intelligence, plans, and approved automation."}
-            </p>
-          </div>
         </div>
       </section>
 
@@ -148,6 +150,10 @@ export function LandingPage() {
       {/* 2. Interactive 6 tools */}
       <section id="platform" className="mkt-wrap mkt-section">
         <PlatformWheel audience={audience} />
+      </section>
+
+      <section className="mkt-wrap mkt-section-tight mkt-section-visual" aria-hidden={false}>
+        <PhotoStrip ids={["presentation", "founder-team", "retail", "logistics"]} />
       </section>
 
       {/* 3. About / how it works / who / services */}
@@ -159,6 +165,8 @@ export function LandingPage() {
           </h2>
           <p className="mkt-sub">{copy.aboutBody}</p>
         </div>
+
+        <PhotoStrip ids={["strategy-meeting", "market-research", "collaboration", "analytics"]} />
 
         <div className="mkt-about-grid">
           <article className="mkt-about-card">
@@ -223,7 +231,10 @@ export function LandingPage() {
               <strong>How it works in the app:</strong> {serviceCopy.inApp}
             </p>
             <div className="flex flex-wrap gap-2 mt-4">
-              <Link href="/login?mode=register" className="iid-btn iid-btn-primary">
+              <Link href={`/services/${activeService.id}`} className="iid-btn iid-btn-primary">
+                Read more
+              </Link>
+              <Link href="/login?mode=register" className="iid-btn iid-btn-ghost">
                 Try this free
               </Link>
               <WorkspaceEntryLink className="iid-btn iid-btn-ghost">Open demo</WorkspaceEntryLink>
@@ -305,30 +316,36 @@ export function LandingPage() {
           <span className="mkt-label">Reviews</span>
           <h2 className="mkt-h2">What founders and operators say</h2>
         </div>
-        <div className="mkt-reviews-grid">
-          {REVIEWS.map((r) => (
-            <article key={r.name} className="mkt-review-card">
-              <p className="mkt-stars">★★★★★</p>
-              <p className="mkt-review-quote">&ldquo;{r.quote}&rdquo;</p>
-              <div className="mkt-reviewer">
-                <AgentBadge initials={r.initials} tone={r.tone} />
-                <div>
-                  <strong>{r.name}</strong>
-                  <span>{r.role}</span>
+        <div className="mkt-split mkt-split-reviews">
+          <MarketingPhoto id="mobile-founder" className="mkt-reviews-photo" />
+          <div className="mkt-reviews-grid">
+            {REVIEWS.map((r) => (
+              <article key={r.name} className="mkt-review-card">
+                <p className="mkt-stars">★★★★★</p>
+                <p className="mkt-review-quote">&ldquo;{r.quote}&rdquo;</p>
+                <div className="mkt-reviewer">
+                  <AgentBadge initials={r.initials} tone={r.tone} />
+                  <div>
+                    <strong>{r.name}</strong>
+                    <span>{r.role}</span>
+                  </div>
                 </div>
-              </div>
-            </article>
-          ))}
+              </article>
+            ))}
+          </div>
         </div>
       </section>
 
-      {/* Client logos */}
-      <section id="clients" className="mkt-wrap mkt-section-tight" aria-labelledby="clients-heading">
+      {/* Partners & service providers */}
+      <section id="clients" className="mkt-wrap mkt-section" aria-labelledby="clients-heading">
         <div className="mkt-section-head">
-          <span className="mkt-label">Companies we work with</span>
+          <span className="mkt-label">Partners &amp; service providers</span>
           <h2 id="clients-heading" className="mkt-h2">
-            Trusted by operators shipping with IIDATECH
+            Partners and service providers we work with
           </h2>
+          <p className="mkt-sub">
+            Operators and specialists shipping alongside IIDATECH — automation, brand, commerce, and infrastructure partners.
+          </p>
         </div>
         <div className="mkt-client-logos">
           {CLIENT_LOGOS.map((logo) => (
