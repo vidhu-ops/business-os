@@ -6,7 +6,7 @@ export type ToolId =
   | "execute"
   | "automate"
   | "mentor"
-  | "brand";
+  | "gauge";
 
 export const TOOLS: Array<{
   id: ToolId;
@@ -103,20 +103,20 @@ export const TOOLS: Array<{
     },
   },
   {
-    id: "brand",
-    label: "Brand & Deliverables",
-    short: "Brand",
+    id: "gauge",
+    label: "GAUGE Company Audit",
+    short: "Gauge",
 
-    videoSrc: "/marketing/videos/brand.mp4",
+    videoSrc: "/marketing/videos/gauge.mp4",
     founder: {
-      title: "Founder-ready decks and one-pagers",
-      body: "Package research and plans into pitch decks, memos, and branded exports you can send to investors and partners.",
-      inApp: "From plan/research outputs → export PDF or open Reference tools to structure decks and one-pagers.",
+      title: "Score your idea before you scale",
+      body: "Run a GAUGE company audit on traction, market fit, operations, and readiness — so you know what to fix before fundraising or hiring.",
+      inApp: "Open GAUGE / Company Audit → answer the questionnaire → review scored dimensions and recommended next actions.",
     },
     company: {
-      title: "Client and board-ready deliverables",
-      body: "Produce consistent, branded packs for clients, partners, and internal reviews from the same source of truth.",
-      inApp: "Export reports and plans → reuse Reference and deck flows for recurring stakeholder updates.",
+      title: "Company health audits for B2B operators",
+      body: "Benchmark growth, ops, GTM, and financial readiness with a structured GAUGE audit your leadership team can act on.",
+      inApp: "Start a free company audit → complete GAUGE inputs → share the scored report with leadership and Mentor.",
     },
   },
 ];
@@ -191,6 +191,8 @@ export const SOLUTION = {
 
 export const CLIENT_LOGOS = [
   { name: "Pathak Automation Services", src: "/partners/white/pathak.png" },
-  { name: "Partner brand", src: "/partners/white/loop.png" },
+  { name: "Loop", src: "/partners/loop.png" },
   { name: "Tyoharwale", src: "/partners/white/tyoharwale.png" },
+  { name: "JP Infralease", src: "/partners/white/jp-infralease.png" },
+  { name: "IIDATECH platform", src: "/marketing/platform-wheel.png" },
 ];
