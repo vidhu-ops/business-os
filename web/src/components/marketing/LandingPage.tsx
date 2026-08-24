@@ -146,16 +146,11 @@ export function LandingPage() {
 
       <IndustryBanner />
 
-      {/* 2. Interactive 6 tools */}
-      <section id="platform" className="mkt-wrap mkt-section">
-        <PlatformWheel audience={audience} />
-      </section>
-
       <section className="mkt-wrap mkt-section-tight mkt-section-visual" aria-hidden={false}>
         <PhotoStrip ids={["presentation", "founder-team", "retail", "logistics"]} />
       </section>
 
-      {/* 3. About / how it works / who / services */}
+      {/* About / how it works / who / services */}
       <section id="about" className="mkt-wrap mkt-section" aria-labelledby="about-heading">
         <div className="mkt-section-head">
           <span className="mkt-label">About IIDATECH</span>
