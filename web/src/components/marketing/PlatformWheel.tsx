@@ -1,5 +1,6 @@
 "use client";
 
+import Link from "next/link";
 import { useMemo, useState } from "react";
 import type { Audience, ToolId } from "./audienceContent";
 import { TOOLS } from "./audienceContent";
@@ -68,6 +69,12 @@ export function PlatformWheel({ audience }: { audience: Audience }) {
           </div>
         ) : null}
       </article>
+
+      <div className="mkt-wheel-cta">
+        <Link href="/#pricing" className="iid-btn iid-btn-primary">
+          Check pricing
+        </Link>
+      </div>
     </div>
   );
 }

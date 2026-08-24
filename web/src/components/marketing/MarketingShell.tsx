@@ -9,12 +9,9 @@ import { ThemeToggle } from "@/components/ThemeToggle";
 
 const NAV = [
   { label: "Home", href: "/" },
-  { label: "Platform", href: "/#platform" },
   { label: "About", href: "/#about" },
   { label: "Services", href: "/#services" },
   { label: "Pricing", href: "/#pricing" },
-  { label: "Problem", href: "/#why" },
-  { label: "Solution", href: "/#features" },
   { label: "Partners", href: "/partners" },
   { label: "Contact", href: "/#contact" },
 ];

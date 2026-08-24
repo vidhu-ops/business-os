@@ -104,10 +104,17 @@ export function AuthNavLinks({ showDemo = false, compact = false, className = ""
     <div className={wrap}>
       <Link
         href="/login"
-        className={`iid-btn iid-btn-primary auth-nav-cta${compact ? " auth-nav-cta-compact" : ""}`}
+        className={`iid-btn iid-btn-ghost auth-nav-cta${compact ? " auth-nav-cta-compact" : ""}`}
         onClick={onNavigate}
       >
         Sign in
+      </Link>
+      <Link
+        href="/login?mode=register"
+        className={`iid-btn iid-btn-primary auth-nav-cta${compact ? " auth-nav-cta-compact" : ""}`}
+        onClick={onNavigate}
+      >
+        Sign up
       </Link>
       {showDemo ? (
         <WorkspaceEntryLink className="iid-btn iid-btn-ghost auth-nav-demo" onClick={onNavigate}>
