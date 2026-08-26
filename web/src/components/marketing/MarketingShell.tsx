@@ -6,19 +6,21 @@ import { useState } from "react";
 import { Menu, X } from "lucide-react";
 import { AuthNavLinks } from "@/components/AuthNavLinks";
 import { ThemeToggle } from "@/components/ThemeToggle";
+import { SITE_EMAIL, SITE_PHONE, SITE_PHONE_TEL, SITE_WHATSAPP } from "@/lib/site";
 
 const NAV = [
   { label: "Home", href: "/" },
   { label: "About", href: "/#about" },
   { label: "Services", href: "/#services" },
-  { label: "Pricing", href: "/#pricing" },
+  { label: "Pricing", href: "/pricing" },
   { label: "Partners", href: "/partners" },
   { label: "Contact", href: "/#contact" },
 ];
 
 const MORE_LINKS = [
   { label: "How it works", href: "/how-it-works" },
-  { label: "Pricing", href: "/pricing" },
+  { label: "Privacy", href: "/privacy" },
+  { label: "Terms", href: "/terms" },
 ];
 
 export function MarketingShell({ children }: { children: React.ReactNode }) {
@@ -64,13 +66,13 @@ export function MarketingShell({ children }: { children: React.ReactNode }) {
                   {item.label}
                 </Link>
               ))}
-              {!onHome
-                ? null
-                : MORE_LINKS.map((item) => (
+              {onHome
+                ? MORE_LINKS.map((item) => (
                     <Link key={item.href} href={item.href} onClick={() => setOpen(false)} className="mkt-mobile-more">
                       {item.label}
                     </Link>
-                  ))}
+                  ))
+                : null}
               <div className="mkt-mobile-nav-actions">
                 <ThemeToggle />
                 <AuthNavLinks showDemo onNavigate={() => setOpen(false)} />
@@ -97,21 +99,37 @@ export function MarketingShell({ children }: { children: React.ReactNode }) {
           <div>
             <h4>Workspace</h4>
             <p>
-              <AuthNavLinks showDemo />
+              <Link href="/login">Sign in</Link>
+              <br />
+              <Link href="/login?mode=register">Start free</Link>
+              <br />
+              <Link href="/app/research?project=demo_readonly">See demo</Link>
+              <br />
+              <Link href="/app/dashboard">Dashboard</Link>
             </p>
           </div>
           <div>
             <h4>Contact</h4>
             <p>
-              <a href="mailto:vidhu@pronto.me">vidhu@pronto.me</a>
+              <a href={`mailto:${SITE_EMAIL}`}>{SITE_EMAIL}</a>
               <br />
-              <a href="tel:+919545403431">+91 95454 03431</a>
+              <a href={SITE_PHONE_TEL}>{SITE_PHONE}</a>
               <br />
-              <a href="https://wa.me/919545403431" target="_blank" rel="noreferrer">WhatsApp</a>
+              <a href={SITE_WHATSAPP} target="_blank" rel="noreferrer">
+                WhatsApp
+              </a>
+            </p>
+          </div>
+          <div>
+            <h4>Legal</h4>
+            <p>
+              <Link href="/privacy">Privacy Policy</Link>
+              <br />
+              <Link href="/terms">Terms of Service</Link>
             </p>
           </div>
         </div>
-        <p className="mkt-wrap mkt-footer-copy">IIDATECH - Business Ecosystem</p>
+        <p className="mkt-wrap mkt-footer-copy">IIDATECH — Business OS for founders and B2B companies</p>
       </footer>
     </main>
   );

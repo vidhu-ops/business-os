@@ -611,7 +611,7 @@ export function IidaAssistant({ email = "" }: Props) {
                 <span className="iida-float-tip-row">
                   <IidaMascot mood={displayMood} size={36} bob={false} />
                   <span className="min-w-0">
-                    <span className="iida-float-tip-label">IIDA · tap chips · card docks me</span>
+                    <span className="iida-float-tip-label">Chat with IIDA</span>
                     <span className="iida-float-tip-text">
                       {liveTip.slice(0, 160)}
                       {liveTip.length > 160 ? "..." : ""}

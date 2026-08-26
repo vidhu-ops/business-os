@@ -1,9 +1,12 @@
+import type { Metadata } from "next";
 import { MarketingShell } from "@/components/marketing/MarketingShell";
 import { PricingPage } from "@/components/marketing/PricingPage";
+import { SITE_URL } from "@/lib/site";
 
-export const metadata = {
-  title: "Pricing | IIDATECH",
-  description: "Simple plans for founders, MSMEs, and teams — research, plans, and Employee OS in one workspace.",
+export const metadata: Metadata = {
+  title: "Pricing",
+  description: "Start free with IIDATECH. Talk to us for paid and Enterprise plans.",
+  alternates: { canonical: `${SITE_URL}/pricing` },
 };
 
 export default function Page() {

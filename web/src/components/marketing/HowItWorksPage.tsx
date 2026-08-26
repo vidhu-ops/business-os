@@ -35,7 +35,7 @@ const STEPS = [
     body: "Generate an investor- or bank-ready plan from your research — or paste your own notes.",
     clicks: [
       "Open **Business Plan** and select the same project.",
-      "Click **Build plan for new company** (startup) or **Build plan for existing company** (GAUGE audit).",
+      "Click **Build plan for new company** (startup) or **Build plan for existing company** — a GAUGE audit is a structured company-health score across growth, ops, GTM, and readiness.",
       "On the **Intake** tab, fill your idea and check **Use latest IIDATECH market research report**.",
       "Click **Build Agentic Business Plan** → switch to **Plan Output** to read the result.",
     ],
@@ -62,10 +62,10 @@ const STEPS = [
     clicks: [
       "Go to **Employee OS** and pick your project.",
       "Step 1: choose **Full office** → click **Save workspace**.",
-      "Open **Integrations** → add an LLM key → click **Save API keys**.",
+      "Open **Integrations**. LLM API keys are **optional** for free/demo exploration — add one only for advanced Employee OS model routing → **Save API keys**.",
       "Optional: click **Connect with Gmail / LinkedIn / HubSpot** for live outreach.",
     ],
-    youGet: ["6 specialized agents", "Taylor (COO) orchestration", "OAuth + API key setup"],
+    youGet: ["6 specialized agents", "Taylor (COO) orchestration", "Optional OAuth + BYO LLM keys"],
     visual: "team" as const,
   },
   {
@@ -158,11 +158,11 @@ const EMPLOYEE_OS_TABS = [
     tab: "Integrations",
     summary: "Connect the keys and apps agents need before they can work.",
     clicks: [
-      "Add **Perplexity** key (research & lead search) and an **LLM key** (OpenAI / Anthropic) → **Save API keys**.",
+      "Optionally add **Perplexity** / **LLM** keys for advanced routing → **Save API keys**. Free and demo use works without BYO keys.",
       "Click **Connect with Gmail**, **LinkedIn**, or **HubSpot** for OAuth.",
       "If OAuth is not configured, paste manual tokens under **Manual tokens** → **Save**.",
     ],
-    output: "Green setup checklist items — agents unlock once LLM + optional OAuth are ready.",
+    output: "Setup checklist items — core exploration works on free credits; optional keys unlock advanced routing and live outreach.",
   },
 ];
 
@@ -206,12 +206,12 @@ export function HowItWorksPage() {
           Every screen tells you what to press next. Research, planning, reference tools, and Employee OS — one workspace, one flow.
         </p>
         <div className="mkt-hero-cta">
-          <Link href="/login?mode=register" className="iid-btn iid-btn-primary">Sign up free</Link>
+          <Link href="/login?mode=register" className="iid-btn iid-btn-primary">Start free</Link>
           <WorkspaceEntryLink className="iid-btn iid-btn-ghost">See demo</WorkspaceEntryLink>
-          <Link href="/pricing" className="iid-btn iid-btn-ghost">
-            Pricing coming soon
-          </Link>
         </div>
+        <p className="mkt-sub" style={{ marginTop: "0.75rem" }}>
+          <strong>GAUGE audit:</strong> a structured company-health score for existing businesses across growth, operations, GTM, and readiness — used when you build a plan for an established company.
+        </p>
       </section>
 
       <section className="mkt-wrap mkt-section-tight">
@@ -229,31 +229,36 @@ export function HowItWorksPage() {
           <h2 className="mkt-h2">Six steps — what to click at each stage</h2>
           <p className="mkt-sub">Button names match the app exactly so you can follow along inside your workspace.</p>
         </div>
-        <div className="mkt-steps-timeline">
+        <div className="mkt-accordion-stack">
           {STEPS.map((step, index) => (
-            <article key={step.num} className="mkt-step-card">
-              <div className="mkt-step-visual">
-                <StepIllustration variant={step.visual} />
-              </div>
-              <div className="mkt-step-copy">
-                <p className="mkt-step-big">{step.num}</p>
-                <h2 className="mkt-h3">{step.title}</h2>
-                <p className="mkt-sub">{step.body}</p>
-                <div className="mkt-you-get mkt-click-path">
-                  <strong>What to click</strong>
-                  {renderClicks(step.clicks)}
+            <details key={step.num} className="mkt-accordion" open={index === 0}>
+              <summary className="mkt-accordion-summary">
+                <span className="mkt-step-big">{step.num}</span>
+                <span>
+                  <strong>{step.title}</strong>
+                  <em>{step.body}</em>
+                </span>
+              </summary>
+              <div className="mkt-accordion-body mkt-step-card">
+                <div className="mkt-step-visual">
+                  <StepIllustration variant={step.visual} />
                 </div>
-                <div className="mkt-you-get">
-                  <strong>What you get</strong>
-                  <ul>
-                    {step.youGet.map((item) => (
-                      <li key={item}>{item}</li>
-                    ))}
-                  </ul>
+                <div className="mkt-step-copy">
+                  <div className="mkt-you-get mkt-click-path">
+                    <strong>What to click</strong>
+                    {renderClicks(step.clicks)}
+                  </div>
+                  <div className="mkt-you-get">
+                    <strong>What you get</strong>
+                    <ul>
+                      {step.youGet.map((item) => (
+                        <li key={item}>{item}</li>
+                      ))}
+                    </ul>
+                  </div>
                 </div>
               </div>
-              {index < STEPS.length - 1 ? <div className="mkt-step-connector" aria-hidden /> : null}
-            </article>
+            </details>
           ))}
         </div>
       </section>
@@ -283,19 +288,23 @@ export function HowItWorksPage() {
             <span className="mkt-label">Inside Employee OS</span>
             <h3 className="mkt-h3">Every tab — what it does and what to click</h3>
           </div>
-          <div className="mkt-os-tabs-grid">
-            {EMPLOYEE_OS_TABS.map((t) => (
-              <article key={t.tab} className="mkt-os-tab-card">
-                <h3 className="mkt-feature-title">{t.tab}</h3>
-                <p className="mkt-feature-body">{t.summary}</p>
-                <div className="mkt-you-get mkt-click-path mkt-click-path-compact">
-                  <strong>Click path</strong>
-                  {renderClicks(t.clicks)}
+          <div className="mkt-accordion-stack">
+            {EMPLOYEE_OS_TABS.map((t, index) => (
+              <details key={t.tab} className="mkt-accordion" open={index === 0}>
+                <summary className="mkt-accordion-summary">
+                  <strong>{t.tab}</strong>
+                  <em>{t.summary}</em>
+                </summary>
+                <div className="mkt-accordion-body">
+                  <div className="mkt-you-get mkt-click-path mkt-click-path-compact">
+                    <strong>Click path</strong>
+                    {renderClicks(t.clicks)}
+                  </div>
+                  <p className="mkt-os-output">
+                    <strong>Output:</strong> {t.output}
+                  </p>
                 </div>
-                <p className="mkt-os-output">
-                  <strong>Output:</strong> {t.output}
-                </p>
-              </article>
+              </details>
             ))}
           </div>
 
@@ -303,12 +312,14 @@ export function HowItWorksPage() {
             <span className="mkt-label">The team</span>
             <h3 className="mkt-h3">Six agents you get on day one</h3>
           </div>
-          <div className="mkt-os-agents-grid">
-            {AGENTS.map((a) => (
-              <article key={a.name} className="mkt-os-agent-card">
-                <h4 className="mkt-feature-title">{a.name}</h4>
-                <p className="mkt-feature-body">{a.role}</p>
-              </article>
+          <div className="mkt-accordion-stack">
+            {AGENTS.map((a, index) => (
+              <details key={a.name} className="mkt-accordion" open={index === 0}>
+                <summary className="mkt-accordion-summary">
+                  <strong>{a.name}</strong>
+                  <em>{a.role}</em>
+                </summary>
+              </details>
             ))}
           </div>
 
@@ -319,8 +330,8 @@ export function HowItWorksPage() {
               <strong> Approve all external</strong>, <strong>Retry failed</strong>, and <strong>Run next task</strong>. When you run The Office day, Taylor mentors each phase
               and posts notes on the task board.
             </p>
-            <Link href="/login?mode=register" className="iid-btn iid-btn-primary mkt-section-cta">Sign up free</Link>
-            <WorkspaceEntryLink className="iid-btn iid-btn-ghost mkt-section-cta">Open Employee OS demo</WorkspaceEntryLink>
+            <Link href="/login?mode=register" className="iid-btn iid-btn-primary mkt-section-cta">Start free</Link>
+            <WorkspaceEntryLink className="iid-btn iid-btn-ghost mkt-section-cta">See demo</WorkspaceEntryLink>
           </div>
         </div>
       </section>
@@ -353,8 +364,8 @@ export function HowItWorksPage() {
             <p className="mkt-sub">
               Mobile-friendly, generous spacing, and clear next steps — so you spend time deciding, not fighting the tool.
             </p>
-            <Link href="/login?mode=register" className="iid-btn iid-btn-primary">Sign up free</Link>
-            <WorkspaceEntryLink className="iid-btn iid-btn-ghost">Open demo workspace</WorkspaceEntryLink>
+            <Link href="/login?mode=register" className="iid-btn iid-btn-primary">Start free</Link>
+            <WorkspaceEntryLink className="iid-btn iid-btn-ghost">See demo</WorkspaceEntryLink>
           </div>
         </div>
       </section>
@@ -364,8 +375,10 @@ export function HowItWorksPage() {
           <span className="mkt-label">Ready?</span>
           <h2 className="mkt-h2">Your first report in under a minute.</h2>
           <p className="mkt-sub">No card required. 30 free credits to start.</p>
-          <Link href="/login?mode=register" className="iid-btn iid-btn-primary mkt-section-cta">Sign up free</Link>
-          <WorkspaceEntryLink className="iid-btn iid-btn-ghost mkt-section-cta">See demo</WorkspaceEntryLink>
+          <div className="mkt-hero-cta mkt-cta-banner-actions">
+            <Link href="/login?mode=register" className="iid-btn iid-btn-primary">Start free</Link>
+            <WorkspaceEntryLink className="mkt-text-link">See demo</WorkspaceEntryLink>
+          </div>
         </div>
       </section>
     </>

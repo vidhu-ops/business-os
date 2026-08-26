@@ -25,12 +25,9 @@ export function ServiceDetailPage({ service }: { service: ServiceDetail }) {
             <p className="mkt-lead">{service.summary}</p>
             <div className="mkt-hero-cta">
               <Link href="/login?mode=register" className="iid-btn iid-btn-primary">
-                Try this free
+                Start free
               </Link>
-              <WorkspaceEntryLink className="iid-btn iid-btn-ghost">Open demo</WorkspaceEntryLink>
-              <Link href="/#pricing" className="iid-btn iid-btn-ghost">
-                Check pricing
-              </Link>
+              <WorkspaceEntryLink className="iid-btn iid-btn-ghost">See demo</WorkspaceEntryLink>
             </div>
           </div>
           <div className="mkt-service-page-media">
@@ -128,7 +125,7 @@ export function ServiceDetailPage({ service }: { service: ServiceDetail }) {
           <p className="mkt-sub">Free signup credits · demo workspace · WhatsApp +91 95454 03431</p>
           <div className="mkt-hero-cta mkt-cta-banner-actions">
             <Link href="/login?mode=register" className="iid-btn iid-btn-primary">
-              Sign up free
+              Start free
             </Link>
             <Link href="/how-it-works" className="iid-btn iid-btn-ghost">
               How it works

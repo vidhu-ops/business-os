@@ -22,8 +22,6 @@ const INDUSTRIES = [
 ];
 
 export function IndustryBanner() {
-  const track = [...INDUSTRIES, ...INDUSTRIES];
-
   return (
     <section className="mkt-industry-banner" aria-label="Industries we work with">
       <div className="mkt-wrap mkt-industry-banner-head">
@@ -31,8 +29,13 @@ export function IndustryBanner() {
       </div>
       <div className="mkt-industry-marquee">
         <div className="mkt-industry-marquee-track">
-          {track.map((name, i) => (
-            <span key={`${name}-${i}`} className="mkt-industry-chip">
+          {INDUSTRIES.map((name) => (
+            <span key={name} className="mkt-industry-chip">
+              {name}
+            </span>
+          ))}
+          {INDUSTRIES.map((name) => (
+            <span key={`dup-${name}`} className="mkt-industry-chip" aria-hidden="true">
               {name}
             </span>
           ))}

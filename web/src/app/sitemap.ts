@@ -1,7 +1,8 @@
 import type { MetadataRoute } from "next";
+import { SITE_URL } from "@/lib/site";
 
 export default function sitemap(): MetadataRoute.Sitemap {
-  const base = "https://iidatech.biz";
+  const base = SITE_URL;
   const now = new Date();
   return [
     { url: `${base}/`, lastModified: now, changeFrequency: "weekly", priority: 1 },
@@ -14,6 +15,8 @@ export default function sitemap(): MetadataRoute.Sitemap {
     { url: `${base}/services/mentor`, lastModified: now, changeFrequency: "monthly", priority: 0.75 },
     { url: `${base}/services/gauge`, lastModified: now, changeFrequency: "monthly", priority: 0.75 },
     { url: `${base}/partners`, lastModified: now, changeFrequency: "monthly", priority: 0.6 },
+    { url: `${base}/privacy`, lastModified: now, changeFrequency: "yearly", priority: 0.3 },
+    { url: `${base}/terms`, lastModified: now, changeFrequency: "yearly", priority: 0.3 },
     { url: `${base}/login`, lastModified: now, changeFrequency: "monthly", priority: 0.5 },
   ];
 }

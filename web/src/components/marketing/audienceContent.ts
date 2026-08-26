@@ -132,11 +132,13 @@ export const AUDIENCE = {
     lead:
       "IIDATECH is the all-in-one business ecosystem for startup founders: AI market research, business plan generation, Mentor guidance, Employee OS execution, and automation — so you can validate, plan, and ship without a full team.",
     pipe: ["RESEARCH", "PLAN", "EXECUTE", "AUTOMATE"],
-    primaryCta: { href: "/login?mode=register", label: "Start free as a founder" },
-    secondaryCta: { href: "/app/research?project=demo_readonly", label: "See founder demo", demo: true },
+    primaryCta: { href: "/login?mode=register", label: "Start free" },
+    secondaryCta: { href: "/app/research?project=demo_readonly", label: "See demo", demo: true },
     whoForTitle: "Built for founders and early-stage startups",
     whoForBody:
       "Solo founders, co-founder teams, and pre-seed to Series A startups who need investor-grade research, a real business plan, and AI employees that execute — without consulting fees.",
+    headline: "The business OS for founders building from idea to execution.",
+    trustLine: "Free credits · No credit card · 5-minute setup",
     aboutTitle: "About IIDATECH for founders",
     aboutBody:
       "IIDATECH combines market intelligence, business planning, mentorship, and an AI workforce in one workspace. Founders go from idea → sourced report → bank-ready plan → executed tasks with approvals.",
@@ -149,24 +151,41 @@ export const AUDIENCE = {
     lead:
       "IIDATECH helps established B2B companies run market research, growth planning, CRM-ready execution, and workflow automation on one platform — with GAUGE company audits and Employee OS capacity your teams can approve and scale.",
     pipe: ["AUDIT", "RESEARCH", "PLAN", "OPERATE"],
-    primaryCta: { href: "/login?intent=audit&mode=register", label: "Run free company audit" },
-    secondaryCta: { href: "/app/research?project=demo_readonly", label: "See company demo", demo: true },
-    whoForTitle: "Built for MSMEs and B2B growth teams",
+    primaryCta: { href: "/login?intent=audit&mode=register", label: "Start free" },
+    secondaryCta: { href: "/app/research?project=demo_readonly", label: "See demo", demo: true },
+    whoForTitle: "Built for established B2B companies and MSME operators",
     whoForBody:
-      "Established companies, MSME operators, and B2B teams that need continuous market intelligence, operating plans, outbound support, and automation — without standing up a large strategy or ops org.",
+      "Growth, GTM, and ops teams that need continuous market intelligence, operating plans, outbound support, and approved automation — without standing up a large strategy bench.",
+    headline: "The business OS for B2B companies that need research, plans, and ops capacity.",
+    trustLine: "Free credits · No credit card · 5-minute setup",
     aboutTitle: "About IIDATECH for B2B companies",
     aboutBody:
       "Use IIDATECH as your business operating layer: GAUGE health audits, competitor and pricing intelligence, growth plans, Mentor for operators, and Employee OS agents that work under human approval.",
   },
 } as const;
 
-export const HOW_IT_WORKS = [
-  { step: "01", title: "Create a project", body: "Click Create project. Choose new idea (founder) or existing company (B2B) and capture your market." },
-  { step: "02", title: "Generate research", body: "Open Market Research and click Generate report for sourced market intelligence." },
-  { step: "03", title: "Build the plan", body: "Open Plan and click Build Agentic Business Plan tied to the same project." },
-  { step: "04", title: "Ask Mentor", body: "Use Mentor for next steps grounded in your research, plan, and company memory." },
-  { step: "05", title: "Run Employee OS", body: "Build checklist from plan, run tasks, and approve external actions before send." },
-  { step: "06", title: "Automate & ship", body: "Connect integrations, run automations, and export reports, plans, and decks." },
+export const HOME_STEPS = [
+  {
+    step: "01",
+    title: "Research",
+    body: "Generate a sourced market report for your idea or category — competitors, buyers, sizing, and pricing evidence.",
+  },
+  {
+    step: "02",
+    title: "Plan",
+    body: "Turn research into ICP, GTM, and a structured business or growth plan tied to the same project.",
+  },
+  {
+    step: "03",
+    title: "Execute",
+    body: "Run Employee OS tasks with human approvals, then automate follow-ups across CRM and inbox.",
+  },
+];
+
+export const BY_THE_NUMBERS = [
+  { value: "6", label: "Core tools in one workspace" },
+  { value: "20+", label: "Industries covered in research" },
+  { value: "30", label: "Free signup credits to start" },
 ];
 
 export const PROBLEM = {
@@ -196,7 +215,6 @@ export const CLIENT_LOGOS = [
   { name: "Loop", src: "/partners/loop.png" },
   { name: "Tyoharwale", src: "/partners/white/tyoharwale.png" },
   { name: "JP Infralease", src: "/partners/white/jp-infralease.png" },
-  { name: "IIDATECH platform", src: "/marketing/platform-wheel.png" },
 ];
 
 export type ServiceDetail = {
