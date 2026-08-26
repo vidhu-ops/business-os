@@ -123,11 +123,14 @@ export function LandingPage() {
 
       <section id="about" className="mkt-wrap mkt-section" aria-labelledby="about-heading">
         <div className="mkt-section-head">
-          <span className="mkt-label">Who it is for</span>
+          <span className="mkt-label">About IIDATECH</span>
           <h2 id="about-heading" className="mkt-h2">
             {copy.whoForTitle}
           </h2>
           <p className="mkt-sub">{copy.whoForBody}</p>
+          <p className="mkt-sub" style={{ marginTop: "0.75rem" }}>
+            {copy.aboutBody}
+          </p>
         </div>
 
         <div className="mkt-product-shots" aria-label="Product screenshots">
@@ -138,6 +141,15 @@ export function LandingPage() {
               <figcaption>{shot.caption}</figcaption>
             </figure>
           ))}
+        </div>
+
+        <div className="mkt-about-readmore flex flex-wrap gap-2" style={{ marginTop: "1.25rem" }}>
+          <Link href="/about?audience=founder" className="iid-btn iid-btn-primary">
+            Read more for founders
+          </Link>
+          <Link href="/about?audience=company" className="iid-btn iid-btn-ghost">
+            Read more for B2B
+          </Link>
         </div>
       </section>
 

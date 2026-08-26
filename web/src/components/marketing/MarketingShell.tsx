@@ -10,7 +10,7 @@ import { SITE_EMAIL, SITE_PHONE, SITE_PHONE_TEL, SITE_WHATSAPP } from "@/lib/sit
 
 const NAV = [
   { label: "Home", href: "/" },
-  { label: "About", href: "/#about" },
+  { label: "About", href: "/about" },
   { label: "Services", href: "/#services" },
   { label: "Pricing", href: "/pricing" },
   { label: "Partners", href: "/partners" },
@@ -90,6 +90,8 @@ export function MarketingShell({ children }: { children: React.ReactNode }) {
             <h4>Product</h4>
             <p>
               <Link href="/how-it-works">How it works</Link>
+              <br />
+              <Link href="/about">About</Link>
               <br />
               <Link href="/pricing">Pricing</Link>
               <br />
