@@ -114,7 +114,7 @@ export function AuthNavLinks({ showDemo = false, compact = false, className = ""
         className={`iid-btn iid-btn-primary auth-nav-cta${compact ? " auth-nav-cta-compact" : ""}`}
         onClick={onNavigate}
       >
-        Sign up
+        Start free
       </Link>
       {showDemo ? (
         <WorkspaceEntryLink className="iid-btn iid-btn-ghost auth-nav-demo" onClick={onNavigate}>

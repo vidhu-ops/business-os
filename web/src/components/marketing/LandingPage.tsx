@@ -14,6 +14,7 @@ import {
   BY_THE_NUMBERS,
   CLIENT_LOGOS,
   HOME_STEPS,
+  INTEGRATION_LOGOS,
   PROBLEM,
   SOLUTION,
   TOOLS,
@@ -251,6 +252,37 @@ export function LandingPage() {
         <Link href="/partners" className="iid-btn iid-btn-ghost mkt-section-cta-inline">
           Become a partner →
         </Link>
+      </section>
+
+      <section id="integrations" className="mkt-wrap mkt-section" aria-labelledby="integrations-heading">
+        <div className="mkt-section-head">
+          <span className="mkt-label">Integrations</span>
+          <h2 id="integrations-heading" className="mkt-h2">
+            Connect the tools your team already uses
+          </h2>
+          <p className="mkt-sub">
+            Optional OAuth apps and model keys for research, outreach, CRM, and creative — free and demo use work without
+            bring-your-own keys.
+          </p>
+        </div>
+        <p className="mkt-integrations-group-label">Apps &amp; channels</p>
+        <div className="mkt-integration-logos">
+          {INTEGRATION_LOGOS.filter((logo) => logo.group === "apps").map((logo) => (
+            <div key={logo.name} className="mkt-integration-logo">
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img src={logo.src} alt={`${logo.name} integration`} loading="lazy" />
+            </div>
+          ))}
+        </div>
+        <p className="mkt-integrations-group-label">Models &amp; research</p>
+        <div className="mkt-integration-logos">
+          {INTEGRATION_LOGOS.filter((logo) => logo.group === "models").map((logo) => (
+            <div key={logo.name} className="mkt-integration-logo">
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img src={logo.src} alt={`${logo.name} integration`} loading="lazy" />
+            </div>
+          ))}
+        </div>
       </section>
 
       <section id="why" className="mkt-wrap mkt-section">

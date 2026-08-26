@@ -217,6 +217,25 @@ export const CLIENT_LOGOS = [
   { name: "JP Infralease", src: "/partners/white/jp-infralease.png" },
 ];
 
+/** Product integrations shown on the marketing homepage (OAuth + LLM / research keys). */
+export const INTEGRATION_LOGOS = [
+  { name: "Gmail", src: "/integrations/gmail.svg", group: "apps" },
+  { name: "Google", src: "/integrations/google.svg", group: "apps" },
+  { name: "Google Drive", src: "/integrations/google-drive.svg", group: "apps" },
+  { name: "Google Calendar", src: "/integrations/google-calendar.svg", group: "apps" },
+  { name: "LinkedIn", src: "/integrations/linkedin.svg", group: "apps" },
+  { name: "HubSpot", src: "/integrations/hubspot.svg", group: "apps" },
+  { name: "Canva", src: "/integrations/canva.svg", group: "apps" },
+  { name: "Notion", src: "/integrations/notion.svg", group: "apps" },
+  { name: "Slack", src: "/integrations/slack.svg", group: "apps" },
+  { name: "Perplexity", src: "/integrations/perplexity.svg", group: "models" },
+  { name: "OpenAI", src: "/integrations/openai.svg", group: "models" },
+  { name: "Claude", src: "/integrations/anthropic.svg", group: "models" },
+  { name: "Gemini", src: "/integrations/gemini.svg", group: "models" },
+  { name: "DeepSeek", src: "/integrations/deepseek.svg", group: "models" },
+  { name: "Groq", src: "/integrations/groq.svg", group: "models" },
+] as const;
+
 export type ServiceDetail = {
   id: ToolId;
   slug: string;
