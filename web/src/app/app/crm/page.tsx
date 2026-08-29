@@ -1,8 +1,8 @@
 "use client";
 
-import Link from "next/link";
 import { FormEvent, useEffect, useMemo, useRef, useState } from "react";
 import { api, type AdminCrmUser, type CrmLead } from "@/lib/api";
+import { AdminAnalytics } from "@/components/AdminAnalytics";
 
 function formatDate(value?: string) {
   if (!value) return "—";
@@ -29,7 +29,7 @@ export default function CrmPage() {
   const [selected, setSelected] = useState<string>("");
   const [grantAmount, setGrantAmount] = useState("1000000");
   const [granting, setGranting] = useState(false);
-  const [tab, setTab] = useState<"accounts" | "leads">("accounts");
+  const [tab, setTab] = useState<"accounts" | "leads" | "analytics">("accounts");
   const [leads, setLeads] = useState<CrmLead[]>([]);
   const [leadTotals, setLeadTotals] = useState({ leads: 0, visitors: 0, demo: 0, signed_up: 0, imported: 0 });
   const [leadQuery, setLeadQuery] = useState("");
@@ -96,9 +96,9 @@ export default function CrmPage() {
             <button type="button" className={`iid-btn ${tab === "leads" ? "iid-btn-primary" : "iid-btn-ghost"}`} onClick={() => setTab("leads")}>
               Leads ({leadTotals.leads})
             </button>
-            <Link href="/app/analytics" className="iid-btn iid-btn-ghost">
+            <button type="button" className={`iid-btn ${tab === "analytics" ? "iid-btn-primary" : "iid-btn-ghost"}`} onClick={() => setTab("analytics")}>
               Analytics
-            </Link>
+            </button>
           </div>
         </div>
         {tab === "accounts" ? (
@@ -113,7 +113,7 @@ export default function CrmPage() {
             {loading ? "Loading…" : "Search"}
           </button>
         </form>
-        ) : (
+        ) : tab === "leads" ? (
         <form
           className="flex flex-wrap gap-2"
           onSubmit={(e) => {
@@ -136,7 +136,7 @@ export default function CrmPage() {
           </select>
           <button type="submit" className="iid-btn iid-btn-primary">Search</button>
         </form>
-        )}
+        ) : null}
       </div>
 
       {error ? (
@@ -151,6 +151,10 @@ export default function CrmPage() {
         </div>
       ) : null}
 
+      {tab === "analytics" ? <AdminAnalytics /> : null}
+
+      {tab !== "analytics" ? (
+      <>
       <div className="grid gap-3 sm:grid-cols-3 lg:grid-cols-5">
         <button type="button" className="iid-card text-left" onClick={() => setTab("accounts")}>
           <p className="text-xs uppercase tracking-wide muted">Accounts</p>
@@ -498,6 +502,8 @@ export default function CrmPage() {
           )}
         </aside>
       </div>
+      ) : null}
+      </>
       ) : null}
     </div>
   );

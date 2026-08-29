@@ -8,7 +8,13 @@ const NO_STORE = {
 /** Lightweight health for Render / keep-warm — must hit origin (not CDN cache). */
 export async function GET() {
   return NextResponse.json(
-    { status: "ok", service: "iidatech-web", ts: Date.now() },
+    {
+      status: "ok",
+      service: "iidatech-web",
+      ts: Date.now(),
+      git: process.env.RENDER_GIT_COMMIT || process.env.RENDER_GIT_COMMIT_SHA || "",
+      repo: process.env.RENDER_GIT_REPO_SLUG || "",
+    },
     { headers: NO_STORE },
   );
 }
