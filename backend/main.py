@@ -15,7 +15,7 @@ from iidatech.env_bootstrap import ensure_env_loaded
 ensure_env_loaded()
 
 from backend.config import settings
-from backend.routers import admin, audit, auth_routes, automation, canva, credits, dashboard, deliverables, files, health, iida_guide, mentor, oauth, org_memory, os2, partners, payments, plan, pricing, projects, research, team
+from backend.routers import admin, analytics, audit, auth_routes, automation, canva, credits, dashboard, deliverables, files, health, iida_guide, mentor, oauth, org_memory, os2, partners, payments, plan, pricing, projects, research, team
 
 app = FastAPI(
     title="IIDATECH API",
@@ -65,6 +65,9 @@ app.include_router(iida_guide.router, prefix="/api/v1")
 app.include_router(mentor.router, prefix="/api/v1")
 app.include_router(org_memory.router, prefix="/api/v1")
 app.include_router(admin.router, prefix="/api/v1")
+app.include_router(analytics.public_router, prefix="/api/v1")
+app.include_router(analytics.admin_router, prefix="/api/v1")
+app.include_router(analytics.leads_router, prefix="/api/v1")
 
 
 def _bootstrap_admin_credits() -> None:

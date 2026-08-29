@@ -1,3 +1,5 @@
+import { visitorIds } from "@/lib/visitor";
+
 const API_BASE = process.env.NEXT_PUBLIC_API_URL || "";
 const REQUEST_TIMEOUT_MS = 15_000;
 const BOOTSTRAP_TIMEOUT_MS = 90_000;
@@ -68,6 +70,123 @@ export type AdminCrmUser = {
   last_activity_at?: string;
   recent_actions?: Array<{ action: string; amount?: number | null; at?: string; direction?: string }>;
   project_ideas?: string[];
+  analytics_visitor_id?: string;
+  signup_attribution?: {
+    visitor_id?: string;
+    landing_path?: string;
+    referrer?: string;
+    referrer_host?: string;
+    source?: string;
+    utm_source?: string;
+    utm_medium?: string;
+    utm_campaign?: string;
+    place?: string;
+    country?: string;
+    city?: string;
+    device?: string;
+  } | null;
+};
+export type AnalyticsTotals = {
+  visitors: number;
+  sessions: number;
+  pageviews: number;
+  signups: number;
+  logins: number;
+  identified_sessions: number;
+  signup_rate_pct: number;
+  demo_starts?: number;
+};
+export type AnalyticsSessionRow = {
+  session_id: string;
+  visitor_id: string;
+  started_at: string;
+  last_seen_at: string;
+  duration_ms: number;
+  page_count: number;
+  landing_path: string;
+  exit_path: string;
+  paths?: string[];
+  referrer?: string;
+  referrer_host?: string;
+  source?: string;
+  utm_source?: string;
+  utm_medium?: string;
+  utm_campaign?: string;
+  place?: string;
+  country?: string;
+  country_name?: string;
+  city?: string;
+  region?: string;
+  timezone?: string;
+  language?: string;
+  device?: string;
+  browser?: string;
+  os?: string;
+  screen?: string;
+  user_email?: string;
+  signed_up?: boolean;
+};
+export type AnalyticsOverview = {
+  range: { days: number; since: string; until: string };
+  totals: AnalyticsTotals;
+  series: Array<{ date: string; visitors: number; sessions: number; pageviews: number; signups: number }>;
+  top_pages: Array<{ path: string; views: number; unique_visitors: number; avg_duration_ms: number; avg_scroll_pct: number }>;
+  top_countries: Array<{ label: string; count: number }>;
+  top_cities: Array<{ label: string; count: number }>;
+  top_devices: Array<{ label: string; count: number }>;
+  top_browsers: Array<{ label: string; count: number }>;
+  top_sources: Array<{ label: string; count: number }>;
+  top_referrers: Array<{ label: string; count: number }>;
+  top_campaigns: Array<{ label: string; count: number }>;
+  funnel: { landed: number; pricing: number; login: number; signup: number; app: number };
+  demo?: { started: number; parts: Array<{ label: string; count: number }> };
+  recent_sessions: AnalyticsSessionRow[];
+};
+export type AnalyticsPagePerson = {
+  visitor_id: string;
+  views: number;
+  last_seen_at?: string;
+  email?: string;
+  name?: string;
+  place?: string;
+  source?: string;
+  lead_id?: string;
+  duration_ms?: number;
+  label?: string;
+};
+export type CrmLead = {
+  lead_id: string;
+  visitor_id?: string;
+  email?: string;
+  name: string;
+  phone?: string;
+  company?: string;
+  status: string;
+  source?: string;
+  place?: string;
+  country?: string;
+  city?: string;
+  landing_path?: string;
+  last_path?: string;
+  journey?: string[];
+  demo_parts?: string[];
+  saw_demo?: boolean;
+  page_count?: number;
+  notes?: string;
+  created_at?: string;
+  updated_at?: string;
+  imported?: boolean;
+  signed_up?: boolean;
+  utm_source?: string;
+  utm_campaign?: string;
+  referrer?: string;
+  device?: string;
+};
+export type AnalyticsSessionDetail = {
+  session: AnalyticsSessionRow & Record<string, unknown>;
+  visitor: Record<string, unknown>;
+  pages: Array<{ id: string; path: string; at: string; title?: string; duration_ms: number; scroll_pct: number; href?: string; label?: string; part?: string; is_demo?: boolean }>;
+  events: Array<{ id: string; name: string; at: string; path?: string; props?: Record<string, unknown> }>;
 };
 export type DashboardData = {
   user: { email: string; name: string; member_since: string };
@@ -181,15 +300,21 @@ export async function ensureSession(): Promise<User> {
 export const api = {
   demoLogin: async () => {
     setToken(null);
-    const data = await request<User & { token: string }>("/api/v1/auth/demo", { method: "POST", body: "{}" }, { auth: false });
+    const ids = typeof window !== "undefined" ? visitorIds() : { visitor_id: "", session_id: "" };
+    const data = await request<User & { token: string }>(
+      "/api/v1/auth/demo",
+      { method: "POST", body: JSON.stringify(ids) },
+      { auth: false },
+    );
     setToken(data.token);
     return data;
   },
   login: async (email: string, password: string) => {
     setToken(null);
+    const ids = typeof window !== "undefined" ? visitorIds() : { visitor_id: "", session_id: "" };
     const data = await request<User & { token: string }>(
       "/api/v1/auth/login",
-      { method: "POST", body: JSON.stringify({ email, password }) },
+      { method: "POST", body: JSON.stringify({ email, password, ...ids }) },
       { auth: false },
     );
     setToken(data.token);
@@ -197,9 +322,10 @@ export const api = {
   },
   register: async (email: string, password: string, name: string) => {
     setToken(null);
+    const ids = typeof window !== "undefined" ? visitorIds() : { visitor_id: "", session_id: "" };
     const data = await request<User & { token: string }>(
       "/api/v1/auth/register",
-      { method: "POST", body: JSON.stringify({ email, password, name }) },
+      { method: "POST", body: JSON.stringify({ email, password, name, ...ids }) },
       { auth: false },
     );
     setToken(data.token);
@@ -255,6 +381,48 @@ export const api = {
       "/api/v1/admin/credits",
       { method: "POST", body: JSON.stringify({ email, amount, reason: "admin_grant" }) },
     ),
+  adminAnalyticsOverview: (days = 7) =>
+    request<AnalyticsOverview>(`/api/v1/admin/analytics/overview?days=${days}`),
+  adminAnalyticsSessions: (days = 7, q = "", limit = 50, offset = 0) => {
+    const params = new URLSearchParams({ days: String(days), limit: String(limit), offset: String(offset) });
+    if (q.trim()) params.set("q", q.trim());
+    return request<{ sessions: AnalyticsSessionRow[]; total: number }>(`/api/v1/admin/analytics/sessions?${params}`);
+  },
+  adminAnalyticsSession: (sessionId: string) =>
+    request<AnalyticsSessionDetail>(`/api/v1/admin/analytics/sessions/${encodeURIComponent(sessionId)}`),
+  adminAnalyticsPagePeople: (path: string, days = 7) =>
+    request<{ path: string; views: number; unique_visitors: number; people: AnalyticsPagePerson[] }>(
+      `/api/v1/admin/analytics/pages/people?path=${encodeURIComponent(path)}&days=${days}`,
+    ),
+  adminAnalyticsVisitor: (visitorId: string) =>
+    request<{
+      visitor_id: string;
+      email?: string;
+      first_seen_at?: string;
+      last_seen_at?: string;
+      journey: Array<{ path: string; at: string; label?: string; part?: string; is_demo?: boolean; duration_ms?: number; scroll_pct?: number }>;
+      sessions: Array<{ session_id: string; started_at: string; paths?: string[]; demo_parts?: string[] }>;
+      lead?: CrmLead | null;
+    }>(`/api/v1/admin/analytics/visitors/${encodeURIComponent(visitorId)}`),
+  adminLeads: (q = "", status = "") => {
+    const params = new URLSearchParams();
+    if (q.trim()) params.set("q", q.trim());
+    if (status.trim()) params.set("status", status.trim());
+    const suffix = params.toString() ? `?${params}` : "";
+    return request<{
+      leads: CrmLead[];
+      total: number;
+      totals: { leads: number; visitors: number; demo: number; signed_up: number; imported: number };
+    }>(`/api/v1/admin/leads${suffix}`);
+  },
+  adminImportLeads: (file: File) => {
+    const form = new FormData();
+    form.append("file", file);
+    return request<{ ok: boolean; created: number; updated: number; skipped: number; parsed: number; filename: string }>(
+      "/api/v1/admin/leads/import",
+      { method: "POST", body: form },
+    );
+  },
   orgMemoryCatalog: () => request<{ profile_fields: Array<{ id: string; label: string; hint?: string }>; integrations: Array<{ id: string; label: string; kind?: string }> }>("/api/v1/org-memory/catalog"),
   orgMemoryAccount: () =>
     request<{

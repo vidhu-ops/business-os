@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Plus_Jakarta_Sans, Syne } from "next/font/google";
 import { ThemeProvider } from "@/components/ThemeProvider";
+import { AnalyticsBeacon } from "@/components/AnalyticsBeacon";
 import { IidaAssistantHost } from "@/components/iida/IidaAssistantHost";
 import { SITE_URL } from "@/lib/site";
 import "./globals.css";
@@ -57,6 +58,7 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
       <body className="min-h-full antialiased">
         <ThemeProvider>
           {children}
+          <AnalyticsBeacon />
           <IidaAssistantHost />
         </ThemeProvider>
       </body>

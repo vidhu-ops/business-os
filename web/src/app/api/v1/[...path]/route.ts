@@ -16,6 +16,35 @@ async function proxy(req: NextRequest, ctx: { params: Promise<{ path: string[] }
   if (contentType) headers.set("content-type", contentType);
   const cookie = req.headers.get("cookie");
   if (cookie) headers.set("cookie", cookie);
+  const ua = req.headers.get("user-agent");
+  if (ua) headers.set("user-agent", ua);
+  const acceptLanguage = req.headers.get("accept-language");
+  if (acceptLanguage) headers.set("accept-language", acceptLanguage);
+  for (const name of [
+    "cf-connecting-ip",
+    "cf-ipcountry",
+    "cf-ip-country",
+    "cf-ipcity",
+    "cf-ip-city",
+    "cf-region",
+    "cf-region-code",
+    "cf-timezone",
+    "cf-postal-code",
+    "cf-ipcontinent",
+    "true-client-ip",
+    "x-real-ip",
+    "x-forwarded-for",
+    "x-forwarded-host",
+    "x-forwarded-proto",
+    "x-vercel-ip-country",
+    "x-vercel-ip-city",
+    "x-vercel-ip-country-region",
+    "x-vercel-ip-timezone",
+    "cloudfront-viewer-country",
+  ]) {
+    const value = req.headers.get(name);
+    if (value) headers.set(name, value);
+  }
 
   const init: RequestInit = {
     method: req.method,

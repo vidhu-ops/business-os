@@ -31,6 +31,7 @@ export function AppNav({ email, isAdmin = false }: { email?: string; isAdmin?: b
     ? [
         ...baseLinks.slice(0, 10),
         { href: "/app/crm", label: "CRM" },
+        { href: "/app/analytics", label: "Analytics" },
         ...baseLinks.slice(10),
       ]
     : baseLinks;

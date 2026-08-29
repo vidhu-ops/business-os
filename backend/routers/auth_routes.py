@@ -4,7 +4,7 @@ import secrets
 from datetime import datetime, timezone
 from urllib.parse import quote
 
-from fastapi import APIRouter, Depends, HTTPException, Query, Response
+from fastapi import APIRouter, Depends, HTTPException, Query, Request, Response
 from fastapi.responses import RedirectResponse
 from pydantic import BaseModel, Field
 
@@ -18,7 +18,9 @@ from backend.auth import (
     save_users,
     verify_password,
 )
+from backend.services import analytics_store
 from backend.services.account_service import ensure_account, get_plan_snapshot
+from backend.services.analytics_store import attribution_for_visitor, identify as identify_visitor
 from backend.services.audit_service import audit_status, grant_signup_free_audit
 from backend.services.demo_service import is_demo_user
 from backend.services.google_auth import (
@@ -38,15 +40,41 @@ class RegisterBody(BaseModel):
     email: str = Field(min_length=3)
     password: str = Field(min_length=6)
     name: str = ""
+    visitor_id: str = ""
+    session_id: str = ""
 
 
 class LoginBody(BaseModel):
     email: str = Field(min_length=3)
     password: str
+    visitor_id: str = ""
+    session_id: str = ""
 
 
 class DemoLoginBody(BaseModel):
     email: str | None = None
+    visitor_id: str = ""
+    session_id: str = ""
+
+
+def _visitor_ids(request: Request, visitor_id: str = "", session_id: str = "") -> tuple[str, str]:
+    vid = (visitor_id or request.cookies.get("iida_vid") or "").strip()
+    sid = (session_id or request.cookies.get("iida_sid") or "").strip()
+    return vid, sid
+
+
+def _attach_attribution(record: dict, visitor_id: str, session_id: str, event_name: str) -> None:
+    vid = (visitor_id or "").strip()
+    if not vid:
+        return
+    attr = attribution_for_visitor(vid)
+    if attr:
+        record["signup_attribution"] = record.get("signup_attribution") or attr
+        record["analytics_visitor_id"] = vid
+    try:
+        identify_visitor(vid, session_id, str(record.get("email") or ""), event_name=event_name, extra={"path": "/login"})
+    except Exception:
+        pass
 
 
 def _set_session_cookie(response: Response, token: str) -> None:
@@ -62,7 +90,7 @@ def _set_session_cookie(response: Response, token: str) -> None:
 
 
 @router.post("/register")
-def register(body: RegisterBody, response: Response) -> dict:
+def register(body: RegisterBody, request: Request, response: Response) -> dict:
     email = body.email.strip().lower()
     if "@" not in email or "." not in email.split("@")[-1]:
         raise HTTPException(status_code=400, detail="Enter a valid email address")
@@ -79,6 +107,8 @@ def register(body: RegisterBody, response: Response) -> dict:
         "credits_remaining": signup_credits,
         "credits_total": signup_credits,
     }
+    vid, sid = _visitor_ids(request, body.visitor_id, body.session_id)
+    _attach_attribution(user_record, vid, sid, "signup")
     grant_signup_free_audit(user_record)
     users[email] = user_record
     save_users(users)
@@ -88,7 +118,7 @@ def register(body: RegisterBody, response: Response) -> dict:
 
 
 @router.post("/login")
-def login(body: LoginBody, response: Response) -> dict:
+def login(body: LoginBody, request: Request, response: Response) -> dict:
     email = body.email.strip().lower()
     users = load_users()
     record = users.get(email)
@@ -101,13 +131,18 @@ def login(body: LoginBody, response: Response) -> dict:
         users[email] = record
         save_users(users)
     ensure_account(email, record.get("name"))
+    vid, sid = _visitor_ids(request, body.visitor_id, body.session_id)
+    try:
+        identify_visitor(vid, sid, email, event_name="login", extra={"path": "/login"})
+    except Exception:
+        pass
     token = create_token(email)
     _set_session_cookie(response, token)
     return {"email": email, "name": record.get("name", email), "token": token}
 
 
 @router.post("/demo")
-def demo_login(body: DemoLoginBody, response: Response) -> dict:
+def demo_login(body: DemoLoginBody, request: Request, response: Response) -> dict:
     email = (body.email or "demo@local").strip().lower()
     users = load_users()
     is_new = email not in users
@@ -117,6 +152,23 @@ def demo_login(body: DemoLoginBody, response: Response) -> dict:
         users[email]["password_hash"] = hash_password("demo")
         save_users(users)
         record = users[email]
+    vid, sid = _visitor_ids(request, body.visitor_id, body.session_id)
+    try:
+        if vid:
+            analytics_store.ingest(
+                {
+                    "type": "event",
+                    "event_name": "demo_start",
+                    "visitor_id": vid,
+                    "session_id": sid or f"demo-{vid[:16]}",
+                    "path": "/app/research?project=demo_readonly",
+                    "href": "/app/research?project=demo_readonly",
+                    "is_demo": True,
+                    "props": {"is_demo": True},
+                }
+            )
+    except Exception:
+        pass
     token = create_token(email)
     _set_session_cookie(response, token)
     return {"email": email, "name": record.get("name", "Demo User"), "token": token, "is_demo": True}
@@ -159,7 +211,7 @@ def google_auth_start(next: str = Query("/app/dashboard")) -> RedirectResponse:
     return RedirectResponse(url=url, status_code=302)
 
 
-def _upsert_google_user(*, email: str, name: str, picture: str, sub: str) -> dict:
+def _upsert_google_user(*, email: str, name: str, picture: str, sub: str) -> tuple[dict, bool]:
     users = load_users()
     key = email.strip().lower()
     now = datetime.now(timezone.utc).isoformat().replace("+00:00", "Z")
@@ -177,7 +229,7 @@ def _upsert_google_user(*, email: str, name: str, picture: str, sub: str) -> dic
         users[key] = record
         save_users(users)
         ensure_account(key, record.get("name"))
-        return record
+        return record, False
 
     signup_credits = signup_credits_for_plan("starter")
     user_record = {
@@ -195,11 +247,12 @@ def _upsert_google_user(*, email: str, name: str, picture: str, sub: str) -> dic
     grant_signup_free_audit(user_record)
     users[key] = user_record
     save_users(users)
-    return user_record
+    return user_record, True
 
 
 @router.get("/google/callback")
 def google_auth_callback(
+    request: Request,
     response: Response,
     code: str = Query(""),
     state: str = Query(""),
@@ -219,13 +272,24 @@ def google_auth_callback(
     next_path = str(parsed.get("n") or "/app/dashboard")
     try:
         profile = exchange_google_code(code)
-        record = _upsert_google_user(
+        record, created = _upsert_google_user(
             email=profile["email"],
             name=profile.get("name") or "",
             picture=profile.get("picture") or "",
             sub=profile.get("sub") or "",
         )
         email = str(record.get("email") or profile["email"]).strip().lower()
+        vid, sid = _visitor_ids(request)
+        if created:
+            _attach_attribution(record, vid, sid, "signup")
+            users = load_users()
+            users[email] = record
+            save_users(users)
+        else:
+            try:
+                identify_visitor(vid, sid, email, event_name="login", extra={"path": "/login/callback"})
+            except Exception:
+                pass
         token = create_token(email)
         _set_session_cookie(response, token)
         dest = (

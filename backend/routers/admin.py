@@ -79,6 +79,8 @@ def _usage_row(email: str, record: dict[str, Any]) -> dict[str, Any]:
         "last_activity_at": last_activity,
         "recent_actions": ledger,
         "project_ideas": [str(p.get("idea") or p.get("workspace_id") or "") for p in projects[:5]],
+        "analytics_visitor_id": str(record.get("analytics_visitor_id") or ""),
+        "signup_attribution": record.get("signup_attribution") if isinstance(record.get("signup_attribution"), dict) else None,
     }
 
 
