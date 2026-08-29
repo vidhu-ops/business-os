@@ -29,7 +29,7 @@ export default function CrmPage() {
   const [selected, setSelected] = useState<string>("");
   const [grantAmount, setGrantAmount] = useState("1000000");
   const [granting, setGranting] = useState(false);
-  const [tab, setTab] = useState<"accounts" | "leads">("leads");
+  const [tab, setTab] = useState<"accounts" | "leads">("accounts");
   const [leads, setLeads] = useState<CrmLead[]>([]);
   const [leadTotals, setLeadTotals] = useState({ leads: 0, visitors: 0, demo: 0, signed_up: 0, imported: 0 });
   const [leadQuery, setLeadQuery] = useState("");
@@ -86,13 +86,15 @@ export default function CrmPage() {
       <div className="flex flex-wrap items-end justify-between gap-4">
         <div>
           <h1 className="font-display text-3xl font-bold">CRM</h1>
-          <p className="mt-2 muted">Accounts plus website leads — every visitor journey, demo path, and imported sheet.</p>
+          <p className="mt-2 muted">
+            Registered users stay on Accounts. Website visitors, demo journeys, and sheet imports are on Leads.
+          </p>
           <div className="mt-3 flex flex-wrap gap-2">
-            <button type="button" className={`iid-btn ${tab === "leads" ? "iid-btn-primary" : "iid-btn-ghost"}`} onClick={() => setTab("leads")}>
-              Leads
-            </button>
             <button type="button" className={`iid-btn ${tab === "accounts" ? "iid-btn-primary" : "iid-btn-ghost"}`} onClick={() => setTab("accounts")}>
-              Accounts
+              Accounts ({totals.users})
+            </button>
+            <button type="button" className={`iid-btn ${tab === "leads" ? "iid-btn-primary" : "iid-btn-ghost"}`} onClick={() => setTab("leads")}>
+              Leads ({leadTotals.leads})
             </button>
             <Link href="/app/analytics" className="iid-btn iid-btn-ghost">
               Analytics
@@ -150,10 +152,14 @@ export default function CrmPage() {
       ) : null}
 
       <div className="grid gap-3 sm:grid-cols-3 lg:grid-cols-5">
-        <div className="iid-card">
+        <button type="button" className="iid-card text-left" onClick={() => setTab("accounts")}>
+          <p className="text-xs uppercase tracking-wide muted">Accounts</p>
+          <p className="mt-1 font-display text-2xl font-bold">{totals.users}</p>
+        </button>
+        <button type="button" className="iid-card text-left" onClick={() => setTab("leads")}>
           <p className="text-xs uppercase tracking-wide muted">Leads</p>
           <p className="mt-1 font-display text-2xl font-bold">{leadTotals.leads}</p>
-        </div>
+        </button>
         <div className="iid-card">
           <p className="text-xs uppercase tracking-wide muted">Saw demo</p>
           <p className="mt-1 font-display text-2xl font-bold">{leadTotals.demo}</p>
@@ -161,10 +167,6 @@ export default function CrmPage() {
         <div className="iid-card">
           <p className="text-xs uppercase tracking-wide muted">Signed up</p>
           <p className="mt-1 font-display text-2xl font-bold">{leadTotals.signed_up}</p>
-        </div>
-        <div className="iid-card">
-          <p className="text-xs uppercase tracking-wide muted">Accounts</p>
-          <p className="mt-1 font-display text-2xl font-bold">{totals.users}</p>
         </div>
         <div className="iid-card">
           <p className="text-xs uppercase tracking-wide muted">Imported</p>
@@ -217,7 +219,11 @@ export default function CrmPage() {
           </p>
           {importNote ? <p className="mt-2 text-sm text-[var(--iid-blue)]">{importNote}</p> : null}
           {leads.length === 0 ? (
-            <p className="mt-3 muted">No leads yet. Visitors are added automatically as they browse, or upload a sheet.</p>
+            <p className="mt-3 muted">
+              No website leads yet. Registered users are on the Accounts tab
+              {totals.users ? ` (${totals.users} already signed up)` : ""}. New visitors are added here as they browse,
+              or upload a sheet.
+            </p>
           ) : (
             <table className="mt-4 w-full min-w-[720px] text-left text-sm">
               <thead className="text-[var(--iid-muted)]">
@@ -309,10 +315,11 @@ export default function CrmPage() {
       <div className="grid gap-6 lg:grid-cols-[1.4fr_1fr]">
         <section className="iid-card overflow-x-auto">
           <h2 className="font-display text-xl font-bold">Accounts</h2>
+          <p className="mt-1 text-xs muted">Everyone who already signed up — plans, credits, and projects. These are not deleted when Leads is empty.</p>
           {loading && users.length === 0 ? (
             <p className="mt-3 muted">Loading users…</p>
           ) : users.length === 0 ? (
-            <p className="mt-3 muted">No users found.</p>
+            <p className="mt-3 muted">No registered accounts found in the user store.</p>
           ) : (
             <table className="mt-4 w-full min-w-[640px] text-left text-sm">
               <thead className="text-[var(--iid-muted)]">

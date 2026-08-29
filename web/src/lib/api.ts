@@ -95,6 +95,7 @@ export type AnalyticsTotals = {
   identified_sessions: number;
   signup_rate_pct: number;
   demo_starts?: number;
+  registered_users?: number;
 };
 export type AnalyticsSessionRow = {
   session_id: string;

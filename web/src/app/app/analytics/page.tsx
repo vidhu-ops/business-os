@@ -3,17 +3,6 @@
 import Link from "next/link";
 import { FormEvent, useEffect, useMemo, useState } from "react";
 import {
-  Area,
-  AreaChart,
-  Bar,
-  BarChart,
-  CartesianGrid,
-  ResponsiveContainer,
-  Tooltip,
-  XAxis,
-  YAxis,
-} from "recharts";
-import {
   api,
   type AnalyticsOverview,
   type AnalyticsPagePerson,
@@ -179,7 +168,12 @@ export default function AnalyticsPage() {
         <div>
           <h1 className="font-display text-3xl font-bold">Analytics</h1>
           <p className="mt-2 muted">
-            First-party traffic for every visitor — pages, time on site, source, device, and location.
+            First-party traffic at <code className="text-[var(--iid-ink)]">/app/analytics</code> — pages, time on site,
+            source, device, and location. Registered users remain in{" "}
+            <Link href="/app/crm" className="text-[var(--iid-blue)] hover:underline">
+              CRM → Accounts
+            </Link>
+            .
           </p>
         </div>
         <div className="flex flex-wrap items-center gap-2">
@@ -209,11 +203,12 @@ export default function AnalyticsPage() {
         </div>
       ) : null}
 
-      <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-6">
+      <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
         <StatCard label="Unique visitors" value={totals?.visitors} loading={loading} />
         <StatCard label="Sessions" value={totals?.sessions} loading={loading} />
         <StatCard label="Page views" value={totals?.pageviews} loading={loading} />
-        <StatCard label="Signups" value={totals?.signups} loading={loading} />
+        <StatCard label="Signups (range)" value={totals?.signups} loading={loading} />
+        <StatCard label="Registered accounts" value={totals?.registered_users} loading={loading} />
         <StatCard label="Demo starts" value={totals?.demo_starts ?? overview?.demo?.started} loading={loading} />
         <StatCard
           label="Signup rate"
@@ -226,19 +221,9 @@ export default function AnalyticsPage() {
         <section className="iid-card">
           <h2 className="font-display text-xl font-bold">Traffic</h2>
           <p className="mt-1 text-xs muted">Visitors, sessions, and page views by day.</p>
-          <div className="mt-4 h-64">
+          <div className="mt-4">
             {chartData.length ? (
-              <ResponsiveContainer width="100%" height="100%">
-                <AreaChart data={chartData} margin={{ top: 8, right: 8, left: 0, bottom: 0 }}>
-                  <CartesianGrid strokeDasharray="3 3" stroke="var(--iid-line)" />
-                  <XAxis dataKey="label" tick={{ fontSize: 11 }} stroke="var(--iid-muted)" />
-                  <YAxis allowDecimals={false} tick={{ fontSize: 11 }} stroke="var(--iid-muted)" width={32} />
-                  <Tooltip />
-                  <Area type="monotone" dataKey="visitors" name="Visitors" stroke="#0b5fff" fill="#0b5fff33" />
-                  <Area type="monotone" dataKey="pageviews" name="Page views" stroke="#22c55e" fill="#22c55e22" />
-                  <Area type="monotone" dataKey="signups" name="Signups" stroke="#f59e0b" fill="#f59e0b22" />
-                </AreaChart>
-              </ResponsiveContainer>
+              <TrafficBars rows={chartData} />
             ) : (
               <p className="muted text-sm">No traffic in this range yet. Visit the public site to generate data.</p>
             )}
@@ -334,16 +319,23 @@ export default function AnalyticsPage() {
       <div className="grid gap-6 lg:grid-cols-3">
         <section className="iid-card">
           <h2 className="font-display text-lg font-bold">Channels</h2>
-          <div className="mt-4 h-48">
+          <div className="mt-4 space-y-2">
             {(overview?.top_sources || []).length ? (
-              <ResponsiveContainer width="100%" height="100%">
-                <BarChart data={overview?.top_sources || []} layout="vertical" margin={{ left: 8, right: 8 }}>
-                  <XAxis type="number" allowDecimals={false} hide />
-                  <YAxis type="category" dataKey="label" width={80} tick={{ fontSize: 11 }} />
-                  <Tooltip />
-                  <Bar dataKey="count" fill="#0b5fff" radius={4} />
-                </BarChart>
-              </ResponsiveContainer>
+              (overview?.top_sources || []).slice(0, 8).map((row) => {
+                const max = Math.max(1, ...(overview?.top_sources || []).map((item) => item.count));
+                const pct = Math.round((row.count / max) * 100);
+                return (
+                  <div key={row.label}>
+                    <div className="flex justify-between text-sm">
+                      <span className="truncate">{row.label}</span>
+                      <span className="muted">{row.count}</span>
+                    </div>
+                    <div className="mt-1 h-2 overflow-hidden rounded-full bg-[var(--iid-panel-2)]">
+                      <div className="h-full rounded-full bg-[var(--iid-blue)]" style={{ width: `${pct}%` }} />
+                    </div>
+                  </div>
+                );
+              })
             ) : (
               <p className="text-sm muted">No source data yet.</p>
             )}
@@ -498,6 +490,54 @@ export default function AnalyticsPage() {
             </>
           )}
         </aside>
+      </div>
+    </div>
+  );
+}
+
+function TrafficBars({
+  rows,
+}: {
+  rows: Array<{ label: string; visitors: number; pageviews: number; signups: number }>;
+}) {
+  const max = Math.max(1, ...rows.map((row) => Math.max(row.visitors, row.pageviews, row.signups)));
+  const shown = rows.length > 31 ? rows.slice(-31) : rows;
+  return (
+    <div>
+      <div className="mb-2 flex flex-wrap gap-3 text-xs muted">
+        <span className="inline-flex items-center gap-1">
+          <span className="h-2 w-2 rounded-sm bg-[var(--iid-blue)]" /> Visitors
+        </span>
+        <span className="inline-flex items-center gap-1">
+          <span className="h-2 w-2 rounded-sm bg-emerald-500" /> Page views
+        </span>
+        <span className="inline-flex items-center gap-1">
+          <span className="h-2 w-2 rounded-sm bg-amber-500" /> Signups
+        </span>
+      </div>
+      <div className="flex h-64 items-end gap-1 overflow-x-auto">
+        {shown.map((row) => (
+          <div key={row.label} className="flex min-w-[1.75rem] flex-1 flex-col items-center justify-end gap-1">
+            <div className="flex h-52 w-full items-end justify-center gap-0.5">
+              <div
+                className="w-1/3 rounded-t bg-[var(--iid-blue)]"
+                style={{ height: `${Math.max(2, (row.visitors / max) * 100)}%` }}
+                title={`${row.visitors} visitors`}
+              />
+              <div
+                className="w-1/3 rounded-t bg-emerald-500/80"
+                style={{ height: `${Math.max(2, (row.pageviews / max) * 100)}%` }}
+                title={`${row.pageviews} page views`}
+              />
+              <div
+                className="w-1/3 rounded-t bg-amber-500/80"
+                style={{ height: `${Math.max(2, (row.signups / max) * 100)}%` }}
+                title={`${row.signups} signups`}
+              />
+            </div>
+            <span className="text-[10px] muted">{row.label}</span>
+          </div>
+        ))}
       </div>
     </div>
   );

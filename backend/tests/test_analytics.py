@@ -155,6 +155,9 @@ def test_collect_and_admin_overview(tmp_path, monkeypatch):
     leads = client.get("/api/v1/admin/leads", headers={"Authorization": f"Bearer {token}"})
     assert leads.status_code == 200
     assert leads.json()["total"] >= 1
+    emails = {row.get("email") for row in leads.json()["leads"]}
+    assert "admin@example.com" in emails
+    assert body["totals"]["registered_users"] >= 1
 
     uploaded = client.post(
         "/api/v1/admin/leads/import",
@@ -201,3 +204,32 @@ def test_demo_journey_and_page_people(tmp_path, monkeypatch):
     journey = analytics_store.visitor_journey("demovisitor01")
     assert journey is not None
     assert len(journey["journey"]) == 2
+
+
+def test_existing_users_backfill_into_leads(tmp_path, monkeypatch):
+    monkeypatch.setenv("DATA_DIR", str(tmp_path))
+    monkeypatch.setenv("ANALYTICS_DB_PATH", str(tmp_path / "analytics.sqlite"))
+    monkeypatch.setenv("USER_DB_PATH", str(tmp_path / "users.sqlite"))
+    monkeypatch.delenv("DATABASE_URL", raising=False)
+    analytics_store._pg_ready = False
+    save_users(
+        {
+            "founder@old.test": {
+                "email": "founder@old.test",
+                "name": "Priya",
+                "created_at": "2026-01-15T00:00:00Z",
+                "signup_attribution": {"source": "organic", "place": "Mumbai, India"},
+            },
+            "demo@local": {"email": "demo@local", "name": "Demo"},
+        }
+    )
+    overview = analytics_store.overview(7)
+    assert overview["totals"]["registered_users"] == 1
+    leads = analytics_store.list_leads()
+    emails = {row["email"] for row in leads["leads"]}
+    assert "founder@old.test" in emails
+    assert "demo@local" not in emails
+    founder = next(row for row in leads["leads"] if row["email"] == "founder@old.test")
+    assert founder["signed_up"] is True
+    assert founder["status"] == "signed_up"
+    assert founder["name"] == "Priya"

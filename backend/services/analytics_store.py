@@ -17,6 +17,13 @@ _lock = threading.RLock()
 _pg_ready: bool | None = None
 
 SESSION_IDLE_MINUTES = 30
+_SKIP_LEAD_PATHS = {
+    "/app/analytics",
+    "/app/crm",
+    "/analytics",
+    "/analystics",
+    "/app/analystics",
+}
 
 
 def _now() -> str:
@@ -539,7 +546,7 @@ def ingest(conn: Any, payload: dict[str, Any]) -> dict[str, Any]:
             (session_id, visitor_id, str(session.get("started_at") or now), now, _dumps(session)),
         )
 
-    if kind != "heartbeat" and path.split("?")[0] not in {"/app/analytics", "/app/crm"}:
+    if kind != "heartbeat" and path.split("?")[0] not in _SKIP_LEAD_PATHS:
         try:
             _upsert_lead_conn(
                 conn,
@@ -590,8 +597,82 @@ def _day_key(ts: str) -> str:
     return parsed.astimezone(timezone.utc).date().isoformat()
 
 
+def _registered_accounts() -> list[tuple[str, dict[str, Any]]]:
+    try:
+        from backend.services.user_store import load_users
+
+        users = load_users()
+    except Exception:
+        return []
+    out: list[tuple[str, dict[str, Any]]] = []
+    for email, record in users.items():
+        key = str(email or "").strip().lower()
+        if not key or key == "demo@local" or not isinstance(record, dict):
+            continue
+        out.append((key, record))
+    return out
+
+
+def _backfill_users_as_leads_conn(conn: Any) -> dict[str, int]:
+    """Copy existing registered accounts into the leads table so they are not hidden."""
+    tables = _tables()
+    now = _now()
+    created = 0
+    updated = 0
+    accounts = _registered_accounts()
+    for email, record in accounts:
+        existing = _fetchone(conn, f"SELECT lead_id, data, created_at FROM {tables['leads']} WHERE email = ?", (email,))
+        data = _loads(_row_get(existing, "data")) if existing else {}
+        lead_id = str(_row_get(existing, "lead_id") or email)
+        created_at = str(
+            _row_get(existing, "created_at") or record.get("created_at") or data.get("created_at") or now
+        )
+        name = str(record.get("name") or data.get("name") or "").strip() or email.split("@")[0]
+        attr = record.get("signup_attribution") if isinstance(record.get("signup_attribution"), dict) else {}
+        visitor_id = str(data.get("visitor_id") or record.get("analytics_visitor_id") or attr.get("visitor_id") or "")
+        already_linked = bool(
+            existing and (data.get("from_account") or data.get("signed_up") or str(data.get("email") or "") == email)
+        )
+        stamp = now if not already_linked else str(_row_get(existing, "updated_at") or data.get("updated_at") or now)
+        data["email"] = email
+        data["name"] = name[:240]
+        data["lead_id"] = lead_id
+        data["from_account"] = True
+        data["signed_up"] = True
+        data["status"] = "signed_up"
+        if visitor_id:
+            data["visitor_id"] = visitor_id
+        data["source"] = data.get("source") or str(attr.get("source") or "") or "account"
+        data["place"] = data.get("place") or str(attr.get("place") or "")
+        data["city"] = data.get("city") or str(attr.get("city") or "")
+        data["country"] = data.get("country") or str(attr.get("country") or "")
+        data["referrer"] = data.get("referrer") or str(attr.get("referrer") or "")
+        data["landing_path"] = data.get("landing_path") or str(attr.get("landing_path") or "")
+        data["utm_source"] = data.get("utm_source") or str(attr.get("utm_source") or "")
+        data["utm_campaign"] = data.get("utm_campaign") or str(attr.get("utm_campaign") or "")
+        data["device"] = data.get("device") or str(attr.get("device") or "")
+        data["created_at"] = created_at
+        data["updated_at"] = stamp
+        if existing:
+            _execute(
+                conn,
+                f"UPDATE {tables['leads']} SET email = ?, visitor_id = ?, updated_at = ?, data = {_json_ph()} WHERE lead_id = ?",
+                (email, visitor_id or None, stamp, _dumps(data), lead_id),
+            )
+            updated += 1
+        else:
+            _execute(
+                conn,
+                f"INSERT INTO {tables['leads']}(lead_id, visitor_id, email, created_at, updated_at, data) VALUES (?, ?, ?, ?, ?, {_json_ph()})",
+                (lead_id, visitor_id or None, email, created_at, now, _dumps(data)),
+            )
+            created += 1
+    return {"created": created, "updated": updated, "accounts": len(accounts)}
+
+
 @_with_conn
 def overview(conn: Any, days: int = 7) -> dict[str, Any]:
+    backfill = _backfill_users_as_leads_conn(conn)
     since = _since_iso(days)
     tables = _tables()
     sessions = _fetchall(
@@ -778,6 +859,7 @@ def overview(conn: Any, days: int = 7) -> dict[str, Any]:
             "identified_sessions": signed_up_sessions,
             "signup_rate_pct": conversion,
             "demo_starts": demo_sessions,
+            "registered_users": int(backfill.get("accounts") or 0),
         },
         "demo": {
             "started": demo_sessions,
@@ -1176,6 +1258,7 @@ def visitor_journey(conn: Any, visitor_id: str) -> dict[str, Any] | None:
 
 @_with_conn
 def list_leads(conn: Any, q: str = "", status: str = "", limit: int = 80, offset: int = 0) -> dict[str, Any]:
+    _backfill_users_as_leads_conn(conn)
     tables = _tables()
     rows = _fetchall(
         conn,

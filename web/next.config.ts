@@ -19,6 +19,13 @@ const nextConfig: NextConfig = {
       },
     ];
   },
+  async redirects() {
+    return [
+      { source: "/analytics", destination: "/app/analytics", permanent: false },
+      { source: "/analystics", destination: "/app/analytics", permanent: false },
+      { source: "/app/analystics", destination: "/app/analytics", permanent: false },
+    ];
+  },
 };
 
 export default nextConfig;
