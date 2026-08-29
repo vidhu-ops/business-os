@@ -171,6 +171,7 @@ def test_collect_and_admin_overview(tmp_path, monkeypatch):
 def test_demo_journey_and_page_people(tmp_path, monkeypatch):
     monkeypatch.setenv("DATA_DIR", str(tmp_path))
     monkeypatch.setenv("ANALYTICS_DB_PATH", str(tmp_path / "analytics.sqlite"))
+    monkeypatch.setenv("USER_DB_PATH", str(tmp_path / "users.sqlite"))
     monkeypatch.delenv("DATABASE_URL", raising=False)
     analytics_store._pg_ready = False
     analytics_store.ingest(
@@ -200,7 +201,8 @@ def test_demo_journey_and_page_people(tmp_path, monkeypatch):
     assert people["unique_visitors"] == 1
     leads = analytics_store.list_leads()
     assert leads["total"] >= 1
-    assert leads["leads"][0]["saw_demo"] is True
+    demo_lead = next(row for row in leads["leads"] if row["visitor_id"] == "demovisitor01")
+    assert demo_lead["saw_demo"] is True
     journey = analytics_store.visitor_journey("demovisitor01")
     assert journey is not None
     assert len(journey["journey"]) == 2
