@@ -85,17 +85,20 @@ function AnalyticsBeaconInner() {
     maxScroll.current = scrollPercent();
     pageviewId.current = "";
 
+    const demoHit = search.includes("demo_readonly") || path.includes("demo_readonly");
     const payload: CollectPayload = {
       visitor_id: visitorId,
       session_id: sessionId,
       type: "pageview",
-      path,
+      path: demoHit ? `${path.split("?")[0]}?project=demo_readonly` : path,
       title: document.title || "",
       href,
       referrer: document.referrer || "",
       utm,
       click_ids: clickIds,
       client: collectClientContext(),
+      props: { is_demo: demoHit, search },
+      event_name: demoHit ? "demo_part" : "",
     };
 
     const url = `${API_BASE}/api/v1/analytics/collect`;

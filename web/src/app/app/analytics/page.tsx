@@ -16,6 +16,7 @@ import {
 import {
   api,
   type AnalyticsOverview,
+  type AnalyticsPagePerson,
   type AnalyticsSessionDetail,
   type AnalyticsSessionRow,
 } from "@/lib/api";
@@ -79,6 +80,9 @@ export default function AnalyticsPage() {
   const [selected, setSelected] = useState("");
   const [detail, setDetail] = useState<AnalyticsSessionDetail | null>(null);
   const [detailLoading, setDetailLoading] = useState(false);
+  const [pagePath, setPagePath] = useState("");
+  const [pagePeople, setPagePeople] = useState<AnalyticsPagePerson[]>([]);
+  const [pagePeopleMeta, setPagePeopleMeta] = useState({ views: 0, unique_visitors: 0 });
 
   async function refresh(nextDays = days, q = query) {
     setLoading(true);
@@ -108,6 +112,27 @@ export default function AnalyticsPage() {
     refresh(days, "").catch(() => undefined);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [days]);
+
+  useEffect(() => {
+    if (!pagePath) {
+      setPagePeople([]);
+      return;
+    }
+    let cancelled = false;
+    api
+      .adminAnalyticsPagePeople(pagePath, days)
+      .then((data) => {
+        if (cancelled) return;
+        setPagePeople(data.people || []);
+        setPagePeopleMeta({ views: data.views || 0, unique_visitors: data.unique_visitors || 0 });
+      })
+      .catch(() => {
+        if (!cancelled) setPagePeople([]);
+      });
+    return () => {
+      cancelled = true;
+    };
+  }, [pagePath, days]);
 
   useEffect(() => {
     if (!selected) {
@@ -184,11 +209,12 @@ export default function AnalyticsPage() {
         </div>
       ) : null}
 
-      <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-5">
+      <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-6">
         <StatCard label="Unique visitors" value={totals?.visitors} loading={loading} />
         <StatCard label="Sessions" value={totals?.sessions} loading={loading} />
         <StatCard label="Page views" value={totals?.pageviews} loading={loading} />
         <StatCard label="Signups" value={totals?.signups} loading={loading} />
+        <StatCard label="Demo starts" value={totals?.demo_starts ?? overview?.demo?.started} loading={loading} />
         <StatCard
           label="Signup rate"
           value={totals ? `${totals.signup_rate_pct}%` : undefined}
@@ -249,18 +275,60 @@ export default function AnalyticsPage() {
       </div>
 
       <div className="grid gap-6 lg:grid-cols-3">
-        <ListCard title="Pages" rows={(overview?.top_pages || []).map((row) => ({
-          label: row.path,
-          detail: `${row.views} views · ${formatDuration(row.avg_duration_ms)} avg · ${row.avg_scroll_pct}% scroll`,
-        }))} />
+        <section className="iid-card">
+          <h2 className="font-display text-lg font-bold">Pages — who visited</h2>
+          <p className="mt-1 text-xs muted">Click a page to see every visitor on it.</p>
+          {(overview?.top_pages || []).length ? (
+            <ul className="mt-3 space-y-2 text-sm">
+              {(overview?.top_pages || []).slice(0, 12).map((row) => (
+                <li key={row.path}>
+                  <button
+                    type="button"
+                    className={`flex w-full justify-between gap-3 border-b border-[var(--iid-line)] py-1.5 text-left ${pagePath === row.path ? "font-semibold text-[var(--iid-blue)]" : ""}`}
+                    onClick={() => setPagePath(row.path)}
+                  >
+                    <span className="truncate">{row.path}</span>
+                    <span className="muted whitespace-nowrap">
+                      {row.unique_visitors} people · {row.views} views
+                    </span>
+                  </button>
+                </li>
+              ))}
+            </ul>
+          ) : (
+            <p className="mt-3 text-sm muted">No pages yet.</p>
+          )}
+          {pagePath ? (
+            <div className="mt-4 rounded-lg border border-[var(--iid-line)] p-3">
+              <p className="text-sm font-semibold">{pagePath}</p>
+              <p className="text-xs muted">
+                {pagePeopleMeta.unique_visitors} people · {pagePeopleMeta.views} views
+              </p>
+              <ul className="mt-2 max-h-56 space-y-1 overflow-auto text-sm">
+                {pagePeople.map((person) => (
+                  <li key={person.visitor_id} className="flex justify-between gap-2">
+                    <span className="truncate">{person.email || person.name || person.visitor_id.slice(0, 10)}</span>
+                    <span className="muted whitespace-nowrap">
+                      {person.place || person.source || "—"} · {person.views}
+                    </span>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          ) : null}
+        </section>
         <ListCard title="Where they came from" rows={(overview?.top_referrers || []).map((row) => ({
           label: row.label || "direct",
           detail: `${row.count} sessions`,
         }))} />
-        <ListCard title="Location" rows={(overview?.top_cities || overview?.top_countries || []).map((row) => ({
-          label: row.label || "Unknown",
-          detail: `${row.count} sessions`,
-        }))} />
+        <ListCard
+          title="Demo parts viewed"
+          rows={(overview?.demo?.parts || []).map((row) => ({
+            label: row.label,
+            detail: `${row.count} sessions`,
+          }))}
+          empty="No demo sessions yet. “See demo” and demo_readonly workspace pages will show here."
+        />
       </div>
 
       <div className="grid gap-6 lg:grid-cols-3">
@@ -397,7 +465,7 @@ export default function AnalyticsPage() {
                     {detail.pages.map((page) => (
                       <li key={page.id} className="rounded-lg border border-[var(--iid-line)] px-3 py-2">
                         <div className="flex justify-between gap-3">
-                          <span className="font-medium">{page.path}</span>
+                          <span className="font-medium">{page.label || page.path}</span>
                           <span className="muted whitespace-nowrap">{formatDuration(page.duration_ms)}</span>
                         </div>
                         <div className="text-xs muted">

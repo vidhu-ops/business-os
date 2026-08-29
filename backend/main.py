@@ -67,6 +67,7 @@ app.include_router(org_memory.router, prefix="/api/v1")
 app.include_router(admin.router, prefix="/api/v1")
 app.include_router(analytics.public_router, prefix="/api/v1")
 app.include_router(analytics.admin_router, prefix="/api/v1")
+app.include_router(analytics.leads_router, prefix="/api/v1")
 
 
 def _bootstrap_admin_credits() -> None:

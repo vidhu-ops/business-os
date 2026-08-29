@@ -18,6 +18,7 @@ from backend.auth import (
     save_users,
     verify_password,
 )
+from backend.services import analytics_store
 from backend.services.account_service import ensure_account, get_plan_snapshot
 from backend.services.analytics_store import attribution_for_visitor, identify as identify_visitor
 from backend.services.audit_service import audit_status, grant_signup_free_audit
@@ -52,6 +53,8 @@ class LoginBody(BaseModel):
 
 class DemoLoginBody(BaseModel):
     email: str | None = None
+    visitor_id: str = ""
+    session_id: str = ""
 
 
 def _visitor_ids(request: Request, visitor_id: str = "", session_id: str = "") -> tuple[str, str]:
@@ -139,7 +142,7 @@ def login(body: LoginBody, request: Request, response: Response) -> dict:
 
 
 @router.post("/demo")
-def demo_login(body: DemoLoginBody, response: Response) -> dict:
+def demo_login(body: DemoLoginBody, request: Request, response: Response) -> dict:
     email = (body.email or "demo@local").strip().lower()
     users = load_users()
     is_new = email not in users
@@ -149,6 +152,23 @@ def demo_login(body: DemoLoginBody, response: Response) -> dict:
         users[email]["password_hash"] = hash_password("demo")
         save_users(users)
         record = users[email]
+    vid, sid = _visitor_ids(request, body.visitor_id, body.session_id)
+    try:
+        if vid:
+            analytics_store.ingest(
+                {
+                    "type": "event",
+                    "event_name": "demo_start",
+                    "visitor_id": vid,
+                    "session_id": sid or f"demo-{vid[:16]}",
+                    "path": "/app/research?project=demo_readonly",
+                    "href": "/app/research?project=demo_readonly",
+                    "is_demo": True,
+                    "props": {"is_demo": True},
+                }
+            )
+    except Exception:
+        pass
     token = create_token(email)
     _set_session_cookie(response, token)
     return {"email": email, "name": record.get("name", "Demo User"), "token": token, "is_demo": True}

@@ -11,6 +11,7 @@ from pathlib import Path
 from typing import Any
 
 from backend.services.geo_ua import classify_source, host_from_url
+from backend.services.page_taxonomy import DEMO_MARKER, classify_page, is_demo_hit
 
 _lock = threading.RLock()
 _pg_ready: bool | None = None
@@ -116,6 +117,17 @@ CREATE INDEX IF NOT EXISTS idx_analytics_page_views_at ON page_views(at);
 CREATE INDEX IF NOT EXISTS idx_analytics_page_views_session ON page_views(session_id);
 CREATE INDEX IF NOT EXISTS idx_analytics_events_name_at ON events(name, at);
 CREATE INDEX IF NOT EXISTS idx_analytics_visitors_email ON visitors(user_email);
+CREATE TABLE IF NOT EXISTS leads (
+    lead_id TEXT PRIMARY KEY,
+    visitor_id TEXT,
+    email TEXT,
+    created_at TEXT NOT NULL,
+    updated_at TEXT NOT NULL,
+    data TEXT NOT NULL
+);
+CREATE INDEX IF NOT EXISTS idx_analytics_leads_email ON leads(email);
+CREATE INDEX IF NOT EXISTS idx_analytics_leads_visitor ON leads(visitor_id);
+CREATE INDEX IF NOT EXISTS idx_analytics_leads_updated ON leads(updated_at);
 """
 
 _SCHEMA_PG = """
@@ -155,6 +167,17 @@ CREATE INDEX IF NOT EXISTS idx_analytics_page_views_at ON analytics_page_views(a
 CREATE INDEX IF NOT EXISTS idx_analytics_page_views_session ON analytics_page_views(session_id);
 CREATE INDEX IF NOT EXISTS idx_analytics_events_name_at ON analytics_events(name, at);
 CREATE INDEX IF NOT EXISTS idx_analytics_visitors_email ON analytics_visitors(user_email);
+CREATE TABLE IF NOT EXISTS analytics_leads (
+    lead_id TEXT PRIMARY KEY,
+    visitor_id TEXT,
+    email TEXT,
+    created_at TEXT NOT NULL,
+    updated_at TEXT NOT NULL,
+    data JSONB NOT NULL
+);
+CREATE INDEX IF NOT EXISTS idx_analytics_leads_email ON analytics_leads(email);
+CREATE INDEX IF NOT EXISTS idx_analytics_leads_visitor ON analytics_leads(visitor_id);
+CREATE INDEX IF NOT EXISTS idx_analytics_leads_updated ON analytics_leads(updated_at);
 """
 
 
@@ -165,12 +188,14 @@ def _tables() -> dict[str, str]:
             "sessions": "analytics_sessions",
             "page_views": "analytics_page_views",
             "events": "analytics_events",
+            "leads": "analytics_leads",
         }
     return {
         "visitors": "visitors",
         "sessions": "sessions",
         "page_views": "page_views",
         "events": "events",
+        "leads": "leads",
     }
 
 
@@ -337,7 +362,15 @@ def ingest(conn: Any, payload: dict[str, Any]) -> dict[str, Any]:
     visitor_id = str(payload.get("visitor_id") or "").strip()
     session_id = str(payload.get("session_id") or "").strip()
     kind = str(payload.get("type") or "pageview").strip().lower()
-    path = str(payload.get("path") or "/")[:400]
+    props = payload.get("props") if isinstance(payload.get("props"), dict) else {}
+    is_demo = bool(props.get("is_demo") or payload.get("is_demo") or is_demo_hit(str(payload.get("path") or ""), str(payload.get("href") or "")))
+    classified = classify_page(str(payload.get("path") or "/"), str(payload.get("href") or ""), is_demo)
+    path = classified["path"][:400]
+    payload["path"] = path
+    payload["page_area"] = classified["area"]
+    payload["page_part"] = classified["part"]
+    payload["page_label"] = classified["label"]
+    payload["is_demo"] = classified["area"] == "demo" or is_demo
     tables = _tables()
 
     visitor_row = _fetchone(
@@ -386,6 +419,8 @@ def ingest(conn: Any, payload: dict[str, Any]) -> dict[str, Any]:
             "page_count": 0,
             "duration_ms": 0,
             "paths": [],
+            "demo_parts": [],
+            "saw_demo": False,
         }
         visitor["session_count"] = int(visitor.get("session_count") or 0) + 1
     for key in ("country", "country_name", "city", "region", "place", "timezone", "language", "device", "os", "browser"):
@@ -412,6 +447,10 @@ def ingest(conn: Any, payload: dict[str, Any]) -> dict[str, Any]:
             "duration_ms": int(payload.get("duration_ms") or 0),
             "scroll_pct": int(payload.get("scroll_pct") or 0),
             "viewport": payload.get("viewport") or "",
+            "area": classified["area"],
+            "part": classified["part"],
+            "label": classified["label"],
+            "is_demo": bool(payload.get("is_demo")),
         }
         _execute(
             conn,
@@ -426,6 +465,21 @@ def ingest(conn: Any, payload: dict[str, Any]) -> dict[str, Any]:
         if path not in paths:
             paths.append(path)
         session["paths"] = paths[:80]
+        if payload.get("is_demo") or classified["area"] == "demo":
+            session["saw_demo"] = True
+            visitor["saw_demo"] = True
+            parts = session.get("demo_parts")
+            if not isinstance(parts, list):
+                parts = []
+            if classified["part"] not in parts:
+                parts.append(classified["part"])
+            session["demo_parts"] = parts[:20]
+            vparts = visitor.get("demo_parts")
+            if not isinstance(vparts, list):
+                vparts = []
+            if classified["part"] not in vparts:
+                vparts.append(classified["part"])
+            visitor["demo_parts"] = vparts[:20]
     elif kind == "heartbeat" and pageview_id:
         row = _fetchone(conn, f"SELECT data FROM {tables['page_views']} WHERE id = ?", (pageview_id,))
         if row:
@@ -452,6 +506,9 @@ def ingest(conn: Any, payload: dict[str, Any]) -> dict[str, Any]:
             session["signed_up"] = True
         if name == "login":
             session["logged_in"] = True
+        if name in {"demo_start", "demo_part"} or payload.get("is_demo"):
+            session["saw_demo"] = True
+            visitor["saw_demo"] = True
 
     visitor["visitor_id"] = visitor_id
     session["visitor_id"] = visitor_id
@@ -481,6 +538,21 @@ def ingest(conn: Any, payload: dict[str, Any]) -> dict[str, Any]:
             f"INSERT INTO {tables['sessions']}(session_id, visitor_id, started_at, last_seen_at, data) VALUES (?, ?, ?, ?, {_json_ph()})",
             (session_id, visitor_id, str(session.get("started_at") or now), now, _dumps(session)),
         )
+
+    if kind != "heartbeat" and path.split("?")[0] not in {"/app/analytics", "/app/crm"}:
+        try:
+            _upsert_lead_conn(
+                conn,
+                visitor_id=visitor_id,
+                session=session,
+                visitor=visitor,
+                path=path,
+                classified=classified,
+                event_name=str(payload.get("event_name") or kind),
+                now=now,
+            )
+        except Exception:
+            pass
 
     return {"ok": True, "visitor_id": visitor_id, "session_id": session_id, "pageview_id": pageview_id}
 
@@ -551,6 +623,8 @@ def overview(conn: Any, days: int = 7) -> dict[str, Any]:
     signed_up_sessions = 0
     login_events = 0
     signup_events = 0
+    demo_sessions = 0
+    demo_parts: dict[str, int] = {}
 
     def bucket(day: str) -> dict[str, int]:
         row = series_map.setdefault(day, {"date": day, "visitors": 0, "sessions": 0, "pageviews": 0, "signups": 0})
@@ -593,6 +667,11 @@ def overview(conn: Any, days: int = 7) -> dict[str, Any]:
             utm[utm_key] = utm.get(utm_key, 0) + 1
         if data.get("signed_up") or data.get("user_email"):
             signed_up_sessions += 1
+        if data.get("saw_demo") or any(DEMO_MARKER in str(p) for p in (data.get("paths") or [])):
+            demo_sessions += 1
+            for part in data.get("demo_parts") or []:
+                label = str(part)
+                demo_parts[label] = demo_parts.get(label, 0) + 1
         recent_sessions.append(
             {
                 "session_id": _row_get(row, "session_id"),
@@ -698,6 +777,11 @@ def overview(conn: Any, days: int = 7) -> dict[str, Any]:
             "logins": login_events,
             "identified_sessions": signed_up_sessions,
             "signup_rate_pct": conversion,
+            "demo_starts": demo_sessions,
+        },
+        "demo": {
+            "started": demo_sessions,
+            "parts": [{"label": k, "count": v} for k, v in sorted(demo_parts.items(), key=lambda kv: (-kv[1], kv[0]))],
         },
         "series": series,
         "top_pages": page_rows[:30],
@@ -804,6 +888,9 @@ def session_detail(conn: Any, session_id: str) -> dict[str, Any] | None:
                 "href": pdata.get("href") or "",
                 "duration_ms": int(pdata.get("duration_ms") or 0),
                 "scroll_pct": int(pdata.get("scroll_pct") or 0),
+                "label": pdata.get("label") or "",
+                "part": pdata.get("part") or "",
+                "is_demo": bool(pdata.get("is_demo")),
             }
         )
     event_rows = []
@@ -862,6 +949,316 @@ def attribution_for_visitor(visitor_id: str) -> dict[str, Any]:
         }
 
     return _read()
+
+
+def _lead_public(lead_id: str, data: dict[str, Any], created_at: str = "", updated_at: str = "") -> dict[str, Any]:
+    email = str(data.get("email") or "").strip().lower()
+    name = str(data.get("name") or "").strip()
+    if not name:
+        place = str(data.get("place") or data.get("city") or "")
+        name = email or (f"Visitor in {place}" if place else f"Visitor {lead_id[:8]}")
+    return {
+        "lead_id": lead_id,
+        "visitor_id": data.get("visitor_id") or "",
+        "email": email,
+        "name": name,
+        "phone": data.get("phone") or "",
+        "company": data.get("company") or "",
+        "status": data.get("status") or "visitor",
+        "source": data.get("source") or "direct",
+        "place": data.get("place") or "",
+        "country": data.get("country") or "",
+        "city": data.get("city") or "",
+        "landing_path": data.get("landing_path") or "",
+        "last_path": data.get("last_path") or "",
+        "journey": data.get("journey") if isinstance(data.get("journey"), list) else [],
+        "demo_parts": data.get("demo_parts") if isinstance(data.get("demo_parts"), list) else [],
+        "saw_demo": bool(data.get("saw_demo")),
+        "page_count": int(data.get("page_count") or len(data.get("journey") or [])),
+        "notes": data.get("notes") or "",
+        "created_at": created_at or data.get("created_at") or "",
+        "updated_at": updated_at or data.get("updated_at") or "",
+        "imported": bool(data.get("imported")),
+        "signed_up": bool(data.get("signed_up") or data.get("status") == "signed_up"),
+        "utm_source": data.get("utm_source") or "",
+        "utm_campaign": data.get("utm_campaign") or "",
+        "referrer": data.get("referrer") or "",
+        "device": data.get("device") or "",
+    }
+
+
+def _upsert_lead_conn(
+    conn: Any,
+    *,
+    visitor_id: str,
+    session: dict[str, Any],
+    visitor: dict[str, Any],
+    path: str,
+    classified: dict[str, str],
+    event_name: str,
+    now: str,
+) -> None:
+    tables = _tables()
+    email = str(visitor.get("user_email") or session.get("user_email") or "").strip().lower()
+    if email == "demo@local":
+        email = ""
+    row = None
+    if email:
+        row = _fetchone(conn, f"SELECT lead_id, data, created_at FROM {tables['leads']} WHERE email = ?", (email,))
+    if not row and visitor_id:
+        row = _fetchone(conn, f"SELECT lead_id, data, created_at FROM {tables['leads']} WHERE visitor_id = ?", (visitor_id,))
+    data = _loads(_row_get(row, "data")) if row else {}
+    lead_id = str(_row_get(row, "lead_id") or "") if row else (email or visitor_id or uuid.uuid4().hex)
+    created_at = str(_row_get(row, "created_at") or now) if row else now
+    journey = data.get("journey") if isinstance(data.get("journey"), list) else []
+    if path and (not journey or journey[-1] != path):
+        journey.append(path)
+    demo_parts = data.get("demo_parts") if isinstance(data.get("demo_parts"), list) else []
+    if classified.get("area") == "demo" and classified.get("part") and classified["part"] not in demo_parts:
+        demo_parts.append(classified["part"])
+    status = str(data.get("status") or "visitor")
+    if event_name in {"signup", "register"} or (email and status in {"visitor", "demo"}):
+        status = "signed_up" if event_name in {"signup", "register"} else status
+    if classified.get("area") == "demo" or event_name in {"demo_start", "demo_part"}:
+        if status == "visitor":
+            status = "demo"
+    if event_name in {"signup", "register"}:
+        status = "signed_up"
+    if data.get("imported") and status == "visitor":
+        status = "imported"
+    merged = dict(data)
+    merged.update(
+        {
+            "lead_id": lead_id,
+            "visitor_id": visitor_id or data.get("visitor_id") or "",
+            "email": email or data.get("email") or "",
+            "name": data.get("name") or "",
+            "status": status,
+            "source": data.get("source") or session.get("source") or visitor.get("source") or "direct",
+            "place": session.get("place") or visitor.get("place") or data.get("place") or "",
+            "country": session.get("country") or visitor.get("country") or data.get("country") or "",
+            "city": session.get("city") or visitor.get("city") or data.get("city") or "",
+            "landing_path": data.get("landing_path") or visitor.get("landing_path") or session.get("landing_path") or path,
+            "last_path": path,
+            "journey": journey[-80:],
+            "demo_parts": demo_parts[:20],
+            "saw_demo": bool(data.get("saw_demo") or session.get("saw_demo") or classified.get("area") == "demo"),
+            "page_count": len(journey[-80:]),
+            "utm_source": data.get("utm_source") or session.get("utm_source") or visitor.get("utm_source") or "",
+            "utm_campaign": data.get("utm_campaign") or session.get("utm_campaign") or "",
+            "referrer": data.get("referrer") or session.get("referrer") or visitor.get("referrer") or "",
+            "device": session.get("device") or visitor.get("device") or data.get("device") or "",
+            "signed_up": status == "signed_up",
+            "updated_at": now,
+            "created_at": created_at,
+        }
+    )
+    if row:
+        _execute(
+            conn,
+            f"UPDATE {tables['leads']} SET visitor_id = ?, email = ?, updated_at = ?, data = {_json_ph()} WHERE lead_id = ?",
+            (visitor_id or _row_get(row, "visitor_id"), email or None, now, _dumps(merged), lead_id),
+        )
+    else:
+        _execute(
+            conn,
+            f"INSERT INTO {tables['leads']}(lead_id, visitor_id, email, created_at, updated_at, data) VALUES (?, ?, ?, ?, ?, {_json_ph()})",
+            (lead_id, visitor_id or None, email or None, created_at, now, _dumps(merged)),
+        )
+
+
+@_with_conn
+def page_people(conn: Any, path: str, days: int = 7) -> dict[str, Any]:
+    since = _since_iso(days)
+    tables = _tables()
+    wanted = (path or "").strip() or "/"
+    base_wanted = wanted.split("?")[0] or "/"
+    rows = _fetchall(
+        conn,
+        f"SELECT visitor_id, session_id, path, at, data FROM {tables['page_views']} WHERE at >= ? ORDER BY at DESC",
+        (since,),
+    )
+    people: dict[str, dict[str, Any]] = {}
+    views = 0
+    for row in rows:
+        p = str(_row_get(row, "path") or "")
+        if p != wanted and p.split("?")[0] != base_wanted:
+            continue
+        views += 1
+        vid = str(_row_get(row, "visitor_id") or "")
+        entry = people.setdefault(
+            vid,
+            {"visitor_id": vid, "views": 0, "last_seen_at": "", "first_seen_at": str(_row_get(row, "at") or "")},
+        )
+        entry["views"] += 1
+        entry["last_seen_at"] = entry["last_seen_at"] or str(_row_get(row, "at") or "")
+        pdata = _loads(_row_get(row, "data"))
+        entry["duration_ms"] = int(entry.get("duration_ms") or 0) + int(pdata.get("duration_ms") or 0)
+        entry["label"] = pdata.get("label") or wanted
+    visitors = []
+    for vid, entry in people.items():
+        vrow = _fetchone(conn, f"SELECT data, user_email FROM {tables['visitors']} WHERE visitor_id = ?", (vid,))
+        vdata = _loads(_row_get(vrow, "data")) if vrow else {}
+        lrow = _fetchone(conn, f"SELECT lead_id, data FROM {tables['leads']} WHERE visitor_id = ?", (vid,))
+        ldata = _loads(_row_get(lrow, "data")) if lrow else {}
+        email = str(_row_get(vrow, "user_email") or vdata.get("user_email") or ldata.get("email") or "")
+        visitors.append(
+            {
+                **entry,
+                "email": email if email != "demo@local" else "",
+                "name": ldata.get("name") or email or f"Visitor {vid[:8]}",
+                "place": vdata.get("place") or ldata.get("place") or "",
+                "source": vdata.get("source") or ldata.get("source") or "",
+                "lead_id": _row_get(lrow, "lead_id") if lrow else vid,
+                "journey": vdata.get("last_path") or "",
+            }
+        )
+    visitors.sort(key=lambda row: str(row.get("last_seen_at") or ""), reverse=True)
+    return {"path": wanted, "views": views, "unique_visitors": len(visitors), "people": visitors[:200]}
+
+
+@_with_conn
+def visitor_journey(conn: Any, visitor_id: str) -> dict[str, Any] | None:
+    tables = _tables()
+    row = _fetchone(conn, f"SELECT data, user_email, first_seen_at, last_seen_at FROM {tables['visitors']} WHERE visitor_id = ?", (visitor_id,))
+    if not row:
+        return None
+    visitor = _loads(_row_get(row, "data"))
+    sessions = _fetchall(
+        conn,
+        f"SELECT session_id, started_at, last_seen_at, data FROM {tables['sessions']} WHERE visitor_id = ? ORDER BY started_at ASC",
+        (visitor_id,),
+    )
+    pages = _fetchall(
+        conn,
+        f"SELECT id, session_id, path, at, data FROM {tables['page_views']} WHERE visitor_id = ? ORDER BY at ASC",
+        (visitor_id,),
+    )
+    lead = _fetchone(conn, f"SELECT lead_id, data FROM {tables['leads']} WHERE visitor_id = ?", (visitor_id,))
+    journey = []
+    for page in pages:
+        pdata = _loads(_row_get(page, "data"))
+        journey.append(
+            {
+                "id": _row_get(page, "id"),
+                "session_id": _row_get(page, "session_id"),
+                "path": _row_get(page, "path"),
+                "at": _row_get(page, "at"),
+                "title": pdata.get("title") or "",
+                "duration_ms": int(pdata.get("duration_ms") or 0),
+                "scroll_pct": int(pdata.get("scroll_pct") or 0),
+                "label": pdata.get("label") or "",
+                "part": pdata.get("part") or "",
+                "is_demo": bool(pdata.get("is_demo")),
+            }
+        )
+    return {
+        "visitor_id": visitor_id,
+        "email": _row_get(row, "user_email") or visitor.get("user_email") or "",
+        "first_seen_at": _row_get(row, "first_seen_at"),
+        "last_seen_at": _row_get(row, "last_seen_at"),
+        "visitor": visitor,
+        "lead": _lead_public(_row_get(lead, "lead_id"), _loads(_row_get(lead, "data"))) if lead else None,
+        "sessions": [
+            {
+                "session_id": _row_get(s, "session_id"),
+                "started_at": _row_get(s, "started_at"),
+                "last_seen_at": _row_get(s, "last_seen_at"),
+                "paths": _loads(_row_get(s, "data")).get("paths") or [],
+                "demo_parts": _loads(_row_get(s, "data")).get("demo_parts") or [],
+                "duration_ms": int(_loads(_row_get(s, "data")).get("duration_ms") or 0),
+            }
+            for s in sessions
+        ],
+        "journey": journey,
+    }
+
+
+@_with_conn
+def list_leads(conn: Any, q: str = "", status: str = "", limit: int = 80, offset: int = 0) -> dict[str, Any]:
+    tables = _tables()
+    rows = _fetchall(
+        conn,
+        f"SELECT lead_id, visitor_id, email, created_at, updated_at, data FROM {tables['leads']} ORDER BY updated_at DESC",
+        (),
+    )
+    needle = (q or "").strip().lower()
+    wanted = (status or "").strip().lower()
+    items = []
+    for row in rows:
+        data = _loads(_row_get(row, "data"))
+        item = _lead_public(
+            str(_row_get(row, "lead_id") or ""),
+            data,
+            created_at=str(_row_get(row, "created_at") or ""),
+            updated_at=str(_row_get(row, "updated_at") or ""),
+        )
+        if wanted and item["status"] != wanted:
+            continue
+        blob = " ".join(str(item.get(k) or "") for k in ("email", "name", "company", "place", "source", "last_path", "status")).lower()
+        if needle and needle not in blob:
+            continue
+        items.append(item)
+    totals = {
+        "leads": len(items),
+        "visitors": sum(1 for i in items if i["status"] == "visitor"),
+        "demo": sum(1 for i in items if i["status"] == "demo" or i["saw_demo"]),
+        "signed_up": sum(1 for i in items if i["signed_up"]),
+        "imported": sum(1 for i in items if i["imported"] or i["status"] == "imported"),
+    }
+    sliced = items[max(0, offset) : max(0, offset) + max(1, min(limit, 300))]
+    return {"leads": sliced, "total": len(items), "totals": totals}
+
+
+@_with_conn
+def import_leads(conn: Any, rows: list[dict[str, Any]], imported_by: str = "") -> dict[str, Any]:
+    tables = _tables()
+    now = _now()
+    created = 0
+    updated = 0
+    skipped = 0
+    for raw in rows[:2000]:
+        email = str(raw.get("email") or "").strip().lower()
+        phone = str(raw.get("phone") or "").strip()
+        name = str(raw.get("name") or "").strip()
+        if not email and not phone and not name:
+            skipped += 1
+            continue
+        existing = None
+        if email:
+            existing = _fetchone(conn, f"SELECT lead_id, data, created_at FROM {tables['leads']} WHERE email = ?", (email,))
+        lead_id = str(_row_get(existing, "lead_id") or email or uuid.uuid4().hex)
+        data = _loads(_row_get(existing, "data")) if existing else {}
+        created_at = str(_row_get(existing, "created_at") or now) if existing else now
+        for key in ("name", "phone", "company", "source", "place", "city", "country", "notes", "website"):
+            val = str(raw.get(key) or "").strip()
+            if val:
+                data[key] = val[:240]
+        if email:
+            data["email"] = email
+        data["status"] = data.get("status") if data.get("status") in {"signed_up"} else "imported"
+        data["imported"] = True
+        data["imported_by"] = imported_by
+        data["imported_at"] = now
+        data["source"] = data.get("source") or str(raw.get("source") or "sheet") or "sheet"
+        data["updated_at"] = now
+        data["created_at"] = created_at
+        data["lead_id"] = lead_id
+        if existing:
+            _execute(
+                conn,
+                f"UPDATE {tables['leads']} SET email = ?, updated_at = ?, data = {_json_ph()} WHERE lead_id = ?",
+                (email or None, now, _dumps(data), lead_id),
+            )
+            updated += 1
+        else:
+            _execute(
+                conn,
+                f"INSERT INTO {tables['leads']}(lead_id, visitor_id, email, created_at, updated_at, data) VALUES (?, ?, ?, ?, ?, {_json_ph()})",
+                (lead_id, data.get("visitor_id") or None, email or None, created_at, now, _dumps(data)),
+            )
+            created += 1
+    return {"ok": True, "created": created, "updated": updated, "skipped": skipped}
 
 
 # Re-export for callers that only need classification at ingest time.

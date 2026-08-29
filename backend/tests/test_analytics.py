@@ -112,6 +112,8 @@ def test_collect_and_admin_overview(tmp_path, monkeypatch):
     app = FastAPI()
     app.include_router(public_router, prefix="/api/v1")
     app.include_router(admin_router, prefix="/api/v1")
+    from backend.routers.analytics import leads_router
+    app.include_router(leads_router, prefix="/api/v1")
     client = TestClient(app)
     collected = client.post(
         "/api/v1/analytics/collect",
@@ -142,3 +144,60 @@ def test_collect_and_admin_overview(tmp_path, monkeypatch):
     sessions = client.get("/api/v1/admin/analytics/sessions?days=7", headers={"Authorization": f"Bearer {token}"})
     assert sessions.status_code == 200
     assert sessions.json()["total"] >= 1
+
+    people = client.get(
+        "/api/v1/admin/analytics/pages/people?path=/about&days=7",
+        headers={"Authorization": f"Bearer {token}"},
+    )
+    assert people.status_code == 200
+    assert people.json()["unique_visitors"] >= 1
+
+    leads = client.get("/api/v1/admin/leads", headers={"Authorization": f"Bearer {token}"})
+    assert leads.status_code == 200
+    assert leads.json()["total"] >= 1
+
+    uploaded = client.post(
+        "/api/v1/admin/leads/import",
+        headers={"Authorization": f"Bearer {token}"},
+        files={"file": ("leads.csv", "email,name,company,source\nfounder@import.test,Imported Founder,Acme,sheet\n", "text/csv")},
+    )
+    assert uploaded.status_code == 200
+    assert uploaded.json()["created"] >= 1
+
+
+def test_demo_journey_and_page_people(tmp_path, monkeypatch):
+    monkeypatch.setenv("DATA_DIR", str(tmp_path))
+    monkeypatch.setenv("ANALYTICS_DB_PATH", str(tmp_path / "analytics.sqlite"))
+    monkeypatch.delenv("DATABASE_URL", raising=False)
+    analytics_store._pg_ready = False
+    analytics_store.ingest(
+        {
+            "type": "pageview",
+            "visitor_id": "demovisitor01",
+            "session_id": "demosession01",
+            "path": "/app/research",
+            "href": "https://iidatech.biz/app/research?project=demo_readonly",
+            "props": {"is_demo": True},
+        }
+    )
+    analytics_store.ingest(
+        {
+            "type": "pageview",
+            "visitor_id": "demovisitor01",
+            "session_id": "demosession01",
+            "path": "/app/team",
+            "href": "https://iidatech.biz/app/team?project=demo_readonly",
+            "is_demo": True,
+        }
+    )
+    overview = analytics_store.overview(7)
+    assert overview["totals"]["demo_starts"] >= 1
+    assert any(part["label"] == "Research" for part in overview["demo"]["parts"])
+    people = analytics_store.page_people("/app/research?project=demo_readonly", 7)
+    assert people["unique_visitors"] == 1
+    leads = analytics_store.list_leads()
+    assert leads["total"] >= 1
+    assert leads["leads"][0]["saw_demo"] is True
+    journey = analytics_store.visitor_journey("demovisitor01")
+    assert journey is not None
+    assert len(journey["journey"]) == 2

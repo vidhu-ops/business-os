@@ -4,12 +4,13 @@ import time
 from typing import Any
 from urllib.parse import urlparse
 
-from fastapi import APIRouter, Depends, HTTPException, Query, Request
+from fastapi import APIRouter, Depends, File, HTTPException, Query, Request, UploadFile
 from pydantic import BaseModel, Field
 
 from backend.auth import decode_token, require_admin_email
 from backend.services import analytics_store
 from backend.services.geo_ua import geo_from_request, is_bot_ua, parse_ua, valid_id
+from backend.services.lead_import import parse_lead_sheet
 
 
 def _optional_email(request: Request) -> str:
@@ -28,6 +29,7 @@ def _optional_email(request: Request) -> str:
 
 public_router = APIRouter(prefix="/analytics", tags=["analytics"])
 admin_router = APIRouter(prefix="/admin/analytics", tags=["admin-analytics"])
+leads_router = APIRouter(prefix="/admin", tags=["admin-leads"])
 
 _RATE: dict[str, list[float]] = {}
 _RATE_LIMIT = 90
@@ -187,3 +189,53 @@ def admin_session_detail(session_id: str, _: str = Depends(require_admin_email))
     if not detail:
         raise HTTPException(status_code=404, detail="Session not found")
     return detail
+
+
+@admin_router.get("/pages/people")
+def admin_page_people(
+    path: str = Query("/", min_length=1, max_length=400),
+    days: int = Query(7, ge=1, le=90),
+    _: str = Depends(require_admin_email),
+) -> dict:
+    return analytics_store.page_people(path, days)
+
+
+@admin_router.get("/visitors/{visitor_id}")
+def admin_visitor_journey(visitor_id: str, _: str = Depends(require_admin_email)) -> dict:
+    detail = analytics_store.visitor_journey(visitor_id)
+    if not detail:
+        raise HTTPException(status_code=404, detail="Visitor not found")
+    return detail
+
+
+@leads_router.get("/leads")
+def admin_leads(
+    q: str = Query(""),
+    status: str = Query(""),
+    limit: int = Query(80, ge=1, le=300),
+    offset: int = Query(0, ge=0, le=10_000),
+    _: str = Depends(require_admin_email),
+) -> dict:
+    return analytics_store.list_leads(q=q, status=status, limit=limit, offset=offset)
+
+
+@leads_router.post("/leads/import")
+async def admin_import_leads(
+    file: UploadFile = File(...),
+    admin: str = Depends(require_admin_email),
+) -> dict:
+    filename = file.filename or "leads.csv"
+    suffix = filename.lower()
+    if not suffix.endswith((".csv", ".tsv", ".txt", ".xlsx", ".xls")):
+        raise HTTPException(status_code=400, detail="Upload a CSV or Excel (.xlsx) sheet")
+    content = await file.read()
+    if len(content) > 4 * 1024 * 1024:
+        raise HTTPException(status_code=400, detail="File is larger than 4 MB")
+    try:
+        rows = parse_lead_sheet(content, filename)
+    except ValueError as exc:
+        raise HTTPException(status_code=400, detail=str(exc)) from exc
+    if not rows:
+        raise HTTPException(status_code=400, detail="No lead rows found. Include a header row with email, name, phone, or company.")
+    result = analytics_store.import_leads(rows, imported_by=admin)
+    return {"filename": filename, "parsed": len(rows), **result}
