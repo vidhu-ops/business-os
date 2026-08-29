@@ -1,5 +1,6 @@
 "use client";
 
+import Link from "next/link";
 import { FormEvent, useEffect, useMemo, useState } from "react";
 import { api, type AdminCrmUser } from "@/lib/api";
 
@@ -63,6 +64,9 @@ export default function CrmPage() {
         <div>
           <h1 className="font-display text-3xl font-bold">CRM</h1>
           <p className="mt-2 muted">Admin view of every account — usage, credits, and join dates.</p>
+          <Link href="/app/analytics" className="mt-2 inline-block text-sm text-[var(--iid-blue)] hover:underline">
+            Open traffic analytics →
+          </Link>
         </div>
         <form className="flex flex-wrap gap-2" onSubmit={onSearch}>
           <input
@@ -161,6 +165,20 @@ export default function CrmPage() {
                 <p className="font-semibold text-lg">{active.name}</p>
                 <p className="text-sm muted">{active.email}</p>
               </div>
+              {active.signup_attribution ? (
+                <div className="rounded-lg border border-[var(--iid-line)] px-3 py-2 text-sm">
+                  <p className="text-xs muted">Signup source</p>
+                  <p>
+                    {active.signup_attribution.source || "direct"}
+                    {active.signup_attribution.referrer_host ? ` · ${active.signup_attribution.referrer_host}` : ""}
+                  </p>
+                  <p className="text-xs muted">
+                    {[active.signup_attribution.place, active.signup_attribution.landing_path, active.signup_attribution.device]
+                      .filter(Boolean)
+                      .join(" · ") || "No extra attribution"}
+                  </p>
+                </div>
+              ) : null}
               <dl className="grid grid-cols-2 gap-3 text-sm">
                 <div>
                   <dt className="muted text-xs">Joined</dt>
