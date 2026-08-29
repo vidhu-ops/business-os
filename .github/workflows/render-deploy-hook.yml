@@ -1,0 +1,23 @@
+name: Trigger Render deploy
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch: {}
+
+jobs:
+  ping-hook:
+    runs-on: ubuntu-latest
+    timeout-minutes: 2
+    steps:
+      - name: Call Render deploy hook if configured
+        env:
+          HOOK: ${{ secrets.RENDER_DEPLOY_HOOK }}
+        run: |
+          set -euo pipefail
+          if [ -z "${HOOK:-}" ]; then
+            echo "RENDER_DEPLOY_HOOK is not set. Point Render service business-os-2 at vidhu-ops/iida-final-vercel main, or add the hook secret."
+            exit 0
+          fi
+          curl -fsS -X POST "$HOOK"
+          echo "Deploy hook accepted."

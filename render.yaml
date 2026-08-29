@@ -1,8 +1,7 @@
 services:
-  # Production: iidatech.biz and iidatech.com CNAME to business-os-2.onrender.com.
-  # Point that Render service at this GitHub repo's main branch (or keep business-os in sync).
+  # Production hostname is business-os-2.onrender.com (iidatech.biz CNAME).
   - type: web
-    name: business-os
+    name: business-os-2
     runtime: docker
     dockerfilePath: ./Dockerfile
     plan: free

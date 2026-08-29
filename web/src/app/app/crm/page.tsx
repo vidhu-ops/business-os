@@ -1,6 +1,7 @@
 "use client";
 
 import { FormEvent, useEffect, useMemo, useRef, useState } from "react";
+import { usePathname } from "next/navigation";
 import { api, type AdminCrmUser, type CrmLead } from "@/lib/api";
 import { AdminAnalytics } from "@/components/AdminAnalytics";
 
@@ -20,7 +21,15 @@ function creditsLabel(user: AdminCrmUser) {
   return "—";
 }
 
+function initialCrmTab(pathname?: string | null): "accounts" | "leads" | "analytics" {
+  if (pathname === "/app/analytics" || pathname === "/analytics" || pathname?.startsWith("/app/crm/analytics")) {
+    return "analytics";
+  }
+  return "accounts";
+}
+
 export default function CrmPage() {
+  const pathname = usePathname();
   const [users, setUsers] = useState<AdminCrmUser[]>([]);
   const [totals, setTotals] = useState({ users: 0, projects: 0, credits_remaining: 0 });
   const [query, setQuery] = useState("");
@@ -29,7 +38,7 @@ export default function CrmPage() {
   const [selected, setSelected] = useState<string>("");
   const [grantAmount, setGrantAmount] = useState("1000000");
   const [granting, setGranting] = useState(false);
-  const [tab, setTab] = useState<"accounts" | "leads" | "analytics">("accounts");
+  const [tab, setTab] = useState<"accounts" | "leads" | "analytics">(() => initialCrmTab(pathname));
   const [leads, setLeads] = useState<CrmLead[]>([]);
   const [leadTotals, setLeadTotals] = useState({ leads: 0, visitors: 0, demo: 0, signed_up: 0, imported: 0 });
   const [leadQuery, setLeadQuery] = useState("");
@@ -66,6 +75,10 @@ export default function CrmPage() {
       setLeads([]);
     }
   }
+
+  useEffect(() => {
+    if (initialCrmTab(pathname) === "analytics") setTab("analytics");
+  }, [pathname]);
 
   useEffect(() => {
     refresh("").catch(() => undefined);

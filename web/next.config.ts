@@ -11,20 +11,26 @@ const nextConfig: NextConfig = {
   turbopack: {
     root: path.resolve(__dirname),
   },
-  async rewrites() {
-    return [
-      {
-        source: "/api/v1/:path*",
-        destination: `${apiBase}/api/v1/:path*`,
-      },
-    ];
-  },
   async redirects() {
     return [
-      { source: "/analytics", destination: "/app/analytics", permanent: false },
       { source: "/analystics", destination: "/app/analytics", permanent: false },
       { source: "/app/analystics", destination: "/app/analytics", permanent: false },
     ];
+  },
+  async rewrites() {
+    return {
+      afterFiles: [
+        {
+          source: "/api/v1/:path*",
+          destination: `${apiBase}/api/v1/:path*`,
+        },
+      ],
+      // If the dedicated page is missing from a stale image, still open CRM analytics.
+      fallback: [
+        { source: "/app/analytics", destination: "/app/crm" },
+        { source: "/analytics", destination: "/app/crm" },
+      ],
+    };
   },
 };
 
