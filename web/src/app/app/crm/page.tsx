@@ -2,7 +2,7 @@
 
 import { FormEvent, useEffect, useMemo, useRef, useState } from "react";
 import { usePathname } from "next/navigation";
-import { api, type AdminCrmUser, type CrmLead } from "@/lib/api";
+import { api, type AdminAccountAnalytics, type AdminCrmUser, type CrmLead } from "@/lib/api";
 import { AdminAnalytics } from "@/components/AdminAnalytics";
 
 function formatDate(value?: string) {
@@ -21,6 +21,59 @@ function creditsLabel(user: AdminCrmUser) {
   return "—";
 }
 
+
+type AccountFilter = "all" | "active" | "projects" | "zero" | "legacy" | "paid";
+
+function sourceLabel(source?: string) {
+  if (!source) return "signup";
+  if (source.includes("legacy")) return "legacy import";
+  return source.replace(/_/g, " ");
+}
+
+function downloadAccountsCsv(users: AdminCrmUser[]) {
+  const headers = [
+    "email",
+    "name",
+    "username",
+    "joined_at",
+    "plan",
+    "credits_remaining",
+    "credits_used",
+    "projects",
+    "source",
+    "last_activity_at",
+    "is_subscriber",
+  ];
+  const esc = (v: unknown) => `"${String(v ?? "").replace(/"/g, '""')}"`;
+  const lines = [
+    headers.join(","),
+    ...users.map((u) =>
+      [
+        u.email,
+        u.name,
+        u.username || "",
+        u.joined_at,
+        u.plan_name || u.plan_id || "",
+        u.credits_remaining ?? "",
+        u.credits_used ?? "",
+        u.projects,
+        u.source || "",
+        u.last_activity_at || "",
+        u.is_subscriber ? "1" : "0",
+      ]
+        .map(esc)
+        .join(","),
+    ),
+  ];
+  const blob = new Blob([lines.join("\n")], { type: "text/csv;charset=utf-8" });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement("a");
+  a.href = url;
+  a.download = `iida-accounts-${new Date().toISOString().slice(0, 10)}.csv`;
+  a.click();
+  URL.revokeObjectURL(url);
+}
+
 function initialCrmTab(pathname?: string | null): "accounts" | "leads" | "analytics" {
   if (pathname === "/app/analytics" || pathname === "/analytics" || pathname?.startsWith("/app/crm/analytics")) {
     return "analytics";
@@ -31,7 +84,20 @@ function initialCrmTab(pathname?: string | null): "accounts" | "leads" | "analyt
 export default function CrmPage() {
   const pathname = usePathname();
   const [users, setUsers] = useState<AdminCrmUser[]>([]);
-  const [totals, setTotals] = useState({ users: 0, projects: 0, credits_remaining: 0 });
+  const [totals, setTotals] = useState({
+    users: 0,
+    projects: 0,
+    credits_remaining: 0,
+    credits_used: 0,
+    signups_30d: 0,
+    active_30d: 0,
+    with_projects: 0,
+    zero_credits: 0,
+    legacy_import: 0,
+    paid_legacy_flags: 0,
+  });
+  const [accountAnalytics, setAccountAnalytics] = useState<AdminAccountAnalytics | null>(null);
+  const [accountFilter, setAccountFilter] = useState<AccountFilter>("all");
   const [query, setQuery] = useState("");
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
@@ -54,7 +120,19 @@ export default function CrmPage() {
     try {
       const data = await api.adminUsers(q.trim());
       setUsers(data.users || []);
-      setTotals(data.totals || { users: 0, projects: 0, credits_remaining: 0 });
+      setTotals({
+        users: data.totals?.users ?? 0,
+        projects: data.totals?.projects ?? 0,
+        credits_remaining: data.totals?.credits_remaining ?? 0,
+        credits_used: data.totals?.credits_used ?? 0,
+        signups_30d: data.totals?.signups_30d ?? 0,
+        active_30d: data.totals?.active_30d ?? 0,
+        with_projects: data.totals?.with_projects ?? 0,
+        zero_credits: data.totals?.zero_credits ?? 0,
+        legacy_import: data.totals?.legacy_import ?? 0,
+        paid_legacy_flags: data.totals?.paid_legacy_flags ?? 0,
+      });
+      setAccountAnalytics(data.analytics || null);
       if (!selected && data.users?.[0]?.email) setSelected(data.users[0].email);
     } catch (err) {
       setError(err instanceof Error ? err.message : "Could not load CRM");
@@ -86,7 +164,30 @@ export default function CrmPage() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  const active = useMemo(() => users.find((u) => u.email === selected) || users[0] || null, [users, selected]);
+  const filteredUsers = useMemo(() => {
+    const now = Date.now();
+    const d30 = 30 * 24 * 60 * 60 * 1000;
+    return users.filter((u) => {
+      if (accountFilter === "all") return true;
+      if (accountFilter === "projects") return (u.projects || 0) > 0;
+      if (accountFilter === "zero") return !u.is_unlimited && typeof u.credits_remaining === "number" && u.credits_remaining <= 0;
+      if (accountFilter === "legacy") return (u.source || "").includes("legacy");
+      if (accountFilter === "paid")
+        return Boolean(
+          u.is_subscriber || u.ai_create_access_paid || u.financial_tools_access_paid || u.event_management_access_paid,
+        );
+      if (accountFilter === "active") {
+        const t = u.last_activity_at ? new Date(u.last_activity_at).getTime() : 0;
+        return Boolean(t && now - t <= d30);
+      }
+      return true;
+    });
+  }, [users, accountFilter]);
+
+  const active = useMemo(
+    () => filteredUsers.find((u) => u.email === selected) || filteredUsers[0] || null,
+    [filteredUsers, selected],
+  );
   const activeLead = useMemo(() => leads.find((l) => l.lead_id === selectedLead) || leads[0] || null, [leads, selectedLead]);
 
   function onSearch(e: FormEvent) {
@@ -115,10 +216,11 @@ export default function CrmPage() {
           </div>
         </div>
         {tab === "accounts" ? (
+        <div className="flex flex-wrap gap-2">
         <form className="flex flex-wrap gap-2" onSubmit={onSearch}>
           <input
             className="iid-input min-w-[16rem]"
-            placeholder="Search name or email"
+            placeholder="Search name, email, username…"
             value={query}
             onChange={(e) => setQuery(e.target.value)}
           />
@@ -126,6 +228,10 @@ export default function CrmPage() {
             {loading ? "Loading…" : "Search"}
           </button>
         </form>
+        <button type="button" className="iid-btn iid-btn-ghost" disabled={!filteredUsers.length} onClick={() => downloadAccountsCsv(filteredUsers)}>
+          Export CSV
+        </button>
+        </div>
         ) : tab === "leads" ? (
         <form
           className="flex flex-wrap gap-2"
@@ -172,6 +278,7 @@ export default function CrmPage() {
         <button type="button" className="iid-card text-left" onClick={() => setTab("accounts")}>
           <p className="text-xs uppercase tracking-wide muted">Accounts</p>
           <p className="mt-1 font-display text-2xl font-bold">{totals.users}</p>
+          <p className="mt-1 text-xs muted">+{totals.signups_30d || 0} / 30d · {totals.legacy_import || 0} legacy</p>
         </button>
         <button type="button" className="iid-card text-left" onClick={() => setTab("leads")}>
           <p className="text-xs uppercase tracking-wide muted">Leads</p>
@@ -329,20 +436,70 @@ export default function CrmPage() {
       ) : null}
 
       {tab === "accounts" ? (
+      <>
+      <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
+        <div className="iid-card">
+          <p className="text-xs uppercase tracking-wide muted">Active (30d)</p>
+          <p className="mt-1 font-display text-2xl font-bold">{totals.active_30d || 0}</p>
+          <p className="mt-1 text-xs muted">{totals.with_projects || 0} with projects</p>
+        </div>
+        <div className="iid-card">
+          <p className="text-xs uppercase tracking-wide muted">Credits remaining</p>
+          <p className="mt-1 font-display text-2xl font-bold">{(totals.credits_remaining || 0).toLocaleString()}</p>
+          <p className="mt-1 text-xs muted">{(totals.credits_used || 0).toLocaleString()} used · {totals.zero_credits || 0} at zero</p>
+        </div>
+        <div className="iid-card">
+          <p className="text-xs uppercase tracking-wide muted">Legacy imports</p>
+          <p className="mt-1 font-display text-2xl font-bold">{totals.legacy_import || 0}</p>
+          <p className="mt-1 text-xs muted">{totals.paid_legacy_flags || 0} paid-access flags</p>
+        </div>
+        <div className="iid-card">
+          <p className="text-xs uppercase tracking-wide muted">Plans</p>
+          <ul className="mt-2 space-y-1 text-sm">
+            {(accountAnalytics?.by_plan || []).slice(0, 4).map((row) => (
+              <li key={row.plan} className="flex justify-between gap-2">
+                <span className="muted truncate">{row.plan}</span>
+                <span className="font-semibold">{row.count}</span>
+              </li>
+            ))}
+          </ul>
+        </div>
+      </div>
+      <div className="flex flex-wrap gap-2">
+        {([
+          ["all", "All"],
+          ["active", "Active 30d"],
+          ["projects", "Has projects"],
+          ["zero", "Zero credits"],
+          ["legacy", "Legacy import"],
+          ["paid", "Paid flags"],
+        ] as Array<[AccountFilter, string]>).map(([key, label]) => (
+          <button
+            key={key}
+            type="button"
+            className={`iid-btn text-xs ${accountFilter === key ? "iid-btn-primary" : "iid-btn-ghost"}`}
+            onClick={() => setAccountFilter(key)}
+          >
+            {label}
+          </button>
+        ))}
+        <span className="self-center text-xs muted">{filteredUsers.length} shown</span>
+      </div>
       <div className="grid gap-6 lg:grid-cols-[1.4fr_1fr]">
         <section className="iid-card overflow-x-auto">
           <h2 className="font-display text-xl font-bold">Accounts</h2>
           <p className="mt-1 text-xs muted">Everyone who already signed up — plans, credits, and projects. These are not deleted when Leads is empty.</p>
           {loading && users.length === 0 ? (
             <p className="mt-3 muted">Loading users…</p>
-          ) : users.length === 0 ? (
-            <p className="mt-3 muted">No registered accounts found in the user store.</p>
+          ) : filteredUsers.length === 0 ? (
+            <p className="mt-3 muted">No registered accounts match this filter.</p>
           ) : (
-            <table className="mt-4 w-full min-w-[640px] text-left text-sm">
+            <table className="mt-4 w-full min-w-[720px] text-left text-sm">
               <thead className="text-[var(--iid-muted)]">
                 <tr>
                   <th className="pb-2 pr-3">User</th>
                   <th className="pb-2 pr-3">Joined</th>
+                  <th className="pb-2 pr-3">Source</th>
                   <th className="pb-2 pr-3">Plan</th>
                   <th className="pb-2 pr-3">Credits</th>
                   <th className="pb-2 pr-3">Used</th>
@@ -350,7 +507,7 @@ export default function CrmPage() {
                 </tr>
               </thead>
               <tbody>
-                {users.map((user) => (
+                {filteredUsers.map((user) => (
                   <tr
                     key={user.email}
                     className={`border-t border-[var(--iid-line)] cursor-pointer ${selected === user.email ? "bg-[var(--iid-panel-2)]" : ""}`}
@@ -361,6 +518,7 @@ export default function CrmPage() {
                       <div className="text-xs muted">{user.email}</div>
                     </td>
                     <td className="py-2.5 pr-3">{formatDate(user.joined_at)}</td>
+                    <td className="py-2.5 pr-3 text-xs">{sourceLabel(user.source)}</td>
                     <td className="py-2.5 pr-3">{user.plan_name || user.plan_id || "—"}</td>
                     <td className="py-2.5 pr-3">{creditsLabel(user)}</td>
                     <td className="py-2.5 pr-3">
@@ -386,7 +544,19 @@ export default function CrmPage() {
               <div>
                 <p className="font-semibold text-lg">{active.name}</p>
                 <p className="text-sm muted">{active.email}</p>
+                {active.username ? <p className="text-xs muted">@{active.username}</p> : null}
               </div>
+              {(active.is_subscriber || active.ai_create_access_paid || active.financial_tools_access_paid || active.event_management_access_paid) ? (
+                <div>
+                  <h3 className="text-sm font-semibold">Legacy access flags</h3>
+                  <ul className="mt-2 flex flex-wrap gap-2 text-xs">
+                    {active.is_subscriber ? <li className="rounded border border-[var(--iid-line)] px-2 py-1">subscriber</li> : null}
+                    {active.ai_create_access_paid ? <li className="rounded border border-[var(--iid-line)] px-2 py-1">AI Create paid</li> : null}
+                    {active.financial_tools_access_paid ? <li className="rounded border border-[var(--iid-line)] px-2 py-1">Financial tools</li> : null}
+                    {active.event_management_access_paid ? <li className="rounded border border-[var(--iid-line)] px-2 py-1">Events</li> : null}
+                  </ul>
+                </div>
+              ) : null}
               {active.signup_attribution ? (
                 <div className="rounded-lg border border-[var(--iid-line)] px-3 py-2 text-sm">
                   <p className="text-xs muted">Signup source</p>
@@ -419,6 +589,14 @@ export default function CrmPage() {
                   <dd>
                     {active.free_audit_used} / {active.free_audit_granted}
                   </dd>
+                </div>
+                <div>
+                  <dt className="muted text-xs">Source</dt>
+                  <dd>{sourceLabel(active.source)}</dd>
+                </div>
+                <div>
+                  <dt className="muted text-xs">Imported</dt>
+                  <dd>{formatDate(active.imported_at)}</dd>
                 </div>
               </dl>
               {!active.is_unlimited ? (
@@ -515,6 +693,7 @@ export default function CrmPage() {
           )}
         </aside>
       </div>
+      </>
       ) : null}
       </>
       ) : null}

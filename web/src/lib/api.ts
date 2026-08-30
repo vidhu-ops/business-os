@@ -85,6 +85,34 @@ export type AdminCrmUser = {
     city?: string;
     device?: string;
   } | null;
+  username?: string;
+  source?: string;
+  imported_at?: string;
+  is_subscriber?: boolean;
+  ai_create_access_paid?: boolean;
+  financial_tools_access_paid?: boolean;
+  event_management_access_paid?: boolean;
+  legacy_flags?: {
+    ai_create_expiry?: string | null;
+    financial_tools_expiry?: string | null;
+    event_management_expiry?: string | null;
+    subscription_expiry?: string | null;
+    pm_access_expiry?: string | null;
+    legacy_id?: number | string | null;
+  } | null;
+};
+export type AdminAccountAnalytics = {
+  signups_7d: number;
+  signups_30d: number;
+  active_30d: number;
+  with_projects: number;
+  zero_credits: number;
+  legacy_import: number;
+  paid_legacy_flags: number;
+  credits_used: number;
+  signups_by_month: Array<{ month: string; count: number }>;
+  by_source: Array<{ source: string; count: number }>;
+  by_plan: Array<{ plan: string; count: number }>;
 };
 export type AnalyticsTotals = {
   visitors: number;
@@ -375,7 +403,19 @@ export const api = {
     request<{
       users: AdminCrmUser[];
       total: number;
-      totals: { users: number; projects: number; credits_remaining: number };
+      totals: {
+        users: number;
+        projects: number;
+        credits_remaining: number;
+        credits_used?: number;
+        signups_30d?: number;
+        active_30d?: number;
+        with_projects?: number;
+        zero_credits?: number;
+        legacy_import?: number;
+        paid_legacy_flags?: number;
+      };
+      analytics?: AdminAccountAnalytics;
     }>(`/api/v1/admin/users${q ? `?q=${encodeURIComponent(q)}` : ""}`),
   adminGrantCredits: (email: string, amount = 1_000_000) =>
     request<{ success: boolean; email: string; added: number; credits_remaining: number | null }>(
