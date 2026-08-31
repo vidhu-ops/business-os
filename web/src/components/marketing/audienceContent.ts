@@ -215,6 +215,7 @@ export const CLIENT_LOGOS = [
   { name: "Loop", src: "/partners/loop.png" },
   { name: "Tyoharwale", src: "/partners/white/tyoharwale.png" },
   { name: "JP Infralease", src: "/partners/white/jp-infralease.png" },
+  { name: "Elements Boutique", src: "/partners/elements-boutique.svg" },
 ];
 
 /** Product integrations shown on the marketing homepage (OAuth + LLM / research keys). */

@@ -19,6 +19,9 @@ const NAV = [
 
 const MORE_LINKS = [
   { label: "How it works", href: "/how-it-works" },
+  { label: "Market research", href: "/services/research" },
+  { label: "Business plan", href: "/services/plan" },
+  { label: "Business consultation", href: "/services/mentor" },
   { label: "Privacy", href: "/privacy" },
   { label: "Terms", href: "/terms" },
 ];
@@ -85,17 +88,51 @@ export function MarketingShell({ children }: { children: React.ReactNode }) {
       {children}
 
       <footer className="mkt-footer">
+        <div className="mkt-wrap mkt-footer-about">
+          <h3 className="mkt-footer-brand">
+            IIDA<span>TECH</span>
+          </h3>
+          <p>
+            IIDATECH is a business OS for founders, startups, and B2B companies. Use it for market research, business
+            planning, founder mentoring, new business growth, business consultation workflows, Employee OS execution, and
+            automation — so you can validate ideas and ship decisions without slow agency cycles.
+          </p>
+          <p className="mkt-footer-keywords" aria-label="Popular IIDATECH topics">
+            <Link href="/services/research">Market research</Link>
+            <Link href="/services/plan">Business plan</Link>
+            <Link href="/services/mentor">Business consultation</Link>
+            <Link href="/services/gauge">Company growth audit</Link>
+            <Link href="/how-it-works">Founder workflow</Link>
+            <Link href="/about">About us</Link>
+          </p>
+        </div>
         <div className="mkt-wrap mkt-footer-grid">
           <div>
             <h4>Product</h4>
             <p>
               <Link href="/how-it-works">How it works</Link>
               <br />
-              <Link href="/about">About</Link>
+              <Link href="/about">About IIDATECH</Link>
               <br />
               <Link href="/pricing">Pricing</Link>
               <br />
               <Link href="/partners">Become a partner</Link>
+            </p>
+          </div>
+          <div>
+            <h4>Grow with IIDATECH</h4>
+            <p>
+              <Link href="/services/research">Market research for founders</Link>
+              <br />
+              <Link href="/services/plan">New business planning</Link>
+              <br />
+              <Link href="/services/execute">Employee OS execution</Link>
+              <br />
+              <Link href="/services/automate">Business automation</Link>
+              <br />
+              <Link href="/services/mentor">Business consultation</Link>
+              <br />
+              <Link href="/services/gauge">GAUGE growth audit</Link>
             </p>
           </div>
           <div>
@@ -120,18 +157,17 @@ export function MarketingShell({ children }: { children: React.ReactNode }) {
               <a href={SITE_WHATSAPP} target="_blank" rel="noreferrer">
                 WhatsApp
               </a>
-            </p>
-          </div>
-          <div>
-            <h4>Legal</h4>
-            <p>
+              <br />
               <Link href="/privacy">Privacy Policy</Link>
               <br />
               <Link href="/terms">Terms of Service</Link>
             </p>
           </div>
         </div>
-        <p className="mkt-wrap mkt-footer-copy">IIDATECH — Business OS for founders and B2B companies</p>
+        <p className="mkt-wrap mkt-footer-copy">
+          © {new Date().getFullYear()} IIDATECH — market research, business planning, consultation, and growth OS for
+          founders and B2B companies.
+        </p>
       </footer>
     </main>
   );

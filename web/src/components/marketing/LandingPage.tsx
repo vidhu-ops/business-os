@@ -6,6 +6,7 @@ import { ContactForm } from "./ContactForm";
 import { GlowOrb, HumanScene, MarketingPhoto } from "./illustrations";
 import { IconClock, IconGlobe, IconMail, IconPhone, IconPin, IconSearch, IconUser } from "./icons";
 import { IndustryBanner } from "./IndustryBanner";
+import { LogoMarquee } from "./LogoMarquee";
 import { MarketingShell } from "./MarketingShell";
 import { WorkspaceEntryLink } from "@/components/WorkspaceEntryLink";
 import { SITE_EMAIL, SITE_PHONE, SITE_PHONE_TEL, SITE_WHATSAPP } from "@/lib/site";
@@ -131,6 +132,10 @@ export function LandingPage() {
           <p className="mkt-sub" style={{ marginTop: "0.75rem" }}>
             {copy.aboutBody}
           </p>
+          <p className="mkt-sub" style={{ marginTop: "0.75rem" }}>
+            Search IIDATECH when you need market research for founders, business planning for a new business, business
+            consultation guidance, or a practical path to growth — research, plan, and execute in one workspace.
+          </p>
         </div>
 
         <div className="mkt-product-shots" aria-label="Product screenshots">
@@ -243,58 +248,43 @@ export function LandingPage() {
         </div>
       </section>
 
-      <section id="clients" className="mkt-wrap mkt-section">
-        <div className="mkt-section-head">
+      <section id="clients" className="mkt-section mkt-clients-section">
+        <div className="mkt-wrap mkt-section-head">
           <span className="mkt-label">Early operator partners</span>
           <h2 className="mkt-h2">Service providers shipping alongside IIDATECH</h2>
           <p className="mkt-sub">
-            These logos are early operator and service-provider partners — not an enterprise customer logo wall. They
-            collaborate with founders and MSMEs in the IIDATECH ecosystem.
+            These logos are early operator, boutique, and service-provider partners — not an enterprise customer logo
+            wall. They collaborate with founders and MSMEs in the IIDATECH ecosystem.
           </p>
         </div>
-        <div className="mkt-client-logos">
-          {CLIENT_LOGOS.map((logo) => (
-            <div key={logo.name} className="mkt-client-logo">
-              {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img src={logo.src} alt={`${logo.name} logo`} loading="lazy" />
-              <span className="sr-only">{logo.name}</span>
-            </div>
-          ))}
+        <LogoMarquee
+          items={CLIENT_LOGOS}
+          ariaLabel="Early operator and client partners"
+          itemClassName="mkt-logo-marquee-item-client"
+        />
+        <div className="mkt-wrap">
+          <Link href="/partners" className="iid-btn iid-btn-ghost mkt-section-cta-inline">
+            Become a partner →
+          </Link>
         </div>
-        <Link href="/partners" className="iid-btn iid-btn-ghost mkt-section-cta-inline">
-          Become a partner →
-        </Link>
       </section>
 
-      <section id="integrations" className="mkt-wrap mkt-section" aria-labelledby="integrations-heading">
-        <div className="mkt-section-head">
+      <section id="integrations" className="mkt-section mkt-integrations-section" aria-labelledby="integrations-heading">
+        <div className="mkt-wrap mkt-section-head">
           <span className="mkt-label">Integrations</span>
           <h2 id="integrations-heading" className="mkt-h2">
             Connect the tools your team already uses
           </h2>
           <p className="mkt-sub">
-            Optional OAuth apps and model keys for research, outreach, CRM, and creative — free and demo use work without
-            bring-your-own keys.
+            Optional OAuth apps and model keys for market research, founder outreach, CRM, and creative work — free and
+            demo use work without bring-your-own keys.
           </p>
         </div>
-        <p className="mkt-integrations-group-label">Apps &amp; channels</p>
-        <div className="mkt-integration-logos">
-          {INTEGRATION_LOGOS.filter((logo) => logo.group === "apps").map((logo) => (
-            <div key={logo.name} className="mkt-integration-logo">
-              {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img src={logo.src} alt={`${logo.name} integration`} loading="lazy" />
-            </div>
-          ))}
-        </div>
-        <p className="mkt-integrations-group-label">Models &amp; research</p>
-        <div className="mkt-integration-logos">
-          {INTEGRATION_LOGOS.filter((logo) => logo.group === "models").map((logo) => (
-            <div key={logo.name} className="mkt-integration-logo">
-              {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img src={logo.src} alt={`${logo.name} integration`} loading="lazy" />
-            </div>
-          ))}
-        </div>
+        <LogoMarquee
+          items={INTEGRATION_LOGOS}
+          ariaLabel="IIDATECH product integrations"
+          itemClassName="mkt-logo-marquee-item-integration"
+        />
       </section>
 
       <section id="why" className="mkt-wrap mkt-section">

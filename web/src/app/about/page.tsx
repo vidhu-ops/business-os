@@ -11,6 +11,9 @@ export const metadata: Metadata = {
   keywords: [
     "about IIDATECH",
     "what is IIDATECH",
+    "market research for founders",
+    "business consultation platform",
+    "new business growth",
     "business OS for founders",
     "B2B market research platform",
     "GAUGE company audit",

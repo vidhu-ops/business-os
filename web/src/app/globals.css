@@ -5020,3 +5020,254 @@ html.light .mkt-client-logo {
   max-height: 3.75rem;
   object-fit: contain;
 }
+
+
+/* --- Logo marquee (integrations + clients) --- */
+.mkt-logo-marquee {
+  position: relative;
+  width: 100%;
+  overflow: hidden;
+  margin: 0.25rem 0 1.25rem;
+  mask-image: linear-gradient(90deg, transparent, #000 6%, #000 94%, transparent);
+}
+
+.mkt-logo-marquee-track {
+  display: flex;
+  width: max-content;
+  gap: 0.85rem;
+  animation: mkt-industry-scroll 55s linear infinite;
+  padding: 0.35rem 0;
+}
+
+.mkt-logo-marquee:hover .mkt-logo-marquee-track {
+  animation-play-state: paused;
+}
+
+.mkt-logo-marquee-item {
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid var(--iid-line);
+  border-radius: 1rem;
+  background: rgba(8, 12, 22, 0.72);
+  padding: 0.65rem 1rem;
+}
+
+.mkt-logo-marquee-item img {
+  display: block;
+  width: auto;
+  height: auto;
+  object-fit: contain;
+}
+
+.mkt-logo-marquee-item-integration {
+  min-width: 7.5rem;
+  min-height: 3.6rem;
+}
+
+.mkt-logo-marquee-item-integration img {
+  max-height: 2.35rem;
+  max-width: 6.5rem;
+}
+
+.mkt-logo-marquee-item-client {
+  min-width: 9.5rem;
+  min-height: 4.25rem;
+  background: rgba(8, 12, 22, 0.88);
+}
+
+.mkt-logo-marquee-item-client img {
+  max-height: 2.85rem;
+  max-width: 8.5rem;
+}
+
+html.light .mkt-logo-marquee-item {
+  background: #0b1220;
+}
+
+.mkt-clients-section .mkt-section-cta-inline,
+.mkt-integrations-section .mkt-section-cta-inline {
+  margin-top: 0.5rem;
+}
+
+.mkt-footer-about {
+  margin-bottom: 2rem;
+  padding-bottom: 1.75rem;
+  border-bottom: 1px solid var(--iid-line);
+  max-width: 52rem;
+}
+
+.mkt-footer-brand {
+  font-family: var(--font-syne), sans-serif;
+  font-size: 1.35rem;
+  font-weight: 800;
+  letter-spacing: 0.04em;
+  margin: 0 0 0.75rem;
+}
+
+.mkt-footer-brand span {
+  color: var(--iid-blue);
+}
+
+.mkt-footer-about p {
+  margin: 0;
+  color: var(--iid-muted);
+  font-size: 0.95rem;
+  line-height: 1.65;
+}
+
+.mkt-footer-keywords {
+  display: flex !important;
+  flex-wrap: wrap;
+  gap: 0.55rem;
+  margin-top: 1rem !important;
+}
+
+.mkt-footer-keywords a {
+  display: inline-flex;
+  align-items: center;
+  border: 1px solid var(--iid-line);
+  border-radius: 999px;
+  padding: 0.35rem 0.8rem;
+  font-size: 0.78rem;
+  font-weight: 600;
+  color: var(--iid-text) !important;
+  text-decoration: none;
+}
+
+.mkt-footer-keywords a:hover {
+  border-color: var(--iid-blue);
+  color: var(--iid-blue) !important;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .mkt-logo-marquee-track,
+  .mkt-industry-marquee-track {
+    animation: none;
+    flex-wrap: wrap;
+    width: 100%;
+    max-width: var(--iid-max);
+    margin: 0 auto;
+    justify-content: center;
+    padding-left: clamp(1.25rem, 4vw, 2.5rem);
+    padding-right: clamp(1.25rem, 4vw, 2.5rem);
+  }
+}
+
+/* --- Mobile readability & tap targets --- */
+@media (max-width: 640px) {
+  .mkt-wrap {
+    padding-left: 1.1rem;
+    padding-right: 1.1rem;
+  }
+
+  .mkt-hero {
+    margin-top: 0.65rem;
+    border-radius: 1.1rem;
+  }
+
+  .mkt-hero-grid {
+    padding: 1.35rem 1.1rem 1.6rem;
+    gap: 1.1rem;
+  }
+
+  .mkt-hero-title,
+  .mkt-hero-title-plain {
+    font-size: clamp(1.55rem, 7.2vw, 2rem);
+    line-height: 1.15;
+  }
+
+  .mkt-h2 {
+    font-size: clamp(1.35rem, 6vw, 1.7rem);
+    line-height: 1.2;
+  }
+
+  .mkt-lead,
+  .mkt-sub {
+    font-size: 0.95rem;
+    line-height: 1.6;
+    max-width: none;
+  }
+
+  .mkt-audience-toggle {
+    width: 100%;
+    display: flex;
+    border-radius: 1rem;
+  }
+
+  .mkt-audience-btn {
+    flex: 1 1 0;
+    min-height: 2.75rem;
+    padding: 0.65rem 0.55rem;
+    font-size: 0.78rem;
+    text-align: center;
+    white-space: normal;
+    line-height: 1.2;
+  }
+
+  .mkt-pipe {
+    font-size: 0.62rem;
+    letter-spacing: 0.08em;
+    gap: 0.35rem 0.45rem;
+    margin-bottom: 1rem;
+  }
+
+  .mkt-service-tabs {
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+    padding-bottom: 0.35rem;
+  }
+
+  .mkt-service-tabs::-webkit-scrollbar {
+    display: none;
+  }
+
+  .mkt-service-tab {
+    flex: 0 0 auto;
+    min-height: 2.6rem;
+    padding: 0.55rem 0.95rem;
+  }
+
+  .mkt-page .iid-btn {
+    min-height: 2.75rem;
+  }
+
+  .mkt-mobile-nav-inner a {
+    min-height: 2.75rem;
+    display: flex;
+    align-items: center;
+    font-size: 1rem;
+  }
+
+  .mkt-logo-marquee-item-integration {
+    min-width: 6.5rem;
+    min-height: 3.2rem;
+  }
+
+  .mkt-logo-marquee-item-client {
+    min-width: 8.25rem;
+    min-height: 3.75rem;
+  }
+
+  .mkt-footer-about {
+    margin-bottom: 1.5rem;
+    padding-bottom: 1.35rem;
+  }
+
+  .mkt-section-head {
+    margin-bottom: 1.35rem;
+  }
+
+  .mkt-service-detail-copy .flex {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .mkt-service-detail-copy .iid-btn {
+    width: 100%;
+    justify-content: center;
+  }
+}

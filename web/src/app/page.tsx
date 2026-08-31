@@ -3,13 +3,24 @@ import { LandingPage } from "@/components/marketing/LandingPage";
 import { SITE_EMAIL, SITE_URL } from "@/lib/site";
 
 export const metadata: Metadata = {
-  title: "IIDATECH | Business OS for Founders & B2B",
+  title: "IIDATECH | Market Research, Business Planning & Growth OS",
   description:
-    "IIDATECH helps founders and established B2B companies research markets, build plans, run Employee OS, and automate workflows in one workspace.",
+    "Market research for founders, business planning, business consultation, and new business growth — plus Employee OS and automation. Start free on IIDATECH.",
+  keywords: [
+    "market research for founders",
+    "business research",
+    "new business growth",
+    "business consultation",
+    "founder business OS",
+    "startup business plan",
+    "MSME market research",
+    "AI business plan",
+    "IIDATECH",
+  ],
   alternates: { canonical: `${SITE_URL}/` },
   openGraph: {
-    title: "IIDATECH — Business OS for founders and B2B companies",
-    description: "Research, plan, execute, and automate on one platform. Free credits. No card required.",
+    title: "IIDATECH — Market research & business growth OS for founders",
+    description: "Research markets, plan new businesses, get consultation guidance, and execute growth in one workspace. Free credits. No card required.",
     url: `${SITE_URL}/`,
     siteName: "IIDATECH",
     type: "website",
@@ -35,7 +46,15 @@ const jsonLd = {
       email: SITE_EMAIL,
       telephone: "+919545403431",
       description:
-        "Business OS for founders and B2B companies — market research, planning, mentorship, Employee OS, and automation.",
+        "Business OS for founders and B2B companies — market research, business planning, business consultation, new business growth, Employee OS, and automation.",
+      knowsAbout: [
+        "market research",
+        "founder tools",
+        "business consultation",
+        "new business growth",
+        "business planning",
+        "MSME automation",
+      ],
     },
     {
       "@type": "SoftwareApplication",
@@ -50,12 +69,12 @@ const jsonLd = {
         description: "Free signup with demo access and credits; paid plans coming soon.",
       },
       featureList: [
-        "AI market research reports",
-        "Business plan generation",
-        "Mentor guidance",
+        "AI market research reports for founders",
+        "Business plan generation for new business growth",
+        "Business consultation and mentor guidance",
         "Employee OS AI workforce",
         "Workflow automation",
-        "Company GAUGE audit",
+        "Company GAUGE growth audit",
       ],
     },
     {
