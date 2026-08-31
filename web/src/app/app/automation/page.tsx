@@ -145,14 +145,15 @@ function AutomationContent() {
             {isDemo ? (
               <>
                 <div className="rounded-xl border border-[var(--iid-line)] bg-black/20 overflow-hidden">
-                  <div className="flex aspect-video items-center justify-center bg-gradient-to-br from-slate-900 to-slate-800 p-8 text-center">
-                    <div>
-                      <p className="text-sm font-semibold text-slate-200">Agent automation walkthrough</p>
-                      <p className="mt-2 text-xs muted max-w-md">
-                        Video demo coming soon — you will embed your walkthrough here. Below is a sample completed workflow queue.
-                      </p>
-                    </div>
-                  </div>
+                  <video
+                    className="aspect-video w-full bg-black"
+                    controls
+                    playsInline
+                    preload="metadata"
+                    poster="/marketing/frames/automate.png"
+                  >
+                    <source src="/marketing/videos/automate.mp4" type="video/mp4" />
+                  </video>
                 </div>
               </>
             ) : (

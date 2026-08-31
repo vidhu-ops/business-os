@@ -34,7 +34,12 @@ export function ServiceDetailPage({ service }: { service: ServiceDetail }) {
             <MarketingPhoto id={service.photoId} className="mkt-hero-photo" />
             {service.videoSrc ? (
               <div className="mkt-wheel-video mkt-service-page-video">
-                <video controls playsInline preload="metadata">
+                <video
+                  controls
+                  playsInline
+                  preload="metadata"
+                  poster={`/marketing/frames/${service.id === "execute" ? "execute" : service.id}.png`}
+                >
                   <source src={service.videoSrc} type="video/mp4" />
                 </video>
               </div>

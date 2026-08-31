@@ -54,7 +54,13 @@ export function PlatformWheel({ audience }: { audience: Audience }) {
         </p>
         {tool.videoSrc ? (
           <div className="mkt-wheel-video">
-            <video key={tool.videoSrc} controls playsInline preload="metadata">
+            <video
+              key={tool.videoSrc}
+              controls
+              playsInline
+              preload="metadata"
+              poster={/marketing/frames/.png}
+            >
               <source src={tool.videoSrc} type="video/mp4" />
             </video>
           </div>

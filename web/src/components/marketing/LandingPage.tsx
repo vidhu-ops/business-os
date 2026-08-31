@@ -26,18 +26,18 @@ import {
 const PRODUCT_SHOTS = [
   {
     src: "/marketing/frames/research.png",
-    alt: "IIDATECH market research report screen",
-    caption: "Market research report",
+    alt: "IIDATECH demo market research report for CRM automation SMBs",
+    caption: "Demo market research report",
   },
   {
     src: "/marketing/frames/plan.png",
-    alt: "IIDATECH business plan output screen",
-    caption: "Business plan output",
+    alt: "IIDATECH demo business plan workspace with sample GAUGE flow",
+    caption: "Demo business plan workspace",
   },
   {
     src: "/marketing/frames/execute.png",
-    alt: "IIDATECH Employee OS task board",
-    caption: "Employee OS task board",
+    alt: "IIDATECH demo Employee OS office with Taylor and team agents",
+    caption: "Demo Employee OS office",
   },
 ] as const;
 
@@ -221,7 +221,13 @@ export function LandingPage() {
           <div className="mkt-service-detail-media">
             {activeService.videoSrc ? (
               <div className="mkt-wheel-video">
-                <video key={activeService.videoSrc} controls playsInline preload="metadata">
+                <video
+                  key={activeService.videoSrc}
+                  controls
+                  playsInline
+                  preload="metadata"
+                  poster={`/marketing/frames/${activeService.id === "execute" ? "execute" : activeService.id === "gauge" ? "gauge" : activeService.id}.png`}
+                >
                   <source src={activeService.videoSrc} type="video/mp4" />
                 </video>
               </div>
