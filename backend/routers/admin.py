@@ -223,6 +223,14 @@ def list_crm_users(
     }
 
 
+@router.post("/legacy-users/seed")
+def seed_legacy_users(_: str = Depends(require_admin_email)) -> dict:
+    from backend.services.legacy_user_seed import ensure_legacy_users_seeded
+
+    result = ensure_legacy_users_seeded()
+    return {"success": True, **result}
+
+
 @router.post("/credits")
 def grant_credits(body: AdminCreditsBody, admin: str = Depends(require_admin_email)) -> dict:
     key = body.email.strip().lower()

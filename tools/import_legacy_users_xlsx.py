@@ -138,10 +138,29 @@ def main() -> int:
             created += 1
 
     save_users(users)
-    seed_path = ROOT / "business_build_outputs" / "legacy_iidatech_users_seed.json"
-    seed_path.parent.mkdir(parents=True, exist_ok=True)
-    seed_path.write_text(json.dumps(seed, indent=2, ensure_ascii=False, default=str), encoding="utf-8")
-    print(json.dumps({"created": created, "updated": updated, "skipped": skipped, "total_users": len(users), "seed": str(seed_path)}, indent=2))
+    seed_blob = json.dumps(seed, indent=2, ensure_ascii=False, default=str)
+    seed_paths = [
+        ROOT / "backend" / "data" / "legacy_iidatech_users_seed.json",
+        ROOT / "business_build_outputs" / "legacy_iidatech_users_seed.json",
+    ]
+    written: list[str] = []
+    for seed_path in seed_paths:
+        seed_path.parent.mkdir(parents=True, exist_ok=True)
+        seed_path.write_text(seed_blob, encoding="utf-8")
+        written.append(str(seed_path))
+    print(
+        json.dumps(
+            {
+                "created": created,
+                "updated": updated,
+                "skipped": skipped,
+                "total_users": len(users),
+                "seed_users": len(seed),
+                "seeds": written,
+            },
+            indent=2,
+        )
+    )
     return 0
 
 

@@ -103,6 +103,7 @@ except Exception:
 try:
     from backend.services.legacy_user_seed import ensure_legacy_users_seeded
 
-    ensure_legacy_users_seeded()
-except Exception:
-    pass
+    _legacy_seed_result = ensure_legacy_users_seeded()
+    print(f"[startup] legacy_user_seed={_legacy_seed_result}", flush=True)
+except Exception as exc:
+    print(f"[startup] legacy_user_seed failed: {exc}", flush=True)
