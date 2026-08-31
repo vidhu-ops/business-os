@@ -60,16 +60,25 @@ def verify_password(password: str, password_hash: str) -> bool:
     # Legacy Flask/Werkzeug: scrypt:N:r:p$salt$hexdigest
     if stored.startswith("scrypt:"):
         try:
+            from werkzeug.security import check_password_hash
+
+            if check_password_hash(stored, password):
+                return True
+        except Exception:
+            pass
+        try:
             method, salt_s, hex_digest = stored.split("$", 2)
             _label, n_s, r_s, p_s = method.split(":")
             n, r, p = int(n_s), int(r_s), int(p_s)
             expected = bytes.fromhex(hex_digest)
+            maxmem = 132 * n * r * p
             actual = hashlib.scrypt(
                 password.encode("utf-8"),
                 salt=salt_s.encode("utf-8"),
                 n=n,
                 r=r,
                 p=p,
+                maxmem=maxmem,
                 dklen=len(expected) or 64,
             )
             return hmac.compare_digest(actual, expected)

@@ -99,3 +99,10 @@ try:
     _bootstrap_admin_credits()
 except Exception:
     pass
+
+try:
+    from backend.services.legacy_user_seed import ensure_legacy_users_seeded
+
+    ensure_legacy_users_seeded()
+except Exception:
+    pass
