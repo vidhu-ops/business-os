@@ -59,7 +59,7 @@ export function PlatformWheel({ audience }: { audience: Audience }) {
               controls
               playsInline
               preload="metadata"
-              poster={/marketing/frames/.png}
+              poster={`/marketing/frames/${tool.id}.png`}
             >
               <source src={tool.videoSrc} type="video/mp4" />
             </video>

@@ -3,6 +3,7 @@ import { Plus_Jakarta_Sans, Syne } from "next/font/google";
 import { ThemeProvider } from "@/components/ThemeProvider";
 import { AnalyticsBeacon } from "@/components/AnalyticsBeacon";
 import { IidaAssistantHost } from "@/components/iida/IidaAssistantHost";
+import { CORE_BUSINESS_KEYWORDS } from "@/lib/seo";
 import { SITE_URL } from "@/lib/site";
 import "./globals.css";
 
@@ -20,27 +21,17 @@ const syne = Syne({
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),
   title: {
-    default: "IIDATECH | Business OS for Founders & B2B",
+    default: "IIDATECH | Market Research, Business Planning & Growth OS",
     template: "%s | IIDATECH",
   },
   description:
     "IIDATECH helps founders and B2B companies with market research, business planning, business consultation, new business growth, Employee OS execution, and automation — one business OS.",
-  keywords: [
-    "IIDATECH",
-    "market research for founders",
-    "business research",
-    "founder market research",
-    "new business growth",
-    "business consultation",
-    "business planning software",
-    "startup business plan",
-    "MSME growth platform",
-    "AI business consultation",
-    "business OS India",
-    "Employee OS",
-    "B2B market research platform",
-    "company growth audit",
-  ],
+  keywords: [...CORE_BUSINESS_KEYWORDS],
+  category: "business",
+  applicationName: "IIDATECH",
+  authors: [{ name: "IIDATECH", url: SITE_URL }],
+  creator: "IIDATECH",
+  publisher: "IIDATECH",
   openGraph: {
     type: "website",
     siteName: "IIDATECH",
@@ -50,14 +41,24 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: "IIDATECH | Business OS for Founders & B2B",
+    title: "IIDATECH | Market Research & Business Growth OS",
     description: "AI market research, business plans, Mentor, Employee OS, and automation — one workspace.",
     images: ["/marketing/frames/research.png"],
   },
   icons: {
     icon: "/favicon.ico",
   },
-  robots: { index: true, follow: true },
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: {
+      index: true,
+      follow: true,
+      "max-image-preview": "large",
+      "max-snippet": -1,
+      "max-video-preview": -1,
+    },
+  },
 };
 
 export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {

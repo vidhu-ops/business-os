@@ -19,6 +19,7 @@ const NAV = [
 
 const MORE_LINKS = [
   { label: "How it works", href: "/how-it-works" },
+  { label: "Business topics", href: "/topics" },
   { label: "Market research", href: "/services/research" },
   { label: "Business plan", href: "/services/plan" },
   { label: "Business consultation", href: "/services/mentor" },
@@ -98,12 +99,15 @@ export function MarketingShell({ children }: { children: React.ReactNode }) {
             automation — so you can validate ideas and ship decisions without slow agency cycles.
           </p>
           <p className="mkt-footer-keywords" aria-label="Popular IIDATECH topics">
-            <Link href="/services/research">Market research</Link>
-            <Link href="/services/plan">Business plan</Link>
-            <Link href="/services/mentor">Business consultation</Link>
-            <Link href="/services/gauge">Company growth audit</Link>
-            <Link href="/how-it-works">Founder workflow</Link>
-            <Link href="/about">About us</Link>
+            <Link href="/topics/market-research-for-founders">Market research for founders</Link>
+            <Link href="/topics/business-consultation">Business consultation</Link>
+            <Link href="/topics/new-business-growth">New business growth</Link>
+            <Link href="/topics/startup-business-plan">Startup business plan</Link>
+            <Link href="/topics/business-research">Business research</Link>
+            <Link href="/topics/msme-business-growth">MSME growth</Link>
+            <Link href="/topics/ai-business-planning">AI business planning</Link>
+            <Link href="/topics/company-growth-audit">Company growth audit</Link>
+            <Link href="/topics">All business topics</Link>
           </p>
         </div>
         <div className="mkt-wrap mkt-footer-grid">
@@ -122,17 +126,17 @@ export function MarketingShell({ children }: { children: React.ReactNode }) {
           <div>
             <h4>Grow with IIDATECH</h4>
             <p>
-              <Link href="/services/research">Market research for founders</Link>
+              <Link href="/topics/market-research-for-founders">Market research for founders</Link>
               <br />
-              <Link href="/services/plan">New business planning</Link>
+              <Link href="/topics/startup-business-plan">Startup business plan</Link>
               <br />
-              <Link href="/services/execute">Employee OS execution</Link>
+              <Link href="/topics/business-consultation">Business consultation</Link>
               <br />
-              <Link href="/services/automate">Business automation</Link>
+              <Link href="/topics/new-business-growth">New business growth</Link>
               <br />
-              <Link href="/services/mentor">Business consultation</Link>
+              <Link href="/topics/msme-business-growth">MSME business growth</Link>
               <br />
-              <Link href="/services/gauge">GAUGE growth audit</Link>
+              <Link href="/topics">All business topics</Link>
             </p>
           </div>
           <div>

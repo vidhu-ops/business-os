@@ -155,6 +155,9 @@ export function LandingPage() {
           <Link href="/about?audience=company" className="iid-btn iid-btn-ghost">
             Read more for B2B
           </Link>
+          <Link href="/topics" className="iid-btn iid-btn-ghost">
+            Browse business topics
+          </Link>
         </div>
       </section>
 

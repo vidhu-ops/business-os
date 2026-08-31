@@ -1,26 +1,26 @@
 import type { Metadata } from "next";
 import { LandingPage } from "@/components/marketing/LandingPage";
-import { SITE_EMAIL, SITE_URL } from "@/lib/site";
+import {
+  CORE_BUSINESS_KEYWORDS,
+  SEO_TOPICS,
+  faqJsonLd,
+  graphJsonLd,
+  organizationJsonLd,
+  softwareJsonLd,
+  websiteJsonLd,
+} from "@/lib/seo";
+import { SITE_URL } from "@/lib/site";
 
 export const metadata: Metadata = {
   title: "IIDATECH | Market Research, Business Planning & Growth OS",
   description:
     "Market research for founders, business planning, business consultation, and new business growth — plus Employee OS and automation. Start free on IIDATECH.",
-  keywords: [
-    "market research for founders",
-    "business research",
-    "new business growth",
-    "business consultation",
-    "founder business OS",
-    "startup business plan",
-    "MSME market research",
-    "AI business plan",
-    "IIDATECH",
-  ],
+  keywords: [...CORE_BUSINESS_KEYWORDS],
   alternates: { canonical: `${SITE_URL}/` },
   openGraph: {
     title: "IIDATECH — Market research & business growth OS for founders",
-    description: "Research markets, plan new businesses, get consultation guidance, and execute growth in one workspace. Free credits. No card required.",
+    description:
+      "Research markets, plan new businesses, get consultation guidance, and execute growth in one workspace. Free credits. No card required.",
     url: `${SITE_URL}/`,
     siteName: "IIDATECH",
     type: "website",
@@ -36,54 +36,41 @@ export const metadata: Metadata = {
   robots: { index: true, follow: true },
 };
 
-const jsonLd = {
-  "@context": "https://schema.org",
-  "@graph": [
-    {
-      "@type": "Organization",
-      name: "IIDATECH",
-      url: `${SITE_URL}/`,
-      email: SITE_EMAIL,
-      telephone: "+919545403431",
-      description:
-        "Business OS for founders and B2B companies — market research, business planning, business consultation, new business growth, Employee OS, and automation.",
-      knowsAbout: [
-        "market research",
-        "founder tools",
-        "business consultation",
-        "new business growth",
-        "business planning",
-        "MSME automation",
-      ],
-    },
-    {
-      "@type": "SoftwareApplication",
-      name: "IIDATECH Business Ecosystem",
-      applicationCategory: "BusinessApplication",
-      operatingSystem: "Web",
-      url: `${SITE_URL}/`,
-      offers: {
-        "@type": "Offer",
-        price: "0",
-        priceCurrency: "INR",
-        description: "Free signup with demo access and credits; paid plans coming soon.",
-      },
-      featureList: [
-        "AI market research reports for founders",
-        "Business plan generation for new business growth",
-        "Business consultation and mentor guidance",
-        "Employee OS AI workforce",
-        "Workflow automation",
-        "Company GAUGE growth audit",
-      ],
-    },
-    {
-      "@type": "WebSite",
-      name: "IIDATECH",
-      url: `${SITE_URL}/`,
-    },
-  ],
-};
+const homeFaqs = [
+  {
+    q: "What is IIDATECH?",
+    a: "IIDATECH is a business OS for founders and B2B companies covering market research, business planning, business consultation, Employee OS execution, and automation.",
+  },
+  {
+    q: "Can founders get market research without an analyst team?",
+    a: "Yes. IIDATECH generates structured market research reports for founders and MSMEs, then connects them to planning and execution in the same workspace.",
+  },
+  {
+    q: "Does IIDATECH offer business consultation?",
+    a: "Mentor provides business consultation grounded in your project memory, research, plan, and GAUGE audit — with next actions you can approve.",
+  },
+  {
+    q: "Is there a free way to try IIDATECH?",
+    a: "Yes. Start free with credits, or open the live demo workspace to browse sample research, plans, and Employee OS.",
+  },
+];
+
+const jsonLd = graphJsonLd([
+  organizationJsonLd(),
+  websiteJsonLd(),
+  softwareJsonLd(),
+  faqJsonLd(homeFaqs),
+  {
+    "@type": "ItemList",
+    name: "IIDATECH business topics",
+    itemListElement: SEO_TOPICS.map((topic, index) => ({
+      "@type": "ListItem",
+      position: index + 1,
+      name: topic.title,
+      url: `${SITE_URL}/topics/${topic.slug}`,
+    })),
+  },
+]);
 
 export default function Home() {
   return (
