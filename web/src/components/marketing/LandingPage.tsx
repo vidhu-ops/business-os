@@ -16,6 +16,7 @@ import {
   BY_THE_NUMBERS,
   CLIENT_LOGOS,
   HERO_WIX,
+  SECTION_VIDEOS,
   HOME_STEPS,
   INTEGRATION_LOGOS,
   PROCESS_STEPS,
@@ -43,6 +44,16 @@ const PRODUCT_SHOTS = [
     caption: "Execution workspace",
   },
 ] as const;
+
+
+function SectionVideo({ src }: { src: string }) {
+  return (
+    <div className="mkt-section-video" aria-hidden="true">
+      <video className="mkt-section-video-el" src={src} autoPlay muted loop playsInline preload="metadata" />
+      <div className="mkt-section-video-scrim" />
+    </div>
+  );
+}
 
 export function LandingPage() {
   const [audience, setAudience] = useState<Audience>("founder");
@@ -123,7 +134,7 @@ export function LandingPage() {
         </div>
       </section>
 
-      <section id="how" className="mkt-band mkt-band-full mkt-band-steps"><div className="mkt-wrap mkt-section mkt-section-steps">
+      <section id="how" className="mkt-band mkt-band-full mkt-band-steps mkt-band-has-video"><SectionVideo src={SECTION_VIDEOS.steps} /><div className="mkt-wrap mkt-section mkt-section-steps mkt-band-content">
         <div className="mkt-section-head mkt-section-head-center">
           <span className="mkt-label">What you get</span>
           <h2 className="mkt-h2">Research. Plan. Execute.</h2>
@@ -140,8 +151,9 @@ export function LandingPage() {
         </div>
       </section>
 
-      <section id="services" className="mkt-band mkt-band-full mkt-band-services">
-        <div className="mkt-wrap mkt-section">
+      <section id="services" className="mkt-band mkt-band-full mkt-band-services mkt-band-has-video">
+        <SectionVideo src={SECTION_VIDEOS.services} />
+        <div className="mkt-wrap mkt-section mkt-band-content">
           <div className="mkt-section-head mkt-section-head-center">
             <span className="mkt-label">Our services</span>
             <h2 className="mkt-h2">Six tools. One platform.</h2>
@@ -192,7 +204,7 @@ export function LandingPage() {
         </div>
       </section>
 
-      <section id="about" className="mkt-band mkt-band-full mkt-band-about" aria-labelledby="about-heading"><div className="mkt-wrap mkt-section mkt-section-about-human">
+      <section id="about" className="mkt-band mkt-band-full mkt-band-about mkt-band-has-video" aria-labelledby="about-heading"><SectionVideo src={SECTION_VIDEOS.about} /><div className="mkt-wrap mkt-section mkt-section-about-human mkt-band-content">
         <div className="mkt-about-human-grid">
           <div className="mkt-section-head">
             <span className="mkt-label">All about us</span>
@@ -235,7 +247,7 @@ export function LandingPage() {
         </div>
       </section>
 
-      <section id="process" className="mkt-band mkt-band-full mkt-band-process"><div className="mkt-wrap mkt-section mkt-section-process">
+      <section id="process" className="mkt-band mkt-band-full mkt-band-process mkt-band-has-video"><SectionVideo src={SECTION_VIDEOS.process} /><div className="mkt-wrap mkt-section mkt-section-process mkt-band-content">
         <div className="mkt-section-head mkt-section-head-center">
           <span className="mkt-label">Process</span>
           <h2 className="mkt-h2">It&apos;s as easy as 1, 2, 3</h2>
@@ -255,7 +267,7 @@ export function LandingPage() {
         </div>
       </section>
 
-      <section id="why-us" className="mkt-band mkt-band-full mkt-band-why"><div className="mkt-wrap mkt-section">
+      <section id="why-us" className="mkt-band mkt-band-full mkt-band-why mkt-band-has-video"><SectionVideo src={SECTION_VIDEOS.why} /><div className="mkt-wrap mkt-section mkt-band-content">
         <div className="mkt-section-head mkt-section-head-center">
           <span className="mkt-label">Why us</span>
           <h2 className="mkt-h2">For a seamless business experience</h2>
@@ -380,8 +392,9 @@ export function LandingPage() {
         </div>
       </section>
 
-      <section id="pricing" className="mkt-band mkt-band-full mkt-band-pricing">
-        <div className="mkt-wrap mkt-section">
+      <section id="pricing" className="mkt-band mkt-band-full mkt-band-pricing mkt-band-has-video">
+        <SectionVideo src={SECTION_VIDEOS.pricing} />
+        <div className="mkt-wrap mkt-section mkt-band-content">
           <div className="mkt-section-head mkt-section-head-center">
             <span className="mkt-label">Pricing</span>
             <h2 className="mkt-h2">Start free. Grow when you are ready.</h2>
