@@ -171,9 +171,25 @@ export function LandingPage() {
                     <h3 className="mkt-tool-card-title">{toolCopy.title}</h3>
                     <p className="mkt-tool-card-desc">{toolCopy.body}</p>
                     <p className="mkt-tool-card-output">{toolCopy.output}</p>
-                    <Link href={"/services/" + tool.id} className="mkt-tool-card-link">
-                      Explore {tool.short} →
-                    </Link>
+                    <div className="mkt-tool-card-actions">
+                      <Link href={"/services/" + tool.id} className="iid-btn iid-btn-ghost mkt-tool-card-btn">
+                        Read more
+                      </Link>
+                      <WorkspaceEntryLink
+                        href={
+                          tool.id === "execute"
+                            ? "/app/team"
+                            : tool.id === "gauge"
+                              ? "/app/audit"
+                              : tool.id === "automate"
+                                ? "/app/automation"
+                                : "/app/" + tool.id
+                        }
+                        className="iid-btn iid-btn-primary mkt-tool-card-btn"
+                      >
+                        Check it out
+                      </WorkspaceEntryLink>
+                    </div>
                   </div>
                 </article>
               );
