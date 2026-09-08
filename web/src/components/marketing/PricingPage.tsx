@@ -43,12 +43,12 @@ export function PricingPage() {
 
   return (
     <>
-      <section className="mkt-wrap mkt-page-hero">
+      <section className="mkt-wrap mkt-page-hero mkt-page-hero-human">
         <p className="mkt-eyebrow">Pricing</p>
         <h1 className="mkt-page-title">Simple pricing. Start free.</h1>
         <p className="mkt-lead mkt-page-lead">
-          Free credits are live now. Paid and Enterprise options are talk-to-us while we finalize numbers. Currency shown in
-          INR for India-first billing; other regions available on request.
+          Get 30 free credits to try research, business plans, Mentor, and Employee OS. Paid and Enterprise options are
+          a quick conversation — we keep it human, not hidden behind fine print.
         </p>
         <div className="mt-6 flex flex-wrap gap-3">
           <Link href="/login?mode=register" className="iid-btn iid-btn-primary">

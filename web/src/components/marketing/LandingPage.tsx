@@ -15,11 +15,14 @@ import {
   AUDIENCE,
   BY_THE_NUMBERS,
   CLIENT_LOGOS,
+  HERO_WIX,
   HOME_STEPS,
   INTEGRATION_LOGOS,
+  PROCESS_STEPS,
   PROBLEM,
   SOLUTION,
   TOOLS,
+  WHY_US,
   type Audience,
   type ToolId,
 } from "./audienceContent";
@@ -27,33 +30,20 @@ import {
 const PRODUCT_SHOTS = [
   {
     src: "/marketing/frames/research.png",
-    alt: "IIDATECH demo market research report for CRM automation SMBs",
-    caption: "Demo market research report",
+    alt: "IIDATECH demo market research report",
+    caption: "Market research report",
   },
   {
     src: "/marketing/frames/plan.png",
-    alt: "IIDATECH demo business plan workspace with sample GAUGE flow",
-    caption: "Demo business plan workspace",
+    alt: "IIDATECH demo business plan workspace",
+    caption: "Business plan output",
   },
   {
     src: "/marketing/frames/execute.png",
-    alt: "IIDATECH demo Employee OS office with Taylor and team agents",
-    caption: "Demo Employee OS office",
+    alt: "IIDATECH demo Employee OS office",
+    caption: "Execution workspace",
   },
 ] as const;
-
-const HERO_SHOTS = {
-  founder: {
-    src: "https://images.unsplash.com/photo-1573497019940-1c28c88b4f3e?auto=format&fit=crop&w=1600&q=80",
-    alt: "An individual founder working in a modern office",
-    caption: "Validate, plan, and execute from one founder workspace.",
-  },
-  company: {
-    src: "https://images.unsplash.com/photo-1531482615713-2afd69097998?auto=format&fit=crop&w=1600&q=80",
-    alt: "A company team collaborating around laptops",
-    caption: "Audit, research, and operate from one company workspace.",
-  },
-} as const;
 
 export function LandingPage() {
   const [audience, setAudience] = useState<Audience>("founder");
@@ -61,89 +51,72 @@ export function LandingPage() {
   const copy = AUDIENCE[audience];
   const problem = PROBLEM[audience];
   const solution = SOLUTION[audience];
-  const heroShot = HERO_SHOTS[audience];
   const activeService = useMemo(() => TOOLS.find((t) => t.id === service) ?? TOOLS[0], [service]);
   const serviceCopy = activeService[audience];
   const servicePhoto = MARKETING_PHOTOS[activeService.photoId];
 
   return (
     <MarketingShell>
-      <section
-        className={`mkt-wrap mkt-hero mkt-hero--${audience}`}
-        aria-labelledby="hero-heading"
-        data-hero-audience={audience}
-        style={{ ["--mkt-hero-photo" as string]: `url("${heroShot.src}")` }}
-      >
-        <div className="mkt-hero-bg" aria-hidden="true">
-          {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img key={`bg-${audience}`} src={heroShot.src} alt="" />
-          <span className="mkt-hero-bg-fade" />
+      <section className="mkt-wrap mkt-hero mkt-hero-wix" aria-labelledby="hero-heading">
+        <div className="mkt-hero-wix-glow" aria-hidden="true" />
+        <div className="mkt-hero-wix-inner">
+          <div className="mkt-hero-audience mkt-hero-audience-compact" role="group" aria-label="Choose how to read IIDATECH">
+            <button
+              type="button"
+              className={`mkt-hero-audience-btn${audience === "founder" ? " is-active" : ""}`}
+              aria-pressed={audience === "founder"}
+              onClick={() => setAudience("founder")}
+            >
+              Individual
+            </button>
+            <button
+              type="button"
+              className={`mkt-hero-audience-btn${audience === "company" ? " is-active" : ""}`}
+              aria-pressed={audience === "company"}
+              onClick={() => setAudience("company")}
+            >
+              Company
+            </button>
+          </div>
+
+          <p className="mkt-hero-wix-brand" aria-hidden="true">{HERO_WIX.brand}</p>
+          <h1 id="hero-heading" className="mkt-hero-wix-headline">
+            {HERO_WIX.headline}
+          </h1>
+          <p className="mkt-hero-wix-pipe">{HERO_WIX.pipe}</p>
+          <div className="mkt-hero-cta mkt-hero-wix-cta">
+            <Link href={HERO_WIX.cta.href} className="iid-btn iid-btn-primary mkt-hero-wix-btn">
+              {HERO_WIX.cta.label}
+            </Link>
+          </div>
+          <p className="mkt-hero-wix-subline">{HERO_WIX.subline}</p>
         </div>
-        <div className="mkt-hero-grid">
-          <div className="mkt-hero-intro">
-            <div className="mkt-hero-audience" role="group" aria-label="Choose how to read IIDATECH">
-              <button
-                type="button"
-                className={`mkt-hero-audience-btn${audience === "founder" ? " is-active" : ""}`}
-                aria-pressed={audience === "founder"}
-                onClick={() => setAudience("founder")}
-              >
-                Individual
-              </button>
-              <button
-                type="button"
-                className={`mkt-hero-audience-btn${audience === "company" ? " is-active" : ""}`}
-                aria-pressed={audience === "company"}
-                onClick={() => setAudience("company")}
-              >
-                Company
-              </button>
-            </div>
+      </section>
 
-            <p className="mkt-eyebrow">IIDATECH business ecosystem</p>
-            <h1 id="hero-heading" className="mkt-hero-title mkt-hero-title-plain">
-              {copy.headline}
-            </h1>
-          </div>
-
-          <div className="mkt-hero-copy">
-            <nav className="mkt-pipe" aria-label="IIDATECH topics">
-              {copy.pipe.map((step, i) => (
-                <span key={`${step.label}-${step.href}`} className="mkt-pipe-item">
-                  {i > 0 ? (
-                    <span className="mkt-pipe-arrow" aria-hidden>
-                      →
-                    </span>
-                  ) : null}
-                  <Link href={step.href} className="mkt-pipe-btn">
-                    {step.label}
-                  </Link>
-                </span>
-              ))}
-            </nav>
-
-            <p className="mkt-lead">{copy.lead}</p>
-
-            <div className="mkt-hero-cta">
-              <Link href={copy.primaryCta.href} className="iid-btn iid-btn-primary">
-                Start free — no card required
-              </Link>
-              <WorkspaceEntryLink href={copy.secondaryCta.href} className="iid-btn iid-btn-ghost">
-                See a live demo
-              </WorkspaceEntryLink>
-            </div>
-            <p className="mkt-lead mkt-hero-note">{copy.trustLine}</p>
-          </div>
+      <section id="how" className="mkt-wrap mkt-section mkt-section-steps">
+        <div className="mkt-section-head mkt-section-head-center">
+          <span className="mkt-label">What you get</span>
+          <h2 className="mkt-h2">Research. Plan. Execute.</h2>
+        </div>
+        <div className="mkt-step-cards">
+          {HOME_STEPS.map((s) => (
+            <article key={s.step} className="mkt-step-card">
+              <MarketingPhoto id={s.photoId} className="mkt-step-card-photo" rounded="lg" />
+              <h3 className="mkt-step-card-title">{s.title}</h3>
+              <p className="mkt-step-card-body">{s.body}</p>
+            </article>
+          ))}
         </div>
       </section>
 
       <section id="services" className="mkt-wrap mkt-section">
-        <div className="mkt-section-head">
-          <span className="mkt-label">Services</span>
-          <h2 className="mkt-h2">One platform. Six services.</h2>
+        <div className="mkt-section-head mkt-section-head-center">
+          <span className="mkt-label">Our services</span>
+          <h2 className="mkt-h2">Six tools. One platform.</h2>
           <p className="mkt-sub">
-            Switch Individual or Company above to see founder vs company framing. Each service has a full page with
-            steps and FAQ.
+            {audience === "founder"
+              ? "Everything a founder needs to research, plan, and execute — without weeks of consulting."
+              : "Research, planning, ops capacity, and automation for established B2B teams."}
           </p>
         </div>
         <div className="mkt-service-tabs" role="tablist" aria-label="IIDATECH services">
@@ -156,11 +129,11 @@ export function LandingPage() {
               className={`mkt-service-tab${service === t.id ? " is-active" : ""}`}
               onClick={() => setService(t.id)}
             >
-              {t.label}
+              {t.short}
             </button>
           ))}
         </div>
-        <article className="mkt-service-detail" aria-live="polite">
+        <article className="mkt-service-detail mkt-service-detail-human" aria-live="polite">
           <div className="mkt-service-detail-copy">
             <span className="mkt-tag">{activeService.short.toUpperCase()}</span>
             <h3 className="mkt-feature-title">{serviceCopy.title}</h3>
@@ -168,15 +141,9 @@ export function LandingPage() {
             <p className="mkt-service-output">
               <strong>You get:</strong> {serviceCopy.output}
             </p>
-            <p className="mkt-wheel-inapp">
-              <strong>In the app:</strong> {serviceCopy.inApp}
-            </p>
             <div className="flex flex-wrap gap-2 mt-4">
               <Link href={`/services/${activeService.id}`} className="iid-btn iid-btn-primary">
-                Read more
-              </Link>
-              <Link href="/login?mode=register" className="iid-btn iid-btn-ghost">
-                Start free
+                Try it
               </Link>
               <WorkspaceEntryLink className="iid-btn iid-btn-ghost">See demo</WorkspaceEntryLink>
             </div>
@@ -190,26 +157,61 @@ export function LandingPage() {
                 alt={servicePhoto.alt}
                 loading="lazy"
               />
-              {servicePhoto.caption ? (
-                <figcaption className="mkt-service-detail-caption">{servicePhoto.caption}</figcaption>
-              ) : null}
             </figure>
           </div>
         </article>
       </section>
 
-      <IndustryBanner />
-
-      <section id="how" className="mkt-wrap mkt-section">
-        <div className="mkt-section-head">
-          <span className="mkt-label">How it works</span>
-          <h2 className="mkt-h2">Research. Plan. Execute.</h2>
-          <p className="mkt-sub">Three moves inside one project vault — depth lives on the walkthrough page.</p>
+      <section id="about" className="mkt-wrap mkt-section mkt-section-about-human" aria-labelledby="about-heading">
+        <div className="mkt-about-human-grid">
+          <div className="mkt-section-head">
+            <span className="mkt-label">All about us</span>
+            <h2 id="about-heading" className="mkt-h2">
+              Investor-ready plans in minutes — not months.
+            </h2>
+            <p className="mkt-sub">
+              We built IIDATECH for people who need professional business plans but do not have weeks to research
+              markets, create financial models, or write 30-page documents.
+            </p>
+            <p className="mkt-sub" style={{ marginTop: "0.75rem" }}>
+              {copy.aboutBody}
+            </p>
+            <ul className="mkt-about-list">
+              <li>Research your industry and competitors</li>
+              <li>Validate your idea with real market data</li>
+              <li>Create detailed financial projections</li>
+              <li>Build step-by-step execution roadmaps</li>
+              <li>Generate professional documents for individuals and teams</li>
+            </ul>
+            <div className="flex flex-wrap gap-2" style={{ marginTop: "1.25rem" }}>
+              <Link href="/about?audience=founder" className="iid-btn iid-btn-primary">
+                Read more
+              </Link>
+              <Link href="/topics" className="iid-btn iid-btn-ghost">
+                Browse topics
+              </Link>
+            </div>
+          </div>
+          <div className="mkt-product-shots mkt-product-shots-compact" aria-label="Product screenshots">
+            {PRODUCT_SHOTS.map((shot) => (
+              <figure key={shot.src} className="mkt-product-shot-card">
+                {/* eslint-disable-next-line @next/next/no-img-element */}
+                <img src={shot.src} alt={shot.alt} loading="lazy" />
+                <figcaption>{shot.caption}</figcaption>
+              </figure>
+            ))}
+          </div>
         </div>
-        <div className="mkt-process mkt-process-3">
-          {HOME_STEPS.map((s) => (
-            <div key={s.step} className="mkt-process-step mkt-process-step-visual">
-              <MarketingPhoto id={s.photoId} className="mkt-process-step-photo" rounded="lg" />
+      </section>
+
+      <section id="process" className="mkt-wrap mkt-section mkt-section-process">
+        <div className="mkt-section-head mkt-section-head-center">
+          <span className="mkt-label">Process</span>
+          <h2 className="mkt-h2">It&apos;s as easy as 1, 2, 3</h2>
+        </div>
+        <div className="mkt-process mkt-process-3 mkt-process-human">
+          {PROCESS_STEPS.map((s) => (
+            <div key={s.step} className="mkt-process-step mkt-process-step-human">
               <p className="mkt-step-big">{s.step}</p>
               <h3>{s.title}</h3>
               <p>{s.body}</p>
@@ -221,11 +223,27 @@ export function LandingPage() {
         </Link>
       </section>
 
+      <section id="why-us" className="mkt-wrap mkt-section">
+        <div className="mkt-section-head mkt-section-head-center">
+          <span className="mkt-label">Why us</span>
+          <h2 className="mkt-h2">For a seamless business experience</h2>
+        </div>
+        <div className="mkt-why-grid">
+          {WHY_US.map((item) => (
+            <article key={item.title} className="mkt-why-card">
+              <h3>{item.title}</h3>
+              <p>{item.body}</p>
+            </article>
+          ))}
+        </div>
+      </section>
+
+      <IndustryBanner />
+
       <section id="proof" className="mkt-wrap mkt-section">
-        <div className="mkt-section-head">
+        <div className="mkt-section-head mkt-section-head-center">
           <span className="mkt-label">By the numbers</span>
-          <h2 className="mkt-h2">Proof without unverifiable quotes</h2>
-          <p className="mkt-sub">We will publish named testimonials when we have permission to link them. Until then, here is what the product ships today.</p>
+          <h2 className="mkt-h2">Built for real operators</h2>
         </div>
         <div className="mkt-stats-grid">
           {BY_THE_NUMBERS.map((stat) => (
@@ -238,13 +256,9 @@ export function LandingPage() {
       </section>
 
       <section id="clients" className="mkt-section mkt-clients-section">
-        <div className="mkt-wrap mkt-section-head">
-          <span className="mkt-label">Early operator partners</span>
-          <h2 className="mkt-h2">Service providers shipping alongside IIDATECH</h2>
-          <p className="mkt-sub">
-            These logos are early operator, boutique, and service-provider partners — not an enterprise customer logo
-            wall. They collaborate with founders and MSMEs in the IIDATECH ecosystem.
-          </p>
+        <div className="mkt-wrap mkt-section-head mkt-section-head-center">
+          <span className="mkt-label">Partners</span>
+          <h2 className="mkt-h2">Built by creators, for creators</h2>
         </div>
         <LogoMarquee
           items={CLIENT_LOGOS}
@@ -259,15 +273,11 @@ export function LandingPage() {
       </section>
 
       <section id="integrations" className="mkt-section mkt-integrations-section" aria-labelledby="integrations-heading">
-        <div className="mkt-wrap mkt-section-head">
+        <div className="mkt-wrap mkt-section-head mkt-section-head-center">
           <span className="mkt-label">Integrations</span>
           <h2 id="integrations-heading" className="mkt-h2">
-            Connect the tools your team already uses
+            All the tools you need in one platform
           </h2>
-          <p className="mkt-sub">
-            Optional OAuth apps and model keys for market research, founder outreach, CRM, and creative work — free and
-            demo use work without bring-your-own keys.
-          </p>
         </div>
         <LogoMarquee
           items={INTEGRATION_LOGOS}
@@ -337,52 +347,13 @@ export function LandingPage() {
         </div>
       </section>
 
-      <section id="about" className="mkt-wrap mkt-section" aria-labelledby="about-heading">
-        <div className="mkt-section-head">
-          <span className="mkt-label">About IIDATECH</span>
-          <h2 id="about-heading" className="mkt-h2">
-            {copy.whoForTitle}
-          </h2>
-          <p className="mkt-sub">{copy.whoForBody}</p>
-          <p className="mkt-sub" style={{ marginTop: "0.75rem" }}>
-            {copy.aboutBody}
-          </p>
-          <p className="mkt-sub" style={{ marginTop: "0.75rem" }}>
-            Search IIDATECH when you need market research for founders, business planning for a new business, business
-            consultation guidance, or a practical path to growth — research, plan, and execute in one workspace.
-          </p>
-        </div>
-
-        <div className="mkt-product-shots" aria-label="Product screenshots">
-          {PRODUCT_SHOTS.map((shot) => (
-            <figure key={shot.src} className="mkt-product-shot-card">
-              {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img src={shot.src} alt={shot.alt} loading="lazy" />
-              <figcaption>{shot.caption}</figcaption>
-            </figure>
-          ))}
-        </div>
-
-        <div className="mkt-about-readmore flex flex-wrap gap-2" style={{ marginTop: "1.25rem" }}>
-          <Link href="/about?audience=founder" className="iid-btn iid-btn-primary">
-            Read more for founders
-          </Link>
-          <Link href="/about?audience=company" className="iid-btn iid-btn-ghost">
-            Read more for B2B
-          </Link>
-          <Link href="/topics" className="iid-btn iid-btn-ghost">
-            Browse business topics
-          </Link>
-        </div>
-      </section>
-
       <section id="pricing" className="mkt-wrap mkt-section">
-        <div className="mkt-cta-banner">
+        <div className="mkt-cta-banner mkt-cta-banner-human">
           <span className="mkt-label">Pricing</span>
-          <h2 className="mkt-h2">Start free. Paid plans when you are ready.</h2>
+          <h2 className="mkt-h2">Start free. Grow when you are ready.</h2>
           <p className="mkt-sub">
-            Free credits and a live demo are available now. See the full pricing structure — Free, talk-to-us paid, and
-            Enterprise — on the pricing page.
+            30 free credits to try research, plans, Mentor, and Employee OS. Paid and Enterprise options are a quick
+            conversation away.
           </p>
           <div className="mkt-hero-cta mkt-cta-banner-actions">
             <Link href="/pricing" className="iid-btn iid-btn-primary">
@@ -396,9 +367,10 @@ export function LandingPage() {
       </section>
 
       <section id="contact" className="mkt-wrap mkt-section">
-        <div className="mkt-section-head">
-          <span className="mkt-label">Contact</span>
-          <h2 className="mkt-h2">Talk to the IIDATECH team</h2>
+        <div className="mkt-section-head mkt-section-head-center">
+          <span className="mkt-label">Let us find you</span>
+          <h2 className="mkt-h2">Tell us about your idea</h2>
+          <p className="mkt-sub">Fill in the form and we will personally contact you to discuss your premise.</p>
         </div>
         <div className="mkt-contact-grid">
           <div className="mkt-contact-visual">
@@ -441,15 +413,13 @@ export function LandingPage() {
       </section>
 
       <section className="mkt-wrap mkt-section mkt-section-last">
-        <div className="mkt-cta-banner">
+        <div className="mkt-cta-banner mkt-cta-banner-human">
           <span className="mkt-label">Ready?</span>
-          <h2 className="mkt-h2">
-            {audience === "founder" ? "Start free as a founder." : "Start free as a B2B operator."}
-          </h2>
+          <h2 className="mkt-h2">Changing the way the world does business.</h2>
           <p className="mkt-sub">{copy.trustLine}</p>
           <div className="mkt-hero-cta mkt-cta-banner-actions">
             <Link href={copy.primaryCta.href} className="iid-btn iid-btn-primary">
-              Start free
+              {HERO_WIX.cta.label}
             </Link>
             <WorkspaceEntryLink href={copy.secondaryCta.href} className="mkt-text-link">
               See demo

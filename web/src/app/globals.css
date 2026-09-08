@@ -5993,3 +5993,272 @@ html.light .iida-theme-welcome-btn-light {
   color: var(--iid-orange);
 }
 
+/* —— Wix-inspired marketing homepage —— */
+.mkt-hero-wix {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  min-height: clamp(22rem, 58vh, 34rem);
+  padding: clamp(2.5rem, 6vw, 4.5rem) clamp(1.25rem, 4vw, 2.5rem);
+  background:
+    radial-gradient(ellipse 90% 70% at 50% 0%, color-mix(in srgb, var(--iid-blue) 18%, transparent), transparent 65%),
+    radial-gradient(ellipse 60% 50% at 85% 90%, color-mix(in srgb, #fb923c 12%, transparent), transparent 70%),
+    var(--iid-navy);
+  border-color: color-mix(in srgb, var(--iid-blue) 22%, var(--iid-line));
+}
+
+html.light .mkt-hero-wix {
+  background:
+    radial-gradient(ellipse 90% 70% at 50% 0%, color-mix(in srgb, var(--iid-blue) 10%, #fff), transparent 65%),
+    radial-gradient(ellipse 60% 50% at 85% 90%, color-mix(in srgb, #fb923c 8%, #fff), transparent 70%),
+    #f4f7fc;
+}
+
+.mkt-hero-wix-glow {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: radial-gradient(circle at 50% 40%, color-mix(in srgb, var(--iid-blue) 8%, transparent), transparent 55%);
+}
+
+.mkt-hero-wix-inner {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.65rem;
+  max-width: 46rem;
+  margin: 0 auto;
+}
+
+.mkt-hero-audience-compact {
+  margin: 0 auto 0.5rem;
+  width: min(100%, 18rem);
+}
+
+.mkt-hero-wix-brand {
+  margin: 0;
+  font-family: var(--font-display);
+  font-size: clamp(2.75rem, 9vw, 4.5rem);
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  line-height: 1;
+  color: var(--iid-text);
+}
+
+.mkt-hero-wix-headline {
+  margin: 0;
+  font-family: var(--font-display);
+  font-size: clamp(1.35rem, 3.8vw, 2rem);
+  font-weight: 600;
+  letter-spacing: -0.02em;
+  line-height: 1.25;
+  color: color-mix(in srgb, var(--iid-text) 92%, var(--iid-muted));
+  max-width: 22ch;
+}
+
+.mkt-hero-wix-pipe {
+  margin: 0.35rem 0 0;
+  font-size: clamp(0.68rem, 2vw, 0.82rem);
+  font-weight: 700;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--iid-sky);
+  white-space: nowrap;
+}
+
+html.light .mkt-hero-wix-pipe {
+  color: var(--iid-blue);
+}
+
+.mkt-hero-wix-cta {
+  justify-content: center;
+  margin-top: 1.35rem;
+}
+
+.mkt-hero-wix-btn {
+  min-width: 10.5rem;
+  padding: 0.9rem 1.75rem;
+  font-size: 0.95rem;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  border-radius: 999px;
+}
+
+.mkt-hero-wix-subline {
+  margin: 1rem 0 0;
+  max-width: 38rem;
+  font-size: clamp(0.92rem, 2vw, 1.05rem);
+  line-height: 1.65;
+  color: var(--iid-muted);
+}
+
+.mkt-section-head-center {
+  text-align: center;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.mkt-section-head-center .mkt-sub {
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.mkt-section-steps {
+  padding-top: 0.5rem;
+}
+
+.mkt-step-cards {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 1rem;
+}
+
+@media (max-width: 900px) {
+  .mkt-step-cards {
+    grid-template-columns: 1fr;
+  }
+}
+
+.mkt-step-card {
+  display: flex;
+  flex-direction: column;
+  gap: 0.85rem;
+  padding: 1.15rem;
+  border: 1px solid var(--iid-line);
+  border-radius: 1.15rem;
+  background: var(--iid-card-gradient);
+  transition: border-color 0.2s ease, transform 0.15s ease;
+}
+
+.mkt-step-card:hover {
+  border-color: color-mix(in srgb, var(--iid-blue) 45%, var(--iid-line));
+  transform: translateY(-2px);
+}
+
+.mkt-step-card-photo {
+  aspect-ratio: 16 / 10;
+  width: 100%;
+}
+
+.mkt-step-card-title {
+  margin: 0;
+  font-family: var(--font-display);
+  font-size: 1.15rem;
+  font-weight: 700;
+  color: var(--iid-text);
+}
+
+.mkt-step-card-body {
+  margin: 0;
+  font-size: 0.92rem;
+  line-height: 1.6;
+  color: var(--iid-muted);
+}
+
+.mkt-service-detail-human {
+  border-radius: 1.25rem;
+  background: color-mix(in srgb, var(--iid-panel) 88%, transparent);
+}
+
+.mkt-about-human-grid {
+  display: grid;
+  grid-template-columns: 1.05fr 0.95fr;
+  gap: clamp(1.5rem, 4vw, 2.5rem);
+  align-items: start;
+}
+
+@media (max-width: 900px) {
+  .mkt-about-human-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+.mkt-about-list {
+  margin: 1rem 0 0;
+  padding-left: 1.15rem;
+  color: var(--iid-muted);
+  font-size: 0.95rem;
+  line-height: 1.7;
+}
+
+.mkt-about-list li {
+  margin-bottom: 0.35rem;
+}
+
+.mkt-product-shots-compact {
+  gap: 0.75rem;
+}
+
+.mkt-process-human .mkt-process-step-human {
+  padding: 1.35rem 1.25rem;
+  border-radius: 1.1rem;
+  background: var(--iid-card-gradient);
+  border: 1px solid var(--iid-line);
+}
+
+.mkt-why-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 0.85rem;
+}
+
+@media (max-width: 768px) {
+  .mkt-why-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+.mkt-why-card {
+  padding: 1.15rem 1.2rem;
+  border: 1px solid var(--iid-line);
+  border-radius: 1rem;
+  background: color-mix(in srgb, var(--iid-panel) 90%, transparent);
+}
+
+.mkt-why-card h3 {
+  margin: 0 0 0.45rem;
+  font-size: 0.78rem;
+  font-weight: 800;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--iid-blue);
+}
+
+.mkt-why-card p {
+  margin: 0;
+  font-size: 0.92rem;
+  line-height: 1.55;
+  color: var(--iid-muted);
+}
+
+.mkt-cta-banner-human {
+  text-align: center;
+  border-radius: 1.25rem;
+}
+
+.mkt-cta-banner-human .mkt-sub {
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.mkt-page-hero-human {
+  text-align: center;
+}
+
+.mkt-page-hero-human .mkt-page-lead {
+  margin-left: auto;
+  margin-right: auto;
+}
+
+@media (max-width: 520px) {
+  .mkt-hero-wix-pipe {
+    font-size: 0.62rem;
+    letter-spacing: 0.12em;
+    white-space: normal;
+    max-width: 20rem;
+  }
+}
+

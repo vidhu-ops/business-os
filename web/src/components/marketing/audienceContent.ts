@@ -187,26 +187,69 @@ export const AUDIENCE = {
   },
 } as const;
 
+/** Exact hero copy from the IIDATECH Wix reference site. */
+export const HERO_WIX = {
+  brand: "IIDA",
+  headline: "Build Your Business in minutes",
+  pipe: "RESEARCH | PLAN | EXECUTE | AUTOMATE",
+  cta: { href: "/login?mode=register", label: "Start Now" },
+  subline:
+    "IIDA is a platform for your business to build, research, analyze, plan and execute your idea in the fastest and the easiest way.",
+} as const;
+
 export const HOME_STEPS = [
   {
     step: "01",
     title: "Research",
-    body: "Generate a sourced market report for your idea or category — competitors, buyers, sizing, and pricing evidence.",
+    body:
+      "Research your business idea in few clicks with 18 topics and 25 sub-topics in a detailed report at a low cost — and understand how your market works.",
     photoId: "market-research" as const,
   },
   {
     step: "02",
-    title: "Plan",
-    body: "Turn research into ICP, GTM, and a structured business or growth plan tied to the same project.",
+    title: "Business Plan",
+    body:
+      "A detailed business plan — submission ready, with 10 topics and sub-topics for your particular idea in a few clicks. Just like Shark Tank!",
     photoId: "presentation" as const,
   },
   {
     step: "03",
-    title: "Execute",
-    body: "Run Employee OS tasks with human approvals, then automate follow-ups across CRM and inbox.",
+    title: "Execution Plan",
+    body:
+      "A detailed 30-page execution plan for your business idea with details like who to hire and options for execution.",
     photoId: "collaboration" as const,
   },
 ];
+
+export const PROCESS_STEPS = [
+  {
+    step: "01",
+    title: "Register",
+    body:
+      "Register your name and email with us and get 30 free credits to try out anything you like on our platform.",
+  },
+  {
+    step: "02",
+    title: "Generate",
+    body:
+      "Input your idea and the fields required (4 fields max) for the tool you want to use from the 6 tools we have, and press generate.",
+  },
+  {
+    step: "03",
+    title: "Get results",
+    body:
+      "Your result will be generated within a minute — whatever you need, right at your fingertips.",
+  },
+] as const;
+
+export const WHY_US = [
+  { title: "Instant", body: "Creates reports within minutes." },
+  { title: "Fully secured", body: "Your idea and data do not get stored with us." },
+  { title: "Time saver", body: "Focus on growth — let us do the groundwork." },
+  { title: "Detailed", body: "18 topics and 24 sub-topics in every research run." },
+  { title: "Focused", body: "Comprehensive answers tailored to your business." },
+  { title: "Affordable", body: "Fast and low-cost so your business can do more." },
+] as const;
 
 export const BY_THE_NUMBERS = [
   { value: "6", label: "Core tools in one workspace" },
