@@ -15,6 +15,8 @@ export const TOOLS: Array<{
   label: string;
   short: string;
   photoId: MarketingPhotoId;
+  accent: string;
+  cardVideo: string;
   founder: { title: string; body: string; inApp: string; output: string };
   company: { title: string; body: string; inApp: string; output: string };
   videoId?: string;
@@ -25,6 +27,8 @@ export const TOOLS: Array<{
     label: "Market Research",
     short: "Research",
     photoId: "market-research",
+    accent: "#0B5FFF",
+    cardVideo: "/marketing/videos/tool-research.mp4",
     videoSrc: "/marketing/videos/research.mp4",
     founder: {
       title: "Market research for founders",
@@ -44,6 +48,8 @@ export const TOOLS: Array<{
     label: "Business Planning",
     short: "Plan",
     photoId: "presentation",
+    accent: "#0D9488",
+    cardVideo: "/marketing/videos/tool-plan.mp4",
     videoSrc: "/marketing/videos/plan.mp4",
     founder: {
       title: "Bank- and investor-ready business plans",
@@ -63,6 +69,8 @@ export const TOOLS: Array<{
     label: "Employee OS",
     short: "Execute",
     photoId: "collaboration",
+    accent: "#EA580C",
+    cardVideo: "/marketing/videos/tool-execute.mp4",
     videoSrc: "/marketing/videos/execute.mp4",
     founder: {
       title: "AI employees that execute your plan",
@@ -82,6 +90,8 @@ export const TOOLS: Array<{
     label: "Automation",
     short: "Automate",
     photoId: "analytics",
+    accent: "#0284C7",
+    cardVideo: "/marketing/videos/tool-automate.mp4",
     videoSrc: "/marketing/videos/automate.mp4",
     founder: {
       title: "Automations that close the loop",
@@ -101,6 +111,8 @@ export const TOOLS: Array<{
     label: "Mentor",
     short: "Mentor",
     photoId: "strategy-meeting",
+    accent: "#059669",
+    cardVideo: "/marketing/videos/tool-mentor.mp4",
     videoSrc: "/marketing/videos/mentor.mp4",
     founder: {
       title: "A mentor that knows your project",
@@ -120,6 +132,8 @@ export const TOOLS: Array<{
     label: "GAUGE Company Audit",
     short: "Gauge",
     photoId: "msme-business",
+    accent: "#E11D48",
+    cardVideo: "/marketing/videos/tool-gauge.mp4",
     videoSrc: "/marketing/videos/gauge.mp4",
     founder: {
       title: "Score your idea before you scale",

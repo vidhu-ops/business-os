@@ -1,13 +1,13 @@
 "use client";
 
 import Link from "next/link";
-import { useEffect, useMemo, useRef, useState } from "react";
+import { Check } from "lucide-react";
+import { useEffect, useRef, useState, type CSSProperties } from "react";
 import { ContactForm } from "./ContactForm";
 import { FrameIllustration, HumanScene, MarketingPhoto } from "./illustrations";
 import { IconClock, IconGlobe, IconMail, IconPhone, IconPin, IconSearch, IconUser } from "./icons";
 import { IndustryBanner } from "./IndustryBanner";
 import { LogoMarquee } from "./LogoMarquee";
-import { MARKETING_PHOTOS } from "./marketingImages";
 import { MarketingShell } from "./MarketingShell";
 import { WorkspaceEntryLink } from "@/components/WorkspaceEntryLink";
 import { SITE_EMAIL, SITE_PHONE, SITE_PHONE_TEL, SITE_WHATSAPP } from "@/lib/site";
@@ -23,8 +23,7 @@ import {
   SOLUTION,
   TOOLS,
   WHY_US,
-  type Audience,
-  type ToolId,
+  type Audience
 } from "./audienceContent";
 
 const PRODUCT_SHOTS = [
@@ -47,14 +46,10 @@ const PRODUCT_SHOTS = [
 
 export function LandingPage() {
   const [audience, setAudience] = useState<Audience>("founder");
-  const [service, setService] = useState<ToolId>("research");
   const heroVideoRef = useRef<HTMLVideoElement | null>(null);
   const copy = AUDIENCE[audience];
   const problem = PROBLEM[audience];
   const solution = SOLUTION[audience];
-  const activeService = useMemo(() => TOOLS.find((t) => t.id === service) ?? TOOLS[0], [service]);
-  const serviceCopy = activeService[audience];
-  const servicePhoto = MARKETING_PHOTOS[activeService.photoId];
   const hero = HERO_WIX[audience];
 
   useEffect(() => {
@@ -128,7 +123,7 @@ export function LandingPage() {
         </div>
       </section>
 
-      <section id="how" className="mkt-wrap mkt-section mkt-section-steps">
+      <section id="how" className="mkt-band mkt-band-steps"><div className="mkt-wrap mkt-section mkt-section-steps">
         <div className="mkt-section-head mkt-section-head-center">
           <span className="mkt-label">What you get</span>
           <h2 className="mkt-h2">Research. Plan. Execute.</h2>
@@ -142,62 +137,58 @@ export function LandingPage() {
             </article>
           ))}
         </div>
+        </div>
       </section>
 
-      <section id="services" className="mkt-wrap mkt-section">
-        <div className="mkt-section-head mkt-section-head-center">
-          <span className="mkt-label">Our services</span>
-          <h2 className="mkt-h2">Six tools. One platform.</h2>
-          <p className="mkt-sub">
-            {audience === "founder"
-              ? "Everything a founder needs to research, plan, and execute — without weeks of consulting."
-              : "Research, planning, ops capacity, and automation for established B2B teams."}
-          </p>
-        </div>
-        <div className="mkt-service-tabs" role="tablist" aria-label="IIDATECH services">
-          {TOOLS.map((t) => (
-            <button
-              key={t.id}
-              type="button"
-              role="tab"
-              aria-selected={service === t.id}
-              className={`mkt-service-tab${service === t.id ? " is-active" : ""}`}
-              onClick={() => setService(t.id)}
-            >
-              {t.short}
-            </button>
-          ))}
-        </div>
-        <article className="mkt-service-detail mkt-service-detail-human" aria-live="polite">
-          <div className="mkt-service-detail-copy">
-            <span className="mkt-tag">{activeService.short.toUpperCase()}</span>
-            <h3 className="mkt-feature-title">{serviceCopy.title}</h3>
-            <p className="mkt-feature-body">{serviceCopy.body}</p>
-            <p className="mkt-service-output">
-              <strong>You get:</strong> {serviceCopy.output}
+      <section id="services" className="mkt-band mkt-band-services">
+        <div className="mkt-wrap mkt-section">
+          <div className="mkt-section-head mkt-section-head-center">
+            <span className="mkt-label">Our services</span>
+            <h2 className="mkt-h2">Six tools. One platform.</h2>
+            <p className="mkt-sub">
+              {audience === "founder"
+                ? "Bold, focused tools for founders — research through execution in one workspace."
+                : "Bold, focused tools for B2B teams — audit, research, plan, and operate in one workspace."}
             </p>
-            <div className="flex flex-wrap gap-2 mt-4">
-              <Link href={`/services/${activeService.id}`} className="iid-btn iid-btn-primary">
-                Try it
-              </Link>
-              <WorkspaceEntryLink className="iid-btn iid-btn-ghost">See demo</WorkspaceEntryLink>
-            </div>
           </div>
-          <div className="mkt-service-detail-media">
-            <figure className="mkt-service-detail-image">
-              {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img
-                key={`${activeService.id}-${audience}`}
-                src={servicePhoto.src}
-                alt={servicePhoto.alt}
-                loading="lazy"
-              />
-            </figure>
+          <div className="mkt-tool-grid">
+            {TOOLS.map((tool) => {
+              const toolCopy = tool[audience];
+              return (
+                <article
+                  key={tool.id}
+                  className="mkt-tool-card"
+                  style={{ ["--tool-accent"]: tool.accent } as CSSProperties}
+                >
+                  <div className="mkt-tool-card-media" aria-hidden="true">
+                    <video
+                      className="mkt-tool-card-video"
+                      src={tool.cardVideo}
+                      autoPlay
+                      muted
+                      loop
+                      playsInline
+                      preload="metadata"
+                    />
+                    <div className="mkt-tool-card-scrim" />
+                  </div>
+                  <div className="mkt-tool-card-body">
+                    <span className="mkt-tool-card-tag">{tool.short}</span>
+                    <h3 className="mkt-tool-card-title">{toolCopy.title}</h3>
+                    <p className="mkt-tool-card-desc">{toolCopy.body}</p>
+                    <p className="mkt-tool-card-output">{toolCopy.output}</p>
+                    <Link href={`/services/${tool.id}`} className="mkt-tool-card-link">
+                      Explore {tool.short} →
+                    </Link>
+                  </div>
+                </article>
+              );
+            })}
           </div>
-        </article>
+        </div>
       </section>
 
-      <section id="about" className="mkt-wrap mkt-section mkt-section-about-human" aria-labelledby="about-heading">
+      <section id="about" className="mkt-band mkt-band-about" aria-labelledby="about-heading"><div className="mkt-wrap mkt-section mkt-section-about-human">
         <div className="mkt-about-human-grid">
           <div className="mkt-section-head">
             <span className="mkt-label">All about us</span>
@@ -237,9 +228,10 @@ export function LandingPage() {
             ))}
           </div>
         </div>
+        </div>
       </section>
 
-      <section id="process" className="mkt-wrap mkt-section mkt-section-process">
+      <section id="process" className="mkt-band mkt-band-process"><div className="mkt-wrap mkt-section mkt-section-process">
         <div className="mkt-section-head mkt-section-head-center">
           <span className="mkt-label">Process</span>
           <h2 className="mkt-h2">It&apos;s as easy as 1, 2, 3</h2>
@@ -256,9 +248,10 @@ export function LandingPage() {
         <Link href="/how-it-works" className="iid-btn iid-btn-ghost mkt-section-cta-inline">
           See the full walkthrough →
         </Link>
+        </div>
       </section>
 
-      <section id="why-us" className="mkt-wrap mkt-section">
+      <section id="why-us" className="mkt-band mkt-band-why"><div className="mkt-wrap mkt-section">
         <div className="mkt-section-head mkt-section-head-center">
           <span className="mkt-label">Why us</span>
           <h2 className="mkt-h2">For a seamless business experience</h2>
@@ -270,6 +263,7 @@ export function LandingPage() {
               <p>{item.body}</p>
             </article>
           ))}
+        </div>
         </div>
       </section>
 
@@ -382,20 +376,77 @@ export function LandingPage() {
         </div>
       </section>
 
-      <section id="pricing" className="mkt-wrap mkt-section">
-        <div className="mkt-cta-banner mkt-cta-banner-human">
-          <span className="mkt-label">Pricing</span>
-          <h2 className="mkt-h2">Start free. Grow when you are ready.</h2>
-          <p className="mkt-sub">
-            30 free credits to try research, plans, Mentor, and Employee OS. Paid and Enterprise options are a quick
-            conversation away.
-          </p>
-          <div className="mkt-hero-cta mkt-cta-banner-actions">
-            <Link href="/pricing" className="iid-btn iid-btn-primary">
-              View pricing
-            </Link>
-            <Link href="/login?mode=register" className="mkt-text-link">
-              Start free
+      <section id="pricing" className="mkt-band mkt-band-pricing">
+        <div className="mkt-wrap mkt-section">
+          <div className="mkt-section-head mkt-section-head-center">
+            <span className="mkt-label">Pricing</span>
+            <h2 className="mkt-h2">Start free. Grow when you are ready.</h2>
+            <p className="mkt-sub">
+              30 free credits to try research, plans, Mentor, and Employee OS. Paid and Enterprise options are a quick conversation away.
+            </p>
+          </div>
+          <div className="mkt-pricing-grid mkt-pricing-grid-3">
+            <article className="mkt-price-card is-featured">
+              <span className="mkt-price-badge">Available now</span>
+              <h3 className="mkt-feature-title">Free</h3>
+              <p className="mkt-price">
+                <span className="mkt-price-currency">&#8377;</span>0<small>to begin</small>
+              </p>
+              <p className="mkt-feature-body">Explore Research, Plan, Mentor, and Employee OS with 30 signup credits.</p>
+              <ul className="mkt-price-list">
+                {["Research, Plan, Mentor, Employee OS", "Demo workspace", "No credit card required"].map((perk) => (
+                  <li key={perk}>
+                    <Check className="h-4 w-4 shrink-0" aria-hidden />
+                    <span>{perk}</span>
+                  </li>
+                ))}
+              </ul>
+              <Link href="/login?mode=register" className="iid-btn iid-btn-primary mkt-price-cta">
+                Start free
+              </Link>
+            </article>
+            <article className="mkt-price-card">
+              <span className="mkt-price-badge">Talk to us</span>
+              <h3 className="mkt-feature-title">Paid plans</h3>
+              <p className="mkt-price">
+                <span className="mkt-price-coming">Starting from — talk to us</span>
+              </p>
+              <p className="mkt-feature-body">Higher limits, integrations, automation builders, and support for growing teams.</p>
+              <ul className="mkt-price-list">
+                {["Core OS tools included", "OAuth integrations", "Higher usage limits"].map((perk) => (
+                  <li key={perk}>
+                    <Check className="h-4 w-4 shrink-0" aria-hidden />
+                    <span>{perk}</span>
+                  </li>
+                ))}
+              </ul>
+              <a href={SITE_WHATSAPP} target="_blank" rel="noreferrer" className="iid-btn iid-btn-primary mkt-price-cta">
+                WhatsApp for quote
+              </a>
+            </article>
+            <article className="mkt-price-card">
+              <span className="mkt-price-badge">Enterprise</span>
+              <h3 className="mkt-feature-title">Enterprise</h3>
+              <p className="mkt-price">
+                <span className="mkt-price-coming">Custom</span>
+              </p>
+              <p className="mkt-feature-body">Custom workflows, security review, dedicated onboarding, and invoice billing.</p>
+              <ul className="mkt-price-list">
+                {["Custom scope & SLA", "Security review", "Dedicated onboarding"].map((perk) => (
+                  <li key={perk}>
+                    <Check className="h-4 w-4 shrink-0" aria-hidden />
+                    <span>{perk}</span>
+                  </li>
+                ))}
+              </ul>
+              <a href={SITE_PHONE_TEL} className="iid-btn iid-btn-ghost mkt-price-cta">
+                Call {SITE_PHONE}
+              </a>
+            </article>
+          </div>
+          <div className="mkt-pricing-home-actions">
+            <Link href="/pricing" className="iid-btn iid-btn-ghost">
+              Full pricing details →
             </Link>
           </div>
         </div>
