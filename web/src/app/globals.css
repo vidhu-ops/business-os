@@ -636,8 +636,8 @@ body {
   display: flex;
   flex-wrap: nowrap;
   align-items: stretch;
-  gap: 0.55rem;
-  width: min(100%, 22.5rem);
+  gap: 1rem;
+  width: min(100%, 24rem);
   margin-bottom: 1.2rem;
 }
 
@@ -682,8 +682,8 @@ body {
   line-height: 1.15;
   text-transform: none;
   cursor: pointer;
-  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.18);
-  transition: background 0.2s ease, border-color 0.2s ease, color 0.2s ease, box-shadow 0.2s ease, transform 0.15s ease;
+  box-shadow: none;
+  transition: background 0.2s ease, border-color 0.2s ease, color 0.2s ease, transform 0.15s ease;
 }
 
 .mkt-hero-audience-btn:hover {
@@ -695,7 +695,7 @@ body {
   background: var(--iid-blue);
   border-color: var(--iid-blue);
   color: #fff;
-  box-shadow: 0 8px 20px rgba(11, 95, 255, 0.38);
+  box-shadow: none;
 }
 
 .mkt-hero-audience-btn:focus-visible {
@@ -6103,25 +6103,29 @@ html.light .mkt-hero-wix--company .mkt-hero-wix-scrim {
 }
 
 .mkt-hero-audience-compact {
-  margin: 0 auto 0.5rem;
-  width: min(100%, 18rem);
+  margin: 0 auto 1.75rem;
+  width: min(100%, 22rem);
+  gap: 1rem;
+  box-shadow: none;
 }
 
 .mkt-hero-wix .mkt-hero-audience-btn {
   color: rgba(248, 250, 252, 0.88);
-  border-color: rgba(255, 255, 255, 0.18);
-  background: rgba(255, 255, 255, 0.08);
+  border-color: rgba(255, 255, 255, 0.28);
+  background: rgba(255, 255, 255, 0.1);
   backdrop-filter: blur(8px);
+  box-shadow: none;
 }
 
 .mkt-hero-wix .mkt-hero-audience-btn.is-active {
   color: #fff;
   background: var(--iid-blue);
   border-color: transparent;
+  box-shadow: none;
 }
 
 .mkt-hero-wix-brand {
-  margin: 0;
+  margin: 0.35rem 0 0;
   font-family: var(--font-display);
   font-size: clamp(2.75rem, 9vw, 4.5rem);
   font-weight: 800;
@@ -6367,51 +6371,62 @@ html.light .mkt-hero-wix-pipe {
 }
 
 .mkt-band-steps {
-  background:
-    radial-gradient(ellipse 90% 70% at 0% 0%, rgba(11, 95, 255, 0.28), transparent 55%),
-    radial-gradient(ellipse 60% 50% at 100% 100%, rgba(125, 211, 252, 0.18), transparent 50%),
-    #0b1424;
-  color: #f8fafc;
+  background: #ffffff;
+  color: #0f172a;
+}
+
+.mkt-band-steps .mkt-h2,
+.mkt-band-steps .mkt-step-card-title {
+  color: #0f172a;
+}
+
+.mkt-band-steps .mkt-sub,
+.mkt-band-steps .mkt-step-card-body {
+  color: #475569;
+}
+
+.mkt-band-steps .mkt-label {
+  color: #0284c7;
+}
+
+.mkt-band-steps .mkt-step-card {
+  background: #ffffff;
+  border-color: #e2e8f0;
+  backdrop-filter: none;
+  box-shadow: none;
 }
 
 .mkt-band-services {
-  background:
-    radial-gradient(ellipse 70% 55% at 15% 10%, rgba(13, 148, 136, 0.28), transparent 55%),
-    radial-gradient(ellipse 65% 50% at 90% 90%, rgba(234, 88, 12, 0.22), transparent 50%),
-    radial-gradient(ellipse 50% 40% at 50% 50%, rgba(11, 95, 255, 0.12), transparent 60%),
-    #071018;
-  color: #f8fafc;
+  background: #f4f1ec;
+  color: #0f172a;
 }
 
 .mkt-band-about {
-  background:
-    radial-gradient(ellipse 80% 60% at 100% 0%, rgba(2, 132, 199, 0.3), transparent 55%),
-    radial-gradient(ellipse 55% 45% at 0% 100%, rgba(11, 95, 255, 0.22), transparent 50%),
-    #0a1628;
-  color: #f8fafc;
+  background: #ffffff;
+  color: #0f172a;
 }
 
 .mkt-band-process {
   background:
-    radial-gradient(ellipse 75% 60% at 0% 20%, rgba(234, 88, 12, 0.28), transparent 55%),
-    radial-gradient(ellipse 50% 40% at 100% 80%, rgba(251, 146, 60, 0.18), transparent 50%),
-    #140e0a;
+    radial-gradient(ellipse 75% 60% at 0% 20%, rgba(234, 88, 12, 0.5), transparent 55%),
+    radial-gradient(ellipse 50% 40% at 100% 80%, rgba(251, 146, 60, 0.32), transparent 50%),
+    linear-gradient(165deg, #1a100c 0%, #140e0a 100%);
   color: #f8fafc;
 }
 
 .mkt-band-why {
   background:
-    radial-gradient(ellipse 70% 55% at 80% 0%, rgba(5, 150, 105, 0.28), transparent 55%),
-    radial-gradient(ellipse 50% 40% at 10% 100%, rgba(45, 212, 191, 0.16), transparent 50%),
-    #071612;
+    radial-gradient(ellipse 70% 55% at 80% 0%, rgba(5, 150, 105, 0.5), transparent 55%),
+    radial-gradient(ellipse 50% 40% at 10% 100%, rgba(45, 212, 191, 0.28), transparent 50%),
+    linear-gradient(165deg, #061612 0%, #071612 100%);
   color: #f8fafc;
 }
 
 .mkt-band-pricing {
   background:
-    radial-gradient(ellipse 70% 55% at 50% 0%, rgba(11, 95, 255, 0.3), transparent 55%),
-    radial-gradient(ellipse 55% 45% at 0% 100%, rgba(13, 148, 136, 0.2), transparent 50%),
-    #08111f;
+    radial-gradient(ellipse 70% 55% at 50% 0%, rgba(11, 95, 255, 0.55), transparent 55%),
+    radial-gradient(ellipse 55% 45% at 0% 100%, rgba(13, 148, 136, 0.35), transparent 50%),
+    linear-gradient(165deg, #06101c 0%, #08111f 100%);
   color: #f8fafc;
 }
 
@@ -6421,6 +6436,7 @@ html.light .mkt-hero-wix-pipe {
 .mkt-band-full .mkt-why-card h3,
 .mkt-band-full .mkt-process-step h3 {
   color: #ffffff;
+  text-shadow: 0 1px 18px rgba(0, 0, 0, 0.35);
 }
 
 .mkt-band-full .mkt-sub,
@@ -6429,7 +6445,7 @@ html.light .mkt-hero-wix-pipe {
 .mkt-band-full .mkt-why-card p,
 .mkt-band-full .mkt-process-step p,
 .mkt-band-full .mkt-about-list li {
-  color: rgba(226, 232, 240, 0.9);
+  color: rgba(248, 250, 252, 0.94);
 }
 
 .mkt-band-full .mkt-label {
@@ -6440,25 +6456,50 @@ html.light .mkt-hero-wix-pipe {
 .mkt-band-full .mkt-why-card,
 .mkt-band-full .mkt-process-step,
 .mkt-band-full .mkt-price-card {
-  background: rgba(255, 255, 255, 0.06);
-  border-color: rgba(255, 255, 255, 0.14);
-  backdrop-filter: blur(10px);
+  background: rgba(8, 15, 28, 0.55);
+  border-color: rgba(255, 255, 255, 0.18);
+  backdrop-filter: blur(12px);
+}
+
+html.light .mkt-band-process,
+html.light .mkt-band-why,
+html.light .mkt-band-pricing {
+  color: #f8fafc;
 }
 
 html.light .mkt-band-steps,
 html.light .mkt-band-services,
-html.light .mkt-band-about,
-html.light .mkt-band-process,
-html.light .mkt-band-why,
-html.light .mkt-band-pricing {
-  /* Keep rich dark Wix-style section plates in both themes */
-  color: #f8fafc;
+html.light .mkt-band-about {
+  color: #0f172a;
+}
+
+/* White Research / Plan / Execute plate — overrides dark band text rules */
+.mkt-band-steps.mkt-band-full .mkt-h2,
+.mkt-band-steps.mkt-band-full .mkt-step-card-title {
+  color: #0f172a;
+  text-shadow: none;
+}
+
+.mkt-band-steps.mkt-band-full .mkt-sub,
+.mkt-band-steps.mkt-band-full .mkt-step-card-body {
+  color: #475569;
+}
+
+.mkt-band-steps.mkt-band-full .mkt-label {
+  color: #0284c7;
+}
+
+.mkt-band-steps.mkt-band-full .mkt-step-card {
+  background: #ffffff;
+  border-color: #e2e8f0;
+  backdrop-filter: none;
+  box-shadow: none;
 }
 
 .mkt-tool-grid {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: clamp(1.1rem, 2.5vw, 1.6rem);
+  gap: clamp(1.25rem, 2.5vw, 1.75rem);
 }
 
 @media (min-width: 1100px) {
@@ -6479,130 +6520,171 @@ html.light .mkt-band-pricing {
   overflow: hidden;
   display: flex;
   flex-direction: column;
-  min-height: clamp(26rem, 48vh, 32rem);
-  border-radius: 1.5rem;
-  border: 1px solid color-mix(in srgb, var(--tool-accent) 40%, rgba(255,255,255,0.12));
-  background: #0a0f18;
-  box-shadow: 0 22px 60px rgba(0, 0, 0, 0.35);
-  transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
+  min-height: 0;
+  border-radius: 1.25rem;
+  border: 1px solid #e2e8f0;
+  background: #ffffff;
+  box-shadow: none;
+  transition: transform 0.2s ease, border-color 0.2s ease;
 }
 
 .mkt-tool-card:hover {
-  transform: translateY(-5px);
-  border-color: color-mix(in srgb, var(--tool-accent) 75%, white);
-  box-shadow: 0 28px 70px color-mix(in srgb, var(--tool-accent) 32%, transparent);
+  transform: translateY(-3px);
+  border-color: color-mix(in srgb, var(--tool-accent) 55%, #e2e8f0);
+  box-shadow: none;
 }
 
 .mkt-tool-card-media {
-  position: absolute;
-  inset: 0;
-  z-index: 0;
+  position: relative;
+  aspect-ratio: 16 / 11;
+  width: 100%;
+  overflow: hidden;
+  background: #e2e8f0;
 }
 
-.mkt-tool-card-video {
-  position: absolute;
-  inset: 0;
+.mkt-tool-card-photo {
   width: 100%;
   height: 100%;
   object-fit: cover;
   object-position: center;
-  opacity: 0.92;
-  filter: saturate(1.1) contrast(1.02) brightness(1.05);
-}
-
-.mkt-tool-card-image {
-  position: absolute;
-  left: 50%;
-  top: 7%;
-  transform: translateX(-50%);
-  width: min(86%, 22rem);
-  height: 42%;
-  object-fit: cover;
-  object-position: top center;
-  border-radius: 0.9rem;
-  border: 1px solid rgba(255, 255, 255, 0.22);
-  box-shadow: 0 16px 36px rgba(0, 0, 0, 0.35);
-  z-index: 2;
-}
-
-.mkt-tool-card-glow {
-  position: absolute;
-  inset: -20%;
-  z-index: 0;
-  background:
-    radial-gradient(circle at 20% 15%, color-mix(in srgb, var(--tool-accent) 55%, transparent), transparent 42%),
-    radial-gradient(circle at 85% 80%, color-mix(in srgb, var(--tool-accent) 35%, transparent), transparent 45%);
-  pointer-events: none;
-}
-
-.mkt-tool-card-scrim {
-  position: absolute;
-  inset: 0;
-  z-index: 1;
-  background:
-    linear-gradient(180deg, rgba(6, 10, 18, 0.05) 0%, rgba(6, 10, 18, 0.12) 36%, rgba(6, 10, 18, 0.72) 72%, rgba(6, 10, 18, 0.9) 100%);
-}
-
-.mkt-tool-card-body {
-  position: relative;
-  z-index: 2;
-  margin-top: auto;
-  display: flex;
-  flex-direction: column;
-  gap: 0.65rem;
-  padding: clamp(1.2rem, 3vw, 1.7rem);
-  color: #f8fafc;
+  display: block;
 }
 
 .mkt-tool-card-tag {
+  position: absolute;
+  left: 0.9rem;
+  top: 0.9rem;
+  z-index: 2;
   display: inline-flex;
   width: fit-content;
-  padding: 0.3rem 0.75rem;
-  border-radius: 0.35rem;
+  padding: 0.35rem 0.8rem;
+  border-radius: 0.4rem;
   font-size: 0.7rem;
   font-weight: 800;
   letter-spacing: 0.1em;
   text-transform: uppercase;
   color: #fff;
   background: var(--tool-accent);
+  box-shadow: none;
+}
+
+.mkt-tool-card-body {
+  position: relative;
+  z-index: 1;
+  margin-top: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.55rem;
+  padding: 1.15rem 1.2rem 1.35rem;
+  color: #0f172a;
 }
 
 .mkt-tool-card-title {
   margin: 0;
   font-family: var(--font-display);
-  font-size: clamp(1.4rem, 2.7vw, 1.85rem);
+  font-size: clamp(1.15rem, 2vw, 1.35rem);
   font-weight: 800;
-  line-height: 1.12;
-  letter-spacing: -0.025em;
-  color: #fff;
+  line-height: 1.2;
+  letter-spacing: -0.02em;
+  color: #0f172a;
+  text-shadow: none;
 }
 
 .mkt-tool-card-desc {
   margin: 0;
-  font-size: clamp(0.95rem, 1.5vw, 1.05rem);
+  font-size: 0.95rem;
   line-height: 1.55;
-  color: rgba(241, 245, 249, 0.92);
+  color: #475569;
 }
 
 .mkt-tool-card-output {
   margin: 0;
-  font-size: 0.9rem;
+  font-size: 0.88rem;
   line-height: 1.5;
-  color: color-mix(in srgb, var(--tool-accent) 65%, #e2e8f0);
+  color: var(--tool-accent);
+  font-weight: 600;
 }
 
 .mkt-tool-card-link {
-  margin-top: 0.35rem;
+  margin-top: 0.25rem;
   font-weight: 700;
   font-size: 0.95rem;
-  color: #fff;
+  color: #0f172a;
   text-decoration: none;
   border-bottom: 2px solid color-mix(in srgb, var(--tool-accent) 85%, white);
   width: fit-content;
 }
 
 .mkt-tool-card-link:hover {
-  color: color-mix(in srgb, var(--tool-accent) 35%, white);
+  color: var(--tool-accent);
+}
+
+/* Services + About light plates */
+.mkt-band-services.mkt-band-full .mkt-h2,
+.mkt-band-about.mkt-band-full .mkt-h2 {
+  color: #0f172a;
+  text-shadow: none;
+}
+
+.mkt-band-services.mkt-band-full .mkt-sub,
+.mkt-band-about.mkt-band-full .mkt-sub,
+.mkt-band-about.mkt-band-full .mkt-about-list li {
+  color: #475569;
+}
+
+.mkt-band-services.mkt-band-full .mkt-label,
+.mkt-band-about.mkt-band-full .mkt-label {
+  color: #0284c7;
+}
+
+.mkt-about-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.65rem;
+  margin-top: 1.35rem;
+}
+
+.mkt-about-people {
+  display: grid;
+  grid-template-columns: 1.2fr 0.8fr;
+  grid-template-rows: 1fr 1fr;
+  gap: 0.75rem;
+  min-height: 28rem;
+}
+
+.mkt-about-people-hero {
+  grid-row: 1 / span 2;
+  margin: 0;
+  border-radius: 1.15rem;
+  overflow: hidden;
+  background: #e2e8f0;
+}
+
+.mkt-about-people-side {
+  margin: 0;
+  border-radius: 1.15rem;
+  overflow: hidden;
+  background: #e2e8f0;
+}
+
+.mkt-about-people img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+@media (max-width: 900px) {
+  .mkt-about-people {
+    min-height: 22rem;
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: 14rem 10rem;
+  }
+
+  .mkt-about-people-hero {
+    grid-column: 1 / -1;
+    grid-row: 1;
+  }
 }
 
 .mkt-pricing-home-actions {
@@ -6668,4 +6750,281 @@ html.light .mkt-band-pricing {
 .mkt-hero-wix-video {
   object-position: center center;
   filter: saturate(1.12) contrast(1.02) brightness(1.08);
+}
+
+/* —— Wix lower-home collage + brand panels —— */
+.mkt-wix-glow {
+  background: #ececef;
+  padding: clamp(2.5rem, 6vw, 4.5rem) 0 clamp(2rem, 4vw, 3rem);
+  overflow: hidden;
+}
+
+.mkt-wix-glow-inner {
+  display: grid;
+  grid-template-columns: minmax(0, 1.35fr) minmax(220px, 0.65fr);
+  gap: clamp(1.5rem, 4vw, 3.5rem);
+  align-items: center;
+}
+
+.mkt-wix-collage {
+  position: relative;
+  min-height: clamp(280px, 42vw, 460px);
+  width: 100%;
+  max-width: 720px;
+}
+
+.mkt-wix-collage-item {
+  position: absolute;
+  object-fit: cover;
+  border-radius: 2px;
+  box-shadow: 0 18px 40px rgba(15, 23, 42, 0.18);
+  animation: mkt-wix-float 7.5s ease-in-out infinite;
+  will-change: transform;
+}
+
+.mkt-wix-collage-item.is-fabric {
+  width: clamp(110px, 16vw, 168px);
+  height: clamp(190px, 28vw, 300px);
+  left: 4%;
+  top: 12%;
+  z-index: 1;
+  animation-delay: 0s;
+}
+
+.mkt-wix-collage-item.is-product {
+  width: clamp(220px, 34vw, 380px);
+  height: clamp(150px, 22vw, 250px);
+  left: 22%;
+  top: 28%;
+  z-index: 3;
+  animation-delay: -2.2s;
+}
+
+.mkt-wix-collage-item.is-portrait {
+  width: clamp(120px, 17vw, 190px);
+  height: clamp(180px, 26vw, 280px);
+  left: 62%;
+  top: 8%;
+  z-index: 2;
+  object-position: center top;
+  animation-delay: -4.1s;
+}
+
+@keyframes mkt-wix-float {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-10px);
+  }
+}
+
+.mkt-wix-glow-actions {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 1rem;
+  padding-left: clamp(0rem, 2vw, 1rem);
+}
+
+.mkt-wix-info-pill {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.45rem 1.15rem;
+  border-radius: 999px;
+  background: #d8c9f0;
+  color: #111;
+  font-size: 0.82rem;
+  font-weight: 600;
+  letter-spacing: 0.01em;
+  text-decoration: none;
+  transition: transform 0.25s ease, background 0.25s ease;
+}
+
+.mkt-wix-info-pill:hover {
+  transform: translateY(-2px);
+  background: #cbb6ea;
+}
+
+.mkt-wix-start-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: clamp(160px, 18vw, 210px);
+  padding: 0.85rem 1.75rem;
+  border-radius: 999px;
+  border: 3px solid #111;
+  background: #fff;
+  color: #111;
+  font-size: clamp(0.95rem, 1.4vw, 1.1rem);
+  font-weight: 800;
+  letter-spacing: 0.06em;
+  text-decoration: none;
+  text-transform: uppercase;
+  transition: transform 0.25s ease, background 0.25s ease, color 0.25s ease;
+}
+
+.mkt-wix-start-btn:hover {
+  transform: translateY(-2px) scale(1.02);
+  background: #111;
+  color: #fff;
+}
+
+.mkt-wix-glow-kicker {
+  margin: 0.35rem 0 0;
+  font-family: var(--font-wix-serif), Georgia, "Times New Roman", serif;
+  font-size: clamp(1.35rem, 2.4vw, 1.85rem);
+  font-weight: 600;
+  color: #1a1a1a;
+  letter-spacing: -0.02em;
+}
+
+.mkt-wix-execute {
+  background: #f4f4f5;
+  padding: clamp(2rem, 5vw, 3.5rem) 0 0;
+}
+
+.mkt-wix-execute-head {
+  text-align: center;
+  margin-bottom: clamp(1.5rem, 3vw, 2.25rem);
+}
+
+.mkt-wix-execute-eyebrow {
+  margin: 0 0 0.65rem;
+  font-size: 0.78rem;
+  font-weight: 800;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: #64748b;
+}
+
+.mkt-wix-execute-title {
+  margin: 0;
+  font-family: var(--font-display), system-ui, sans-serif;
+  font-size: clamp(1.75rem, 4vw, 2.75rem);
+  font-weight: 800;
+  letter-spacing: -0.03em;
+  color: #0f172a;
+}
+
+.mkt-wix-execute-title span {
+  color: #4f46e5;
+}
+
+.mkt-wix-execute-sub {
+  margin: 0.75rem 0 0;
+  font-size: clamp(0.8rem, 1.3vw, 0.95rem);
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: #475569;
+}
+
+.mkt-wix-panels {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  width: 100%;
+}
+
+.mkt-wix-panel {
+  position: relative;
+  min-height: clamp(360px, 52vw, 560px);
+  overflow: hidden;
+  isolation: isolate;
+}
+
+.mkt-wix-panel-image {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transform: scale(1.02);
+  transition: transform 0.85s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.mkt-wix-panel:hover .mkt-wix-panel-image {
+  transform: scale(1.1);
+}
+
+.mkt-wix-panel-scrim {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  background: linear-gradient(
+    180deg,
+    rgba(0, 0, 0, 0.05) 0%,
+    rgba(0, 0, 0, 0.12) 45%,
+    rgba(0, 0, 0, 0.55) 100%
+  );
+  pointer-events: none;
+}
+
+.mkt-wix-panel-copy {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 2;
+  padding: clamp(1.4rem, 3vw, 2.2rem);
+  color: #fff;
+  transform: translateY(0.35rem);
+  opacity: 0.96;
+  transition: transform 0.45s ease, opacity 0.45s ease;
+}
+
+.mkt-wix-panel:hover .mkt-wix-panel-copy {
+  transform: translateY(0);
+  opacity: 1;
+}
+
+.mkt-wix-panel-copy h3 {
+  margin: 0;
+  font-family: var(--font-wix-serif), Georgia, "Times New Roman", serif;
+  font-size: clamp(1.55rem, 2.6vw, 2.15rem);
+  font-weight: 600;
+  letter-spacing: -0.01em;
+  line-height: 1.15;
+}
+
+.mkt-wix-panel-copy p {
+  margin: 0.65rem 0 0;
+  max-width: 28ch;
+  font-size: clamp(0.88rem, 1.3vw, 1rem);
+  line-height: 1.5;
+  color: rgba(255, 255, 255, 0.92);
+}
+
+@media (max-width: 900px) {
+  .mkt-wix-glow-inner {
+    grid-template-columns: 1fr;
+    justify-items: center;
+    text-align: left;
+  }
+
+  .mkt-wix-glow-actions {
+    align-items: center;
+    text-align: center;
+    padding-left: 0;
+  }
+
+  .mkt-wix-panels {
+    grid-template-columns: 1fr;
+  }
+
+  .mkt-wix-panel {
+    min-height: 420px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .mkt-wix-collage-item,
+  .mkt-wix-panel-image,
+  .mkt-wix-panel-copy,
+  .mkt-wix-panel-copy p {
+    animation: none !important;
+    transition: none !important;
+  }
 }

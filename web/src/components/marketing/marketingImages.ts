@@ -22,8 +22,8 @@ export const MARKETING_PHOTOS: Record<
     caption: "Founders planning together",
   },
   "mobile-founder": {
-    src: "https://images.unsplash.com/photo-1512941937669-90a1b58e7e9c?auto=format&fit=crop&w=1200&q=80",
-    alt: "Founder reviewing business insights on a phone",
+    src: "https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&w=1200&q=80",
+    alt: "Founder smiling while working on a laptop",
     caption: "Work from anywhere",
   },
   "strategy-meeting": {
@@ -32,48 +32,48 @@ export const MARKETING_PHOTOS: Record<
     caption: "Strategy sessions",
   },
   "market-research": {
-    src: "https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&w=1200&q=80",
-    alt: "Analyst reviewing market data and charts",
+    src: "https://images.unsplash.com/photo-1551836022-d5d88e9218df?auto=format&fit=crop&w=1200&q=80",
+    alt: "Analyst discussing market insights with a colleague",
     caption: "Market intelligence",
   },
   "msme-business": {
     src: "https://images.unsplash.com/photo-1556761175-5973dc0f32e7?auto=format&fit=crop&w=1200&q=80",
-    alt: "Small business owner at work",
+    alt: "Small business owner talking with their team",
     caption: "Built for MSMEs",
   },
   workspace: {
-    src: "https://images.unsplash.com/photo-1517245386807-bb43f82c33c4?auto=format&fit=crop&w=1200&q=80",
-    alt: "Entrepreneur working on a laptop in a cafe",
+    src: "https://images.unsplash.com/photo-1522202176988-66273c2fd55f?auto=format&fit=crop&w=1200&q=80",
+    alt: "Founders collaborating around a laptop",
     caption: "Your workspace",
   },
   presentation: {
     src: "https://images.unsplash.com/photo-1552664730-d307ca884978?auto=format&fit=crop&w=1200&q=80",
-    alt: "Team presenting business results",
+    alt: "Team presenting business results in a meeting",
     caption: "Investor-ready output",
   },
   collaboration: {
-    src: "https://images.unsplash.com/photo-1573164713714-d95e436ab8d6?auto=format&fit=crop&w=1200&q=80",
-    alt: "Colleagues reviewing documents together",
+    src: "https://images.unsplash.com/photo-1521737711867-e3b97375f902?auto=format&fit=crop&w=1200&q=80",
+    alt: "Colleagues collaborating in a bright office",
     caption: "Shared deliverables",
   },
   analytics: {
-    src: "https://images.unsplash.com/photo-1460925895917-afdab827c52f?auto=format&fit=crop&w=1200&q=80",
-    alt: "Business analytics dashboard on screen",
+    src: "https://images.unsplash.com/photo-1542744173-8e2bd736f0d4?auto=format&fit=crop&w=1200&q=80",
+    alt: "Operators reviewing growth plans together",
     caption: "Data-backed decisions",
   },
-  logistics: {
-    src: "https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?auto=format&fit=crop&w=1200&q=80",
-    alt: "Warehouse and supply chain operations",
-    caption: "Operations & logistics",
-  },
   healthcare: {
-    src: "https://images.unsplash.com/photo-1576091160399-112ba8d25d1d?auto=format&fit=crop&w=1200&q=80",
-    alt: "Healthcare professional using technology",
+    src: "https://images.unsplash.com/photo-1559839734-2b71ea197ec2?auto=format&fit=crop&w=1200&q=80",
+    alt: "Healthcare professional smiling in a clinic",
     caption: "Healthcare verticals",
   },
   retail: {
-    src: "https://images.unsplash.com/photo-1441986300917-64674bd600d8?auto=format&fit=crop&w=1200&q=80",
-    alt: "Retail store with modern merchandising",
+    src: "https://images.unsplash.com/photo-1556740738-b6a63e27c4df?auto=format&fit=crop&w=1200&q=80",
+    alt: "Retail founder helping a customer in store",
     caption: "Retail & D2C",
+  },
+  logistics: {
+    src: "https://images.unsplash.com/photo-1600880292089-90a7e086ee0c?auto=format&fit=crop&w=1200&q=80",
+    alt: "Operations team planning logistics work together",
+    caption: "Operations & logistics",
   },
 };

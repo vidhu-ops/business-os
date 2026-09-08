@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Plus_Jakarta_Sans, Syne } from "next/font/google";
+import { Cormorant_Garamond, Plus_Jakarta_Sans, Syne } from "next/font/google";
 import { ThemeProvider } from "@/components/ThemeProvider";
 import { AnalyticsBeacon } from "@/components/AnalyticsBeacon";
 import { IidaAssistantHost } from "@/components/iida/IidaAssistantHost";
@@ -16,6 +16,12 @@ const syne = Syne({
   variable: "--font-syne",
   subsets: ["latin"],
   weight: ["600", "700", "800"],
+});
+
+const cormorant = Cormorant_Garamond({
+  variable: "--font-wix-serif",
+  subsets: ["latin"],
+  weight: ["500", "600", "700"],
 });
 
 export const metadata: Metadata = {
@@ -63,7 +69,7 @@ export const metadata: Metadata = {
 
 export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
   return (
-    <html lang="en" className={`${jakarta.variable} ${syne.variable} h-full`} suppressHydrationWarning>
+    <html lang="en" className={`${jakarta.variable} ${syne.variable} ${cormorant.variable} h-full`} suppressHydrationWarning>
       <body className="min-h-full antialiased">
         <ThemeProvider>
           {children}

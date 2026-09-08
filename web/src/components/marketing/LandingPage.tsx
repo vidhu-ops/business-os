@@ -4,7 +4,8 @@ import Link from "next/link";
 import { Check } from "lucide-react";
 import { useEffect, useRef, useState, type CSSProperties } from "react";
 import { ContactForm } from "./ContactForm";
-import { FrameIllustration, HumanScene, MarketingPhoto } from "./illustrations";
+import { WixBrandSections } from "./WixBrandSections";
+import { HumanScene, MarketingPhoto } from "./illustrations";
 import { IconClock, IconGlobe, IconMail, IconPhone, IconPin, IconSearch, IconUser } from "./icons";
 import { IndustryBanner } from "./IndustryBanner";
 import { LogoMarquee } from "./LogoMarquee";
@@ -16,7 +17,6 @@ import {
   BY_THE_NUMBERS,
   CLIENT_LOGOS,
   HERO_WIX,
-  SECTION_VIDEOS,
   HOME_STEPS,
   INTEGRATION_LOGOS,
   PROCESS_STEPS,
@@ -26,34 +26,6 @@ import {
   WHY_US,
   type Audience
 } from "./audienceContent";
-
-const PRODUCT_SHOTS = [
-  {
-    src: "/marketing/frames/research.png",
-    alt: "IIDATECH demo market research report",
-    caption: "Market research report",
-  },
-  {
-    src: "/marketing/frames/plan.png",
-    alt: "IIDATECH demo business plan workspace",
-    caption: "Business plan output",
-  },
-  {
-    src: "/marketing/frames/execute.png",
-    alt: "IIDATECH demo Employee OS office",
-    caption: "Execution workspace",
-  },
-] as const;
-
-
-function SectionVideo({ src }: { src: string }) {
-  return (
-    <div className="mkt-section-video" aria-hidden="true">
-      <video className="mkt-section-video-el" src={src} autoPlay muted loop playsInline preload="metadata" />
-      <div className="mkt-section-video-scrim" />
-    </div>
-  );
-}
 
 export function LandingPage() {
   const [audience, setAudience] = useState<Audience>("founder");
@@ -134,7 +106,8 @@ export function LandingPage() {
         </div>
       </section>
 
-      <section id="how" className="mkt-band mkt-band-full mkt-band-steps mkt-band-has-video"><SectionVideo src={SECTION_VIDEOS.steps} /><div className="mkt-wrap mkt-section mkt-section-steps mkt-band-content">
+      <section id="how" className="mkt-band mkt-band-full mkt-band-steps">
+        <div className="mkt-wrap mkt-section mkt-section-steps mkt-band-content">
         <div className="mkt-section-head mkt-section-head-center">
           <span className="mkt-label">What you get</span>
           <h2 className="mkt-h2">Research. Plan. Execute.</h2>
@@ -151,8 +124,7 @@ export function LandingPage() {
         </div>
       </section>
 
-      <section id="services" className="mkt-band mkt-band-full mkt-band-services mkt-band-has-video">
-        <SectionVideo src={SECTION_VIDEOS.services} />
+      <section id="services" className="mkt-band mkt-band-full mkt-band-services">
         <div className="mkt-wrap mkt-section mkt-band-content">
           <div className="mkt-section-head mkt-section-head-center">
             <span className="mkt-label">Our services</span>
@@ -166,30 +138,24 @@ export function LandingPage() {
           <div className="mkt-tool-grid">
             {TOOLS.map((tool) => {
               const toolCopy = tool[audience];
-              const frameSrc = "/marketing/frames/" + (tool.id === "execute" ? "execute" : tool.id) + ".png";
+              const peopleSrc = `/marketing/people/${tool.id === "execute" ? "execute" : tool.id}.jpg`;
               return (
                 <article
                   key={tool.id}
                   className="mkt-tool-card"
                   style={{ ["--tool-accent"]: tool.accent } as CSSProperties}
                 >
-                  <div className="mkt-tool-card-media" aria-hidden="true">
-                    <video
-                      className="mkt-tool-card-video"
-                      src={tool.cardVideo}
-                      autoPlay
-                      muted
-                      loop
-                      playsInline
-                      preload="metadata"
-                    />
+                  <div className="mkt-tool-card-media">
                     {/* eslint-disable-next-line @next/next/no-img-element */}
-                    <img className="mkt-tool-card-image" src={frameSrc} alt="" loading="lazy" />
-                    <div className="mkt-tool-card-glow" />
-                    <div className="mkt-tool-card-scrim" />
+                    <img
+                      className="mkt-tool-card-photo"
+                      src={peopleSrc}
+                      alt=""
+                      loading="lazy"
+                    />
+                    <span className="mkt-tool-card-tag">{tool.short}</span>
                   </div>
                   <div className="mkt-tool-card-body">
-                    <span className="mkt-tool-card-tag">{tool.short}</span>
                     <h3 className="mkt-tool-card-title">{toolCopy.title}</h3>
                     <p className="mkt-tool-card-desc">{toolCopy.body}</p>
                     <p className="mkt-tool-card-output">{toolCopy.output}</p>
@@ -204,50 +170,57 @@ export function LandingPage() {
         </div>
       </section>
 
-      <section id="about" className="mkt-band mkt-band-full mkt-band-about mkt-band-has-video" aria-labelledby="about-heading"><SectionVideo src={SECTION_VIDEOS.about} /><div className="mkt-wrap mkt-section mkt-section-about-human mkt-band-content">
-        <div className="mkt-about-human-grid">
-          <div className="mkt-section-head">
-            <span className="mkt-label">All about us</span>
-            <h2 id="about-heading" className="mkt-h2">
-              Investor-ready plans in minutes — not months.
-            </h2>
-            <p className="mkt-sub">
-              We built IIDATECH for people who need professional business plans but do not have weeks to research
-              markets, create financial models, or write 30-page documents.
-            </p>
-            <p className="mkt-sub" style={{ marginTop: "0.75rem" }}>
-              {copy.aboutBody}
-            </p>
-            <ul className="mkt-about-list">
-              <li>Research your industry and competitors</li>
-              <li>Validate your idea with real market data</li>
-              <li>Create detailed financial projections</li>
-              <li>Build step-by-step execution roadmaps</li>
-              <li>Generate professional documents for individuals and teams</li>
-            </ul>
-            <div className="flex flex-wrap gap-2" style={{ marginTop: "1.25rem" }}>
-              <Link href="/about?audience=founder" className="iid-btn iid-btn-primary">
-                Read more
-              </Link>
-              <Link href="/topics" className="iid-btn iid-btn-ghost">
-                Browse topics
-              </Link>
+      <section id="about" className="mkt-band mkt-band-full mkt-band-about" aria-labelledby="about-heading">
+        <div className="mkt-wrap mkt-section mkt-section-about-human mkt-band-content">
+          <div className="mkt-about-human-grid">
+            <div className="mkt-section-head">
+              <span className="mkt-label">All about us</span>
+              <h2 id="about-heading" className="mkt-h2">
+                Investor-ready plans in minutes — not months.
+              </h2>
+              <p className="mkt-sub">
+                We built IIDATECH for people who need professional business plans but do not have weeks to research
+                markets, create financial models, or write 30-page documents.
+              </p>
+              <p className="mkt-sub" style={{ marginTop: "0.75rem" }}>
+                {copy.aboutBody}
+              </p>
+              <ul className="mkt-about-list">
+                <li>Research your industry and competitors</li>
+                <li>Validate your idea with real market data</li>
+                <li>Create detailed financial projections</li>
+                <li>Build step-by-step execution roadmaps</li>
+                <li>Generate professional documents for individuals and teams</li>
+              </ul>
+              <div className="mkt-about-actions">
+                <Link href="/about?audience=founder" className="iid-btn iid-btn-primary">
+                  Read more
+                </Link>
+                <Link href="/topics" className="iid-btn iid-btn-ghost">
+                  Browse topics
+                </Link>
+              </div>
+            </div>
+            <div className="mkt-about-people" aria-label="People building with IIDATECH">
+              <figure className="mkt-about-people-hero">
+                {/* eslint-disable-next-line @next/next/no-img-element */}
+                <img src="/marketing/people/about-1.jpg" alt="Founders collaborating on a business plan" loading="lazy" />
+              </figure>
+              <figure className="mkt-about-people-side">
+                {/* eslint-disable-next-line @next/next/no-img-element */}
+                <img src="/marketing/people/about-2.jpg" alt="Founder working on a laptop" loading="lazy" />
+              </figure>
+              <figure className="mkt-about-people-side">
+                {/* eslint-disable-next-line @next/next/no-img-element */}
+                <img src="/marketing/people/about-3.jpg" alt="Team collaborating around a laptop" loading="lazy" />
+              </figure>
             </div>
           </div>
-          <div className="mkt-product-shots mkt-product-shots-compact" aria-label="Product screenshots">
-            {PRODUCT_SHOTS.map((shot) => (
-              <figure key={shot.src} className="mkt-product-shot-card">
-                {/* eslint-disable-next-line @next/next/no-img-element */}
-                <img src={shot.src} alt={shot.alt} loading="lazy" />
-                <figcaption>{shot.caption}</figcaption>
-              </figure>
-            ))}
-          </div>
-        </div>
         </div>
       </section>
 
-      <section id="process" className="mkt-band mkt-band-full mkt-band-process mkt-band-has-video"><SectionVideo src={SECTION_VIDEOS.process} /><div className="mkt-wrap mkt-section mkt-section-process mkt-band-content">
+      <section id="process" className="mkt-band mkt-band-full mkt-band-process">
+        <div className="mkt-wrap mkt-section mkt-section-process mkt-band-content">
         <div className="mkt-section-head mkt-section-head-center">
           <span className="mkt-label">Process</span>
           <h2 className="mkt-h2">It&apos;s as easy as 1, 2, 3</h2>
@@ -267,7 +240,8 @@ export function LandingPage() {
         </div>
       </section>
 
-      <section id="why-us" className="mkt-band mkt-band-full mkt-band-why mkt-band-has-video"><SectionVideo src={SECTION_VIDEOS.why} /><div className="mkt-wrap mkt-section mkt-band-content">
+      <section id="why-us" className="mkt-band mkt-band-full mkt-band-why">
+        <div className="mkt-wrap mkt-section mkt-band-content">
         <div className="mkt-section-head mkt-section-head-center">
           <span className="mkt-label">Why us</span>
           <h2 className="mkt-h2">For a seamless business experience</h2>
@@ -384,16 +358,11 @@ export function LandingPage() {
             <h2 className="mkt-h2">{solution.title}</h2>
             <p className="mkt-sub">{solution.body}</p>
           </div>
-          <FrameIllustration
-            src="/marketing/frames/automate.png"
-            alt="IIDATECH automation workflows connecting CRM, inbox, and reporting"
-            className="mkt-features-visual"
-          />
+          <MarketingPhoto id="analytics" className="mkt-features-visual" rounded="lg" />
         </div>
       </section>
 
-      <section id="pricing" className="mkt-band mkt-band-full mkt-band-pricing mkt-band-has-video">
-        <SectionVideo src={SECTION_VIDEOS.pricing} />
+      <section id="pricing" className="mkt-band mkt-band-full mkt-band-pricing">
         <div className="mkt-wrap mkt-section mkt-band-content">
           <div className="mkt-section-head mkt-section-head-center">
             <span className="mkt-label">Pricing</span>
@@ -468,6 +437,8 @@ export function LandingPage() {
           </div>
         </div>
       </section>
+
+      <WixBrandSections />
 
       <section id="contact" className="mkt-wrap mkt-section">
         <div className="mkt-section-head mkt-section-head-center">
