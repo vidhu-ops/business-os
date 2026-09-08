@@ -6397,8 +6397,8 @@ html.light .mkt-hero-wix-pipe {
 }
 
 .mkt-band-services {
-  background: #f4f1ec;
-  color: #0f172a;
+  background: #0a1420;
+  color: #f8fafc;
 }
 
 .mkt-band-about {
@@ -6407,10 +6407,7 @@ html.light .mkt-hero-wix-pipe {
 }
 
 .mkt-band-process {
-  background:
-    radial-gradient(ellipse 75% 60% at 0% 20%, rgba(234, 88, 12, 0.5), transparent 55%),
-    radial-gradient(ellipse 50% 40% at 100% 80%, rgba(251, 146, 60, 0.32), transparent 50%),
-    linear-gradient(165deg, #1a100c 0%, #140e0a 100%);
+  background: #0a1420;
   color: #f8fafc;
 }
 
@@ -6463,12 +6460,12 @@ html.light .mkt-hero-wix-pipe {
 
 html.light .mkt-band-process,
 html.light .mkt-band-why,
-html.light .mkt-band-pricing {
+html.light .mkt-band-pricing,
+html.light .mkt-band-services {
   color: #f8fafc;
 }
 
 html.light .mkt-band-steps,
-html.light .mkt-band-services,
 html.light .mkt-band-about {
   color: #0f172a;
 }
@@ -6620,21 +6617,44 @@ html.light .mkt-band-about {
 }
 
 /* Services + About light plates */
-.mkt-band-services.mkt-band-full .mkt-h2,
+.mkt-band-services.mkt-band-has-video .mkt-h2,
+.mkt-band-process.mkt-band-has-video .mkt-h2 {
+  color: #ffffff;
+  text-shadow: 0 1px 18px rgba(0, 0, 0, 0.35);
+}
+
+.mkt-band-services.mkt-band-has-video .mkt-sub,
+.mkt-band-process.mkt-band-has-video .mkt-sub {
+  color: rgba(248, 250, 252, 0.94);
+}
+
+.mkt-band-services.mkt-band-has-video .mkt-label,
+.mkt-band-process.mkt-band-has-video .mkt-label {
+  color: #7dd3fc;
+}
+
 .mkt-band-about.mkt-band-full .mkt-h2 {
   color: #0f172a;
   text-shadow: none;
 }
 
-.mkt-band-services.mkt-band-full .mkt-sub,
 .mkt-band-about.mkt-band-full .mkt-sub,
 .mkt-band-about.mkt-band-full .mkt-about-list li {
   color: #475569;
 }
 
-.mkt-band-services.mkt-band-full .mkt-label,
 .mkt-band-about.mkt-band-full .mkt-label {
   color: #0284c7;
+}
+
+.mkt-band-has-video-light .mkt-section-video-scrim {
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.18) 0%, rgba(15, 23, 42, 0.28) 42%, rgba(15, 23, 42, 0.62) 100%),
+    radial-gradient(ellipse 70% 50% at 50% 0%, rgba(255, 255, 255, 0.2), transparent 55%);
+}
+
+.mkt-band-has-video-light .mkt-section-video-el {
+  filter: saturate(1.05) brightness(1.18);
 }
 
 .mkt-about-actions {
@@ -7026,5 +7046,157 @@ html.light .mkt-band-about {
   .mkt-wix-panel-copy p {
     animation: none !important;
     transition: none !important;
+  }
+}
+
+/* —— Wix "Want more details?" A–E cards —— */
+.mkt-wix-details {
+  background: #e8e8ea;
+  padding: clamp(2.5rem, 6vw, 4.5rem) 0;
+  overflow: hidden;
+}
+
+.mkt-wix-details-inner {
+  position: relative;
+}
+
+.mkt-wix-details-head {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 1.5rem;
+  margin-bottom: clamp(1.5rem, 3vw, 2.25rem);
+  flex-wrap: wrap;
+}
+
+.mkt-wix-details-title {
+  margin: 0;
+  font-family: var(--font-display);
+  font-size: clamp(1.75rem, 4vw, 2.6rem);
+  font-weight: 800;
+  letter-spacing: -0.03em;
+  color: #0f172a;
+}
+
+.mkt-wix-details-actions {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 0.75rem;
+}
+
+.mkt-wix-details-grid {
+  display: grid;
+  grid-template-columns: repeat(6, minmax(0, 1fr));
+  gap: 1rem;
+  align-items: stretch;
+}
+
+.mkt-wix-detail-card {
+  position: relative;
+  min-height: 16.5rem;
+  padding: 1.25rem 1.2rem 1.35rem;
+  border-radius: 1.15rem;
+  background:
+    radial-gradient(ellipse 80% 60% at 90% 100%, rgba(124, 58, 237, 0.35), transparent 55%),
+    radial-gradient(ellipse 50% 40% at 10% 0%, rgba(59, 130, 246, 0.18), transparent 50%),
+    linear-gradient(160deg, #1a1d24 0%, #0f1218 100%);
+  color: #f8fafc;
+  overflow: hidden;
+  box-shadow: none;
+  border: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+.mkt-wix-detail-card.is-a {
+  grid-column: 1 / span 2;
+}
+
+.mkt-wix-detail-card.is-b {
+  grid-column: 3 / span 2;
+}
+
+.mkt-wix-detail-card.is-c {
+  grid-column: 5 / span 2;
+}
+
+.mkt-wix-detail-card.is-d {
+  grid-column: 2 / span 2;
+  margin-top: -1.25rem;
+  z-index: 2;
+}
+
+.mkt-wix-detail-card.is-e {
+  grid-column: 4 / span 2;
+  margin-top: -1.25rem;
+  z-index: 2;
+}
+
+.mkt-wix-detail-letter {
+  position: absolute;
+  top: 0.55rem;
+  left: 0.85rem;
+  font-family: var(--font-display);
+  font-size: clamp(3.5rem, 7vw, 5rem);
+  font-weight: 300;
+  line-height: 1;
+  letter-spacing: -0.04em;
+  color: rgba(255, 255, 255, 0.14);
+  pointer-events: none;
+}
+
+.mkt-wix-detail-copy {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 0.65rem;
+  height: 100%;
+  padding-top: 2.75rem;
+}
+
+.mkt-wix-detail-copy h3 {
+  margin: 0;
+  font-size: 0.78rem;
+  font-weight: 800;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: #fff;
+}
+
+.mkt-wix-detail-copy p {
+  margin: 0;
+  font-size: 0.92rem;
+  line-height: 1.55;
+  color: rgba(226, 232, 240, 0.9);
+}
+
+.mkt-wix-detail-icon {
+  margin-top: auto;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 2.15rem;
+  height: 2.15rem;
+  border-radius: 0.45rem;
+  background: #7c3aed;
+  color: #fff;
+}
+
+@media (max-width: 900px) {
+  .mkt-wix-details-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .mkt-wix-detail-card.is-a,
+  .mkt-wix-detail-card.is-b,
+  .mkt-wix-detail-card.is-c,
+  .mkt-wix-detail-card.is-d,
+  .mkt-wix-detail-card.is-e {
+    grid-column: 1;
+    margin-top: 0;
+  }
+
+  .mkt-wix-details-actions {
+    align-items: flex-start;
   }
 }

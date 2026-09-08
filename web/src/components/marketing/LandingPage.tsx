@@ -5,6 +5,7 @@ import { Check } from "lucide-react";
 import { useEffect, useRef, useState, type CSSProperties } from "react";
 import { ContactForm } from "./ContactForm";
 import { WixBrandSections } from "./WixBrandSections";
+import { WixDetailCards } from "./WixDetailCards";
 import { HumanScene, MarketingPhoto } from "./illustrations";
 import { IconClock, IconGlobe, IconMail, IconPhone, IconPin, IconSearch, IconUser } from "./icons";
 import { IndustryBanner } from "./IndustryBanner";
@@ -21,11 +22,21 @@ import {
   INTEGRATION_LOGOS,
   PROCESS_STEPS,
   PROBLEM,
+  SECTION_VIDEOS,
   SOLUTION,
   TOOLS,
   WHY_US,
   type Audience
 } from "./audienceContent";
+
+function SectionVideo({ src }: { src: string }) {
+  return (
+    <div className="mkt-section-video" aria-hidden="true">
+      <video className="mkt-section-video-el" src={src} autoPlay muted loop playsInline preload="metadata" />
+      <div className="mkt-section-video-scrim" />
+    </div>
+  );
+}
 
 export function LandingPage() {
   const [audience, setAudience] = useState<Audience>("founder");
@@ -124,7 +135,8 @@ export function LandingPage() {
         </div>
       </section>
 
-      <section id="services" className="mkt-band mkt-band-full mkt-band-services">
+      <section id="services" className="mkt-band mkt-band-full mkt-band-services mkt-band-has-video">
+        <SectionVideo src={SECTION_VIDEOS.services} />
         <div className="mkt-wrap mkt-section mkt-band-content">
           <div className="mkt-section-head mkt-section-head-center">
             <span className="mkt-label">Our services</span>
@@ -219,7 +231,8 @@ export function LandingPage() {
         </div>
       </section>
 
-      <section id="process" className="mkt-band mkt-band-full mkt-band-process">
+      <section id="process" className="mkt-band mkt-band-full mkt-band-process mkt-band-has-video mkt-band-has-video-light">
+        <SectionVideo src={SECTION_VIDEOS.process} />
         <div className="mkt-wrap mkt-section mkt-section-process mkt-band-content">
         <div className="mkt-section-head mkt-section-head-center">
           <span className="mkt-label">Process</span>
@@ -239,6 +252,8 @@ export function LandingPage() {
         </Link>
         </div>
       </section>
+
+      <WixDetailCards />
 
       <section id="why-us" className="mkt-band mkt-band-full mkt-band-why">
         <div className="mkt-wrap mkt-section mkt-band-content">

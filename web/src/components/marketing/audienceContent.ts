@@ -207,7 +207,8 @@ export const SECTION_VIDEOS = {
   steps: "/marketing/videos/section-steps.mp4",
   services: "/marketing/videos/section-services.mp4",
   about: "/marketing/videos/section-about.mp4",
-  process: "/marketing/videos/section-process.mp4",
+  /** Prefer a light plate behind Process */
+  process: "/marketing/videos/section-steps.mp4",
   why: "/marketing/videos/section-why.mp4",
   pricing: "/marketing/videos/section-pricing.mp4",
 } as const;
