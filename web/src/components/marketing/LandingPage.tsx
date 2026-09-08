@@ -69,7 +69,7 @@ export function LandingPage() {
   return (
     <MarketingShell>
       <section
-        className={`mkt-wrap mkt-hero mkt-hero-wix mkt-hero-wix--${audience}`}
+        className={`mkt-hero mkt-hero-wix mkt-hero-wix--${audience}`}
         aria-labelledby="hero-heading"
       >
         <div className="mkt-hero-wix-media" aria-hidden="true">

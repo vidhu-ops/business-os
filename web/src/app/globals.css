@@ -5994,6 +5994,18 @@ html.light .iida-theme-welcome-btn-light {
 }
 
 /* —— Wix-inspired marketing homepage —— */
+.mkt-hero.mkt-hero-wix {
+  width: 100%;
+  max-width: none;
+  margin: 0;
+  border: 0;
+  border-radius: 0;
+  box-shadow: none;
+  min-height: min(100svh, 56rem);
+  min-height: 100svh;
+  padding: clamp(3rem, 8vh, 5.5rem) clamp(1.25rem, 5vw, 3rem);
+}
+
 .mkt-hero-wix {
   position: relative;
   overflow: hidden;
@@ -6001,16 +6013,22 @@ html.light .iida-theme-welcome-btn-light {
   align-items: center;
   justify-content: center;
   text-align: center;
-  min-height: clamp(26rem, 68vh, 38rem);
-  padding: clamp(2.5rem, 6vw, 4.5rem) clamp(1.25rem, 4vw, 2.5rem);
   background: #07111f;
-  border-color: color-mix(in srgb, var(--iid-blue) 22%, var(--iid-line));
   color: #f8fafc;
 }
 
 html.light .mkt-hero-wix {
   background: #07111f;
   color: #f8fafc;
+}
+
+@media (max-width: 640px) {
+  .mkt-hero.mkt-hero-wix {
+    margin: 0;
+    border-radius: 0;
+    min-height: 100svh;
+    padding: 2.5rem 1.1rem 3rem;
+  }
 }
 
 .mkt-hero-wix-media {
