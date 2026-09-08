@@ -123,7 +123,7 @@ export function LandingPage() {
         </div>
       </section>
 
-      <section id="how" className="mkt-band mkt-band-steps"><div className="mkt-wrap mkt-section mkt-section-steps">
+      <section id="how" className="mkt-band mkt-band-full mkt-band-steps"><div className="mkt-wrap mkt-section mkt-section-steps">
         <div className="mkt-section-head mkt-section-head-center">
           <span className="mkt-label">What you get</span>
           <h2 className="mkt-h2">Research. Plan. Execute.</h2>
@@ -140,7 +140,7 @@ export function LandingPage() {
         </div>
       </section>
 
-      <section id="services" className="mkt-band mkt-band-services">
+      <section id="services" className="mkt-band mkt-band-full mkt-band-services">
         <div className="mkt-wrap mkt-section">
           <div className="mkt-section-head mkt-section-head-center">
             <span className="mkt-label">Our services</span>
@@ -154,6 +154,7 @@ export function LandingPage() {
           <div className="mkt-tool-grid">
             {TOOLS.map((tool) => {
               const toolCopy = tool[audience];
+              const frameSrc = "/marketing/frames/" + (tool.id === "execute" ? "execute" : tool.id) + ".png";
               return (
                 <article
                   key={tool.id}
@@ -170,6 +171,9 @@ export function LandingPage() {
                       playsInline
                       preload="metadata"
                     />
+                    {/* eslint-disable-next-line @next/next/no-img-element */}
+                    <img className="mkt-tool-card-image" src={frameSrc} alt="" loading="lazy" />
+                    <div className="mkt-tool-card-glow" />
                     <div className="mkt-tool-card-scrim" />
                   </div>
                   <div className="mkt-tool-card-body">
@@ -177,7 +181,7 @@ export function LandingPage() {
                     <h3 className="mkt-tool-card-title">{toolCopy.title}</h3>
                     <p className="mkt-tool-card-desc">{toolCopy.body}</p>
                     <p className="mkt-tool-card-output">{toolCopy.output}</p>
-                    <Link href={`/services/${tool.id}`} className="mkt-tool-card-link">
+                    <Link href={"/services/" + tool.id} className="mkt-tool-card-link">
                       Explore {tool.short} →
                     </Link>
                   </div>
@@ -188,7 +192,7 @@ export function LandingPage() {
         </div>
       </section>
 
-      <section id="about" className="mkt-band mkt-band-about" aria-labelledby="about-heading"><div className="mkt-wrap mkt-section mkt-section-about-human">
+      <section id="about" className="mkt-band mkt-band-full mkt-band-about" aria-labelledby="about-heading"><div className="mkt-wrap mkt-section mkt-section-about-human">
         <div className="mkt-about-human-grid">
           <div className="mkt-section-head">
             <span className="mkt-label">All about us</span>
@@ -231,7 +235,7 @@ export function LandingPage() {
         </div>
       </section>
 
-      <section id="process" className="mkt-band mkt-band-process"><div className="mkt-wrap mkt-section mkt-section-process">
+      <section id="process" className="mkt-band mkt-band-full mkt-band-process"><div className="mkt-wrap mkt-section mkt-section-process">
         <div className="mkt-section-head mkt-section-head-center">
           <span className="mkt-label">Process</span>
           <h2 className="mkt-h2">It&apos;s as easy as 1, 2, 3</h2>
@@ -251,7 +255,7 @@ export function LandingPage() {
         </div>
       </section>
 
-      <section id="why-us" className="mkt-band mkt-band-why"><div className="mkt-wrap mkt-section">
+      <section id="why-us" className="mkt-band mkt-band-full mkt-band-why"><div className="mkt-wrap mkt-section">
         <div className="mkt-section-head mkt-section-head-center">
           <span className="mkt-label">Why us</span>
           <h2 className="mkt-h2">For a seamless business experience</h2>
@@ -376,7 +380,7 @@ export function LandingPage() {
         </div>
       </section>
 
-      <section id="pricing" className="mkt-band mkt-band-pricing">
+      <section id="pricing" className="mkt-band mkt-band-full mkt-band-pricing">
         <div className="mkt-wrap mkt-section">
           <div className="mkt-section-head mkt-section-head-center">
             <span className="mkt-label">Pricing</span>
