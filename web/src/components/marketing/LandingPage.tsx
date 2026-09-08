@@ -57,7 +57,23 @@ export function LandingPage() {
 
   return (
     <MarketingShell>
-      <section className="mkt-wrap mkt-hero mkt-hero-wix" aria-labelledby="hero-heading">
+      <section
+        className={`mkt-wrap mkt-hero mkt-hero-wix mkt-hero-wix--${audience}`}
+        aria-labelledby="hero-heading"
+      >
+        <div className="mkt-hero-wix-media" aria-hidden="true">
+          <video
+            key={HERO_WIX[audience].videoSrc}
+            className="mkt-hero-wix-video"
+            src={HERO_WIX[audience].videoSrc}
+            autoPlay
+            muted
+            loop
+            playsInline
+            preload="metadata"
+          />
+          <div className="mkt-hero-wix-scrim" />
+        </div>
         <div className="mkt-hero-wix-glow" aria-hidden="true" />
         <div className="mkt-hero-wix-inner">
           <div className="mkt-hero-audience mkt-hero-audience-compact" role="group" aria-label="Choose how to read IIDATECH">
@@ -79,17 +95,19 @@ export function LandingPage() {
             </button>
           </div>
 
-          <p className="mkt-hero-wix-brand" aria-hidden="true">{HERO_WIX.brand}</p>
+          <p className="mkt-hero-wix-brand" aria-hidden="true">
+            {HERO_WIX.brand}
+          </p>
           <h1 id="hero-heading" className="mkt-hero-wix-headline">
-            {HERO_WIX.headline}
+            {HERO_WIX[audience].headline}
           </h1>
-          <p className="mkt-hero-wix-pipe">{HERO_WIX.pipe}</p>
+          <p className="mkt-hero-wix-pipe">{HERO_WIX[audience].pipe}</p>
           <div className="mkt-hero-cta mkt-hero-wix-cta">
-            <Link href={HERO_WIX.cta.href} className="iid-btn iid-btn-primary mkt-hero-wix-btn">
-              {HERO_WIX.cta.label}
+            <Link href={HERO_WIX[audience].cta.href} className="iid-btn iid-btn-primary mkt-hero-wix-btn">
+              {HERO_WIX[audience].cta.label}
             </Link>
           </div>
-          <p className="mkt-hero-wix-subline">{HERO_WIX.subline}</p>
+          <p className="mkt-hero-wix-subline">{HERO_WIX[audience].subline}</p>
         </div>
       </section>
 
@@ -419,7 +437,7 @@ export function LandingPage() {
           <p className="mkt-sub">{copy.trustLine}</p>
           <div className="mkt-hero-cta mkt-cta-banner-actions">
             <Link href={copy.primaryCta.href} className="iid-btn iid-btn-primary">
-              {HERO_WIX.cta.label}
+              {HERO_WIX[audience].cta.label}
             </Link>
             <WorkspaceEntryLink href={copy.secondaryCta.href} className="mkt-text-link">
               See demo

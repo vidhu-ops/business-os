@@ -187,14 +187,25 @@ export const AUDIENCE = {
   },
 } as const;
 
-/** Exact hero copy from the IIDATECH Wix reference site. */
+/** Hero copy + background video per Individual / Company toggle. */
 export const HERO_WIX = {
   brand: "IIDA",
-  headline: "Build Your Business in minutes",
-  pipe: "RESEARCH | PLAN | EXECUTE | AUTOMATE",
-  cta: { href: "/login?mode=register", label: "Start Now" },
-  subline:
-    "IIDA is a platform for your business to build, research, analyze, plan and execute your idea in the fastest and the easiest way.",
+  founder: {
+    headline: "Turn your idea into a real business",
+    pipe: "RESEARCH | PLAN | EXECUTE | AUTOMATE",
+    subline:
+      "For founders and solo builders — get sourced market research, a bank-ready plan, and AI employees that help you ship the next step without hiring a full team.",
+    videoSrc: "/marketing/videos/hero-individual.mp4",
+    cta: { href: "/login?mode=register", label: "Start Now" },
+  },
+  company: {
+    headline: "Grow what you already run",
+    pipe: "AUDIT | RESEARCH | PLAN | OPERATE",
+    subline:
+      "For established B2B teams — score company health with GAUGE, keep market intelligence current, and add approved AI ops capacity across research, CRM, and workflows.",
+    videoSrc: "/marketing/videos/hero-company.mp4",
+    cta: { href: "/login?intent=audit&mode=register", label: "Start Now" },
+  },
 } as const;
 
 export const HOME_STEPS = [
