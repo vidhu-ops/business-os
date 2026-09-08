@@ -211,6 +211,7 @@ export const SECTION_VIDEOS = {
   process: "/marketing/videos/section-steps.mp4",
   why: "/marketing/videos/section-why.mp4",
   pricing: "/marketing/videos/section-pricing.mp4",
+  integrations: "/marketing/videos/section-services.mp4",
 } as const;
 
 /** Hero copy + background video per Individual / Company toggle. */
@@ -218,7 +219,12 @@ export const HERO_WIX = {
   brand: "IIDA",
   founder: {
     headline: "Turn your idea into a real business",
-    pipe: "RESEARCH | PLAN | EXECUTE | AUTOMATE",
+    pipe: [
+      { label: "RESEARCH", href: "/services/research" },
+      { label: "PLAN", href: "/services/plan" },
+      { label: "EXECUTE", href: "/services/execute" },
+      { label: "AUTOMATE", href: "/services/automate" },
+    ],
     subline:
       "For founders and solo builders — get sourced market research, a bank-ready plan, and AI employees that help you ship the next step without hiring a full team.",
     videoSrc: "/marketing/videos/hero-individual.mp4",
@@ -226,7 +232,12 @@ export const HERO_WIX = {
   },
   company: {
     headline: "Grow what you already run",
-    pipe: "AUDIT | RESEARCH | PLAN | OPERATE",
+    pipe: [
+      { label: "AUDIT", href: "/services/gauge" },
+      { label: "RESEARCH", href: "/services/research" },
+      { label: "PLAN", href: "/services/plan" },
+      { label: "OPERATE", href: "/services/execute" },
+    ],
     subline:
       "For established B2B teams — score company health with GAUGE, keep market intelligence current, and add approved AI ops capacity across research, CRM, and workflows.",
     videoSrc: "/marketing/videos/hero-company.mp4",

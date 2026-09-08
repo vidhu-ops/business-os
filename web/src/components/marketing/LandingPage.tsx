@@ -30,9 +30,44 @@ import {
 } from "./audienceContent";
 
 function SectionVideo({ src }: { src: string }) {
+  const ref = useRef<HTMLVideoElement | null>(null);
+
+  useEffect(() => {
+    const el = ref.current;
+    if (!el) return;
+    const io = new IntersectionObserver(
+      (entries) => {
+        for (const entry of entries) {
+          if (entry.isIntersecting) {
+            if (!el.src) {
+              el.src = src;
+              el.load();
+            }
+            void el.play().catch(() => {
+              /* muted autoplay usually works once in view */
+            });
+          } else {
+            el.pause();
+          }
+        }
+      },
+      { rootMargin: "200px 0px", threshold: 0.05 }
+    );
+    io.observe(el);
+    return () => io.disconnect();
+  }, [src]);
+
   return (
     <div className="mkt-section-video" aria-hidden="true">
-      <video className="mkt-section-video-el" src={src} autoPlay muted loop playsInline preload="metadata" />
+      <video
+        ref={ref}
+        className="mkt-section-video-el"
+        muted
+        loop
+        playsInline
+        preload="none"
+        data-src={src}
+      />
       <div className="mkt-section-video-scrim" />
     </div>
   );
@@ -76,7 +111,7 @@ export function LandingPage() {
             muted
             loop
             playsInline
-            preload="auto"
+            preload="metadata"
           />
           <div className="mkt-hero-wix-scrim" />
         </div>
@@ -107,7 +142,13 @@ export function LandingPage() {
           <h1 id="hero-heading" className="mkt-hero-wix-headline">
             {hero.headline}
           </h1>
-          <p className="mkt-hero-wix-pipe">{hero.pipe}</p>
+          <div className="mkt-hero-wix-pipe" role="navigation" aria-label="Core product links">
+            {hero.pipe.map((item) => (
+              <Link key={item.href + item.label} href={item.href} className="mkt-hero-pipe-btn">
+                {item.label}
+              </Link>
+            ))}
+          </div>
           <div className="mkt-hero-cta mkt-hero-wix-cta">
             <Link href={hero.cta.href} className="iid-btn iid-btn-primary mkt-hero-wix-btn">
               {hero.cta.label}
@@ -310,30 +351,40 @@ export function LandingPage() {
           <span className="mkt-label">Partners</span>
           <h2 className="mkt-h2">Built by creators, for creators</h2>
         </div>
-        <LogoMarquee
-          items={CLIENT_LOGOS}
-          ariaLabel="Early operator and client partners"
-          itemClassName="mkt-logo-marquee-item-client"
-        />
+        <div className="mkt-wrap mkt-partner-spotlight" aria-label="Featured partners">
+          {CLIENT_LOGOS.slice(0, 3).map((logo) => (
+            <div key={logo.name} className="mkt-partner-spotlight-item">
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img src={logo.src} alt={`${logo.name} logo`} loading="lazy" />
+            </div>
+          ))}
+        </div>
         <div className="mkt-wrap">
           <Link href="/partners" className="iid-btn iid-btn-ghost mkt-section-cta-inline">
-            Become a partner →
+            See all partners →
           </Link>
         </div>
       </section>
 
-      <section id="integrations" className="mkt-section mkt-integrations-section" aria-labelledby="integrations-heading">
-        <div className="mkt-wrap mkt-section-head mkt-section-head-center">
-          <span className="mkt-label">Integrations</span>
-          <h2 id="integrations-heading" className="mkt-h2">
-            All the tools you need in one platform
-          </h2>
+      <section
+        id="integrations"
+        className="mkt-band mkt-band-full mkt-band-integrations mkt-band-has-video mkt-band-has-video-light"
+        aria-labelledby="integrations-heading"
+      >
+        <SectionVideo src={SECTION_VIDEOS.integrations} />
+        <div className="mkt-wrap mkt-section mkt-band-content">
+          <div className="mkt-section-head mkt-section-head-center">
+            <span className="mkt-label">Integrations</span>
+            <h2 id="integrations-heading" className="mkt-h2">
+              All the tools you need in one platform
+            </h2>
+          </div>
+          <LogoMarquee
+            items={INTEGRATION_LOGOS}
+            ariaLabel="IIDATECH product integrations"
+            itemClassName="mkt-logo-marquee-item-integration"
+          />
         </div>
-        <LogoMarquee
-          items={INTEGRATION_LOGOS}
-          ariaLabel="IIDATECH product integrations"
-          itemClassName="mkt-logo-marquee-item-integration"
-        />
       </section>
 
       <section id="why" className="mkt-wrap mkt-section">

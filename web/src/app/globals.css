@@ -6148,18 +6148,42 @@ html.light .mkt-hero-wix--company .mkt-hero-wix-scrim {
 }
 
 .mkt-hero-wix-pipe {
-  margin: 0.35rem 0 0;
-  font-size: clamp(0.68rem, 2vw, 0.82rem);
-  font-weight: 700;
-  letter-spacing: 0.18em;
+  margin: 0.5rem 0 0;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: 0.45rem;
+}
+
+.mkt-hero-pipe-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 1.85rem;
+  padding: 0.28rem 0.75rem;
+  border-radius: 999px;
+  border: 1px solid rgba(255, 255, 255, 0.35);
+  background: rgba(255, 255, 255, 0.12);
+  color: #e0f2fe;
+  font-size: 0.68rem;
+  font-weight: 800;
+  letter-spacing: 0.12em;
   text-transform: uppercase;
-  color: #7dd3fc;
-  white-space: nowrap;
-  text-shadow: 0 1px 12px rgba(0, 0, 0, 0.35);
+  text-decoration: none;
+  text-shadow: none;
+  transition: background 0.2s ease, border-color 0.2s ease, color 0.2s ease, transform 0.15s ease;
+}
+
+.mkt-hero-pipe-btn:hover {
+  background: rgba(255, 255, 255, 0.22);
+  border-color: rgba(255, 255, 255, 0.55);
+  color: #fff;
+  transform: translateY(-1px);
 }
 
 html.light .mkt-hero-wix-pipe {
-  color: #7dd3fc;
+  color: inherit;
 }
 
 .mkt-hero-wix-cta {
@@ -6345,10 +6369,14 @@ html.light .mkt-hero-wix-pipe {
 
 @media (max-width: 520px) {
   .mkt-hero-wix-pipe {
+    max-width: 100%;
+    gap: 0.35rem;
+  }
+
+  .mkt-hero-pipe-btn {
     font-size: 0.62rem;
-    letter-spacing: 0.12em;
-    white-space: normal;
-    max-width: 20rem;
+    padding: 0.25rem 0.6rem;
+    letter-spacing: 0.08em;
   }
 }
 
@@ -6425,6 +6453,13 @@ html.light .mkt-hero-wix-pipe {
     radial-gradient(ellipse 55% 45% at 0% 100%, rgba(13, 148, 136, 0.35), transparent 50%),
     linear-gradient(165deg, #06101c 0%, #08111f 100%);
   color: #f8fafc;
+}
+
+.mkt-band-integrations {
+  background: #0a1420;
+  color: #f8fafc;
+  padding-top: clamp(3rem, 6vw, 4.5rem);
+  padding-bottom: clamp(3rem, 6vw, 4.5rem);
 }
 
 .mkt-band-full .mkt-h2,
@@ -6759,6 +6794,62 @@ html.light .mkt-band-about {
 .mkt-band-pricing .mkt-price-coming,
 .mkt-band-pricing .mkt-price small {
   color: rgba(226, 232, 240, 0.88);
+}
+
+.mkt-band-pricing .mkt-h2,
+.mkt-band-pricing.mkt-band-full .mkt-h2 {
+  color: #ffffff !important;
+}
+
+.mkt-band-pricing .mkt-price-cta.iid-btn-primary,
+.auth-nav-links .iid-btn-primary,
+.mkt-hero-wix-btn.iid-btn-primary {
+  color: #ffffff !important;
+}
+
+.mkt-partner-spotlight {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: clamp(1.5rem, 4vw, 3rem);
+  margin: 0.5rem auto 1.25rem;
+}
+
+.mkt-partner-spotlight-item {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 7rem;
+  max-width: 10rem;
+  height: 3.25rem;
+}
+
+.mkt-partner-spotlight-item img {
+  max-width: 100%;
+  max-height: 100%;
+  object-fit: contain;
+  filter: grayscale(0.15);
+  opacity: 0.92;
+}
+
+.mkt-band-integrations .mkt-logo-marquee {
+  margin-top: 0.75rem;
+}
+
+.mkt-band-integrations .mkt-h2 {
+  color: #ffffff !important;
+  text-shadow: 0 1px 18px rgba(0, 0, 0, 0.35);
+}
+
+.mkt-band-integrations .mkt-label {
+  color: #7dd3fc !important;
+}
+
+.mkt-band-integrations .mkt-logo-marquee-item {
+  background: rgba(255, 255, 255, 0.92);
+  border-radius: 0.75rem;
+  padding: 0.55rem 0.85rem;
 }
 
 
