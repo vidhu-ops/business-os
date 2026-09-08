@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { ContactForm } from "./ContactForm";
 import { FrameIllustration, HumanScene, MarketingPhoto } from "./illustrations";
 import { IconClock, IconGlobe, IconMail, IconPhone, IconPin, IconSearch, IconUser } from "./icons";
@@ -48,12 +48,28 @@ const PRODUCT_SHOTS = [
 export function LandingPage() {
   const [audience, setAudience] = useState<Audience>("founder");
   const [service, setService] = useState<ToolId>("research");
+  const heroVideoRef = useRef<HTMLVideoElement | null>(null);
   const copy = AUDIENCE[audience];
   const problem = PROBLEM[audience];
   const solution = SOLUTION[audience];
   const activeService = useMemo(() => TOOLS.find((t) => t.id === service) ?? TOOLS[0], [service]);
   const serviceCopy = activeService[audience];
   const servicePhoto = MARKETING_PHOTOS[activeService.photoId];
+  const hero = HERO_WIX[audience];
+
+  useEffect(() => {
+    const el = heroVideoRef.current;
+    if (!el) return;
+    el.muted = true;
+    const play = () => {
+      void el.play().catch(() => {
+        /* autoplay can be blocked; muted+playsInline usually succeeds */
+      });
+    };
+    play();
+    el.addEventListener("loadeddata", play);
+    return () => el.removeEventListener("loadeddata", play);
+  }, [hero.videoSrc]);
 
   return (
     <MarketingShell>
@@ -63,14 +79,15 @@ export function LandingPage() {
       >
         <div className="mkt-hero-wix-media" aria-hidden="true">
           <video
-            key={HERO_WIX[audience].videoSrc}
+            key={hero.videoSrc}
+            ref={heroVideoRef}
             className="mkt-hero-wix-video"
-            src={HERO_WIX[audience].videoSrc}
+            src={hero.videoSrc}
             autoPlay
             muted
             loop
             playsInline
-            preload="metadata"
+            preload="auto"
           />
           <div className="mkt-hero-wix-scrim" />
         </div>
@@ -99,15 +116,15 @@ export function LandingPage() {
             {HERO_WIX.brand}
           </p>
           <h1 id="hero-heading" className="mkt-hero-wix-headline">
-            {HERO_WIX[audience].headline}
+            {hero.headline}
           </h1>
-          <p className="mkt-hero-wix-pipe">{HERO_WIX[audience].pipe}</p>
+          <p className="mkt-hero-wix-pipe">{hero.pipe}</p>
           <div className="mkt-hero-cta mkt-hero-wix-cta">
-            <Link href={HERO_WIX[audience].cta.href} className="iid-btn iid-btn-primary mkt-hero-wix-btn">
-              {HERO_WIX[audience].cta.label}
+            <Link href={hero.cta.href} className="iid-btn iid-btn-primary mkt-hero-wix-btn">
+              {hero.cta.label}
             </Link>
           </div>
-          <p className="mkt-hero-wix-subline">{HERO_WIX[audience].subline}</p>
+          <p className="mkt-hero-wix-subline">{hero.subline}</p>
         </div>
       </section>
 

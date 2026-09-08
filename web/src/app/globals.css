@@ -6001,14 +6001,16 @@ html.light .iida-theme-welcome-btn-light {
   align-items: center;
   justify-content: center;
   text-align: center;
-  min-height: clamp(22rem, 58vh, 34rem);
+  min-height: clamp(26rem, 68vh, 38rem);
   padding: clamp(2.5rem, 6vw, 4.5rem) clamp(1.25rem, 4vw, 2.5rem);
-  background: var(--iid-navy);
+  background: #07111f;
   border-color: color-mix(in srgb, var(--iid-blue) 22%, var(--iid-line));
+  color: #f8fafc;
 }
 
 html.light .mkt-hero-wix {
-  background: #0b1b33;
+  background: #07111f;
+  color: #f8fafc;
 }
 
 .mkt-hero-wix-media {
@@ -6016,53 +6018,64 @@ html.light .mkt-hero-wix {
   inset: 0;
   z-index: 0;
   pointer-events: none;
+  overflow: hidden;
 }
 
 .mkt-hero-wix-video {
+  position: absolute;
+  inset: 0;
   width: 100%;
   height: 100%;
   object-fit: cover;
   object-position: center;
-  transform: scale(1.02);
+  transform: scale(1.04);
+  opacity: 1;
+  filter: saturate(1.08) contrast(1.05);
 }
 
 .mkt-hero-wix-scrim {
   position: absolute;
   inset: 0;
+  z-index: 1;
+  /* Keep the footage readable — light vignette, not a solid wash. */
   background:
-    linear-gradient(180deg, rgba(6, 14, 28, 0.55) 0%, rgba(6, 14, 28, 0.72) 45%, rgba(6, 14, 28, 0.82) 100%),
-    radial-gradient(ellipse 80% 60% at 50% 20%, rgba(11, 95, 255, 0.28), transparent 70%);
+    linear-gradient(180deg, rgba(4, 10, 22, 0.28) 0%, rgba(4, 10, 22, 0.18) 35%, rgba(4, 10, 22, 0.42) 78%, rgba(4, 10, 22, 0.62) 100%),
+    radial-gradient(ellipse 85% 70% at 50% 40%, transparent 0%, rgba(4, 10, 22, 0.22) 100%);
 }
 
 .mkt-hero-wix--company .mkt-hero-wix-scrim {
   background:
-    linear-gradient(180deg, rgba(8, 12, 22, 0.58) 0%, rgba(8, 12, 22, 0.76) 50%, rgba(8, 12, 22, 0.88) 100%),
-    radial-gradient(ellipse 70% 55% at 70% 30%, rgba(251, 146, 60, 0.22), transparent 68%);
+    linear-gradient(180deg, rgba(8, 12, 22, 0.3) 0%, rgba(8, 12, 22, 0.16) 38%, rgba(8, 12, 22, 0.46) 80%, rgba(8, 12, 22, 0.64) 100%),
+    radial-gradient(ellipse 75% 60% at 70% 35%, rgba(251, 146, 60, 0.14), transparent 65%),
+    radial-gradient(ellipse 85% 70% at 50% 45%, transparent 0%, rgba(8, 12, 22, 0.24) 100%);
 }
 
-html.light .mkt-hero-wix-scrim {
+html.light .mkt-hero-wix-scrim,
+html.light .mkt-hero-wix--company .mkt-hero-wix-scrim {
+  /* Same treatment in light mode — do not bleach the video white. */
   background:
-    linear-gradient(180deg, rgba(244, 247, 252, 0.78) 0%, rgba(244, 247, 252, 0.88) 55%, rgba(244, 247, 252, 0.94) 100%),
-    radial-gradient(ellipse 80% 60% at 50% 15%, rgba(11, 95, 255, 0.16), transparent 70%);
+    linear-gradient(180deg, rgba(4, 10, 22, 0.3) 0%, rgba(4, 10, 22, 0.18) 35%, rgba(4, 10, 22, 0.44) 78%, rgba(4, 10, 22, 0.64) 100%),
+    radial-gradient(ellipse 85% 70% at 50% 40%, transparent 0%, rgba(4, 10, 22, 0.24) 100%);
 }
 
 html.light .mkt-hero-wix--company .mkt-hero-wix-scrim {
   background:
-    linear-gradient(180deg, rgba(244, 247, 252, 0.8) 0%, rgba(244, 247, 252, 0.9) 55%, rgba(244, 247, 252, 0.95) 100%),
-    radial-gradient(ellipse 70% 55% at 70% 25%, rgba(251, 146, 60, 0.14), transparent 68%);
+    linear-gradient(180deg, rgba(8, 12, 22, 0.32) 0%, rgba(8, 12, 22, 0.18) 38%, rgba(8, 12, 22, 0.48) 80%, rgba(8, 12, 22, 0.66) 100%),
+    radial-gradient(ellipse 75% 60% at 70% 35%, rgba(251, 146, 60, 0.16), transparent 65%),
+    radial-gradient(ellipse 85% 70% at 50% 45%, transparent 0%, rgba(8, 12, 22, 0.26) 100%);
 }
 
 .mkt-hero-wix-glow {
   position: absolute;
   inset: 0;
-  z-index: 0;
+  z-index: 1;
   pointer-events: none;
-  background: radial-gradient(circle at 50% 40%, color-mix(in srgb, var(--iid-blue) 8%, transparent), transparent 55%);
+  background: radial-gradient(circle at 50% 35%, rgba(11, 95, 255, 0.12), transparent 55%);
 }
 
 .mkt-hero-wix-inner {
   position: relative;
-  z-index: 1;
+  z-index: 2;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -6076,6 +6089,19 @@ html.light .mkt-hero-wix--company .mkt-hero-wix-scrim {
   width: min(100%, 18rem);
 }
 
+.mkt-hero-wix .mkt-hero-audience-btn {
+  color: rgba(248, 250, 252, 0.88);
+  border-color: rgba(255, 255, 255, 0.18);
+  background: rgba(255, 255, 255, 0.08);
+  backdrop-filter: blur(8px);
+}
+
+.mkt-hero-wix .mkt-hero-audience-btn.is-active {
+  color: #fff;
+  background: var(--iid-blue);
+  border-color: transparent;
+}
+
 .mkt-hero-wix-brand {
   margin: 0;
   font-family: var(--font-display);
@@ -6083,8 +6109,8 @@ html.light .mkt-hero-wix--company .mkt-hero-wix-scrim {
   font-weight: 800;
   letter-spacing: 0.08em;
   line-height: 1;
-  color: var(--iid-text);
-  text-shadow: 0 1px 24px rgba(0, 0, 0, 0.28);
+  color: #ffffff;
+  text-shadow: 0 2px 28px rgba(0, 0, 0, 0.45);
 }
 
 .mkt-hero-wix-headline {
@@ -6094,9 +6120,9 @@ html.light .mkt-hero-wix--company .mkt-hero-wix-scrim {
   font-weight: 600;
   letter-spacing: -0.02em;
   line-height: 1.25;
-  color: color-mix(in srgb, var(--iid-text) 92%, var(--iid-muted));
+  color: rgba(248, 250, 252, 0.95);
   max-width: 22ch;
-  text-shadow: 0 1px 18px rgba(0, 0, 0, 0.22);
+  text-shadow: 0 2px 22px rgba(0, 0, 0, 0.4);
 }
 
 .mkt-hero-wix-pipe {
@@ -6105,12 +6131,13 @@ html.light .mkt-hero-wix--company .mkt-hero-wix-scrim {
   font-weight: 700;
   letter-spacing: 0.18em;
   text-transform: uppercase;
-  color: var(--iid-sky);
+  color: #7dd3fc;
   white-space: nowrap;
+  text-shadow: 0 1px 12px rgba(0, 0, 0, 0.35);
 }
 
 html.light .mkt-hero-wix-pipe {
-  color: var(--iid-blue);
+  color: #7dd3fc;
 }
 
 .mkt-hero-wix-cta {
@@ -6132,7 +6159,8 @@ html.light .mkt-hero-wix-pipe {
   max-width: 38rem;
   font-size: clamp(0.92rem, 2vw, 1.05rem);
   line-height: 1.65;
-  color: var(--iid-muted);
+  color: rgba(226, 232, 240, 0.92);
+  text-shadow: 0 1px 14px rgba(0, 0, 0, 0.35);
 }
 
 .mkt-section-head-center {
