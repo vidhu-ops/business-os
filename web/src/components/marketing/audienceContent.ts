@@ -328,10 +328,26 @@ export const SOLUTION = {
 };
 
 export const CLIENT_LOGOS = [
-  { name: "Pathak Automation Services", src: "/partners/white/pathak.png" },
-  { name: "Loop", src: "/partners/loop.png" },
-  { name: "Tyoharwale", src: "/partners/white/tyoharwale.png" },
-  { name: "JP Infralease", src: "/partners/white/jp-infralease.png" },
+  {
+    name: "Pathak Automation Services",
+    src: "/partners/pathak.png",
+    srcOnDark: "/partners/white/pathak.png",
+  },
+  {
+    name: "Loop",
+    src: "/partners/loop.png",
+    srcOnDark: "/partners/white/loop.png",
+  },
+  {
+    name: "Tyoharwale",
+    src: "/partners/tyoharwale.png",
+    srcOnDark: "/partners/white/tyoharwale.png",
+  },
+  {
+    name: "JP Infralease",
+    src: "/partners/jp-infralease.png",
+    srcOnDark: "/partners/white/jp-infralease.png",
+  },
 ];
 
 /** Product integrations shown on the marketing homepage (OAuth + LLM / research keys). */

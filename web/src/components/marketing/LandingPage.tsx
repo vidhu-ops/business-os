@@ -173,6 +173,11 @@ export function LandingPage() {
             </article>
           ))}
         </div>
+        <div className="mkt-section-cta-row">
+          <Link href="/how-it-works" className="iid-btn iid-btn-primary mkt-steps-walkthrough">
+            See walkthrough
+          </Link>
+        </div>
         </div>
       </section>
 
@@ -349,13 +354,26 @@ export function LandingPage() {
       <section id="clients" className="mkt-section mkt-clients-section">
         <div className="mkt-wrap mkt-section-head mkt-section-head-center">
           <span className="mkt-label">Partners</span>
-          <h2 className="mkt-h2">Built by creators, for creators</h2>
+          <h2 className="mkt-h2">Partners</h2>
         </div>
         <div className="mkt-wrap mkt-partner-spotlight" aria-label="Featured partners">
           {CLIENT_LOGOS.slice(0, 3).map((logo) => (
             <div key={logo.name} className="mkt-partner-spotlight-item">
               {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img src={logo.src} alt={`${logo.name} logo`} loading="lazy" />
+              <img
+                className="mkt-partner-logo-light"
+                src={logo.src}
+                alt={`${logo.name} logo`}
+                loading="lazy"
+              />
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img
+                className="mkt-partner-logo-dark"
+                src={logo.srcOnDark}
+                alt=""
+                aria-hidden="true"
+                loading="lazy"
+              />
             </div>
           ))}
         </div>
@@ -507,13 +525,13 @@ export function LandingPage() {
                   </li>
                 ))}
               </ul>
-              <a href={SITE_PHONE_TEL} className="iid-btn iid-btn-ghost mkt-price-cta">
+              <a href={SITE_PHONE_TEL} className="iid-btn iid-btn-primary mkt-price-cta">
                 Call {SITE_PHONE}
               </a>
             </article>
           </div>
           <div className="mkt-pricing-home-actions">
-            <Link href="/pricing" className="iid-btn iid-btn-ghost">
+            <Link href="/pricing" className="iid-btn iid-btn-primary mkt-price-cta">
               Full pricing details →
             </Link>
           </div>

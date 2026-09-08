@@ -6531,7 +6531,7 @@ html.light .mkt-band-about {
 .mkt-tool-grid {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: clamp(1.25rem, 2.5vw, 1.75rem);
+  gap: clamp(1.6rem, 3.2vw, 2.25rem);
 }
 
 @media (min-width: 1100px) {
@@ -6607,8 +6607,8 @@ html.light .mkt-band-about {
   margin-top: 0;
   display: flex;
   flex-direction: column;
-  gap: 0.75rem;
-  padding: 1.4rem 1.4rem 1.55rem;
+  gap: 0.9rem;
+  padding: 1.55rem 1.5rem 1.65rem;
   color: #0f172a;
   flex: 1;
 }
@@ -6616,7 +6616,7 @@ html.light .mkt-band-about {
 .mkt-tool-card-title {
   margin: 0;
   font-family: var(--font-body), system-ui, sans-serif;
-  font-size: clamp(1.05rem, 1.8vw, 1.2rem);
+  font-size: clamp(1.08rem, 1.8vw, 1.22rem);
   font-weight: 700;
   line-height: 1.35;
   letter-spacing: -0.015em;
@@ -6631,23 +6631,31 @@ html.light .mkt-band-about {
   font-weight: 500;
   line-height: 1.7;
   color: #64748b;
+  display: -webkit-box;
+  -webkit-line-clamp: 4;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
 }
 
 .mkt-tool-card-output {
-  margin: 0.15rem 0 0;
+  margin: 0.1rem 0 0;
   font-family: var(--font-body), system-ui, sans-serif;
   font-size: 0.86rem;
   line-height: 1.55;
   color: var(--tool-accent);
   font-weight: 600;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
 }
 
 .mkt-tool-card-actions {
   display: flex;
   flex-wrap: wrap;
-  gap: 0.7rem;
+  gap: 0.75rem;
   margin-top: auto;
-  padding-top: 0.85rem;
+  padding-top: 1rem;
 }
 
 .mkt-tool-card-btn.iid-btn,
@@ -6723,6 +6731,15 @@ html.light .mkt-band-about {
 .mkt-band-services.mkt-band-has-video .mkt-label,
 .mkt-band-process.mkt-band-has-video .mkt-label {
   color: #7dd3fc;
+}
+
+.mkt-band-process .mkt-label,
+.mkt-band-process.mkt-band-has-video .mkt-label {
+  color: #0f172a !important;
+  background: rgba(255, 255, 255, 0.9);
+  display: inline-flex;
+  padding: 0.28rem 0.75rem;
+  border-radius: 999px;
 }
 
 .mkt-band-about.mkt-band-full .mkt-h2 {
@@ -6832,6 +6849,29 @@ html.light .mkt-band-about {
   color: #ffffff !important;
 }
 
+.mkt-band-pricing .mkt-price-cta.iid-btn-ghost,
+.mkt-band-pricing .iid-btn-ghost {
+  color: #ffffff !important;
+  border-color: rgba(255, 255, 255, 0.55) !important;
+  background: rgba(255, 255, 255, 0.08) !important;
+}
+
+.mkt-band-pricing .mkt-price-cta.iid-btn-ghost:hover,
+.mkt-band-pricing .iid-btn-ghost:hover {
+  background: rgba(255, 255, 255, 0.16) !important;
+  border-color: #ffffff !important;
+}
+
+.mkt-section-cta-row {
+  display: flex;
+  justify-content: center;
+  margin-top: 1.75rem;
+}
+
+.mkt-steps-walkthrough {
+  min-width: 11rem;
+}
+
 .mkt-partner-spotlight {
   display: flex;
   flex-wrap: wrap;
@@ -6842,6 +6882,7 @@ html.light .mkt-band-about {
 }
 
 .mkt-partner-spotlight-item {
+  position: relative;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -6854,8 +6895,27 @@ html.light .mkt-band-about {
   max-width: 100%;
   max-height: 100%;
   object-fit: contain;
-  filter: grayscale(0.15);
-  opacity: 0.92;
+  opacity: 0.95;
+}
+
+.mkt-partner-logo-dark {
+  display: none;
+}
+
+html.dark .mkt-partner-logo-light {
+  display: none;
+}
+
+html.dark .mkt-partner-logo-dark {
+  display: block;
+}
+
+html.light .mkt-partner-logo-light {
+  display: block;
+}
+
+html.light .mkt-partner-logo-dark {
+  display: none;
 }
 
 .mkt-band-integrations .mkt-logo-marquee {

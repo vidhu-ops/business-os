@@ -45,9 +45,6 @@ export function WixDetailCards() {
             Want more details?
           </h2>
           <div className="mkt-wix-details-actions">
-            <a href="#contact" className="mkt-wix-info-pill">
-              Info Menu
-            </a>
             <Link href="/login?mode=register" className="mkt-wix-start-btn">
               START NOW
             </Link>
