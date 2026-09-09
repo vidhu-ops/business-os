@@ -29,6 +29,16 @@ def _num(value: Any) -> str:
     return digits or text
 
 
+def _safe_float(value: Any) -> float | None:
+    try:
+        cleaned = re.sub(r"[^\d.\-]", "", str(value or "").replace(",", ""))
+        if not cleaned:
+            return None
+        return float(cleaned)
+    except (TypeError, ValueError):
+        return None
+
+
 def _normalize_url(raw: str) -> str:
     text = _clean(raw, limit=500)
     if not text:
@@ -61,22 +71,23 @@ def collect_public_urls(draft: dict[str, Any]) -> list[tuple[str, str]]:
     return items[:8]
 
 
-def fetch_url_snippet(url: str, *, limit: int = 2200) -> str:
+def fetch_url_snippet(url: str, *, limit: int = 2800) -> str:
     """Best-effort public page text for LLM context (no JS rendering)."""
     try:
         req = urllib.request.Request(
             url,
             headers={
                 "User-Agent": (
-                    "Mozilla/5.0 (compatible; IIDATECH-MiniGauge/1.0; "
-                    "+https://iidatech.com)"
+                    "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 "
+                    "(KHTML, like Gecko) Chrome/122.0.0.0 Safari/537.36"
                 ),
                 "Accept": "text/html,application/xhtml+xml,text/plain;q=0.9,*/*;q=0.8",
+                "Accept-Language": "en-US,en;q=0.9",
             },
             method="GET",
         )
-        with urllib.request.urlopen(req, timeout=8) as resp:
-            raw = resp.read(180_000)
+        with urllib.request.urlopen(req, timeout=12) as resp:
+            raw = resp.read(220_000)
             charset = "utf-8"
             ctype = str(resp.headers.get("Content-Type") or "")
             if "charset=" in ctype.lower():
@@ -114,12 +125,13 @@ def gather_url_context(draft: dict[str, Any]) -> dict[str, Any]:
         else:
             lines.append(
                 f"[{row['label']}] {row['url']}\n"
-                "(Could not fetch page text — use URL + public knowledge.)"
+                "(Could not fetch page text — research this URL from public web knowledge.)"
             )
     return {
         "urls": [{"label": l, "url": u} for l, u in urls],
         "snippets": snippets,
-        "context_text": "\n\n".join(lines)[:12000],
+        "context_text": "\n\n".join(lines)[:14000],
+        "fetched_count": sum(1 for s in snippets if s.get("fetched") == "yes"),
     }
 
 
@@ -220,6 +232,413 @@ def profile_from_mini_draft(
     }
 
 
+def _audit_json_schema_hint() -> str:
+    return (
+        "Return ONLY one JSON object with keys: "
+        "overall_score (0-100 int), overall_label, overall_summary, plain_english_read, "
+        "market_position, categories (exactly 6 objects with name/score/status/summary for "
+        "Financials, Customers, Sales & Marketing, Operations, Product & Team, Competitive Position), "
+        "key_metrics (5 objects with label/value/benchmark/assessment), top_actions "
+        "(4 objects with title/why/impact/effort), industry_landscape, risks (3-5 strings), "
+        "sources (urls or publication names used). "
+        "status must be strong|watch|risk. Do not invent precise financials that were not provided; "
+        "infer directional health from public presence + stated metrics. Never return all zeros "
+        "unless the company truly has no usable signal."
+    )
+
+
+def _build_mini_research_prompt(profile: dict[str, Any], url_context: dict[str, Any]) -> str:
+    company = profile.get("company_name") or "Company"
+    links = profile.get("public_links") or ""
+    fetched = url_context.get("context_text") or ""
+    return (
+        f"You are producing a Mini GAUGE business health audit for {company}.\n"
+        f"Geography: {profile.get('geography')}\n"
+        f"Industry / type: {profile.get('industry')} / {profile.get('gauge_business_type_label')}\n"
+        f"Website: {profile.get('website')}\n"
+        f"Public links: {links}\n"
+        f"Description: {profile.get('business_description')}\n"
+        f"Monthly revenue (if given): {profile.get('monthly_revenue') or 'not provided'}\n"
+        f"Active customers (if given): {profile.get('active_customers') or 'not provided'}\n"
+        f"Team size (if given): {profile.get('employees_ft') or 'not provided'}\n"
+        f"Currency: {profile.get('currency')}\n\n"
+        f"FETCHED PAGE TEXT (may be partial; social sites often block):\n{fetched[:9000]}\n\n"
+        "Research the company from the open web using the name and URLs above. "
+        "Write a real diagnostic: what the company appears to do, how strong the public "
+        "presence looks, what is missing, and scored categories.\n\n"
+        + _audit_json_schema_hint()
+    )
+
+
+def _parse_audit_payload(raw: Any) -> dict[str, Any] | None:
+    from iidatech.services.gauge_audit import (
+        extract_json_object,
+        normalize_gauge_audit,
+        salvage_json_object,
+    )
+
+    parsed = raw
+    if isinstance(raw, str):
+        clean = extract_json_object(raw)
+        try:
+            parsed = json.loads(clean)
+        except Exception:
+            parsed = salvage_json_object(clean)
+    if not isinstance(parsed, dict):
+        return None
+    audit = normalize_gauge_audit(parsed)
+    # Reject worthless all-zero checklist-style dumps when we clearly had company identity.
+    scores = [int(c.get("score") or 0) for c in (audit.get("categories") or [])]
+    if scores and max(scores) == 0 and sum(scores) == 0:
+        return None
+    return audit
+
+
+def run_mini_audit_via_perplexity(
+    profile: dict[str, Any], url_context: dict[str, Any]
+) -> dict[str, Any] | None:
+    try:
+        from iidatech.evidence_bank.perplexity_client import call_perplexity_json, perplexity_enabled
+
+        if not perplexity_enabled():
+            return None
+        prompt = _build_mini_research_prompt(profile, url_context)
+        api = call_perplexity_json(prompt, timeout=90)
+        if api.get("error"):
+            return None
+        parsed = api.get("parsed") or api.get("json")
+        if not isinstance(parsed, dict):
+            content = api.get("raw_content") or api.get("text") or ""
+            audit = _parse_audit_payload(content)
+        else:
+            audit = _parse_audit_payload(parsed)
+        if not audit:
+            return None
+        audit["_route"] = f"perplexity:{api.get('model') or 'sonar'}"
+        audit["_mini"] = True
+        audit["_market_context_used"] = True
+        citations = list(api.get("citations") or [])
+        if citations:
+            existing = list(audit.get("sources") or [])
+            for c in citations[:8]:
+                s = str(c)[:120]
+                if s and s not in existing:
+                    existing.append(s)
+            audit["sources"] = existing[:8]
+        return audit
+    except Exception:
+        return None
+
+
+def run_mini_audit_via_llm(
+    profile: dict[str, Any], url_context: dict[str, Any], market_context: str
+) -> dict[str, Any] | None:
+    from iidatech.services.gauge_audit import GAUGE_AUDIT_SYSTEM, build_gauge_audit_user_prompt
+
+    try:
+        from iidatech.llm.text_request import llm_text_request
+
+        prompt = build_gauge_audit_user_prompt(profile, market_context=market_context)
+        prompt = (
+            "MODE: Mini GAUGE. Use company identity + public URLs + any fetched text. "
+            "Produce a real scored audit. Do not return all-zero checklist scores.\n\n"
+            + prompt
+            + "\n\n"
+            + _audit_json_schema_hint()
+        )
+        text, route = llm_text_request(prompt, GAUGE_AUDIT_SYSTEM, max_tokens=4096, temperature=0.15)
+        if not text or not str(text).strip():
+            return None
+        audit = _parse_audit_payload(text)
+        if not audit:
+            return None
+        audit["_route"] = route
+        audit["_mini"] = True
+        if market_context:
+            audit["_market_context_used"] = True
+        return audit
+    except Exception:
+        return None
+
+
+def _status_from_score(score: int) -> str:
+    if score >= 70:
+        return "strong"
+    if score < 40:
+        return "risk"
+    return "watch"
+
+
+def mini_signal_fallback(
+    profile: dict[str, Any], url_context: dict[str, Any]
+) -> dict[str, Any]:
+    """Signal-based mini audit when LLM/Perplexity are unavailable — never checklist zeros."""
+    company = profile.get("company_name") or "Your business"
+    geo = profile.get("geography") or "your market"
+    industry = profile.get("industry") or profile.get("gauge_business_type_label") or "business"
+    desc = str(profile.get("business_description") or "")
+    urls = url_context.get("urls") or []
+    snippets = url_context.get("snippets") or []
+    fetched_count = int(url_context.get("fetched_count") or 0)
+    has_site = any(u.get("label") == "Website" for u in urls)
+    has_li = any(u.get("label") == "LinkedIn" for u in urls)
+    has_ig = any(u.get("label") == "Instagram" for u in urls)
+    rev = _safe_float(profile.get("monthly_revenue"))
+    customers = _safe_float(profile.get("active_customers"))
+    team = _safe_float(profile.get("employees_ft"))
+    costs = _safe_float(profile.get("monthly_costs"))
+
+    blob = " ".join(str(s.get("snippet") or "") for s in snippets).lower()
+    blob += " " + desc.lower()
+
+    def clamp(n: int) -> int:
+        return max(18, min(88, int(n)))
+
+    financials = 28
+    if rev is not None:
+        financials += 28
+        if rev >= 10000:
+            financials += 8
+        if rev >= 50000:
+            financials += 6
+    if costs is not None:
+        financials += 10
+    if rev and costs and rev > 0:
+        margin = (rev - costs) / rev
+        if margin >= 0.2:
+            financials += 8
+        elif margin < 0:
+            financials -= 10
+
+    customers_score = 26
+    if customers is not None:
+        customers_score += 30
+        if customers >= 50:
+            customers_score += 8
+        if customers >= 200:
+            customers_score += 6
+    if any(k in blob for k in ("customer", "client", "user", "subscriber", "buyer")):
+        customers_score += 8
+
+    sales = 24
+    if has_site:
+        sales += 18
+    if has_li:
+        sales += 12
+    if has_ig:
+        sales += 8
+    if fetched_count:
+        sales += min(16, fetched_count * 8)
+    if any(k in blob for k in ("pricing", "book a demo", "get started", "contact", "signup", "sign up")):
+        sales += 10
+
+    operations = 30
+    if team is not None:
+        operations += 18
+        if team >= 3:
+            operations += 6
+    if profile.get("months_in_operation"):
+        operations += 8
+    if any(k in blob for k in ("process", "workflow", "support", "onboarding", "delivery")):
+        operations += 8
+
+    product = 28
+    if len(desc) > 40:
+        product += 16
+    if len(desc) > 120:
+        product += 8
+    if any(k in blob for k in ("product", "platform", "solution", "service", "feature", "research", "plan")):
+        product += 12
+    if team is not None:
+        product += 6
+
+    competitive = 26
+    if has_site or has_li:
+        competitive += 14
+    if fetched_count:
+        competitive += 10
+    if profile.get("main_competitors"):
+        competitive += 16
+    if any(k in blob for k in ("competitor", "versus", "alternative", "market", "industry")):
+        competitive += 8
+    if len(urls) >= 2:
+        competitive += 8
+
+    categories = [
+        {"name": "Financials", "score": clamp(financials), "status": "", "summary": ""},
+        {"name": "Customers", "score": clamp(customers_score), "status": "", "summary": ""},
+        {"name": "Sales & Marketing", "score": clamp(sales), "status": "", "summary": ""},
+        {"name": "Operations", "score": clamp(operations), "status": "", "summary": ""},
+        {"name": "Product & Team", "score": clamp(product), "status": "", "summary": ""},
+        {"name": "Competitive Position", "score": clamp(competitive), "status": "", "summary": ""},
+    ]
+    summaries = {
+        "Financials": (
+            f"Monthly revenue {'stated at ' + str(rev) if rev is not None else 'not stated'}; "
+            f"{'costs provided' if costs is not None else 'costs unknown'}."
+        ),
+        "Customers": (
+            f"Active customers {'stated at ' + str(int(customers)) if customers is not None else 'not stated'}; "
+            "retention signals need a full GAUGE checklist."
+        ),
+        "Sales & Marketing": (
+            f"Public presence: website={'yes' if has_site else 'no'}, LinkedIn={'yes' if has_li else 'no'}, "
+            f"Instagram={'yes' if has_ig else 'no'}; fetched {fetched_count}/{len(urls)} URLs."
+        ),
+        "Operations": (
+            f"Team size {'= ' + str(int(team)) if team is not None else 'unknown'}; "
+            "operating cadence not fully documented in mini intake."
+        ),
+        "Product & Team": (
+            "Offer description "
+            + ("looks usable for positioning." if len(desc) > 40 else "is thin — add sharper product/service detail.")
+        ),
+        "Competitive Position": (
+            f"In {geo}, public footprint and stated differentiation drive this read; "
+            "add named competitors in full GAUGE for sharper positioning."
+        ),
+    }
+    for cat in categories:
+        cat["status"] = _status_from_score(cat["score"])
+        cat["summary"] = summaries[cat["name"]]
+
+    overall = int(round(sum(c["score"] for c in categories) / len(categories)))
+    if overall >= 70:
+        label = "Promising public signal"
+        summary = f"{company} shows enough public + metric signal for a constructive mini read in {geo}."
+    elif overall >= 45:
+        label = "Early but actionable"
+        summary = f"{company} has a usable footprint; tighten tracking and proof points before scaling bets."
+    else:
+        label = "Thin but directional"
+        summary = f"{company} needs stronger public proof and operating metrics — this mini score is a starting baseline."
+
+    plain = (
+        f"{company} scores about {overall}/100 on this Mini GAUGE snapshot for {industry} in {geo}. "
+        f"We used {len(urls)} public link(s) ({fetched_count} fetched) plus any metrics you entered. "
+        "Full GAUGE adds checklist depth, forward questions, and a plan build."
+    )
+
+    key_metrics: list[dict[str, str]] = []
+    if rev is not None:
+        key_metrics.append(
+            {
+                "label": "Monthly revenue",
+                "value": str(rev),
+                "benchmark": "Stage-dependent",
+                "assessment": "stated",
+            }
+        )
+    if customers is not None:
+        key_metrics.append(
+            {
+                "label": "Active customers",
+                "value": str(int(customers)),
+                "benchmark": "Track retention next",
+                "assessment": "stated",
+            }
+        )
+    if team is not None:
+        key_metrics.append(
+            {
+                "label": "Team size",
+                "value": str(int(team)),
+                "benchmark": "Role clarity matters more than headcount",
+                "assessment": "stated",
+            }
+        )
+    key_metrics.append(
+        {
+            "label": "Public URLs reviewed",
+            "value": str(len(urls)),
+            "benchmark": "Website + LinkedIn recommended",
+            "assessment": "above" if len(urls) >= 2 else "below",
+        }
+    )
+    key_metrics.append(
+        {
+            "label": "Pages fetched",
+            "value": f"{fetched_count}/{len(urls)}",
+            "benchmark": "Social sites often block bots",
+            "assessment": "inline" if fetched_count else "below",
+        }
+    )
+    while len(key_metrics) < 5:
+        key_metrics.append(
+            {
+                "label": "Full GAUGE unlock",
+                "value": "checklist + forward plan",
+                "benchmark": "Upgrade path",
+                "assessment": "unknown",
+            }
+        )
+
+    weakest = sorted(categories, key=lambda c: c["score"])[:2]
+    top_actions = [
+        {
+            "title": f"Strengthen {cat['name']}",
+            "why": cat["summary"][:160],
+            "impact": "high",
+            "effort": "medium",
+        }
+        for cat in weakest
+    ]
+    if not has_site:
+        top_actions.append(
+            {
+                "title": "Publish a clear company website",
+                "why": "Buyers and partners need a durable public explanation of what you sell.",
+                "impact": "high",
+                "effort": "medium",
+            }
+        )
+    if rev is None:
+        top_actions.append(
+            {
+                "title": "Track monthly revenue and contribution margin",
+                "why": "Without a revenue pulse, category scores stay directional only.",
+                "impact": "high",
+                "effort": "low",
+            }
+        )
+    while len(top_actions) < 4:
+        top_actions.append(
+            {
+                "title": "Run full GAUGE with checklist",
+                "why": "Mini is a snapshot; the full instrument maps operating gaps item-by-item.",
+                "impact": "medium",
+                "effort": "medium",
+            }
+        )
+
+    sources = [u.get("url") for u in urls if u.get("url")]
+    return {
+        "overall_score": overall,
+        "overall_label": label,
+        "overall_summary": summary,
+        "plain_english_read": plain,
+        "market_position": (
+            f"{company} in {geo} — public presence and stated metrics drive this mini read; "
+            "named competitor intel would sharpen positioning."
+        ),
+        "categories": categories,
+        "key_metrics": key_metrics[:5],
+        "top_actions": top_actions[:4],
+        "industry_landscape": (
+            f"{industry} in {geo}: buyers reward clear offer, proof, and measurable operating discipline."
+        ),
+        "risks": [
+            "Mini intake lacks full operating checklist",
+            "Social/profile pages may not yield fetchable text",
+            "Scores are directional until full GAUGE metrics are added",
+        ],
+        "sources": sources[:8],
+        "_fallback": True,
+        "_route": "mini_signal_fallback",
+        "_mini": True,
+    }
+
+
 def enrich_market_context_with_urls(profile: dict[str, Any]) -> str:
     """Extend Perplexity snapshot with social / public links when available."""
     from iidatech.services.gauge_audit import fetch_market_context_for_audit
@@ -243,7 +662,7 @@ def enrich_market_context_with_urls(profile: dict[str, Any]) -> str:
             'Return JSON: {"presence_summary":"...","positioning_clues":["..."],'
             '"risks_or_gaps":["..."],"what_to_verify":["..."]}'
         )
-        api = call_perplexity_json(prompt, timeout=40)
+        api = call_perplexity_json(prompt, timeout=45)
         if api.get("error"):
             return base
         parsed = api.get("parsed") or api.get("json")
@@ -261,55 +680,41 @@ def enrich_market_context_with_urls(profile: dict[str, Any]) -> str:
         return base
 
 
-def run_mini_audit(draft: dict[str, Any]) -> tuple[dict[str, Any], dict[str, Any], dict[str, Any]]:
-    from backend.services.gauge_service import _text_request
-    from iidatech.services.gauge_audit import (
-        GAUGE_AUDIT_SYSTEM,
-        build_gauge_audit_user_prompt,
-        extract_json_object,
-        fallback_gauge_audit,
-        normalize_gauge_audit,
-        salvage_json_object,
-    )
+def _attach_url_meta(audit: dict[str, Any], url_context: dict[str, Any]) -> dict[str, Any]:
+    if url_context.get("urls"):
+        audit["_urls_considered"] = url_context["urls"]
+        audit["_urls_fetched"] = [
+            {"label": s["label"], "url": s["url"], "fetched": s["fetched"]}
+            for s in url_context.get("snippets") or []
+        ]
+        sources = list(audit.get("sources") or [])
+        for u in url_context["urls"]:
+            url = str(u.get("url") or "")
+            if url and url not in sources:
+                sources.append(url)
+        audit["sources"] = sources[:8]
+    return audit
 
+
+def run_mini_audit(draft: dict[str, Any]) -> tuple[dict[str, Any], dict[str, Any], dict[str, Any]]:
     url_context = gather_url_context(draft)
     profile = profile_from_mini_draft(draft, url_context=url_context)
-    market_context = enrich_market_context_with_urls(profile)
-    prompt = build_gauge_audit_user_prompt(profile, market_context=market_context)
-    prompt = (
-        "MODE: Mini GAUGE — founder gave a short form + public URLs. "
-        "Produce a real scored audit (overall + 6 categories + key metrics + top actions). "
-        "If data is thin, score conservatively and say what a full GAUGE would unlock.\n\n"
-        + prompt
-    )
-    try:
-        text, route = _text_request(prompt, GAUGE_AUDIT_SYSTEM, 2048, 0.1)
-        clean = extract_json_object(text)
-        try:
-            parsed = json.loads(clean)
-        except Exception:
-            parsed = salvage_json_object(clean)
-        if not isinstance(parsed, dict):
-            raise ValueError("Mini GAUGE response was not a JSON object")
-        audit = normalize_gauge_audit(parsed)
-        audit["_route"] = route
-        audit["_mini"] = True
-        if market_context:
-            audit["_market_context_used"] = True
-        if url_context.get("urls"):
-            audit["_urls_considered"] = url_context["urls"]
-            audit["_urls_fetched"] = [
-                {"label": s["label"], "url": s["url"], "fetched": s["fetched"]}
-                for s in url_context.get("snippets") or []
-            ]
-        return audit, profile, url_context
-    except Exception as exc:
-        audit = fallback_gauge_audit(profile)
-        audit["_route"] = f"mini_deterministic_fallback: {str(exc)[:120]}"
-        audit["_mini"] = True
-        if url_context.get("urls"):
-            audit["_urls_considered"] = url_context["urls"]
-        return audit, profile, url_context
+
+    # 1) Perplexity web research audit (best for URL-led mini)
+    audit = run_mini_audit_via_perplexity(profile, url_context)
+
+    # 2) OpenAI / configured LLM
+    if not audit:
+        market_context = enrich_market_context_with_urls(profile)
+        audit = run_mini_audit_via_llm(profile, url_context, market_context)
+
+    # 3) Signal fallback — never checklist zeros
+    if not audit:
+        audit = mini_signal_fallback(profile, url_context)
+
+    audit = _attach_url_meta(audit, url_context)
+    audit["_mini"] = True
+    return audit, profile, url_context
 
 
 def mini_metadata() -> dict[str, Any]:

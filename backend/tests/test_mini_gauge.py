@@ -1,5 +1,6 @@
 from backend.services.mini_gauge_service import (
     collect_public_urls,
+    mini_signal_fallback,
     profile_from_mini_draft,
     validate_mini_draft,
 )
@@ -25,3 +26,31 @@ def test_mini_draft_accepts_social_urls():
     assert profile["mini_gauge"] is True
     assert "LinkedIn" in profile["public_links"]
     assert profile["intake_source"] == "mini_gauge"
+
+
+def test_mini_signal_fallback_not_all_zeros():
+    draft = {
+        "company_name": "IIDATECH",
+        "geography": "India",
+        "gauge_type": "saas",
+        "website": "https://iidatech.com",
+        "linkedin_url": "https://linkedin.com/company/iidatech",
+        "description": "Market research and business planning platform for founders.",
+        "monthly_revenue": "30000",
+        "active_customers": "40",
+        "team_size": "5",
+    }
+    profile = profile_from_mini_draft(draft)
+    url_context = {
+        "urls": [{"label": "Website", "url": "https://iidatech.com"}, {"label": "LinkedIn", "url": "https://linkedin.com/company/iidatech"}],
+        "snippets": [
+            {"label": "Website", "url": "https://iidatech.com", "snippet": "Research Plan Execute platform for founders", "fetched": "yes"},
+            {"label": "LinkedIn", "url": "https://linkedin.com/company/iidatech", "snippet": "", "fetched": "no"},
+        ],
+        "fetched_count": 1,
+        "context_text": "Research Plan Execute",
+    }
+    audit = mini_signal_fallback(profile, url_context)
+    assert int(audit["overall_score"]) > 0
+    assert max(int(c["score"]) for c in audit["categories"]) > 0
+    assert "checklist" not in str(audit["categories"][0]["summary"]).lower()

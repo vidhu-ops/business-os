@@ -89,6 +89,12 @@ export function MiniGaugePanel({ demoMode = false }: { demoMode?: boolean }) {
         const incoming = (state.draft || {}) as Partial<MiniDraft>;
         setDraft({ ...EMPTY, ...incoming, gauge_type: String(incoming.gauge_type || "other") });
         setAudit(state.audit);
+        const savedFetched = (state.urls_fetched as Array<{ label?: string; url?: string; fetched?: string }>) || [];
+        if (savedFetched.length) {
+          setUrlsFetched(savedFetched);
+        } else if (state.audit && Array.isArray((state.audit as Record<string, unknown>)._urls_fetched)) {
+          setUrlsFetched((state.audit as Record<string, unknown>)._urls_fetched as Array<{ label?: string; url?: string; fetched?: string }>);
+        }
         const st = state.status || state.full_audit_status;
         if (st && typeof st.free_audit_available === "boolean") {
           setFullAuditAvailable(st.free_audit_available);
@@ -280,7 +286,15 @@ export function MiniGaugePanel({ demoMode = false }: { demoMode?: boolean }) {
         <section className="iid-card space-y-4">
           <div className="flex flex-wrap items-center justify-between gap-2">
             <h3 className="font-semibold text-lg">Mini GAUGE report</h3>
-            <span className="text-xs uppercase tracking-wider muted">Initial snapshot</span>
+            <span className="text-xs uppercase tracking-wider muted">
+              {String(audit._route || "snapshot").startsWith("perplexity")
+                ? "Web research"
+                : String(audit._route || "").includes("openai")
+                  ? "Model audit"
+                  : String(audit._fallback)
+                    ? "Signal baseline"
+                    : "Initial snapshot"}
+            </span>
           </div>
           <p className="text-lg">
             Overall: <strong>{String(audit.overall_score)}/100</strong> — {String(audit.overall_label)}
@@ -327,7 +341,7 @@ export function MiniGaugePanel({ demoMode = false }: { demoMode?: boolean }) {
             </div>
           )}
 
-          {urlsFetched.length > 0 && (
+          {(urlsFetched.length > 0 || (Array.isArray(audit.sources) && (audit.sources as string[]).length > 0)) && (
             <div>
               <h4 className="font-semibold text-sm">Sources considered</h4>
               <ul className="mt-2 text-xs muted space-y-1">
@@ -335,6 +349,9 @@ export function MiniGaugePanel({ demoMode = false }: { demoMode?: boolean }) {
                   <li key={i}>
                     {u.label}: {u.url} {u.fetched === "yes" ? "(fetched)" : "(URL only)"}
                   </li>
+                ))}
+                {(audit.sources as string[] | undefined)?.map((s, i) => (
+                  <li key={`src-${i}`}>{s}</li>
                 ))}
               </ul>
             </div>

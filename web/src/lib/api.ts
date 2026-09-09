@@ -410,6 +410,7 @@ export const api = {
       workspace_id: string;
       draft: Record<string, unknown>;
       audit: Record<string, unknown> | null;
+      urls_fetched?: Array<{ label?: string; url?: string; fetched?: string }>;
       status: AuditStatus;
       is_demo?: boolean;
       upgrade_href?: string;

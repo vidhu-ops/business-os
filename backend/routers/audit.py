@@ -49,10 +49,14 @@ def get_mini_gauge(email: str = Depends(get_current_user)) -> dict:
     workspace = ensure_audit_workspace(email)
     draft = workspace.get("mini_gauge_intake") if isinstance(workspace.get("mini_gauge_intake"), dict) else {}
     audit = workspace.get("mini_gauge_audit") if isinstance(workspace.get("mini_gauge_audit"), dict) else None
+    urls_fetched = []
+    if isinstance(audit, dict):
+        urls_fetched = list(audit.get("_urls_fetched") or [])
     return {
         "workspace_id": workspace.get("workspace_id"),
         "draft": draft,
         "audit": audit,
+        "urls_fetched": urls_fetched,
         "status": audit_status(email),
         "is_demo": is_demo_user(email),
         "upgrade_href": "/app/audit",
