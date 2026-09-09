@@ -6,11 +6,21 @@ import { api } from "@/lib/api";
 
 type BizType = { id: string; label: string };
 
+type StageOption = { id: string; label: string };
+
 type MiniDraft = {
   company_name: string;
   geography: string;
   gauge_type: string;
   industry: string;
+  target_customer: string;
+  business_stage: string;
+  years_operating: string;
+  revenue_model: string;
+  competitors: string;
+  differentiation: string;
+  biggest_challenge: string;
+  growth_goal_12m: string;
   website: string;
   linkedin_url: string;
   instagram_url: string;
@@ -27,6 +37,14 @@ const EMPTY: MiniDraft = {
   geography: "",
   gauge_type: "other",
   industry: "",
+  target_customer: "",
+  business_stage: "",
+  years_operating: "",
+  revenue_model: "",
+  competitors: "",
+  differentiation: "",
+  biggest_challenge: "",
+  growth_goal_12m: "",
   website: "",
   linkedin_url: "",
   instagram_url: "",
@@ -37,6 +55,23 @@ const EMPTY: MiniDraft = {
   team_size: "",
   currency: "USD",
 };
+
+const DEFAULT_STAGES: StageOption[] = [
+  { id: "pre_revenue", label: "Pre-revenue / validating" },
+  { id: "early", label: "Early revenue" },
+  { id: "growing", label: "Growing" },
+  { id: "scaling", label: "Scaling" },
+  { id: "mature", label: "Mature / established" },
+];
+
+const DEFAULT_REVENUE_MODELS: StageOption[] = [
+  { id: "subscription", label: "Subscription / SaaS" },
+  { id: "transaction", label: "Transaction / marketplace" },
+  { id: "services", label: "Services / project fees" },
+  { id: "product", label: "Product / D2C sales" },
+  { id: "hybrid", label: "Hybrid" },
+  { id: "other", label: "Other" },
+];
 
 function statusEmoji(status: string) {
   const s = status.toLowerCase();
@@ -69,6 +104,8 @@ function field(
 export function MiniGaugePanel({ demoMode = false }: { demoMode?: boolean }) {
   const [draft, setDraft] = useState<MiniDraft>(EMPTY);
   const [types, setTypes] = useState<BizType[]>([]);
+  const [stages, setStages] = useState<StageOption[]>(DEFAULT_STAGES);
+  const [revenueModels, setRevenueModels] = useState<StageOption[]>(DEFAULT_REVENUE_MODELS);
   const [audit, setAudit] = useState<Record<string, unknown> | null>(null);
   const [urlsFetched, setUrlsFetched] = useState<Array<{ label?: string; url?: string; fetched?: string }>>([]);
   const [loading, setLoading] = useState(true);
@@ -86,6 +123,10 @@ export function MiniGaugePanel({ demoMode = false }: { demoMode?: boolean }) {
         if (cancelled) return;
         const biz = (meta.business_types as BizType[]) || [];
         setTypes(biz);
+        const metaStages = (meta.business_stages as StageOption[]) || [];
+        const metaModels = (meta.revenue_models as StageOption[]) || [];
+        if (metaStages.length) setStages(metaStages);
+        if (metaModels.length) setRevenueModels(metaModels);
         const incoming = (state.draft || {}) as Partial<MiniDraft>;
         setDraft({ ...EMPTY, ...incoming, gauge_type: String(incoming.gauge_type || "other") });
         setAudit(state.audit);
@@ -173,8 +214,8 @@ export function MiniGaugePanel({ demoMode = false }: { demoMode?: boolean }) {
       <div className="flex flex-wrap items-start justify-between gap-3">
         <div>
           <p className="text-sm muted max-w-2xl">
-            Quick company pulse: name, market, and public links (website, LinkedIn, Instagram, or others).
-            We pull what we can and return GAUGE-style scores. Unlock the full audit for checklist depth and forward planning.
+            Quick company pulse: basics, a few positioning questions, and public links (website, LinkedIn, Instagram).
+            We research what we can and benchmark you against competitors in your industry. Full GAUGE adds checklist depth and a forward plan.
           </p>
         </div>
         <button type="button" className="iid-btn iid-btn-ghost text-sm" disabled={running || demoMode} onClick={reset}>
@@ -225,6 +266,83 @@ export function MiniGaugePanel({ demoMode = false }: { demoMode?: boolean }) {
             onBlur={() => saveQuiet(draft)}
           />
         </label>
+      </section>
+
+      <section className="iid-card space-y-4">
+        <h2 className="font-semibold text-lg">Industry & positioning</h2>
+        <p className="text-sm muted">
+          A few extra answers help us place your company in the market and score competitive position more accurately.
+        </p>
+        <div className="grid gap-4 md:grid-cols-2">
+          {field("Who is your target customer?", draft.target_customer, (v) => set("target_customer", v), {
+            placeholder: "SMB founders, clinic owners, D2C shoppers…",
+          })}
+          <label className="block space-y-1 text-sm">
+            <span className="font-medium">Business stage</span>
+            <select
+              className="iid-input w-full"
+              value={draft.business_stage}
+              onChange={(e) => set("business_stage", e.target.value)}
+            >
+              <option value="">Select stage</option>
+              {stages.map((s) => (
+                <option key={s.id} value={s.id}>
+                  {s.label}
+                </option>
+              ))}
+            </select>
+          </label>
+          {field("Years operating", draft.years_operating, (v) => set("years_operating", v), {
+            placeholder: "e.g. 2.5",
+          })}
+          <label className="block space-y-1 text-sm">
+            <span className="font-medium">Revenue model</span>
+            <select
+              className="iid-input w-full"
+              value={draft.revenue_model}
+              onChange={(e) => set("revenue_model", e.target.value)}
+            >
+              <option value="">Select model</option>
+              {revenueModels.map((m) => (
+                <option key={m.id} value={m.id}>
+                  {m.label}
+                </option>
+              ))}
+            </select>
+          </label>
+          {field("Main competitors (2–3 names)", draft.competitors, (v) => set("competitors", v), {
+            placeholder: "Competitor A, Competitor B…",
+          })}
+        </div>
+        <label className="block space-y-1 text-sm">
+          <span className="font-medium">What makes you different?</span>
+          <textarea
+            className="iid-input w-full min-h-[72px]"
+            value={draft.differentiation}
+            placeholder="Why customers choose you vs alternatives in your space."
+            onChange={(e) => set("differentiation", e.target.value)}
+          />
+        </label>
+        <div className="grid gap-4 md:grid-cols-2">
+          <label className="block space-y-1 text-sm">
+            <span className="font-medium">Biggest challenge right now</span>
+            <textarea
+              className="iid-input w-full min-h-[72px]"
+              value={draft.biggest_challenge}
+              placeholder="Acquisition, retention, ops, hiring…"
+              onChange={(e) => set("biggest_challenge", e.target.value)}
+            />
+          </label>
+          <label className="block space-y-1 text-sm">
+            <span className="font-medium">12-month growth priority</span>
+            <textarea
+              className="iid-input w-full min-h-[72px]"
+              value={draft.growth_goal_12m}
+              placeholder="Hit ₹X MRR, launch new market, improve margins…"
+              onChange={(e) => set("growth_goal_12m", e.target.value)}
+            />
+          </label>
+        </div>
       </section>
 
       <section className="iid-card space-y-4">

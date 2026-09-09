@@ -54,3 +54,26 @@ def test_mini_signal_fallback_not_all_zeros():
     assert int(audit["overall_score"]) > 0
     assert max(int(c["score"]) for c in audit["categories"]) > 0
     assert "checklist" not in str(audit["categories"][0]["summary"]).lower()
+
+
+def test_mini_profile_maps_positioning_fields():
+    draft = {
+        "company_name": "Acme",
+        "geography": "India",
+        "gauge_type": "saas",
+        "target_customer": "SMB founders",
+        "business_stage": "growing",
+        "years_operating": "2",
+        "revenue_model": "subscription",
+        "competitors": "RivalCo",
+        "differentiation": "Faster onboarding",
+        "biggest_challenge": "CAC",
+        "growth_goal_12m": "Double MRR",
+        "website": "https://acme.com",
+    }
+    profile = profile_from_mini_draft(draft)
+    assert profile["target_customer"] == "SMB founders"
+    assert profile["operating_stage"] == "growing"
+    assert profile["main_competitors"] == "RivalCo"
+    assert profile["growth_goal_12_24m"] == "Double MRR"
+    assert profile["plan_forward"]["biggest_bottleneck"] == "CAC"

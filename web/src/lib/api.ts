@@ -401,6 +401,8 @@ export const api = {
   miniGaugeMetadata: () =>
     request<{
       business_types: Array<{ id: string; label: string }>;
+      business_stages?: Array<{ id: string; label: string }>;
+      revenue_models?: Array<{ id: string; label: string }>;
       fields?: string[];
       upgrade_href?: string;
       upgrade_label?: string;

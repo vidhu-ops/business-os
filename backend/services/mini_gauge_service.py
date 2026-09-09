@@ -1,4 +1,4 @@
-"""Mini GAUGE — short intake + public URL context + scored health snapshot."""
+"""Mini GAUGE â short intake + public URL context + scored health snapshot."""
 
 from __future__ import annotations
 
@@ -125,7 +125,7 @@ def gather_url_context(draft: dict[str, Any]) -> dict[str, Any]:
         else:
             lines.append(
                 f"[{row['label']}] {row['url']}\n"
-                "(Could not fetch page text — research this URL from public web knowledge.)"
+                "(Could not fetch page text â research this URL from public web knowledge.)"
             )
     return {
         "urls": [{"label": l, "url": u} for l, u in urls],
@@ -133,6 +133,60 @@ def gather_url_context(draft: dict[str, Any]) -> dict[str, Any]:
         "context_text": "\n\n".join(lines)[:14000],
         "fetched_count": sum(1 for s in snippets if s.get("fetched") == "yes"),
     }
+
+
+MINI_BUSINESS_STAGES: list[dict[str, str]] = [
+    {"id": "pre_revenue", "label": "Pre-revenue / validating"},
+    {"id": "early", "label": "Early revenue (< ₹10L / $12k MRR)"},
+    {"id": "growing", "label": "Growing (traction, not yet scaled)"},
+    {"id": "scaling", "label": "Scaling (repeatable GTM)"},
+    {"id": "mature", "label": "Mature / established"},
+]
+
+MINI_REVENUE_MODELS: list[dict[str, str]] = [
+    {"id": "subscription", "label": "Subscription / SaaS"},
+    {"id": "transaction", "label": "Transaction / marketplace"},
+    {"id": "services", "label": "Services / project fees"},
+    {"id": "product", "label": "Product / D2C sales"},
+    {"id": "hybrid", "label": "Hybrid"},
+    {"id": "other", "label": "Other"},
+]
+
+
+def _stage_label(stage_id: str) -> str:
+    for row in MINI_BUSINESS_STAGES:
+        if row.get("id") == stage_id:
+            return str(row.get("label") or stage_id)
+    return stage_id.replace("_", " ").title() if stage_id else ""
+
+
+def _revenue_model_label(model_id: str) -> str:
+    for row in MINI_REVENUE_MODELS:
+        if row.get("id") == model_id:
+            return str(row.get("label") or model_id)
+    return model_id.replace("_", " ").title() if model_id else ""
+
+
+def _build_mini_intake_context(draft: dict[str, Any]) -> str:
+    lines: list[str] = []
+    mapping: list[tuple[str, Any]] = [
+        ("Target customer / ICP", "target_customer"),
+        ("Business stage", lambda d: _stage_label(_clean(d.get("business_stage"), limit=40))),
+        ("Years operating", "years_operating"),
+        ("Revenue model", lambda d: _revenue_model_label(_clean(d.get("revenue_model"), limit=40))),
+        ("Main competitors", "competitors"),
+        ("Differentiation", "differentiation"),
+        ("Biggest challenge", "biggest_challenge"),
+        ("12-month growth priority", "growth_goal_12m"),
+    ]
+    for label, key in mapping:
+        if callable(key):
+            value = key(draft)
+        else:
+            value = _clean(draft.get(key), limit=2000)
+        if value:
+            lines.append(f"- {label}: {value}")
+    return "\n".join(lines)
 
 
 def validate_mini_draft(draft: dict[str, Any]) -> list[str]:
@@ -147,6 +201,9 @@ def validate_mini_draft(draft: dict[str, Any]) -> list[str]:
         or _clean(draft.get("description"), limit=100)
         or _num(draft.get("monthly_revenue"))
         or _num(draft.get("active_customers"))
+        or _clean(draft.get("target_customer"), limit=40)
+        or _clean(draft.get("competitors"), limit=40)
+        or _clean(draft.get("differentiation"), limit=40)
     )
     if not has_signal:
         errors.append(
@@ -177,10 +234,13 @@ def profile_from_mini_draft(
     if not description and company_name:
         description = f"{gauge_type_label(gauge_type)} business operating as {company_name}."
 
+    founder_context = _build_mini_intake_context(draft)
     notes_parts = [
         "MINI GAUGE intake (short form).",
         _clean(draft.get("gauge_notes"), limit=4000),
     ]
+    if founder_context:
+        notes_parts.append("Founder context (industry & positioning):\n" + founder_context)
     ctx = url_context or {}
     if ctx.get("context_text"):
         notes_parts.append("Public URL / social reads:\n" + str(ctx["context_text"]))
@@ -194,6 +254,27 @@ def profile_from_mini_draft(
         except (TypeError, ValueError):
             annual = ""
 
+    months = _num(draft.get("months_in_operation"))
+    years = _num(draft.get("years_operating"))
+    if not months and years:
+        try:
+            months = str(round(float(years) * 12, 1))
+        except (TypeError, ValueError):
+            months = years
+    years_operating = years
+    if not years_operating and months:
+        try:
+            years_operating = str(round(float(months) / 12, 1))
+        except (TypeError, ValueError):
+            years_operating = ""
+
+    plan_forward = {
+        "biggest_bottleneck": _clean(draft.get("biggest_challenge"), limit=2000),
+        "priority_12_months": _clean(draft.get("growth_goal_12m"), limit=2000),
+        "why_customers_choose": _clean(draft.get("differentiation"), limit=2000),
+        "competitive_threat": _clean(draft.get("competitors"), limit=2000),
+    }
+
     return {
         "business_stage": "existing",
         "gauge_business_type": gauge_type,
@@ -204,8 +285,12 @@ def profile_from_mini_draft(
         "business_description": description,
         "industry": _clean(draft.get("industry")) or gauge_type_label(gauge_type),
         "geography": _clean(draft.get("geography"), limit=200),
-        "months_in_operation": _num(draft.get("months_in_operation")),
-        "years_operating": "",
+        "months_in_operation": months,
+        "years_operating": years_operating,
+        "target_customer": _clean(draft.get("target_customer"), limit=1000),
+        "operating_stage": _clean(draft.get("business_stage"), limit=80),
+        "business_stage_label": _stage_label(_clean(draft.get("business_stage"), limit=40)),
+        "revenue_model": _revenue_model_label(_clean(draft.get("revenue_model"), limit=40)),
         "currency": _clean(draft.get("currency") or "USD", limit=12) or "USD",
         "monthly_revenue": monthly_rev,
         "monthly_costs": monthly_cost,
@@ -219,14 +304,15 @@ def profile_from_mini_draft(
         "plan_purpose": "Internal strategy",
         "target_revenue_year_3": "",
         "funding_amount_needed": "",
-        "growth_goal_12_24m": "",
+        "growth_goal_12_24m": _clean(draft.get("growth_goal_12m"), limit=2000),
         "gauge_checklist_state": {},
-        "gauge_checklist_summary": "Mini Gauge — checklist skipped (upgrade for full GAUGE).",
+        "gauge_checklist_summary": "Mini Gauge â checklist skipped (upgrade for full GAUGE).",
         "gauge_checklist_prompt": (
-            "Mini Gauge mode: no full checklist. Infer category scores from company identity, "
-            "optional metrics, and any public URL/social context provided. Mark uncertainty clearly."
+            "Mini Gauge mode: no full checklist. Score from founder context (ICP, stage, competitors, "
+            "differentiation, growth priority), optional metrics, and public URL/social reads. "
+            "Benchmark against named competitors and industry norms in the stated geography."
         ),
-        "plan_forward": {},
+        "plan_forward": plan_forward,
         "intake_source": "mini_gauge",
         "mini_gauge": True,
     }
@@ -261,11 +347,20 @@ def _build_mini_research_prompt(profile: dict[str, Any], url_context: dict[str, 
         f"Monthly revenue (if given): {profile.get('monthly_revenue') or 'not provided'}\n"
         f"Active customers (if given): {profile.get('active_customers') or 'not provided'}\n"
         f"Team size (if given): {profile.get('employees_ft') or 'not provided'}\n"
+        f"Years operating: {profile.get('years_operating') or 'not provided'}\n"
+        f"Target customer / ICP: {profile.get('target_customer') or 'not provided'}\n"
+        f"Business stage: {profile.get('business_stage_label') or profile.get('operating_stage') or 'not provided'}\n"
+        f"Revenue model: {profile.get('revenue_model') or 'not provided'}\n"
+        f"Main competitors: {profile.get('main_competitors') or 'not provided'}\n"
+        f"Differentiation: {(profile.get('plan_forward') or {}).get('why_customers_choose') or 'not provided'}\n"
+        f"Biggest challenge: {(profile.get('plan_forward') or {}).get('biggest_bottleneck') or 'not provided'}\n"
+        f"12-month growth priority: {profile.get('growth_goal_12_24m') or 'not provided'}\n"
         f"Currency: {profile.get('currency')}\n\n"
         f"FETCHED PAGE TEXT (may be partial; social sites often block):\n{fetched[:9000]}\n\n"
         "Research the company from the open web using the name and URLs above. "
-        "Write a real diagnostic: what the company appears to do, how strong the public "
-        "presence looks, what is missing, and scored categories.\n\n"
+        "Compare positioning vs named competitors and typical players in this industry/geography. "
+        "Write a real diagnostic: what the company appears to do, where it sits in the market, "
+        "how strong the public presence looks, what is missing, and scored categories.\n\n"
         + _audit_json_schema_hint()
     )
 
@@ -372,7 +467,7 @@ def _status_from_score(score: int) -> str:
 def mini_signal_fallback(
     profile: dict[str, Any], url_context: dict[str, Any]
 ) -> dict[str, Any]:
-    """Signal-based mini audit when LLM/Perplexity are unavailable — never checklist zeros."""
+    """Signal-based mini audit when LLM/Perplexity are unavailable â never checklist zeros."""
     company = profile.get("company_name") or "Your business"
     geo = profile.get("geography") or "your market"
     industry = profile.get("industry") or profile.get("gauge_business_type_label") or "business"
@@ -387,9 +482,13 @@ def mini_signal_fallback(
     customers = _safe_float(profile.get("active_customers"))
     team = _safe_float(profile.get("employees_ft"))
     costs = _safe_float(profile.get("monthly_costs"))
+    target_customer = str(profile.get("target_customer") or "")
+    competitors = str(profile.get("main_competitors") or "")
+    differentiation = str((profile.get("plan_forward") or {}).get("why_customers_choose") or "")
+    growth_goal = str(profile.get("growth_goal_12_24m") or "")
 
     blob = " ".join(str(s.get("snippet") or "") for s in snippets).lower()
-    blob += " " + desc.lower()
+    blob += " " + desc.lower() + " " + target_customer.lower() + " " + competitors.lower() + " " + differentiation.lower()
 
     def clamp(n: int) -> int:
         return max(18, min(88, int(n)))
@@ -417,6 +516,8 @@ def mini_signal_fallback(
             customers_score += 8
         if customers >= 200:
             customers_score += 6
+    if len(target_customer) > 12:
+        customers_score += 10
     if any(k in blob for k in ("customer", "client", "user", "subscriber", "buyer")):
         customers_score += 8
 
@@ -459,6 +560,10 @@ def mini_signal_fallback(
         competitive += 10
     if profile.get("main_competitors"):
         competitive += 16
+    if len(differentiation) > 20:
+        competitive += 12
+    if growth_goal:
+        competitive += 6
     if any(k in blob for k in ("competitor", "versus", "alternative", "market", "industry")):
         competitive += 8
     if len(urls) >= 2:
@@ -478,8 +583,8 @@ def mini_signal_fallback(
             f"{'costs provided' if costs is not None else 'costs unknown'}."
         ),
         "Customers": (
-            f"Active customers {'stated at ' + str(int(customers)) if customers is not None else 'not stated'}; "
-            "retention signals need a full GAUGE checklist."
+            (f"ICP: {target_customer[:100]}." if target_customer else "Target customer not stated.")
+            + f" Active customers {'stated at ' + str(int(customers)) if customers is not None else 'not stated'}."
         ),
         "Sales & Marketing": (
             f"Public presence: website={'yes' if has_site else 'no'}, LinkedIn={'yes' if has_li else 'no'}, "
@@ -491,11 +596,11 @@ def mini_signal_fallback(
         ),
         "Product & Team": (
             "Offer description "
-            + ("looks usable for positioning." if len(desc) > 40 else "is thin — add sharper product/service detail.")
+            + ("looks usable for positioning." if len(desc) > 40 else "is thin â add sharper product/service detail.")
         ),
         "Competitive Position": (
-            f"In {geo}, public footprint and stated differentiation drive this read; "
-            "add named competitors in full GAUGE for sharper positioning."
+            (f"Competitors named: {competitors[:120]}." if competitors else f"In {geo}, competitor names were not provided.")
+            + (" Differentiation stated." if differentiation else " Add sharper differentiation for a tighter industry read.")
         ),
     }
     for cat in categories:
@@ -511,7 +616,7 @@ def mini_signal_fallback(
         summary = f"{company} has a usable footprint; tighten tracking and proof points before scaling bets."
     else:
         label = "Thin but directional"
-        summary = f"{company} needs stronger public proof and operating metrics — this mini score is a starting baseline."
+        summary = f"{company} needs stronger public proof and operating metrics â this mini score is a starting baseline."
 
     plain = (
         f"{company} scores about {overall}/100 on this Mini GAUGE snapshot for {industry} in {geo}. "
@@ -618,7 +723,7 @@ def mini_signal_fallback(
         "overall_summary": summary,
         "plain_english_read": plain,
         "market_position": (
-            f"{company} in {geo} — public presence and stated metrics drive this mini read; "
+            f"{company} in {geo} â public presence and stated metrics drive this mini read; "
             "named competitor intel would sharpen positioning."
         ),
         "categories": categories,
@@ -708,7 +813,7 @@ def run_mini_audit(draft: dict[str, Any]) -> tuple[dict[str, Any], dict[str, Any
         market_context = enrich_market_context_with_urls(profile)
         audit = run_mini_audit_via_llm(profile, url_context, market_context)
 
-    # 3) Signal fallback — never checklist zeros
+    # 3) Signal fallback â never checklist zeros
     if not audit:
         audit = mini_signal_fallback(profile, url_context)
 
@@ -724,15 +829,26 @@ def mini_metadata() -> dict[str, Any]:
             "company_name",
             "geography",
             "gauge_type",
+            "industry",
+            "description",
+            "target_customer",
+            "business_stage",
+            "years_operating",
+            "revenue_model",
+            "competitors",
+            "differentiation",
+            "biggest_challenge",
+            "growth_goal_12m",
             "website",
             "linkedin_url",
             "instagram_url",
             "other_urls",
-            "description",
             "monthly_revenue",
             "active_customers",
             "team_size",
         ],
+        "business_stages": MINI_BUSINESS_STAGES,
+        "revenue_models": MINI_REVENUE_MODELS,
         "upgrade_href": "/app/audit",
         "upgrade_label": "Unlock full GAUGE audit",
     }
