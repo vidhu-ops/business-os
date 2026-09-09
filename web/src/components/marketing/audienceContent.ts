@@ -331,22 +331,29 @@ export const CLIENT_LOGOS = [
   {
     name: "Pathak Automation Services",
     src: "/partners/pathak.png",
-    srcOnDark: "/partners/white/pathak.png",
+    srcOnDark: "/partners/pathak.png",
   },
   {
     name: "Loop",
     src: "/partners/loop.png",
-    srcOnDark: "/partners/white/loop.png",
+    srcOnDark: "/partners/loop.png",
   },
   {
     name: "Tyoharwale",
     src: "/partners/tyoharwale.png",
-    srcOnDark: "/partners/white/tyoharwale.png",
+    // Color mark stays readable on dark tiles; monochrome white asset is incomplete.
+    srcOnDark: "/partners/tyoharwale.png",
   },
   {
     name: "JP Infralease",
     src: "/partners/jp-infralease.png",
     srcOnDark: "/partners/white/jp-infralease.png",
+  },
+  {
+    name: "Elements Boutique",
+    // Root SVG is light-on-transparent; white/ folder is dark text for light surfaces.
+    src: "/partners/white/elements-boutique.svg",
+    srcOnDark: "/partners/elements-boutique.svg",
   },
 ];
 

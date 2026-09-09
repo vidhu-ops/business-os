@@ -309,9 +309,11 @@ export function LandingPage() {
             </div>
           ))}
         </div>
-        <Link href="/how-it-works" className="iid-btn iid-btn-ghost mkt-section-cta-inline">
-          See the full walkthrough →
-        </Link>
+        <div className="mkt-section-cta-row">
+          <Link href="/how-it-works" className="iid-btn iid-btn-primary">
+            See the full walkthrough →
+          </Link>
+        </div>
         </div>
       </section>
 
@@ -357,28 +359,20 @@ export function LandingPage() {
           <h2 className="mkt-h2">Partners</h2>
         </div>
         <div className="mkt-wrap mkt-partner-spotlight" aria-label="Featured partners">
-          {CLIENT_LOGOS.slice(0, 3).map((logo) => (
+          {CLIENT_LOGOS.map((logo) => (
             <div key={logo.name} className="mkt-partner-spotlight-item">
               {/* eslint-disable-next-line @next/next/no-img-element */}
               <img
-                className="mkt-partner-logo-light"
-                src={logo.src}
-                alt={`${logo.name} logo`}
-                loading="lazy"
-              />
-              {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img
-                className="mkt-partner-logo-dark"
-                src={logo.srcOnDark}
+                src={logo.srcOnDark || logo.src}
                 alt=""
-                aria-hidden="true"
                 loading="lazy"
               />
+              <span className="mkt-partner-spotlight-name">{logo.name}</span>
             </div>
           ))}
         </div>
-        <div className="mkt-wrap">
-          <Link href="/partners" className="iid-btn iid-btn-ghost mkt-section-cta-inline">
+        <div className="mkt-wrap mkt-section-cta-row">
+          <Link href="/partners" className="iid-btn iid-btn-ghost">
             See all partners →
           </Link>
         </div>
@@ -540,7 +534,7 @@ export function LandingPage() {
 
       <WixBrandSections />
 
-      <section id="contact" className="mkt-wrap mkt-section">
+      <section id="contact" className="mkt-wrap mkt-section mkt-contact-section">
         <div className="mkt-section-head mkt-section-head-center">
           <span className="mkt-label">Let us find you</span>
           <h2 className="mkt-h2">Tell us about your idea</h2>

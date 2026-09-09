@@ -57,7 +57,7 @@ export const MARKETING_PHOTOS: Record<
     caption: "Shared deliverables",
   },
   analytics: {
-    src: "https://images.unsplash.com/photo-1542744173-8e2bd736f0d4?auto=format&fit=crop&w=1200&q=80",
+    src: "/marketing/people/solution.jpg",
     alt: "Operators reviewing growth plans together",
     caption: "Data-backed decisions",
   },

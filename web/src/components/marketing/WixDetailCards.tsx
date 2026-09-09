@@ -44,6 +44,9 @@ export function WixDetailCards() {
           <h2 id="wix-details-heading" className="mkt-wix-details-title">
             Want more details?
           </h2>
+          <p className="mkt-wix-details-lead">
+            From data input to growth chat — five ways IIDATECH turns your idea into a working plan.
+          </p>
           <div className="mkt-wix-details-actions">
             <Link href="/login?mode=register" className="mkt-wix-start-btn">
               START NOW
