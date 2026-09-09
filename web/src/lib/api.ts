@@ -398,6 +398,43 @@ export const api = {
   auditStatus: () => request<AuditStatus>("/api/v1/audit/status"),
   ensureAuditWorkspace: () =>
     request<{ workspace_id: string; project: Project; is_demo?: boolean }>("/api/v1/audit/workspace"),
+  miniGaugeMetadata: () =>
+    request<{
+      business_types: Array<{ id: string; label: string }>;
+      fields?: string[];
+      upgrade_href?: string;
+      upgrade_label?: string;
+    }>("/api/v1/audit/mini/metadata"),
+  getMiniGauge: () =>
+    request<{
+      workspace_id: string;
+      draft: Record<string, unknown>;
+      audit: Record<string, unknown> | null;
+      status: AuditStatus;
+      is_demo?: boolean;
+      upgrade_href?: string;
+      full_audit_status?: AuditStatus;
+    }>("/api/v1/audit/mini"),
+  saveMiniGauge: (draft: Record<string, unknown>) =>
+    request<{ draft: Record<string, unknown> }>("/api/v1/audit/mini", {
+      method: "PATCH",
+      body: JSON.stringify({ draft }),
+    }),
+  resetMiniGauge: () => request<{ ok: boolean }>("/api/v1/audit/mini", { method: "DELETE" }),
+  runMiniGauge: (draft?: Record<string, unknown>) =>
+    request<{
+      audit: Record<string, unknown>;
+      profile: Record<string, unknown>;
+      urls?: Array<{ label: string; url: string }>;
+      urls_fetched?: Array<{ label?: string; url?: string; fetched?: string }>;
+      upgrade_href?: string;
+      upgrade_label?: string;
+      full_audit_status?: AuditStatus;
+    }>(
+      "/api/v1/audit/mini/run",
+      { method: "POST", body: JSON.stringify({ draft: draft || {} }) },
+      { timeoutMs: GAUGE_REQUEST_TIMEOUT_MS },
+    ),
   dashboard: () => request<DashboardData>("/api/v1/dashboard"),
   adminUsers: (q = "") =>
     request<{

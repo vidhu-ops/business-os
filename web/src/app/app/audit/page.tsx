@@ -54,7 +54,7 @@ function AuditContent() {
         <p className="mt-2 muted">
           {demoMode
             ? "Sample completed audit — read-only. Sign up to run a free audit on your company."
-            : "Run your free company audit — no project setup required. Complete the steps below, then run GAUGE."}
+            : "Full GAUGE — checklist, operating metrics, and forward plan. For a faster scored snapshot from public links, use Mini Gauge."}
         </p>
       </div>
 

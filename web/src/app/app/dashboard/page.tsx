@@ -21,7 +21,8 @@ function initials(name: string) {
 }
 
 const quickLinksBase = [
-  { href: "/app/audit", label: "Free company audit" },
+  { href: "/app/mini-gauge", label: "Mini Gauge" },
+  { href: "/app/audit", label: "Full company audit" },
   { href: "/app/mentor", label: "Mentor" },
   { href: "/app/onboarding", label: "Org memory" },
   { href: "/", label: "Homepage" },
@@ -91,9 +92,14 @@ export default function DashboardPage() {
             View sample report
           </Link>
         ) : (
-        <Link href="/app/audit" className="iid-btn iid-btn-ghost">
-          Run free audit
-        </Link>
+          <>
+            <Link href="/app/mini-gauge" className="iid-btn iid-btn-primary">
+              Run Mini Gauge
+            </Link>
+            <Link href="/app/audit" className="iid-btn iid-btn-ghost">
+              Full company audit
+            </Link>
+          </>
         )}
       </div>
 
