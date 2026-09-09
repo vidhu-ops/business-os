@@ -403,6 +403,7 @@ export const api = {
       business_types: Array<{ id: string; label: string }>;
       business_stages?: Array<{ id: string; label: string }>;
       revenue_models?: Array<{ id: string; label: string }>;
+      industry_verticals?: Array<{ id: string; label: string }>;
       fields?: string[];
       upgrade_href?: string;
       upgrade_label?: string;

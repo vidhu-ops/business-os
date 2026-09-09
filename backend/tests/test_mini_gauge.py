@@ -15,6 +15,7 @@ def test_mini_draft_accepts_social_urls():
         "company_name": "Acme",
         "geography": "India",
         "gauge_type": "saas",
+        "industry_vertical": "b2b_saas",
         "linkedin_url": "linkedin.com/company/acme",
         "instagram_url": "instagram.com/acme",
     }
@@ -33,6 +34,7 @@ def test_mini_signal_fallback_not_all_zeros():
         "company_name": "IIDATECH",
         "geography": "India",
         "gauge_type": "saas",
+        "industry_vertical": "b2b_saas",
         "website": "https://iidatech.com",
         "linkedin_url": "https://linkedin.com/company/iidatech",
         "description": "Market research and business planning platform for founders.",
@@ -61,6 +63,7 @@ def test_mini_profile_maps_positioning_fields():
         "company_name": "Acme",
         "geography": "India",
         "gauge_type": "saas",
+        "industry_vertical": "b2b_saas",
         "target_customer": "SMB founders",
         "business_stage": "growing",
         "years_operating": "2",
@@ -77,3 +80,48 @@ def test_mini_profile_maps_positioning_fields():
     assert profile["main_competitors"] == "RivalCo"
     assert profile["growth_goal_12_24m"] == "Double MRR"
     assert profile["plan_forward"]["biggest_bottleneck"] == "CAC"
+
+
+def test_industry_position_fallback_has_vs_table():
+    from backend.services.mini_industry_position import build_industry_position_fallback
+
+    profile = {
+        "company_name": "Acme",
+        "industry": "B2B SaaS / Software",
+        "geography": "India",
+        "target_customer": "SMB founders",
+        "main_competitors": "RivalCo",
+        "monthly_revenue": "25000",
+        "plan_forward": {"why_customers_choose": "Faster setup"},
+    }
+    audit = {
+        "overall_score": 52,
+        "categories": [
+            {"name": "Financials", "score": 55},
+            {"name": "Customers", "score": 48},
+            {"name": "Sales & Marketing", "score": 50},
+            {"name": "Operations", "score": 45},
+            {"name": "Product & Team", "score": 52},
+            {"name": "Competitive Position", "score": 58},
+        ],
+    }
+    pos = build_industry_position_fallback(profile, audit)
+    assert "B2B SaaS" in pos["industry_label"]
+    assert pos["standing_tier"]
+    assert len(pos["vs_industry"]) >= 4
+    assert pos["standing_summary"]
+
+
+def test_enrich_audit_adds_industry_position():
+    from backend.services.mini_industry_position import enrich_audit_with_industry_position
+
+    profile = {
+        "company_name": "Acme",
+        "industry": "Fintech / Financial services",
+        "geography": "India",
+    }
+    audit = {"overall_score": 48, "categories": [{"name": "Financials", "score": 50}]}
+    out = enrich_audit_with_industry_position(audit, profile)
+    assert out["industry_position"]["industry_label"]
+    assert out["industry_selected"]
+    assert out["market_position"]

@@ -8,10 +8,27 @@ type BizType = { id: string; label: string };
 
 type StageOption = { id: string; label: string };
 
+type IndustryPosition = {
+  industry_label?: string;
+  geography?: string;
+  standing_tier?: string;
+  percentile_estimate?: string;
+  standing_summary?: string;
+  vs_industry?: Array<{
+    dimension?: string;
+    your_read?: string;
+    industry_typical?: string;
+    standing?: string;
+  }>;
+  industry_gaps?: string[];
+  momentum?: string;
+};
+
 type MiniDraft = {
   company_name: string;
   geography: string;
   gauge_type: string;
+  industry_vertical: string;
   industry: string;
   target_customer: string;
   business_stage: string;
@@ -36,6 +53,7 @@ const EMPTY: MiniDraft = {
   company_name: "",
   geography: "",
   gauge_type: "other",
+  industry_vertical: "",
   industry: "",
   target_customer: "",
   business_stage: "",
@@ -64,6 +82,20 @@ const DEFAULT_STAGES: StageOption[] = [
   { id: "mature", label: "Mature / established" },
 ];
 
+const DEFAULT_INDUSTRY_VERTICALS: StageOption[] = [
+  { id: "b2b_saas", label: "B2B SaaS / Software" },
+  { id: "ecommerce", label: "E-commerce / D2C" },
+  { id: "fintech", label: "Fintech / Financial services" },
+  { id: "healthcare", label: "Healthcare / Clinics" },
+  { id: "edtech", label: "EdTech / Training" },
+  { id: "agency", label: "Agency / Professional services" },
+  { id: "retail", label: "Retail / Brick & mortar" },
+  { id: "food_hospitality", label: "Food & hospitality" },
+  { id: "logistics", label: "Logistics / Operations" },
+  { id: "manufacturing", label: "Manufacturing / Industrial" },
+  { id: "other", label: "Other / describe below" },
+];
+
 const DEFAULT_REVENUE_MODELS: StageOption[] = [
   { id: "subscription", label: "Subscription / SaaS" },
   { id: "transaction", label: "Transaction / marketplace" },
@@ -79,6 +111,84 @@ function statusEmoji(status: string) {
   if (s === "watch") return "🟡";
   if (s === "risk") return "🔴";
   return "⚪";
+}
+
+function standingLabel(standing?: string) {
+  const s = (standing || "inline").toLowerCase();
+  if (s === "above") return { text: "Above peers", className: "mini-gauge-standing-above" };
+  if (s === "below") return { text: "Below peers", className: "mini-gauge-standing-below" };
+  return { text: "In line", className: "mini-gauge-standing-inline" };
+}
+
+function IndustryStandingBlock({
+  position,
+  industryFallback,
+}: {
+  position: IndustryPosition;
+  industryFallback?: string;
+}) {
+  const industry = position.industry_label || industryFallback || "your industry";
+  const rows = position.vs_industry || [];
+  const gaps = position.industry_gaps || [];
+
+  return (
+    <section className="mini-gauge-industry-block space-y-4">
+      <div className="flex flex-wrap items-start justify-between gap-3">
+        <div>
+          <h4 className="font-semibold text-base">Where you stand in {industry}</h4>
+          {position.geography ? <p className="text-xs muted mt-0.5">Market: {position.geography}</p> : null}
+        </div>
+        {position.standing_tier ? (
+          <span className="mini-gauge-tier-pill">{position.standing_tier}</span>
+        ) : null}
+      </div>
+
+      {position.percentile_estimate ? (
+        <p className="text-sm mini-gauge-percentile">{position.percentile_estimate}</p>
+      ) : null}
+
+      {position.standing_summary ? (
+        <p className="text-sm leading-relaxed">{position.standing_summary}</p>
+      ) : null}
+
+      {rows.length > 0 && (
+        <div className="mini-gauge-vs-table">
+          <div className="mini-gauge-vs-head">
+            <span>Dimension</span>
+            <span>Your read</span>
+            <span>Typical in industry</span>
+            <span>Standing</span>
+          </div>
+          {rows.map((row, i) => {
+            const badge = standingLabel(row.standing);
+            return (
+              <div key={i} className="mini-gauge-vs-row">
+                <strong>{row.dimension}</strong>
+                <span>{row.your_read}</span>
+                <span className="muted">{row.industry_typical}</span>
+                <span className={`mini-gauge-standing-pill ${badge.className}`}>{badge.text}</span>
+              </div>
+            );
+          })}
+        </div>
+      )}
+
+      {gaps.length > 0 && (
+        <div>
+          <h5 className="font-semibold text-sm mb-2">Gaps vs typical {industry} players</h5>
+          <ul className="text-sm space-y-1.5 list-disc ml-5">
+            {gaps.map((g, i) => (
+              <li key={i}>{g}</li>
+            ))}
+          </ul>
+        </div>
+      )}
+
+      {position.momentum ? (
+        <p className="text-xs muted">Momentum signal: {position.momentum}</p>
+      ) : null}
+    </section>
+  );
 }
 
 function field(
@@ -106,6 +216,7 @@ export function MiniGaugePanel({ demoMode = false }: { demoMode?: boolean }) {
   const [types, setTypes] = useState<BizType[]>([]);
   const [stages, setStages] = useState<StageOption[]>(DEFAULT_STAGES);
   const [revenueModels, setRevenueModels] = useState<StageOption[]>(DEFAULT_REVENUE_MODELS);
+  const [industryVerticals, setIndustryVerticals] = useState<StageOption[]>(DEFAULT_INDUSTRY_VERTICALS);
   const [audit, setAudit] = useState<Record<string, unknown> | null>(null);
   const [urlsFetched, setUrlsFetched] = useState<Array<{ label?: string; url?: string; fetched?: string }>>([]);
   const [loading, setLoading] = useState(true);
@@ -127,8 +238,15 @@ export function MiniGaugePanel({ demoMode = false }: { demoMode?: boolean }) {
         const metaModels = (meta.revenue_models as StageOption[]) || [];
         if (metaStages.length) setStages(metaStages);
         if (metaModels.length) setRevenueModels(metaModels);
+        const metaIndustries = (meta.industry_verticals as StageOption[]) || [];
+        if (metaIndustries.length) setIndustryVerticals(metaIndustries);
         const incoming = (state.draft || {}) as Partial<MiniDraft>;
-        setDraft({ ...EMPTY, ...incoming, gauge_type: String(incoming.gauge_type || "other") });
+        setDraft({
+          ...EMPTY,
+          ...incoming,
+          gauge_type: String(incoming.gauge_type || "other"),
+          industry_vertical: String(incoming.industry_vertical || ""),
+        });
         setAudit(state.audit);
         const savedFetched = (state.urls_fetched as Array<{ label?: string; url?: string; fetched?: string }>) || [];
         if (savedFetched.length) {
@@ -156,8 +274,21 @@ export function MiniGaugePanel({ demoMode = false }: { demoMode?: boolean }) {
   };
 
   const canRun = useMemo(() => {
-    return Boolean(draft.company_name.trim() && draft.geography.trim());
-  }, [draft.company_name, draft.geography]);
+    const hasIndustry =
+      Boolean(draft.industry_vertical && draft.industry_vertical !== "other") ||
+      (draft.industry_vertical === "other" && Boolean(draft.industry.trim())) ||
+      Boolean(draft.industry.trim());
+    return Boolean(draft.company_name.trim() && draft.geography.trim() && hasIndustry);
+  }, [draft.company_name, draft.geography, draft.industry, draft.industry_vertical]);
+
+  function setIndustryVertical(verticalId: string) {
+    const match = industryVerticals.find((v) => v.id === verticalId);
+    setDraft((d) => ({
+      ...d,
+      industry_vertical: verticalId,
+      industry: verticalId && verticalId !== "other" ? match?.label || d.industry : d.industry,
+    }));
+  }
 
   async function saveQuiet(next: MiniDraft) {
     try {
@@ -252,9 +383,26 @@ export function MiniGaugePanel({ demoMode = false }: { demoMode?: boolean }) {
               ))}
             </select>
           </label>
-          {field("Industry (optional)", draft.industry, (v) => set("industry", v), {
-            placeholder: "B2B SaaS, D2C beauty…",
-          })}
+          <label className="block space-y-1 text-sm">
+            <span className="font-medium">Industry *</span>
+            <select
+              className="iid-input w-full"
+              value={draft.industry_vertical}
+              onChange={(e) => setIndustryVertical(e.target.value)}
+            >
+              <option value="">Select your industry</option>
+              {industryVerticals.map((v) => (
+                <option key={v.id} value={v.id}>
+                  {v.label}
+                </option>
+              ))}
+            </select>
+          </label>
+          {draft.industry_vertical === "other" ? (
+            field("Describe your industry", draft.industry, (v) => set("industry", v), {
+              placeholder: "e.g. Climate tech for agriculture",
+            })
+          ) : null}
         </div>
         <label className="block space-y-1 text-sm">
           <span className="font-medium">What do you sell? (1–2 sentences)</span>
@@ -424,6 +572,25 @@ export function MiniGaugePanel({ demoMode = false }: { demoMode?: boolean }) {
             </div>
           ) : null}
 
+          <IndustryStandingBlock
+            position={(audit.industry_position as IndustryPosition) || {}}
+            industryFallback={String(audit.industry_selected || draft.industry || "")}
+          />
+
+          {audit.market_position ? (
+            <div className="rounded-lg border border-[var(--iid-line)] p-3 text-sm">
+              <h4 className="font-semibold text-sm mb-1">Market position</h4>
+              <p>{String(audit.market_position)}</p>
+            </div>
+          ) : null}
+
+          {audit.industry_landscape ? (
+            <div className="rounded-lg border border-[var(--iid-line)] p-3 text-sm">
+              <h4 className="font-semibold text-sm mb-1">Industry landscape</h4>
+              <p>{String(audit.industry_landscape)}</p>
+            </div>
+          ) : null}
+
           <div className="grid gap-3 md:grid-cols-3">
             {((audit.categories as Array<Record<string, unknown>>) || []).map((cat) => (
               <div key={String(cat.name)} className="rounded-lg border border-[var(--iid-line)] p-3 text-sm">
@@ -443,6 +610,17 @@ export function MiniGaugePanel({ demoMode = false }: { demoMode?: boolean }) {
                   {m.benchmark ? <span className="text-xs muted"> (bench: {m.benchmark})</span> : null}
                 </div>
               ))}
+            </div>
+          )}
+
+          {Array.isArray(audit.risks) && (audit.risks as string[]).length > 0 && (
+            <div>
+              <h4 className="font-semibold text-sm">Risks to watch</h4>
+              <ul className="mt-2 text-sm list-disc ml-5 space-y-1">
+                {(audit.risks as string[]).map((r, i) => (
+                  <li key={i}>{r}</li>
+                ))}
+              </ul>
             </div>
           )}
 

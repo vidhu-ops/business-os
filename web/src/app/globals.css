@@ -7448,3 +7448,99 @@ html.light .mkt-partner-logo-dark {
   padding-top: clamp(3.5rem, 8vw, 6rem);
   margin-top: clamp(1.5rem, 4vw, 3rem);
 }
+
+/* Mini Gauge — industry standing */
+.mini-gauge-industry-block {
+  padding: 1.1rem 1.15rem;
+  border-radius: 1rem;
+  border: 1px solid var(--iid-line);
+  background: linear-gradient(165deg, rgba(59, 130, 246, 0.06), rgba(15, 23, 42, 0.02));
+}
+
+.mini-gauge-tier-pill {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.35rem 0.75rem;
+  border-radius: 999px;
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: #0f172a;
+  background: rgba(255, 255, 255, 0.92);
+  border: 1px solid rgba(15, 23, 42, 0.12);
+}
+
+.mini-gauge-percentile {
+  font-weight: 600;
+  color: var(--iid-blue);
+}
+
+.mini-gauge-vs-table {
+  display: grid;
+  gap: 0.55rem;
+  font-size: 0.82rem;
+}
+
+.mini-gauge-vs-head,
+.mini-gauge-vs-row {
+  display: grid;
+  grid-template-columns: 1.1fr 1.2fr 1.2fr 0.75fr;
+  gap: 0.65rem;
+  align-items: start;
+}
+
+.mini-gauge-vs-head {
+  font-size: 0.68rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--iid-muted);
+}
+
+.mini-gauge-vs-row {
+  padding: 0.65rem 0.7rem;
+  border-radius: 0.65rem;
+  border: 1px solid var(--iid-line);
+  background: rgba(255, 255, 255, 0.55);
+}
+
+html.dark .mini-gauge-vs-row {
+  background: rgba(15, 23, 42, 0.35);
+}
+
+.mini-gauge-standing-pill {
+  display: inline-flex;
+  justify-content: center;
+  padding: 0.2rem 0.45rem;
+  border-radius: 999px;
+  font-size: 0.68rem;
+  font-weight: 700;
+  white-space: nowrap;
+}
+
+.mini-gauge-standing-above {
+  color: #065f46;
+  background: rgba(16, 185, 129, 0.16);
+}
+
+.mini-gauge-standing-inline {
+  color: #92400e;
+  background: rgba(245, 158, 11, 0.16);
+}
+
+.mini-gauge-standing-below {
+  color: #991b1b;
+  background: rgba(239, 68, 68, 0.14);
+}
+
+@media (max-width: 900px) {
+  .mini-gauge-vs-head {
+    display: none;
+  }
+
+  .mini-gauge-vs-row {
+    grid-template-columns: 1fr;
+    gap: 0.35rem;
+  }
+}

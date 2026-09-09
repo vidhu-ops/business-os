@@ -10,6 +10,12 @@ import urllib.request
 from typing import Any
 from urllib.parse import urlparse
 
+from backend.services.mini_industry_position import (
+    MINI_INDUSTRY_VERTICALS,
+    enrich_audit_with_industry_position,
+    industry_json_schema_hint,
+    resolve_industry_from_draft,
+)
 from iidatech.services.gauge_intake import GAUGE_BUSINESS_TYPES, gauge_type_label
 
 _TAG_RE = re.compile(r"<[^>]+>")
@@ -195,6 +201,12 @@ def validate_mini_draft(draft: dict[str, Any]) -> list[str]:
         errors.append("Enter your company name.")
     if not _clean(draft.get("geography"), limit=200):
         errors.append("Enter your primary market / geography.")
+    vertical = _clean(draft.get("industry_vertical"), limit=40)
+    custom_industry = _clean(draft.get("industry"), limit=200)
+    if not vertical and not custom_industry:
+        errors.append("Select your industry so we can benchmark you against peers.")
+    elif vertical == "other" and not custom_industry:
+        errors.append("Describe your industry when selecting Other.")
     urls = collect_public_urls(draft)
     has_signal = bool(
         urls
@@ -283,7 +295,8 @@ def profile_from_mini_draft(
         "website": website,
         "public_links": public_links[:2000],
         "business_description": description,
-        "industry": _clean(draft.get("industry")) or gauge_type_label(gauge_type),
+        "industry": resolve_industry_from_draft(draft, fallback_type_label=gauge_type_label(gauge_type)),
+        "industry_vertical": _clean(draft.get("industry_vertical"), limit=40),
         "geography": _clean(draft.get("geography"), limit=200),
         "months_in_operation": months,
         "years_operating": years_operating,
@@ -327,7 +340,8 @@ def _audit_json_schema_hint() -> str:
         "key_metrics (5 objects with label/value/benchmark/assessment), top_actions "
         "(4 objects with title/why/impact/effort), industry_landscape, risks (3-5 strings), "
         "sources (urls or publication names used). "
-        "status must be strong|watch|risk. Do not invent precise financials that were not provided; "
+        + industry_json_schema_hint()
+        + " status must be strong|watch|risk. Do not invent precise financials that were not provided; "
         "infer directional health from public presence + stated metrics. Never return all zeros "
         "unless the company truly has no usable signal."
     )
@@ -358,14 +372,16 @@ def _build_mini_research_prompt(profile: dict[str, Any], url_context: dict[str, 
         f"Currency: {profile.get('currency')}\n\n"
         f"FETCHED PAGE TEXT (may be partial; social sites often block):\n{fetched[:9000]}\n\n"
         "Research the company from the open web using the name and URLs above. "
-        "Compare positioning vs named competitors and typical players in this industry/geography. "
+        f"SELECTED INDUSTRY FOR BENCHMARKING (mandatory): {profile.get('industry')}\n\n"
+        "Compare this company vs named competitors AND typical players in the selected industry/geography. "
+        "The industry_position block must state clearly where they stand (tier + percentile band + vs_industry table). "
         "Write a real diagnostic: what the company appears to do, where it sits in the market, "
         "how strong the public presence looks, what is missing, and scored categories.\n\n"
         + _audit_json_schema_hint()
     )
 
 
-def _parse_audit_payload(raw: Any) -> dict[str, Any] | None:
+def _parse_audit_payload(raw: Any, profile: dict[str, Any] | None = None) -> dict[str, Any] | None:
     from iidatech.services.gauge_audit import (
         extract_json_object,
         normalize_gauge_audit,
@@ -386,6 +402,10 @@ def _parse_audit_payload(raw: Any) -> dict[str, Any] | None:
     scores = [int(c.get("score") or 0) for c in (audit.get("categories") or [])]
     if scores and max(scores) == 0 and sum(scores) == 0:
         return None
+    if isinstance(parsed, dict) and parsed.get("industry_position"):
+        audit["industry_position"] = parsed.get("industry_position")
+    if profile:
+        audit = enrich_audit_with_industry_position(audit, profile)
     return audit
 
 
@@ -404,9 +424,9 @@ def run_mini_audit_via_perplexity(
         parsed = api.get("parsed") or api.get("json")
         if not isinstance(parsed, dict):
             content = api.get("raw_content") or api.get("text") or ""
-            audit = _parse_audit_payload(content)
+            audit = _parse_audit_payload(content, profile)
         else:
-            audit = _parse_audit_payload(parsed)
+            audit = _parse_audit_payload(parsed, profile)
         if not audit:
             return None
         audit["_route"] = f"perplexity:{api.get('model') or 'sonar'}"
@@ -444,7 +464,7 @@ def run_mini_audit_via_llm(
         text, route = llm_text_request(prompt, GAUGE_AUDIT_SYSTEM, max_tokens=4096, temperature=0.15)
         if not text or not str(text).strip():
             return None
-        audit = _parse_audit_payload(text)
+        audit = _parse_audit_payload(text, profile)
         if not audit:
             return None
         audit["_route"] = route
@@ -817,6 +837,7 @@ def run_mini_audit(draft: dict[str, Any]) -> tuple[dict[str, Any], dict[str, Any
     if not audit:
         audit = mini_signal_fallback(profile, url_context)
 
+    audit = enrich_audit_with_industry_position(audit, profile)
     audit = _attach_url_meta(audit, url_context)
     audit["_mini"] = True
     return audit, profile, url_context
@@ -849,6 +870,7 @@ def mini_metadata() -> dict[str, Any]:
         ],
         "business_stages": MINI_BUSINESS_STAGES,
         "revenue_models": MINI_REVENUE_MODELS,
+        "industry_verticals": MINI_INDUSTRY_VERTICALS,
         "upgrade_href": "/app/audit",
         "upgrade_label": "Unlock full GAUGE audit",
     }
