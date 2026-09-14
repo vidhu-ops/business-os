@@ -7715,6 +7715,34 @@ html.dark .mini-gauge-vs-row {
   color: #f8fafc;
 }
 
+.mkt-band-demo .mkt-h2,
+.mkt-band-demo.mkt-band-full .mkt-h2,
+html.light .mkt-band-demo .mkt-h2 {
+  color: #ffffff !important;
+  text-shadow: 0 1px 18px rgba(0, 0, 0, 0.35);
+}
+
+.mkt-band-demo .mkt-sub,
+.mkt-band-demo .mkt-demo-idea,
+.mkt-band-demo .mkt-demo-idea strong,
+html.light .mkt-band-demo .mkt-sub,
+html.light .mkt-band-demo .mkt-demo-idea {
+  color: #ffffff !important;
+}
+
+.mkt-band-demo .mkt-section-cta-row .iid-btn-ghost,
+html.light .mkt-band-demo .mkt-section-cta-row .iid-btn-ghost {
+  color: #ffffff !important;
+  border-color: rgba(255, 255, 255, 0.55) !important;
+  background: rgba(255, 255, 255, 0.08) !important;
+}
+
+.mkt-band-demo .mkt-section-cta-row .iid-btn-ghost:hover {
+  color: #ffffff !important;
+  background: rgba(255, 255, 255, 0.16) !important;
+  border-color: #ffffff !important;
+}
+
 .mkt-demo-flow {
   display: grid;
   grid-template-columns: 1fr auto 1fr;
