@@ -108,12 +108,13 @@ export function DemoCaseStudySection() {
 
 export function ProductStorySection() {
   return (
-    <section className="mkt-wrap mkt-section">
+    <section id="product-story" className="mkt-wrap mkt-section mkt-section-story-compact">
       <div className="mkt-section-head mkt-section-head-center">
         <span className="mkt-label">The story</span>
         <h2 className="mkt-h2">One idea → complete business intelligence</h2>
+        <p className="mkt-sub">From a single input to research, plan, roadmap, and AI employees — in one linked project.</p>
       </div>
-      <ol className="mkt-story-flow">
+      <ol className="mkt-story-flow mkt-story-flow-compact">
         {PRODUCT_STORY.map((item, i) => (
           <li key={item.step} className="mkt-story-step">
             <span className="mkt-story-num">{i + 1}</span>

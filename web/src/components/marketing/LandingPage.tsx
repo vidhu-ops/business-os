@@ -9,7 +9,6 @@ import {
   CreditsGuideSection,
   DemoCaseStudySection,
   ProductScreensSection,
-  ProductStorySection,
   VisitorGoalsSection,
 } from "./FirstVisitorSections";
 import { WixBrandSections } from "./WixBrandSections";

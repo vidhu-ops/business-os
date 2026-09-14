@@ -7,7 +7,12 @@ import { MarketingShell } from "./MarketingShell";
 import { WorkspaceEntryLink } from "@/components/WorkspaceEntryLink";
 import { ABOUT_BY_AUDIENCE, ABOUT_SHARED } from "./aboutContent";
 import type { Audience } from "./audienceContent";
-import { ChatGptCompareSection, EvidenceSection, TaylorExampleSection } from "./FirstVisitorSections";
+import {
+  ChatGptCompareSection,
+  EvidenceSection,
+  ProductStorySection,
+  TaylorExampleSection,
+} from "./FirstVisitorSections";
 
 export function AboutPage() {
   const router = useRouter();
