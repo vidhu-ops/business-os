@@ -218,7 +218,7 @@ export const SECTION_VIDEOS = {
 export const HERO_WIX = {
   brand: "IIDA",
   founder: {
-    eyebrow: "For founders validating a business idea",
+    eyebrow: "Validating a business idea",
     headline: "Turn your idea into a real business",
     pipe: [
       { label: "RESEARCH", href: "/services/research" },
@@ -233,7 +233,7 @@ export const HERO_WIX = {
     cta: { href: "/login?mode=register", label: "Analyze my business" },
   },
   company: {
-    eyebrow: "For MSMEs and B2B teams growing an existing business",
+    eyebrow: "Growing an existing business",
     headline: "Grow what you already run",
     pipe: [
       { label: "AUDIT", href: "/services/gauge" },

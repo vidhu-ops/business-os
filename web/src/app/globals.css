@@ -7641,6 +7641,11 @@ html.dark .mini-gauge-vs-row {
   color: #7dd3fc;
 }
 
+.mkt-hero-wix--company .mkt-hero-wix-eyebrow {
+  color: #0f172a;
+  text-shadow: 0 1px 10px rgba(255, 255, 255, 0.92);
+}
+
 .mkt-hero-wix-trust {
   margin: 0.65rem 0 0;
   font-size: 0.82rem;
