@@ -6,13 +6,10 @@ import { useEffect, useRef, useState, type CSSProperties } from "react";
 import { ContactForm } from "./ContactForm";
 import {
   CaseStudiesSection,
-  ChatGptCompareSection,
   CreditsGuideSection,
   DemoCaseStudySection,
-  EvidenceSection,
   ProductScreensSection,
   ProductStorySection,
-  TaylorExampleSection,
   VisitorGoalsSection,
 } from "./FirstVisitorSections";
 import { WixBrandSections } from "./WixBrandSections";
@@ -269,9 +266,6 @@ export function LandingPage() {
       </section>
 
       <ProductScreensSection />
-      <ChatGptCompareSection />
-      <TaylorExampleSection />
-      <EvidenceSection />
 
       <section id="about" className="mkt-band mkt-band-full mkt-band-about" aria-labelledby="about-heading">
         <div className="mkt-wrap mkt-section mkt-section-about-human mkt-band-content">

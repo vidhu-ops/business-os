@@ -7,6 +7,7 @@ import { MarketingShell } from "./MarketingShell";
 import { WorkspaceEntryLink } from "@/components/WorkspaceEntryLink";
 import { ABOUT_BY_AUDIENCE, ABOUT_SHARED } from "./aboutContent";
 import type { Audience } from "./audienceContent";
+import { ChatGptCompareSection, EvidenceSection, TaylorExampleSection } from "./FirstVisitorSections";
 
 export function AboutPage() {
   const router = useRouter();
@@ -175,6 +176,10 @@ export function AboutPage() {
           See the full walkthrough →
         </Link>
       </section>
+
+      <ChatGptCompareSection />
+      <TaylorExampleSection />
+      <EvidenceSection />
 
       <section className="mkt-wrap mkt-section" id="faq">
         <div className="mkt-section-head">
