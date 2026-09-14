@@ -175,34 +175,6 @@ export function LandingPage() {
       </section>
 
       <VisitorGoalsSection />
-      <DemoCaseStudySection />
-      <ProductStorySection />
-
-      <section id="how" className="mkt-band mkt-band-full mkt-band-steps">
-        <div className="mkt-wrap mkt-section mkt-section-steps mkt-band-content">
-        <div className="mkt-section-head mkt-section-head-center">
-          <span className="mkt-label">What you get</span>
-          <h2 className="mkt-h2">Research. Plan. Execute.</h2>
-        </div>
-        <div className="mkt-step-cards">
-          {HOME_STEPS.map((s) => (
-            <article key={s.step} className="mkt-step-card">
-              <figure className="mkt-step-card-frame">
-                {/* eslint-disable-next-line @next/next/no-img-element */}
-                <img src={s.frameSrc} alt={s.frameAlt} loading="lazy" />
-              </figure>
-              <h3 className="mkt-step-card-title">{s.title}</h3>
-              <p className="mkt-step-card-body">{s.body}</p>
-            </article>
-          ))}
-        </div>
-        <div className="mkt-section-cta-row">
-          <Link href="/how-it-works" className="iid-btn iid-btn-primary mkt-steps-walkthrough">
-            See walkthrough
-          </Link>
-        </div>
-        </div>
-      </section>
 
       <section id="services" className="mkt-band mkt-band-full mkt-band-services mkt-band-has-video">
         <SectionVideo src={SECTION_VIDEOS.services} />
@@ -264,6 +236,35 @@ export function LandingPage() {
               );
             })}
           </div>
+        </div>
+      </section>
+
+      <DemoCaseStudySection />
+      <ProductStorySection />
+
+      <section id="how" className="mkt-band mkt-band-full mkt-band-steps">
+        <div className="mkt-wrap mkt-section mkt-section-steps mkt-band-content">
+        <div className="mkt-section-head mkt-section-head-center">
+          <span className="mkt-label">What you get</span>
+          <h2 className="mkt-h2">Research. Plan. Execute.</h2>
+        </div>
+        <div className="mkt-step-cards">
+          {HOME_STEPS.map((s) => (
+            <article key={s.step} className="mkt-step-card">
+              <figure className="mkt-step-card-frame">
+                {/* eslint-disable-next-line @next/next/no-img-element */}
+                <img src={s.frameSrc} alt={s.frameAlt} loading="lazy" />
+              </figure>
+              <h3 className="mkt-step-card-title">{s.title}</h3>
+              <p className="mkt-step-card-body">{s.body}</p>
+            </article>
+          ))}
+        </div>
+        <div className="mkt-section-cta-row">
+          <Link href="/how-it-works" className="iid-btn iid-btn-primary mkt-steps-walkthrough">
+            See walkthrough
+          </Link>
+        </div>
         </div>
       </section>
 
