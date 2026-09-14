@@ -327,7 +327,7 @@ export const VISITOR_GOALS: Array<{
     emoji: "💡",
     title: "Validate a business idea",
     question: "Should I pursue this opportunity?",
-    href: "/login?mode=register",
+    href: "/app/research",
     cta: "Start with research",
   },
   {
@@ -335,7 +335,7 @@ export const VISITOR_GOALS: Array<{
     emoji: "📊",
     title: "Understand my market",
     question: "Who competes, who buys, and what can I charge?",
-    href: "/services/research",
+    href: "/app/research",
     cta: "See market research",
   },
   {
@@ -343,7 +343,7 @@ export const VISITOR_GOALS: Array<{
     emoji: "🚀",
     title: "Launch a business",
     question: "I need a plan and first steps to go live.",
-    href: "/login?mode=register",
+    href: "/app/plan",
     cta: "Build my plan",
   },
   {
@@ -351,7 +351,7 @@ export const VISITOR_GOALS: Array<{
     emoji: "📈",
     title: "Grow an existing business",
     question: "Where are my growth opportunities?",
-    href: "/login?intent=audit&mode=register",
+    href: "/app/audit",
     cta: "Run a GAUGE audit",
   },
   {
@@ -359,7 +359,7 @@ export const VISITOR_GOALS: Array<{
     emoji: "🌎",
     title: "Enter a new market",
     question: "Is this market attractive and how do we enter?",
-    href: "/services/research",
+    href: "/app/research",
     cta: "Research a market",
   },
   {
@@ -367,7 +367,7 @@ export const VISITOR_GOALS: Array<{
     emoji: "🤖",
     title: "Get execution help",
     question: "I need tasks done — research, outreach, follow-ups.",
-    href: "/services/execute",
+    href: "/app/team",
     cta: "Meet Taylor",
   },
 ];

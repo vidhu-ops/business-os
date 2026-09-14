@@ -7,16 +7,25 @@ import { useState, type ComponentProps } from "react";
 
 type Props = Omit<ComponentProps<typeof Link>, "href"> & {
   href?: string;
+  /** Wrapper around the link (default stacks optional error text below). Use `contents` inside CSS grids. */
+  wrapperClassName?: string;
 };
 
 /** Opens the workspace. Uses demo login only when no session exists. */
-export function WorkspaceEntryLink({ href = "/app/research?project=demo_readonly", className, children, onClick, ...rest }: Props) {
+export function WorkspaceEntryLink({
+  href = "/app/research?project=demo_readonly",
+  className,
+  wrapperClassName = "inline-flex flex-col items-stretch gap-1",
+  children,
+  onClick,
+  ...rest
+}: Props) {
   const router = useRouter();
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState("");
 
   return (
-    <span className="inline-flex flex-col items-stretch gap-1">
+    <span className={wrapperClassName}>
       <Link
         href={href}
         className={className}

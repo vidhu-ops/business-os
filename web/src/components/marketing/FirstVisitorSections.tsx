@@ -24,12 +24,12 @@ export function VisitorGoalsSection() {
       </div>
       <div className="mkt-goal-grid">
         {VISITOR_GOALS.map((goal) => (
-          <Link key={goal.id} href={goal.href} className="mkt-goal-card">
+          <WorkspaceEntryLink key={goal.id} href={goal.href} wrapperClassName="contents" className="mkt-goal-card">
             <span className="mkt-goal-emoji" aria-hidden="true">{goal.emoji}</span>
             <h3>{goal.title}</h3>
             <p>{goal.question}</p>
             <span className="mkt-goal-cta">{goal.cta} →</span>
-          </Link>
+          </WorkspaceEntryLink>
         ))}
       </div>
     </section>
