@@ -236,7 +236,6 @@ export function LandingPage() {
       </section>
 
       <DemoCaseStudySection />
-      <ProductStorySection />
 
       <section id="how" className="mkt-band mkt-band-full mkt-band-steps">
         <div className="mkt-wrap mkt-section mkt-section-steps mkt-band-content">
@@ -263,6 +262,8 @@ export function LandingPage() {
         </div>
         </div>
       </section>
+
+      <CaseStudiesSection />
 
       <ProductScreensSection />
 
