@@ -338,8 +338,6 @@ export function LandingPage() {
         </div>
       </section>
 
-      <WixBrandSections />
-
       <section id="about" className="mkt-band mkt-band-full mkt-band-about" aria-labelledby="about-heading">
         <div className="mkt-wrap mkt-section mkt-section-about-human mkt-band-content">
           <div className="mkt-about-human-grid">
