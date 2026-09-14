@@ -264,6 +264,79 @@ export function LandingPage() {
 
       <ProductScreensSection />
 
+      <section id="proof" className="mkt-wrap mkt-section">
+        <div className="mkt-section-head mkt-section-head-center">
+          <span className="mkt-label">By the numbers</span>
+          <h2 className="mkt-h2">Built for real operators</h2>
+        </div>
+        <div className="mkt-stats-grid">
+          {BY_THE_NUMBERS.map((stat) => (
+            <article key={stat.label} className="mkt-stat-card">
+              <strong>{stat.value}</strong>
+              <span>{stat.label}</span>
+            </article>
+          ))}
+        </div>
+      </section>
+
+      <section id="clients" className="mkt-section mkt-clients-section">
+        <div className="mkt-wrap mkt-section-head mkt-section-head-center">
+          <span className="mkt-label">Partners</span>
+          <h2 className="mkt-h2">Partners</h2>
+        </div>
+        <div className="mkt-wrap mkt-partner-spotlight" aria-label="Featured partners">
+          {CLIENT_LOGOS.map((logo) => (
+            <div key={logo.name} className="mkt-partner-spotlight-item">
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img
+                src={logo.srcOnDark || logo.src}
+                alt=""
+                loading="lazy"
+              />
+              <span className="mkt-partner-spotlight-name">{logo.name}</span>
+            </div>
+          ))}
+        </div>
+        <div className="mkt-wrap mkt-section-cta-row">
+          <Link href="/partners" className="iid-btn iid-btn-ghost">
+            See all partners →
+          </Link>
+        </div>
+      </section>
+
+      <section
+        id="integrations"
+        className="mkt-band mkt-band-full mkt-band-integrations mkt-band-has-video mkt-band-has-video-light"
+        aria-labelledby="integrations-heading"
+      >
+        <SectionVideo src={SECTION_VIDEOS.integrations} />
+        <div className="mkt-wrap mkt-section mkt-band-content">
+          <div className="mkt-section-head mkt-section-head-center">
+            <span className="mkt-label">Connect your stack</span>
+            <h2 id="integrations-heading" className="mkt-h2">
+              Integrations vs AI models
+            </h2>
+            <p className="mkt-sub">
+              Optional OAuth apps connect your workspace to tools you already use. Model logos show which AI providers can power research and agents — not separate product logins.
+            </p>
+          </div>
+          <p className="mkt-integrations-group-label">Workspace integrations (OAuth)</p>
+          <LogoMarquee
+            items={INTEGRATION_LOGOS.filter((logo) => logo.group === "apps")}
+            ariaLabel="IIDATECH workspace integrations"
+            itemClassName="mkt-logo-marquee-item-integration"
+          />
+          <p className="mkt-integrations-group-label">AI models powering IIDATECH</p>
+          <LogoMarquee
+            items={INTEGRATION_LOGOS.filter((logo) => logo.group === "models")}
+            ariaLabel="AI models available in IIDATECH"
+            itemClassName="mkt-logo-marquee-item-integration"
+          />
+        </div>
+      </section>
+
+      <WixBrandSections />
+
       <section id="about" className="mkt-band mkt-band-full mkt-band-about" aria-labelledby="about-heading">
         <div className="mkt-wrap mkt-section mkt-section-about-human mkt-band-content">
           <div className="mkt-about-human-grid">
@@ -359,77 +432,6 @@ export function LandingPage() {
       <IndustryBanner />
 
       <CreditsGuideSection signupCredits={signupCredits} />
-
-      <section id="proof" className="mkt-wrap mkt-section">
-        <div className="mkt-section-head mkt-section-head-center">
-          <span className="mkt-label">By the numbers</span>
-          <h2 className="mkt-h2">Built for real operators</h2>
-        </div>
-        <div className="mkt-stats-grid">
-          {BY_THE_NUMBERS.map((stat) => (
-            <article key={stat.label} className="mkt-stat-card">
-              <strong>{stat.value}</strong>
-              <span>{stat.label}</span>
-            </article>
-          ))}
-        </div>
-      </section>
-
-      <section id="clients" className="mkt-section mkt-clients-section">
-        <div className="mkt-wrap mkt-section-head mkt-section-head-center">
-          <span className="mkt-label">Partners</span>
-          <h2 className="mkt-h2">Partners</h2>
-        </div>
-        <div className="mkt-wrap mkt-partner-spotlight" aria-label="Featured partners">
-          {CLIENT_LOGOS.map((logo) => (
-            <div key={logo.name} className="mkt-partner-spotlight-item">
-              {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img
-                src={logo.srcOnDark || logo.src}
-                alt=""
-                loading="lazy"
-              />
-              <span className="mkt-partner-spotlight-name">{logo.name}</span>
-            </div>
-          ))}
-        </div>
-        <div className="mkt-wrap mkt-section-cta-row">
-          <Link href="/partners" className="iid-btn iid-btn-ghost">
-            See all partners →
-          </Link>
-        </div>
-      </section>
-
-      <section
-        id="integrations"
-        className="mkt-band mkt-band-full mkt-band-integrations mkt-band-has-video mkt-band-has-video-light"
-        aria-labelledby="integrations-heading"
-      >
-        <SectionVideo src={SECTION_VIDEOS.integrations} />
-        <div className="mkt-wrap mkt-section mkt-band-content">
-          <div className="mkt-section-head mkt-section-head-center">
-            <span className="mkt-label">Connect your stack</span>
-            <h2 id="integrations-heading" className="mkt-h2">
-              Integrations vs AI models
-            </h2>
-            <p className="mkt-sub">
-              Optional OAuth apps connect your workspace to tools you already use. Model logos show which AI providers can power research and agents — not separate product logins.
-            </p>
-          </div>
-          <p className="mkt-integrations-group-label">Workspace integrations (OAuth)</p>
-          <LogoMarquee
-            items={INTEGRATION_LOGOS.filter((logo) => logo.group === "apps")}
-            ariaLabel="IIDATECH workspace integrations"
-            itemClassName="mkt-logo-marquee-item-integration"
-          />
-          <p className="mkt-integrations-group-label">AI models powering IIDATECH</p>
-          <LogoMarquee
-            items={INTEGRATION_LOGOS.filter((logo) => logo.group === "models")}
-            ariaLabel="AI models available in IIDATECH"
-            itemClassName="mkt-logo-marquee-item-integration"
-          />
-        </div>
-      </section>
 
       <section id="why" className="mkt-wrap mkt-section">
         <div className="mkt-split mkt-split-problem">
@@ -563,8 +565,6 @@ export function LandingPage() {
           </div>
         </div>
       </section>
-
-      <WixBrandSections />
 
       <section id="contact" className="mkt-wrap mkt-section mkt-contact-section">
         <div className="mkt-section-head mkt-section-head-center">
