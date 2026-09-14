@@ -400,9 +400,15 @@ export const DEMO_CASE_STUDY = {
     { label: "Customers", value: "Segments with highest willingness to pay" },
     { label: "Pricing", value: "Range grounded in local comparables" },
     { label: "GTM", value: "First 90-day launch moves" },
-    { label: "Execution", value: "Recommended actions + Taylor handoff" },
+    { label: "Business plan", value: "Submission-ready sections linked to the same project" },
+    { label: "Mentor", value: "Next-step guidance grounded in your research and plan" },
+    { label: "Employee OS", value: "Taylor + specialists — tasks, drafts, and approvals" },
+    { label: "Automation", value: "Optional workflows across CRM, inbox, and reporting" },
+    { label: "Dashboard", value: "Your command center — credits, projects, and every tool in one place" },
   ],
-  demoHref: "/app/research?project=demo_readonly",
+  dashboardNote:
+    "The live demo opens your dashboard first. From there you can explore sample research, business plan, Mentor, Employee OS, and GAUGE — without signing up.",
+  demoHref: "/app/dashboard?project=demo_readonly",
 } as const;
 
 export const PRODUCT_STORY = [

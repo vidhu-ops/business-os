@@ -92,9 +92,10 @@ export function DemoCaseStudySection() {
             </ul>
           </div>
         </div>
+        <p className="mkt-demo-dashboard-note">{DEMO_CASE_STUDY.dashboardNote}</p>
         <div className="mkt-section-cta-row">
           <WorkspaceEntryLink href={DEMO_CASE_STUDY.demoHref} className="iid-btn iid-btn-primary">
-            Open the live demo →
+            Open demo dashboard →
           </WorkspaceEntryLink>
           <Link href="/login?mode=register" className="iid-btn iid-btn-ghost">
             Analyze my business
