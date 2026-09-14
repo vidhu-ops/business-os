@@ -219,7 +219,7 @@ export const HERO_WIX = {
   brand: "IIDA",
   founder: {
     eyebrow: "For founders validating a business idea",
-    headline: "Before you build. Before you spend. Know what you're getting into.",
+    headline: "Turn your idea into a real business",
     pipe: [
       { label: "RESEARCH", href: "/services/research" },
       { label: "PLAN", href: "/services/plan" },
@@ -234,7 +234,7 @@ export const HERO_WIX = {
   },
   company: {
     eyebrow: "For MSMEs and B2B teams growing an existing business",
-    headline: "Find growth opportunities. Fix what's holding you back.",
+    headline: "Grow what you already run",
     pipe: [
       { label: "AUDIT", href: "/services/gauge" },
       { label: "RESEARCH", href: "/services/research" },
@@ -242,7 +242,7 @@ export const HERO_WIX = {
       { label: "OPERATE", href: "/services/execute" },
     ],
     subline:
-      "Run a GAUGE health audit, refresh market intelligence, and add approved AI ops capacity — without standing up a full strategy bench.",
+      "For established B2B teams — score company health with GAUGE, keep market intelligence current, and add approved AI ops capacity across research, CRM, and workflows.",
     trustLine: "30 free credits · No credit card · Start with a free company audit",
     videoSrc: "/marketing/videos/hero-company.mp4",
     cta: { href: "/login?intent=audit&mode=register", label: "Analyze my business" },
