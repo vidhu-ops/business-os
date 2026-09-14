@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import { useCallback, useEffect, useState } from "react";
 import { WorkspaceEntryLink } from "@/components/WorkspaceEntryLink";
 import {
   CASE_STUDIES,
@@ -130,22 +131,67 @@ export function ProductStorySection() {
 }
 
 export function ProductScreensSection() {
+  const [expanded, setExpanded] = useState<(typeof PRODUCT_UI_SHOTS)[number] | null>(null);
+
+  const closeLightbox = useCallback(() => setExpanded(null), []);
+
+  useEffect(() => {
+    if (!expanded) return;
+    const onKey = (event: KeyboardEvent) => {
+      if (event.key === "Escape") closeLightbox();
+    };
+    const prevOverflow = document.body.style.overflow;
+    document.body.style.overflow = "hidden";
+    window.addEventListener("keydown", onKey);
+    return () => {
+      document.body.style.overflow = prevOverflow;
+      window.removeEventListener("keydown", onKey);
+    };
+  }, [expanded, closeLightbox]);
+
   return (
     <section id="product" className="mkt-wrap mkt-section">
       <div className="mkt-section-head mkt-section-head-center">
         <span className="mkt-label">Inside IIDATECH</span>
         <h2 className="mkt-h2">Real product screens — not stock photos</h2>
-        <p className="mkt-sub">What you see in the demo is what you get in your workspace.</p>
+        <p className="mkt-sub">What you see in the demo is what you get in your workspace. Tap any screen to expand.</p>
       </div>
       <div className="mkt-ui-shots">
         {PRODUCT_UI_SHOTS.map((shot) => (
           <figure key={shot.src} className="mkt-ui-shot">
-            {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img src={shot.src} alt={shot.alt} loading="lazy" />
+            <button
+              type="button"
+              className="mkt-ui-shot-expand"
+              onClick={() => setExpanded(shot)}
+              aria-label={`Expand screenshot: ${shot.caption}`}
+            >
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img src={shot.src} alt="" loading="lazy" />
+              <span className="mkt-ui-shot-zoom" aria-hidden="true">Expand</span>
+            </button>
             <figcaption>{shot.caption}</figcaption>
           </figure>
         ))}
       </div>
+
+      {expanded ? (
+        <div
+          className="mkt-ui-lightbox"
+          role="dialog"
+          aria-modal="true"
+          aria-label={expanded.caption}
+          onClick={closeLightbox}
+        >
+          <div className="mkt-ui-lightbox-panel" onClick={(event) => event.stopPropagation()}>
+            <button type="button" className="mkt-ui-lightbox-close" onClick={closeLightbox} aria-label="Close">
+              ×
+            </button>
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img className="mkt-ui-lightbox-img" src={expanded.src} alt={expanded.alt} />
+            <p className="mkt-ui-lightbox-caption">{expanded.caption}</p>
+          </div>
+        </div>
+      ) : null}
     </section>
   );
 }

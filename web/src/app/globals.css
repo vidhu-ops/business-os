@@ -7966,6 +7966,113 @@ html.light .mkt-band-demo .mkt-demo-dashboard-note {
   color: var(--iid-muted);
 }
 
+.mkt-ui-shot-expand {
+  position: relative;
+  display: block;
+  width: 100%;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  cursor: zoom-in;
+  text-align: left;
+}
+
+.mkt-ui-shot-expand img {
+  width: 100%;
+  display: block;
+  aspect-ratio: 16 / 10;
+  object-fit: cover;
+  object-position: top;
+  transition: opacity 0.2s ease;
+}
+
+.mkt-ui-shot-expand:hover img,
+.mkt-ui-shot-expand:focus-visible img {
+  opacity: 0.92;
+}
+
+.mkt-ui-shot-expand:focus-visible {
+  outline: 2px solid var(--iid-blue);
+  outline-offset: 2px;
+}
+
+.mkt-ui-shot-zoom {
+  position: absolute;
+  right: 0.5rem;
+  bottom: 0.5rem;
+  padding: 0.2rem 0.5rem;
+  border-radius: 999px;
+  font-size: 0.65rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: #fff;
+  background: rgba(15, 23, 42, 0.72);
+  pointer-events: none;
+}
+
+.mkt-ui-lightbox {
+  position: fixed;
+  inset: 0;
+  z-index: 200;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1.25rem;
+  background: rgba(4, 10, 22, 0.82);
+  backdrop-filter: blur(6px);
+}
+
+.mkt-ui-lightbox-panel {
+  position: relative;
+  max-width: min(1120px, 96vw);
+  max-height: 92vh;
+  display: flex;
+  flex-direction: column;
+  gap: 0.65rem;
+  padding: 0.75rem;
+  border-radius: 1rem;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  background: var(--iid-panel);
+  box-shadow: 0 24px 80px rgba(0, 0, 0, 0.45);
+}
+
+.mkt-ui-lightbox-close {
+  position: absolute;
+  top: 0.35rem;
+  right: 0.35rem;
+  z-index: 1;
+  width: 2.25rem;
+  height: 2.25rem;
+  border: 0;
+  border-radius: 999px;
+  font-size: 1.35rem;
+  line-height: 1;
+  color: var(--iid-text);
+  background: color-mix(in srgb, var(--iid-panel) 85%, transparent);
+  cursor: pointer;
+}
+
+.mkt-ui-lightbox-close:hover {
+  background: var(--iid-line);
+}
+
+.mkt-ui-lightbox-img {
+  width: 100%;
+  max-height: calc(92vh - 4.5rem);
+  object-fit: contain;
+  border-radius: 0.5rem;
+  background: #0a1420;
+}
+
+.mkt-ui-lightbox-caption {
+  margin: 0;
+  padding: 0 0.25rem 0.15rem;
+  font-size: 0.85rem;
+  color: var(--iid-muted);
+  text-align: center;
+}
+
 .mkt-compare-grid {
   display: grid;
   grid-template-columns: 1fr 1fr;
