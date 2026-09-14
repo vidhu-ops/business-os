@@ -166,7 +166,7 @@ export function LandingPage() {
               {hero.cta.label}
             </Link>
           </div>
-          <p className="mkt-hero-wix-subline">{hero.subline}</p>
+          {hero.subline ? <p className="mkt-hero-wix-subline">{hero.subline}</p> : null}
           <p className="mkt-hero-wix-trust">{hero.trustLine}</p>
         </div>
       </section>

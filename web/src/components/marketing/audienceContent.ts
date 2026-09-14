@@ -241,8 +241,7 @@ export const HERO_WIX = {
       { label: "PLAN", href: "/services/plan" },
       { label: "OPERATE", href: "/services/execute" },
     ],
-    subline:
-      "For established B2B teams — score company health with GAUGE, keep market intelligence current, and add approved AI ops capacity across research, CRM, and workflows.",
+    subline: "",
     trustLine: "30 free credits · No credit card · Start with a free company audit",
     videoSrc: "/marketing/videos/hero-company.mp4",
     cta: { href: "/login?intent=audit&mode=register", label: "Analyze my business" },
