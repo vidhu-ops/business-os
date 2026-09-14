@@ -3,6 +3,9 @@ import { DEMO_CASE_STUDY } from "@/components/marketing/audienceContent";
 export const DEMO_WALKTHROUGH_KEY = "iida-demo-walkthrough-done";
 export const DEMO_WALKTHROUGH_STEP_KEY = "iida-demo-walkthrough-step";
 
+/** Opens demo workspace and restarts the floating guided tour (see `guided=1` handler). */
+export const GUIDED_DEMO_HREF = "/app/research?project=demo_readonly&guided=1";
+
 export type DemoWalkthroughStep = {
   id: string;
   title: string;

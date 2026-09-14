@@ -407,8 +407,8 @@ export const DEMO_CASE_STUDY = {
     { label: "Dashboard", value: "Your command center — credits, projects, and every tool in one place" },
   ],
   dashboardNote:
-    "The live demo opens your dashboard first. From there you can explore sample research, business plan, Mentor, Employee OS, and GAUGE — without signing up.",
-  demoHref: "/app/dashboard?project=demo_readonly",
+    "Open the live demo for a guided walkthrough — sample research, business plan, and Employee OS for the Pune snack brand, step by step. No signup required.",
+  demoHref: "/app/research?project=demo_readonly&guided=1",
 } as const;
 
 export const PRODUCT_STORY = [

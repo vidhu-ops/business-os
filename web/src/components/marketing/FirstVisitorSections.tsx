@@ -95,7 +95,7 @@ export function DemoCaseStudySection() {
         <p className="mkt-demo-dashboard-note">{DEMO_CASE_STUDY.dashboardNote}</p>
         <div className="mkt-section-cta-row">
           <WorkspaceEntryLink href={DEMO_CASE_STUDY.demoHref} className="iid-btn iid-btn-primary">
-            Open demo dashboard →
+            Open the live demo →
           </WorkspaceEntryLink>
           <Link href="/login?mode=register" className="iid-btn iid-btn-ghost">
             Analyze my business

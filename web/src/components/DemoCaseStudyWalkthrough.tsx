@@ -38,20 +38,25 @@ function DemoCaseStudyWalkthroughInner() {
 
   useEffect(() => {
     let timer: number | undefined;
+    const restartGuided = searchParams?.get("guided") === "1";
+    if (restartGuided) {
+      resetWalkthrough();
+      router.replace("/app/research?project=demo_readonly");
+    }
     api
       .me()
       .then((user) => {
         const demo = Boolean(user.is_demo);
         setIsDemo(demo);
         if (!demo || isWalkthroughDone()) return;
-        setStepIndex(getWalkthroughStepIndex());
+        setStepIndex(restartGuided ? 0 : getWalkthroughStepIndex());
         timer = window.setTimeout(() => setOpen(true), 800);
       })
       .catch(() => setIsDemo(false));
     return () => {
       if (timer) window.clearTimeout(timer);
     };
-  }, []);
+  }, [router, searchParams]);
 
   const step = DEMO_WALKTHROUGH_STEPS[stepIndex];
 
@@ -136,5 +141,5 @@ export function DemoCaseStudyWalkthrough() {
 
 export function restartDemoWalkthrough() {
   resetWalkthrough();
-  window.location.href = "/app/research?project=demo_readonly";
+  window.location.href = "/app/research?project=demo_readonly&guided=1";
 }
