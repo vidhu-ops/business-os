@@ -9,6 +9,7 @@ import { ABOUT_BY_AUDIENCE, ABOUT_SHARED } from "./aboutContent";
 import type { Audience } from "./audienceContent";
 import {
   ChatGptCompareSection,
+  DemoCaseStudySection,
   EvidenceSection,
   ProductStorySection,
   TaylorExampleSection,
@@ -80,6 +81,10 @@ export function AboutPage() {
           ))}
         </div>
       </section>
+
+      <ProductStorySection />
+
+      <DemoCaseStudySection />
 
       <section className="mkt-wrap mkt-section" id="what-is">
         <div className="mkt-section-head">

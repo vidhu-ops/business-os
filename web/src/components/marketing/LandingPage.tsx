@@ -7,7 +7,6 @@ import { ContactForm } from "./ContactForm";
 import {
   CaseStudiesSection,
   CreditsGuideSection,
-  DemoCaseStudySection,
   ProductScreensSection,
   VisitorGoalsSection,
 } from "./FirstVisitorSections";
@@ -235,8 +234,6 @@ export function LandingPage() {
         </div>
       </section>
 
-      <DemoCaseStudySection />
-
       <section id="how" className="mkt-band mkt-band-full mkt-band-steps">
         <div className="mkt-wrap mkt-section mkt-section-steps mkt-band-content">
         <div className="mkt-section-head mkt-section-head-center">
@@ -361,7 +358,6 @@ export function LandingPage() {
 
       <IndustryBanner />
 
-      <CaseStudiesSection />
       <CreditsGuideSection signupCredits={signupCredits} />
 
       <section id="proof" className="mkt-wrap mkt-section">
