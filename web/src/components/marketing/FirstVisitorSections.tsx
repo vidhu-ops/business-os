@@ -68,24 +68,27 @@ export function DemoCaseStudySection() {
             Demo business: <strong>{DEMO_CASE_STUDY.idea}</strong>
           </p>
         </div>
-        <div className="mkt-demo-flow">
-          <div className="mkt-demo-panel">
-            <h3>Input</h3>
-            <ul>
+        <div className="mkt-demo-board">
+          <div className="mkt-demo-panel mkt-demo-panel-input">
+            <h3>What you enter</h3>
+            <ul className="mkt-demo-input-grid">
               {DEMO_CASE_STUDY.inputs.map((row) => (
-                <li key={row.label}>
+                <li key={row.label} className="mkt-demo-tile">
                   <strong>{row.label}</strong>
                   <span>{row.value}</span>
                 </li>
               ))}
             </ul>
           </div>
-          <div className="mkt-demo-arrow" aria-hidden="true">↓</div>
+          <p className="mkt-demo-bridge" aria-hidden="true">
+            <span className="mkt-demo-bridge-line" />
+            IIDATECH produces
+            <span className="mkt-demo-bridge-line" />
+          </p>
           <div className="mkt-demo-panel mkt-demo-panel-output">
-            <h3>IIDATECH produces</h3>
-            <ul>
+            <ul className="mkt-demo-output-grid">
               {DEMO_CASE_STUDY.outputs.map((row) => (
-                <li key={row.label}>
+                <li key={row.label} className="mkt-demo-tile">
                   <strong>{row.label}</strong>
                   <span>{row.value}</span>
                 </li>
@@ -93,14 +96,16 @@ export function DemoCaseStudySection() {
             </ul>
           </div>
         </div>
-        <p className="mkt-demo-dashboard-note">{DEMO_CASE_STUDY.dashboardNote}</p>
-        <div className="mkt-section-cta-row">
+        <div className="mkt-demo-footer">
+          <p className="mkt-demo-dashboard-note">{DEMO_CASE_STUDY.dashboardNote}</p>
+          <div className="mkt-demo-cta-row">
           <WorkspaceEntryLink href={DEMO_CASE_STUDY.demoHref} className="iid-btn iid-btn-primary">
             Open the live demo →
           </WorkspaceEntryLink>
           <Link href="/login?mode=register" className="iid-btn iid-btn-ghost">
             Analyze my business
           </Link>
+          </div>
         </div>
       </div>
     </section>
