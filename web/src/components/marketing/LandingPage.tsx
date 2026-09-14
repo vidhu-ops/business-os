@@ -7,6 +7,7 @@ import { ContactForm } from "./ContactForm";
 import {
   CaseStudiesSection,
   CreditsGuideSection,
+  HomePricingTeaser,
   ProductScreensSection,
   VisitorGoalsSection,
 } from "./FirstVisitorSections";
@@ -233,6 +234,8 @@ export function LandingPage() {
           </div>
         </div>
       </section>
+
+      <HomePricingTeaser signupCredits={signupCredits} />
 
       <section id="how" className="mkt-band mkt-band-full mkt-band-steps">
         <div className="mkt-wrap mkt-section mkt-section-steps mkt-band-content">

@@ -289,6 +289,45 @@ export function EvidenceSection() {
   );
 }
 
+export function HomePricingTeaser({ signupCredits = 30 }: { signupCredits?: number }) {
+  return (
+    <section id="pricing-preview" className="mkt-wrap mkt-section mkt-section-pricing-teaser">
+      <div className="mkt-section-head mkt-section-head-center">
+        <span className="mkt-label">Pricing</span>
+        <h2 className="mkt-h2">Start free. Upgrade when outputs earn their keep.</h2>
+        <p className="mkt-sub">
+          {signupCredits} free credits on signup — no credit card. Self-serve plans from ₹4,999/mo when you are ready to scale.
+        </p>
+      </div>
+      <div className="mkt-pricing-teaser-grid mkt-pricing-teaser-grid-3">
+        <article className="mkt-pricing-teaser-card is-highlight">
+          <h3 className="mkt-pricing-teaser-title">Free</h3>
+          <p className="mkt-pricing-teaser-price">₹0</p>
+          <p className="mkt-pricing-teaser-body">Demo workspace plus {signupCredits} credits for research, plans, Mentor, and Employee OS.</p>
+        </article>
+        <article className="mkt-pricing-teaser-card">
+          <h3 className="mkt-pricing-teaser-title">Paid plans</h3>
+          <p className="mkt-pricing-teaser-price">From ₹4,999/mo</p>
+          <p className="mkt-pricing-teaser-body">Higher limits, integrations, automation builders, and team support.</p>
+        </article>
+        <article className="mkt-pricing-teaser-card">
+          <h3 className="mkt-pricing-teaser-title">Enterprise</h3>
+          <p className="mkt-pricing-teaser-price">Custom</p>
+          <p className="mkt-pricing-teaser-body">Security review, dedicated onboarding, invoice billing, and custom scope.</p>
+        </article>
+      </div>
+      <div className="mkt-section-cta-row mkt-pricing-teaser-actions">
+        <Link href="/login?mode=register" className="iid-btn iid-btn-primary">
+          Analyze my business
+        </Link>
+        <Link href="/pricing" className="iid-btn iid-btn-ghost">
+          See full pricing →
+        </Link>
+      </div>
+    </section>
+  );
+}
+
 export function CreditsGuideSection({ signupCredits = 30 }: { signupCredits?: number }) {
   return (
     <section id="credits" className="mkt-wrap mkt-section">
