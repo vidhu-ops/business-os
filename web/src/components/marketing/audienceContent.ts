@@ -1,4 +1,8 @@
+import { SITE_WHATSAPP } from "@/lib/site";
 import type { MarketingPhotoId } from "./marketingImages";
+
+const WHATSAPP_INTRO_MESSAGE =
+  "Hi IIDATECH — I'd like to skip the self-serve flow and chat about what fits my business.";
 
 export type Audience = "founder" | "company";
 
@@ -311,7 +315,7 @@ export const WHY_US = [
   { title: "Affordable", body: "Start free with credits. Scale when the outputs earn their keep." },
 ] as const;
 
-export type VisitorGoalId = "validate" | "market" | "launch" | "grow" | "expand" | "execute";
+export type VisitorGoalId = "validate" | "market" | "launch" | "grow" | "expand" | "execute" | "whatsapp";
 
 export const VISITOR_GOALS: Array<{
   id: VisitorGoalId;
@@ -320,6 +324,7 @@ export const VISITOR_GOALS: Array<{
   question: string;
   href: string;
   cta: string;
+  external?: boolean;
 }> = [
   {
     id: "validate",
@@ -368,6 +373,15 @@ export const VISITOR_GOALS: Array<{
     question: "I need tasks done — research, outreach, follow-ups.",
     href: "/app/team",
     cta: "Meet Taylor",
+  },
+  {
+    id: "whatsapp",
+    emoji: "💬",
+    title: "Want to skip the hassle and text us?",
+    question: "Message us on WhatsApp — we'll talk through your goal and what IIDATECH can do.",
+    href: `${SITE_WHATSAPP}?text=${encodeURIComponent(WHATSAPP_INTRO_MESSAGE)}`,
+    cta: "Chat on WhatsApp",
+    external: true,
   },
 ];
 

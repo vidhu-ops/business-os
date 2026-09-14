@@ -23,14 +23,34 @@ export function VisitorGoalsSection() {
         <p className="mkt-sub">Pick the job that matches you. IIDATECH routes you to the right workflow — not six tools at once.</p>
       </div>
       <div className="mkt-goal-grid">
-        {VISITOR_GOALS.map((goal) => (
-          <WorkspaceEntryLink key={goal.id} href={goal.href} wrapperClassName="contents" className="mkt-goal-card">
-            <span className="mkt-goal-emoji" aria-hidden="true">{goal.emoji}</span>
-            <h3>{goal.title}</h3>
-            <p>{goal.question}</p>
-            <span className="mkt-goal-cta">{goal.cta} →</span>
-          </WorkspaceEntryLink>
-        ))}
+        {VISITOR_GOALS.map((goal) => {
+          const body = (
+            <>
+              <span className="mkt-goal-emoji" aria-hidden="true">{goal.emoji}</span>
+              <h3>{goal.title}</h3>
+              <p>{goal.question}</p>
+              <span className="mkt-goal-cta">{goal.cta} →</span>
+            </>
+          );
+          if (goal.external) {
+            return (
+              <a
+                key={goal.id}
+                href={goal.href}
+                className="mkt-goal-card mkt-goal-card-whatsapp"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                {body}
+              </a>
+            );
+          }
+          return (
+            <WorkspaceEntryLink key={goal.id} href={goal.href} wrapperClassName="contents" className="mkt-goal-card">
+              {body}
+            </WorkspaceEntryLink>
+          );
+        })}
       </div>
     </section>
   );

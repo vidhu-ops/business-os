@@ -7670,10 +7670,28 @@ html.dark .mini-gauge-vs-row {
   gap: 0.85rem;
 }
 
+@media (min-width: 901px) {
+  .mkt-goal-grid .mkt-goal-card-whatsapp:last-child:nth-child(3n + 1) {
+    grid-column: 2;
+  }
+}
+
 @media (max-width: 900px) {
   .mkt-goal-grid {
     grid-template-columns: 1fr;
   }
+}
+
+.mkt-goal-card-whatsapp {
+  border-color: rgba(37, 211, 102, 0.35);
+}
+
+.mkt-goal-card-whatsapp:hover {
+  border-color: #25d366;
+}
+
+.mkt-goal-card-whatsapp .mkt-goal-cta {
+  color: #128c7e;
 }
 
 .mkt-goal-card {
