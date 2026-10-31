@@ -1,5 +1,5 @@
 services:
-  # Production hostname is business-os-2.onrender.com (iidatech.biz CNAME).
+  # Production hostname: business-os-2.onrender.com; custom domain iidatech.com on Render.
   - type: web
     name: business-os-2
     runtime: docker
@@ -31,11 +31,13 @@ services:
         sync: false
       # Custom domain — used for OAuth redirects (Canva must match exactly).
       - key: PUBLIC_APP_URL
-        value: https://iidatech.biz
+        value: https://iidatech.com
+      - key: NEXT_PUBLIC_SITE_URL
+        value: https://iidatech.com
       - key: OAUTH_REDIRECT_URI
-        value: https://iidatech.biz/api/v1/oauth/callback
+        value: https://iidatech.com/api/v1/oauth/callback
       - key: CANVA_REDIRECT_URI
-        value: https://iidatech.biz/api/v1/oauth/callback
+        value: https://iidatech.com/api/v1/oauth/callback
       # FRONTEND_URL and CORS_ORIGINS default from PUBLIC_APP_URL or RENDER_EXTERNAL_URL in render-combined-start.sh
       - key: PERPLEXITY_API_KEY
         sync: false

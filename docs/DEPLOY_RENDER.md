@@ -68,9 +68,9 @@ Register this redirect URL in Google / LinkedIn / HubSpot developer consoles:
 
 ## Canva Connect (platform service account)
 
-For production at `https://iidatech.biz`, register this redirect URL in the [Canva Developer Portal](https://www.canva.com/developers/):
+For production at `https://iidatech.com`, register this redirect URL in the [Canva Developer Portal](https://www.canva.com/developers/):
 
-`https://iidatech.biz/api/v1/oauth/callback`
+`https://iidatech.com/api/v1/oauth/callback`
 
 | Variable | Required for |
 |----------|----------------|
@@ -82,7 +82,7 @@ For production at `https://iidatech.biz`, register this redirect URL in the [Can
 
 | **One-time admin connect** (use setup wizard if Canva says "update browser"):
 
-`https://iidatech.biz/api/v1/canva/admin/setup?key=PARTNER_ADMIN_KEY`
+`https://iidatech.com/api/v1/canva/admin/setup?key=PARTNER_ADMIN_KEY`
 
 On the setup page: copy the Canva link and open it in **Chrome on your phone** (not Cursor or embedded browsers).
 
@@ -90,7 +90,7 @@ After OAuth completes, copy the refresh token into Render as `CANVA_REFRESH_TOKE
 
 **Admin status check:**
 
-`https://iidatech.biz/api/v1/canva/admin/status?key=PARTNER_ADMIN_KEY`
+`https://iidatech.com/api/v1/canva/admin/status?key=PARTNER_ADMIN_KEY`
 
 ## Keep warm (avoid cold starts)
 
@@ -120,11 +120,11 @@ until next month — another reason Starter is better for a real product.
 ### Setup (recommended free path)
 
 1. Create a monitor at [UptimeRobot](https://uptimerobot.com/) (or [cron-job.org](https://cron-job.org/)):
-   - URL: `https://iidatech.biz/api/health?warm=1`
+   - URL: `https://iidatech.com/api/health?warm=1`
    - Interval: **every 5 minutes**
    - Type: HTTP(s)
 2. Confirm **Actions → Keep warm** is enabled on the deploy repo (backup ping).
-3. Optional repo variable `KEEP_WARM_URL` overrides the default `https://iidatech.biz`.
+3. Optional repo variable `KEEP_WARM_URL` overrides the default `https://iidatech.com`.
 
 ### Setup (always-on)
 

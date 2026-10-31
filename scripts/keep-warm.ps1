@@ -8,7 +8,7 @@ param(
   [int]$IntervalSeconds = 300
 )
 
-if (-not $Url) { $Url = "https://iidatech.biz" }
+if (-not $Url) { $Url = "https://iidatech.com" }
 $Url = $Url.TrimEnd("/")
 
 Write-Host "Keep-warm: pinging $Url/api/health every $IntervalSeconds s (Ctrl+C to stop)"

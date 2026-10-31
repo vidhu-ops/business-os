@@ -15,7 +15,7 @@ if [ -n "${DATA_DIR:-}" ]; then
   export WORKSPACE_DB_PATH="${WORKSPACE_DB_PATH:-${DATA_DIR}/iidatech_workspaces.sqlite}"
 fi
 
-# Custom domain (e.g. iidatech.biz) must win over *.onrender.com for OAuth redirect URIs.
+# Custom domain (e.g. iidatech.com) must win over *.onrender.com for OAuth redirect URIs.
 if [ -n "${PUBLIC_APP_URL:-}" ]; then
   export FRONTEND_URL="${FRONTEND_URL:-$PUBLIC_APP_URL}"
   export CORS_ORIGINS="${CORS_ORIGINS:-$PUBLIC_APP_URL}"

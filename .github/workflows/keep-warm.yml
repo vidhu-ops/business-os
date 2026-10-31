@@ -1,7 +1,7 @@
 # Keep the Render Free instance from spinning down (~15 min idle → cold start).
 #
 # Fixed: status-code capture no longer mixes log lines into the HTTP code check.
-# Optional repo variable: KEEP_WARM_URL (default https://iidatech.biz)
+# Optional repo variable: KEEP_WARM_URL (default https://iidatech.com)
 #
 # Note: GitHub scheduled Actions can still drift/skip. For stricter uptime, also
 # use UptimeRobot / cron-job.org every 5 minutes, or upgrade Render off Free.
@@ -24,7 +24,7 @@ jobs:
           KEEP_WARM_URL: ${{ vars.KEEP_WARM_URL }}
         run: |
           set -euo pipefail
-          BASE="${KEEP_WARM_URL:-https://iidatech.biz}"
+          BASE="${KEEP_WARM_URL:-https://iidatech.com}"
           BASE="${BASE%/}"
           TS="$(date +%s)"
           echo "Pinging ${BASE} (cache-bust t=${TS})"

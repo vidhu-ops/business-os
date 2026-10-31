@@ -5,6 +5,9 @@ ENV PYTHONUNBUFFERED=1
 ENV PYTHONPATH=/app
 ENV API_URL=http://127.0.0.1:8000
 ENV NEXT_TELEMETRY_DISABLED=1
+ARG PUBLIC_APP_URL=https://iidatech.com
+ENV PUBLIC_APP_URL=${PUBLIC_APP_URL}
+ENV NEXT_PUBLIC_SITE_URL=${PUBLIC_APP_URL}
 
 WORKDIR /app
 
@@ -29,7 +32,7 @@ RUN python tools/check_utf8_sources.py \
 COPY web ./web
 RUN cd web \
     && npm ci --include=dev \
-    && API_URL=http://127.0.0.1:8000 npm run build \
+    && API_URL=http://127.0.0.1:8000 PUBLIC_APP_URL=${PUBLIC_APP_URL} NEXT_PUBLIC_SITE_URL=${PUBLIC_APP_URL} npm run build \
     && npm prune --omit=dev
 
 COPY scripts/render-combined-start.sh /start.sh
