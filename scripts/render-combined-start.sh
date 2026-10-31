@@ -51,7 +51,7 @@ trap cleanup EXIT INT TERM
 
 echo "Waiting for API health check ..."
 ready=0
-for _ in $(seq 1 120); do
+for _ in $(seq 1 300); do
   if curl -fsS "${API_URL}/api/v1/health" >/dev/null 2>&1; then
     ready=1
     break
@@ -65,11 +65,12 @@ for _ in $(seq 1 120); do
 done
 
 if [ "$ready" -ne 1 ]; then
-  echo "API did not become ready at ${API_URL} within 120s." >&2
-  exit 1
+  echo "WARNING: API did not become ready at ${API_URL} within 300s — web UI stays up; API routes may fail until warm." >&2
+else
+  echo "API ready."
 fi
 
-echo "API ready. Combined stack is live."
+echo "Combined stack is live (web on ${WEB_PORT})."
 
 # Keep container alive; exit non-zero if either process dies so Render restarts.
 while kill -0 "$API_PID" 2>/dev/null && kill -0 "$WEB_PID" 2>/dev/null; do
