@@ -4,9 +4,23 @@ This repo ships a **combined Docker image**: FastAPI on `127.0.0.1:8000` + Next.
 
 ## Auto-deploy from GitHub
 
-1. Connect repo `vidhu-ops/iida-final-vercel` to Render (Blueprint or Web Service).
-2. Use root `Dockerfile` and `render.yaml`.
-3. Push to `main` — Render rebuilds automatically.
+1. Connect repo **`vidhu-ops/iida-final-vercel`** (branch **`main`**) to Render service **business-os-2**.
+2. Use root **`Dockerfile`** and **`render.yaml`**.
+3. Push to **`main`** — Render rebuilds if auto-deploy is enabled; otherwise **Manual Deploy** in the dashboard.
+
+## Custom domain `iidatech.com` (required)
+
+**DNS:** See **[docs/DNS_IIDATECH_COM.md](DNS_IIDATECH_COM.md)**. Apex must point to **`business-os-2.onrender.com`** (ANAME/CNAME at name.com). Without this, `iidatech.com` will not load even when Render is healthy.
+
+**Render env (Dashboard → Environment):**
+
+| Variable | Value |
+|----------|--------|
+| `PUBLIC_APP_URL` | `https://iidatech.com` |
+| `NEXT_PUBLIC_SITE_URL` | `https://iidatech.com` |
+| `OAUTH_REDIRECT_URI` | `https://iidatech.com/api/v1/oauth/callback` |
+
+Or click **Sync** from Blueprint after updating `render.yaml`.
 
 ## Environment variables
 
