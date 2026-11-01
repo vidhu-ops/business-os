@@ -20,7 +20,6 @@ import {
   HERO_WIX,
   HOME_ABOUT,
   INTEGRATION_LOGOS,
-  PROCESS_STEPS,
   SECTION_VIDEOS,
   TOOLS,
   type Audience
@@ -123,7 +122,7 @@ export function LandingPage() {
         </div>
       </section>
 
-      <IndustryBanner />
+      <IndustryBanner signupCredits={signupCredits} />
 
       <section id="services" className="mkt-band mkt-band-full mkt-band-services">
         <div className="mkt-wrap mkt-section mkt-band-content">
@@ -305,30 +304,6 @@ export function LandingPage() {
           </div>
         </div>
         <CaseStudiesSection intro={HOME_ABOUT.caseStudiesIntro} className="mkt-section-case-in-about" />
-      </section>
-
-      <section id="process" className="mkt-band mkt-band-full mkt-band-process mkt-band-has-video mkt-band-has-video-light">
-        <SectionVideo src={SECTION_VIDEOS.process} />
-        <div className="mkt-wrap mkt-section mkt-section-process mkt-band-content">
-          <div className="mkt-section-head mkt-section-head-center">
-            <span className="mkt-label">Process</span>
-            <h2 className="mkt-h2">It&apos;s as easy as 1, 2, 3</h2>
-          </div>
-          <div className="mkt-process mkt-process-3 mkt-process-human">
-            {PROCESS_STEPS.map((s) => (
-              <div key={s.step} className="mkt-process-step mkt-process-step-human">
-                <p className="mkt-step-big">{s.step}</p>
-                <h3>{s.title}</h3>
-                <p>{s.body}</p>
-              </div>
-            ))}
-          </div>
-          <div className="mkt-section-cta-row">
-            <Link href="/how-it-works" className="iid-btn iid-btn-primary">
-              See the full walkthrough →
-            </Link>
-          </div>
-        </div>
       </section>
 
       <section id="contact" className="mkt-wrap mkt-section mkt-contact-section">
