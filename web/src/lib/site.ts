@@ -6,7 +6,9 @@ export const SITE_URL = (
   "https://iidatech.com"
 ).replace(/\/$/, "");
 
-export const SITE_EMAIL = "hello@iidatech.com";
+/** Primary contact and admin sign-in email (must match Render `ADMIN_EMAIL`). */
+export const SITE_ADMIN_EMAIL = "admin@iidatech.com";
+export const SITE_EMAIL = SITE_ADMIN_EMAIL;
 export const SITE_PHONE = "+91 95454 03431";
 export const SITE_PHONE_TEL = "tel:+919545403431";
 export const SITE_WHATSAPP = "https://wa.me/919545403431";
