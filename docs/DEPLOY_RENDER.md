@@ -10,7 +10,7 @@ This repo ships a **combined Docker image**: FastAPI on `127.0.0.1:8000` + Next.
 
 ## Custom domain `iidatech.com` (required)
 
-**DNS:** See **[docs/DNS_IIDATECH_COM.md](DNS_IIDATECH_COM.md)**. Apex must point to **`business-os-2.onrender.com`** (ANAME/CNAME at name.com). Without this, `iidatech.com` will not load even when Render is healthy.
+**DNS:** See **[docs/DNS_IIDATECH_COM.md](DNS_IIDATECH_COM.md)** (Render custom domain + GoDaddy CNAME). Do not attach **iidatech.biz** to this service.
 
 **Render env (Dashboard → Environment):**
 
@@ -106,62 +106,16 @@ After OAuth completes, copy the refresh token into Render as `CANVA_REFRESH_TOKE
 
 `https://iidatech.com/api/v1/canva/admin/status?key=PARTNER_ADMIN_KEY`
 
-## Keep warm (avoid cold starts)
+## Free tier cold starts
 
-Render **Free** web services spin down after ~15 minutes with no traffic. The next
-visit then takes ~30–90s while the container cold-starts. That is platform behavior,
-not an app bug.
+Render **Free** services spin down after ~15 minutes without traffic; the next visit can take **30–90s**. Upgrade to **Starter** in Render for always-on, or accept occasional cold starts. There is **no** keep-warm GitHub Action in this repo.
 
-### Why the GitHub ping alone can fail
+## Custom domain (`iidatech.com`) not loading
 
-The repo Action (`.github/workflows/keep-warm.yml`) pings every **10 minutes**, but
-GitHub’s scheduled cron often runs late or skips. If any gap exceeds ~15 minutes,
-Render sleeps again. (The Action itself was also fixed so HTTP status checks no
-longer fail from mixed log output.)
-
-### What actually works (pick one)
-
-| Option | Cost | Reliability |
-|--------|------|-------------|
-| **1. Upgrade Render instance → Starter** | ~$7/mo | Best. Paid instances **do not** spin down. |
-| **2. External 5‑min monitor (UptimeRobot / cron-job.org)** | Free | Good. More reliable than GitHub Actions. |
-| **3. GitHub Keep warm Action only** | Free | Weak. Use as backup only. |
-
-**Also:** Free workspaces get ~**750 instance hours/month**. Keeping the box warm
-24/7 uses most of that (~720h). If hours run out, Render suspends Free services
-until next month — another reason Starter is better for a real product.
-
-### Setup (recommended free path)
-
-1. Create a monitor at [UptimeRobot](https://uptimerobot.com/) (or [cron-job.org](https://cron-job.org/)):
-   - URL: `https://iidatech.com/api/health?warm=1`
-   - Interval: **every 5 minutes**
-   - Type: HTTP(s)
-2. Confirm **Actions → Keep warm** is enabled on the deploy repo (backup ping).
-3. Optional repo variable `KEEP_WARM_URL` overrides the default `https://iidatech.com`.
-
-### Setup (always-on)
-
-In the Render dashboard → your web service → **Instance type** → change **Free → Starter**.
-No redeploy required. Cold starts stop.
-
-Local loop while developing:
-
-```powershell
-powershell -File scripts/keep-warm.ps1
-```
-
-## Custom domain shows SSL error or does not load
-
-If `https://iidatech.biz` (or `.com`) fails but `https://business-os-2.onrender.com` works:
-
-1. In **Render** → your web service → **Settings** → **Custom Domains**, remove and re-add the domain until status is **Verified** with a valid certificate.
-2. DNS must CNAME to your `*.onrender.com` hostname (see Render dashboard), not a stale A record.
-3. In **GitHub** → repo **Settings** → **Actions** → **Variables**, set `KEEP_WARM_URL` to `https://business-os-2.onrender.com` (or delete it so the workflow default applies). Do **not** use a domain that has no DNS or broken TLS.
-4. Until the custom domain is fixed, share the Render URL with users: `https://business-os-2.onrender.com`.
+Follow **[docs/DNS_IIDATECH_COM.md](DNS_IIDATECH_COM.md)** (Render custom domain first, then GoDaddy DNS). Remove **iidatech.biz** from Render custom domains on this service. Until DNS propagates, `https://business-os-2.onrender.com` still serves the app.
 
 ## Troubleshooting
 
-- **Cold start / ~1 min load**: Free tier slept. Add UptimeRobot (5 min) or upgrade to Starter.
+- **Cold start / ~1 min load**: Free tier slept; upgrade to Starter or wait for the container to wake.
 - **Research timeout**: Ensure `PERPLEXITY_API_KEY` is set on the server.
 - **Employee OS**: Add LLM key under **Integrations** in the app, or set `OPENAI_API_KEY` in Render env.

@@ -115,7 +115,7 @@ def _admin_setup_html(*, key: str, authorize_url: str, redirect_uri: str, status
   <div class="card">
     <h2>Option B &mdash; paste callback URL</h2>
     <p class="muted">If you completed Allow on another device, paste the full redirect URL (contains <code>code=</code> and <code>state=</code>).</p>
-    <input type="text" id="callbackUrl" placeholder="https://iidatech.biz/api/v1/oauth/callback?code=...&state=..." />
+    <input type="text" id="callbackUrl" placeholder="https://iidatech.com/api/v1/oauth/callback?code=...&state=..." />
     <p><button type="button" onclick="submitCallback()">Complete setup</button></p>
     <p id="completeMsg"></p>
   </div>
