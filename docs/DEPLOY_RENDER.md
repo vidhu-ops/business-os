@@ -151,6 +151,15 @@ Local loop while developing:
 powershell -File scripts/keep-warm.ps1
 ```
 
+## Custom domain shows SSL error or does not load
+
+If `https://iidatech.biz` (or `.com`) fails but `https://business-os-2.onrender.com` works:
+
+1. In **Render** → your web service → **Settings** → **Custom Domains**, remove and re-add the domain until status is **Verified** with a valid certificate.
+2. DNS must CNAME to your `*.onrender.com` hostname (see Render dashboard), not a stale A record.
+3. In **GitHub** → repo **Settings** → **Actions** → **Variables**, set `KEEP_WARM_URL` to `https://business-os-2.onrender.com` (or delete it so the workflow default applies). Do **not** use a domain that has no DNS or broken TLS.
+4. Until the custom domain is fixed, share the Render URL with users: `https://business-os-2.onrender.com`.
+
 ## Troubleshooting
 
 - **Cold start / ~1 min load**: Free tier slept. Add UptimeRobot (5 min) or upgrade to Starter.
