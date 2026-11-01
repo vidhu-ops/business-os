@@ -39,7 +39,7 @@ Or click **Sync** from Blueprint after updating `render.yaml`.
 | `PERPLEXITY_API_KEY` | Market research, leads |
 | `OPENAI_API_KEY` or `ANTHROPIC_API_KEY` | Business plan, Employee OS agents |
 | `ZO_API_KEY` | Plan It Out / Business Plan hub (optional if using other keys) |
-| `ADMIN_EMAIL` | Partner application notifications |
+| `ADMIN_EMAIL` | Admin CRM/analytics sign-in and partner notifications (`admin@iidatech.com`) |
 | `PARTNER_ADMIN_KEY` | Approve service providers (`X-Admin-Key` header) |
 | `GMAIL_SMTP_USER` / `GMAIL_SMTP_PASSWORD` | Optional — email notifications for new partner signups |
 | `SLACK_WEBHOOK_URL` | Optional — Slack alerts for new partner signups |

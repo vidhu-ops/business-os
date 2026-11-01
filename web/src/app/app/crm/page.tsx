@@ -4,6 +4,7 @@ import { FormEvent, useEffect, useMemo, useRef, useState } from "react";
 import { usePathname } from "next/navigation";
 import { api, type AdminAccountAnalytics, type AdminCrmUser, type CrmLead } from "@/lib/api";
 import { AdminAnalytics } from "@/components/AdminAnalytics";
+import { SITE_ADMIN_EMAIL } from "@/lib/site";
 
 function formatDate(value?: string) {
   if (!value) return "—";
@@ -262,7 +263,8 @@ export default function CrmPage() {
         <div className="iid-card space-y-3">
           <p className="text-sm text-red-400">{error}</p>
           <p className="text-xs muted">
-            CRM is only available when you sign in with the admin email set in ADMIN_EMAIL.
+            CRM is only available when you sign in with <strong>{SITE_ADMIN_EMAIL}</strong> (must match{" "}
+            <code className="text-xs">ADMIN_EMAIL</code> on the server).
           </p>
           <button type="button" className="iid-btn iid-btn-ghost" onClick={() => refresh()}>
             Retry

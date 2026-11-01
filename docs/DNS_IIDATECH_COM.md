@@ -2,6 +2,15 @@
 
 Production uses **https://iidatech.com** only. Do **not** point **iidatech.biz** at this service (reserved for other use).
 
+Render shows **Verified** and a certificate when GoDaddy (or your registrar) matches:
+
+| Hostname | Type | Target |
+|----------|------|--------|
+| `www` | CNAME | `business-os-2.onrender.com` |
+| `@` | CNAME | `business-os-2.onrender.com` |
+
+(Some registrars use ANAME/ALIAS or A record `216.24.57.1` for apex — use what Render lists in the dashboard modal.)
+
 ## Step 1 — Render (do this first)
 
 1. Open [Render Dashboard](https://dashboard.render.com/) → service **business-os-2**.

@@ -9,6 +9,7 @@ import {
   type AnalyticsSessionDetail,
   type AnalyticsSessionRow,
 } from "@/lib/api";
+import { SITE_ADMIN_EMAIL } from "@/lib/site";
 
 const RANGES = [
   { days: 1, label: "24h" },
@@ -196,7 +197,10 @@ export function AdminAnalytics() {
       {error ? (
         <div className="iid-card space-y-3">
           <p className="text-sm text-red-400">{error}</p>
-          <p className="text-xs muted">Analytics is only available when you sign in with the admin email set in ADMIN_EMAIL.</p>
+          <p className="text-xs muted">
+            Analytics is only available when you sign in with {SITE_ADMIN_EMAIL} (must match ADMIN_EMAIL on the
+            server).
+          </p>
           <button type="button" className="iid-btn iid-btn-ghost" onClick={() => refresh()}>
             Retry
           </button>

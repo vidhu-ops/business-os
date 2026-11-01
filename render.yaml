@@ -68,6 +68,7 @@ services:
       - key: HUBSPOT_CLIENT_SECRET
         sync: false
       - key: ADMIN_EMAIL
+        value: admin@iidatech.com
         sync: false
       - key: PARTNER_ADMIN_KEY
         sync: false
