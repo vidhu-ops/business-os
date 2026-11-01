@@ -293,7 +293,7 @@ export const PROCESS_STEPS = [
     step: "02",
     title: "Generate",
     body:
-      "Input your idea and the fields required (4 fields max) for the tool you want to use from the 6 tools we have, and press generate.",
+      "Pick a tool, add your idea in a few fields, and generate research, plans, or tasks.",
   },
   {
     step: "03",

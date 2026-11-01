@@ -59,7 +59,7 @@ export function IndustryBanner({ signupCredits = 30 }: Props) {
                 ? `Sign up free and get ${signupCredits} credits to try research, plans, and tools.`
                 : item.body;
             return (
-              <li key={item.step} className="mkt-home-use-step">
+              <li key={item.step} className="mkt-home-use-step-card">
                 <span className="mkt-home-use-step-num">{item.step}</span>
                 <div className="mkt-home-use-step-copy">
                   <strong>{item.title}</strong>

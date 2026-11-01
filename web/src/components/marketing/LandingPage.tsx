@@ -107,13 +107,29 @@ export function LandingPage() {
               {hero.cta.label}
             </Link>
           </div>
-          {hero.subline ? <p className="mkt-hero-wix-subline">{hero.subline}</p> : null}
-          <Link
-            href={audience === "company" ? "/about?audience=company" : "/about?audience=founder"}
-            className="mkt-hero-wix-read-more"
-          >
-            Read more — understand how IIDATECH works
-          </Link>
+          <p className="mkt-hero-wix-desc">
+            {hero.subline ? (
+              <>
+                {hero.subline}{" "}
+                <Link
+                  href={audience === "company" ? "/about?audience=company" : "/about?audience=founder"}
+                  className="mkt-hero-wix-read-more"
+                >
+                  Read more
+                </Link>
+              </>
+            ) : (
+              <>
+                {copy.lead}{" "}
+                <Link
+                  href="/about?audience=company"
+                  className="mkt-hero-wix-read-more"
+                >
+                  Read more
+                </Link>
+              </>
+            )}
+          </p>
           <p className="mkt-hero-wix-trust">
             {audience === "company"
               ? `${signupCredits} free credits · No card · Free audit to start`
