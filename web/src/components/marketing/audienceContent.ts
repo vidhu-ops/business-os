@@ -523,9 +523,14 @@ export const CLIENT_LOGOS = [
     srcOnDark: "/partners/pathak.png",
   },
   {
-    name: "Loop",
+    name: "AuraEye Solutions",
     src: "/partners/loop.png",
     srcOnDark: "/partners/loop.png",
+  },
+  {
+    name: "Essenvia",
+    src: "/partners/white/essenvia.svg",
+    srcOnDark: "/partners/essenvia.svg",
   },
   {
     name: "Tyoharwale",
