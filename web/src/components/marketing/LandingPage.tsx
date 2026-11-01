@@ -109,7 +109,17 @@ export function LandingPage() {
             </Link>
           </div>
           {hero.subline ? <p className="mkt-hero-wix-subline">{hero.subline}</p> : null}
-          <p className="mkt-hero-wix-trust">{hero.trustLine}</p>
+          <Link
+            href={audience === "company" ? "/about?audience=company" : "/about?audience=founder"}
+            className="mkt-hero-wix-read-more"
+          >
+            Read more — understand how IIDATECH works
+          </Link>
+          <p className="mkt-hero-wix-trust">
+            {audience === "company"
+              ? `${signupCredits} free credits · No card · Free audit to start`
+              : `${signupCredits} free credits · No card · 5-min setup`}
+          </p>
         </div>
       </section>
 

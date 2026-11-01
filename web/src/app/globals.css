@@ -6597,6 +6597,35 @@ html.light .mkt-hero-wix-pipe {
   text-shadow: 0 1px 14px rgba(0, 0, 0, 0.35);
 }
 
+.mkt-hero-wix-read-more {
+  display: inline-block;
+  margin-top: 0.55rem;
+  font-size: 0.82rem;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  color: rgba(226, 232, 240, 0.95);
+  text-decoration: underline;
+  text-decoration-color: rgba(125, 211, 252, 0.55);
+  text-underline-offset: 0.2em;
+  text-shadow: 0 1px 12px rgba(0, 0, 0, 0.35);
+}
+
+.mkt-hero-wix-read-more:hover {
+  color: #fff;
+  text-decoration-color: rgba(125, 211, 252, 0.95);
+}
+
+.mkt-hero-wix--company .mkt-hero-wix-read-more {
+  color: rgba(15, 23, 42, 0.88);
+  text-decoration-color: rgba(37, 99, 235, 0.45);
+  text-shadow: none;
+}
+
+.mkt-hero-wix--company .mkt-hero-wix-read-more:hover {
+  color: #0f172a;
+  text-decoration-color: rgba(37, 99, 235, 0.85);
+}
+
 .mkt-section-head-center {
   text-align: center;
   margin-left: auto;
@@ -8082,9 +8111,27 @@ html.dark .mini-gauge-vs-row {
 }
 
 .mkt-hero-wix-trust {
-  margin: 0.65rem 0 0;
-  font-size: 0.82rem;
-  color: rgba(226, 232, 240, 0.85);
+  margin: 0.5rem 0 0;
+  max-width: 100%;
+  font-size: clamp(0.62rem, 1.65vw, 0.72rem);
+  font-weight: 600;
+  letter-spacing: 0.01em;
+  line-height: 1.25;
+  white-space: nowrap;
+  color: rgba(226, 232, 240, 0.78);
+  text-shadow: 0 1px 10px rgba(0, 0, 0, 0.3);
+}
+
+.mkt-hero-wix--company .mkt-hero-wix-trust {
+  color: rgba(15, 23, 42, 0.72);
+  text-shadow: none;
+}
+
+@media (max-width: 380px) {
+  .mkt-hero-wix-trust {
+    font-size: 0.58rem;
+    letter-spacing: 0;
+  }
 }
 
 .mkt-goal-grid {
