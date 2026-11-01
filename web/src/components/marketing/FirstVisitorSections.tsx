@@ -348,7 +348,7 @@ export function CreditsGuideSection({ signupCredits = 30 }: { signupCredits?: nu
   );
 }
 
-export function CaseStudiesSection() {
+export function CaseStudiesSection({ intro, className = "" }: { intro?: string; className?: string }) {
   const [index, setIndex] = useState(0);
   const total = CASE_STUDIES.length;
   const study = CASE_STUDIES[index];
@@ -358,11 +358,17 @@ export function CaseStudiesSection() {
   };
 
   return (
-    <section id="results" className="mkt-wrap mkt-section mkt-section-case-slider">
+    <section
+      id="results"
+      className={`mkt-wrap mkt-section mkt-section-case-slider ${className}`.trim()}
+    >
       <div className="mkt-section-head mkt-section-head-center">
-        <span className="mkt-label">Early results</span>
+        <span className="mkt-label">Case studies</span>
         <h2 className="mkt-h2">Before → after (representative workflows)</h2>
-        <p className="mkt-sub">We are publishing named case studies as customers approve them. These show the decision → action story today.</p>
+        <p className="mkt-sub">
+          {intro ??
+            "We are publishing named case studies as customers approve them. These show the decision → action story today."}
+        </p>
       </div>
       <div className="mkt-case-slider">
         <button

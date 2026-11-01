@@ -177,7 +177,7 @@ export const AUDIENCE = {
     trustLine: "Free credits · No credit card · 5-minute setup",
     aboutTitle: "About IIDATECH for founders",
     aboutBody:
-      "IIDATECH combines market intelligence, business planning, mentorship, and an AI workforce in one workspace. Founders go from idea → sourced report → bank-ready plan → executed tasks with approvals.",
+      "Use IIDATECH as your operating layer: market-backed research and dashboards, business plans, AI agents, automations, and hands-on help executing each step — with human approval on anything external.",
   },
   company: {
     label: "Established company",
@@ -201,7 +201,7 @@ export const AUDIENCE = {
     trustLine: "Free credits · No credit card · 5-minute setup",
     aboutTitle: "About IIDATECH for B2B companies",
     aboutBody:
-      "Use IIDATECH as your business operating layer: GAUGE health audits, competitor and pricing intelligence, growth plans, Mentor for operators, and Employee OS agents that work under human approval.",
+      "Use IIDATECH as your business operating layer: GAUGE audits, competitor and pricing intelligence, growth plans, workspace dashboards, agents, automations, and service support integrated with how your team already works.",
   },
 } as const;
 
@@ -515,6 +515,58 @@ export const SOLUTION = {
     body: "IIDATECH gives established B2B companies continuous market intelligence, growth planning, and approved automation — so leadership ships decisions faster than consulting cycles.",
   },
 };
+
+/** Homepage “All about us” band — platform + service story, results, and case-study anchor. */
+export const HOME_ABOUT = {
+  headline: "Research-backed decisions — then plans, agents, and execution in one place",
+  lead:
+    "IIDATECH turns market evidence into decisions you can defend: sourced research, live dashboards, and a workspace where business plans, AI agents, and automations stay tied to the same project.",
+  toolAndService:
+    "We are a tool and a service. Run the platform yourself — or work with us to interpret research, shape plans, and help execute each part of the growth loop, with your team approving anything external.",
+  integration: {
+    founder:
+      "For founders, that means one loop from idea validation to outreach drafts — without hiring analysts, writers, and ops before you are ready.",
+    company:
+      "For companies, we integrate alongside CRM, inbox, and reporting: continuous intelligence, growth plans, and Employee OS capacity leaders can approve and scale.",
+  },
+  platformTitle: "What lives in the workspace",
+  platform: [
+    {
+      title: "Market research & intelligence",
+      body: "Competitors, sizing, buyers, and pricing — structured reports with source context, not generic chat answers.",
+    },
+    {
+      title: "Dashboard & project workspace",
+      body: "One vault for research, plans, tasks, and outputs your team can revisit, share, and measure.",
+    },
+    {
+      title: "Business plans & roadmaps",
+      body: "Investor- and operator-ready plans linked to the same evidence as your research.",
+    },
+    {
+      title: "AI agents (Employee OS)",
+      body: "Taylor and specialists turn plans into tasks, drafts, and follow-ups — nothing sends without human approval.",
+    },
+    {
+      title: "Automations",
+      body: "Optional workflows across CRM, inbox, and reporting so execution does not stall in spreadsheets.",
+    },
+    {
+      title: "Mentor & GAUGE",
+      body: "Mentorship grounded in your project; company audits for readiness, ops, and growth gaps.",
+    },
+  ],
+  resultsTitle: "Results we work toward",
+  results: [
+    "Confidence on market size, buyers, and competitors before major spend",
+    "Decisions backed by research you can cite — not slide-deck guesswork",
+    "Plans, tasks, and automations in one workspace instead of scattered docs",
+    "A repeatable loop: research → plan → approved action → follow-through",
+    "Growth support that scales from solo founder to B2B team without replacing your stack overnight",
+  ],
+  caseStudiesIntro:
+    "Representative workflows below show the before-and-after shift teams aim for — named customer stories publish as approvals come in.",
+} as const;
 
 export const CLIENT_LOGOS = [
   {

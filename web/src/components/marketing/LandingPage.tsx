@@ -18,6 +18,7 @@ import {
   BY_THE_NUMBERS,
   CLIENT_LOGOS,
   HERO_WIX,
+  HOME_ABOUT,
   INTEGRATION_LOGOS,
   PROCESS_STEPS,
   SECTION_VIDEOS,
@@ -164,8 +165,6 @@ export function LandingPage() {
 
       <HomePricingTeaser signupCredits={signupCredits} />
 
-      <CaseStudiesSection />
-
       <section id="proof" className="mkt-wrap mkt-section">
         <div className="mkt-section-head mkt-section-head-center">
           <span className="mkt-label">By the numbers</span>
@@ -244,25 +243,35 @@ export function LandingPage() {
             <div className="mkt-section-head">
               <span className="mkt-label">All about us</span>
               <h2 id="about-heading" className="mkt-h2">
-                Structured plans in minutes — not months.
+                {HOME_ABOUT.headline}
               </h2>
-              <p className="mkt-sub">
-                We built IIDATECH for people who need professional business plans but do not have weeks to research
-                markets, create financial models, or write 30-page documents.
-              </p>
-              <p className="mkt-sub" style={{ marginTop: "0.75rem" }}>
-                {copy.aboutBody}
-              </p>
-              <ul className="mkt-about-list">
-                <li>Research your industry and competitors</li>
-                <li>Validate your idea with real market data</li>
-                <li>Create detailed financial projections</li>
-                <li>Build step-by-step execution roadmaps</li>
-                <li>Generate professional documents for individuals and teams</li>
+              <p className="mkt-sub">{HOME_ABOUT.lead}</p>
+              <p className="mkt-sub mkt-about-sub-tight">{HOME_ABOUT.toolAndService}</p>
+              <p className="mkt-sub mkt-about-sub-tight">{HOME_ABOUT.integration[audience]}</p>
+
+              <h3 className="mkt-about-subhead">{HOME_ABOUT.platformTitle}</h3>
+              <ul className="mkt-about-pillars">
+                {HOME_ABOUT.platform.map((item) => (
+                  <li key={item.title}>
+                    <strong>{item.title}</strong>
+                    <span>{item.body}</span>
+                  </li>
+                ))}
               </ul>
+
+              <h3 className="mkt-about-subhead">{HOME_ABOUT.resultsTitle}</h3>
+              <ul className="mkt-about-results">
+                {HOME_ABOUT.results.map((item) => (
+                  <li key={item}>{item}</li>
+                ))}
+              </ul>
+
               <div className="mkt-about-actions">
-                <Link href="/about?audience=founder" className="iid-btn iid-btn-primary">
+                <Link href={audience === "company" ? "/about?audience=company" : "/about?audience=founder"} className="iid-btn iid-btn-primary">
                   Read more
+                </Link>
+                <Link href="#results" className="iid-btn iid-btn-ghost">
+                  See case studies
                 </Link>
                 <Link href="/topics" className="iid-btn iid-btn-ghost">
                   Browse topics
@@ -285,6 +294,7 @@ export function LandingPage() {
             </div>
           </div>
         </div>
+        <CaseStudiesSection intro={HOME_ABOUT.caseStudiesIntro} className="mkt-section-case-in-about" />
       </section>
 
       <section id="process" className="mkt-band mkt-band-full mkt-band-process mkt-band-has-video mkt-band-has-video-light">
