@@ -461,21 +461,39 @@ export const PRODUCT_UI_SHOTS = [
 
 export const CASE_STUDIES = [
   {
-    title: "Founder validating a D2C idea",
+    id: "founder-d2c",
+    tabLabel: "Founder · D2C",
+    audience: "Startup founder",
+    title: "Validating a direct-to-consumer idea",
+    beforePain: "Stuck in “maybe” — no confident go / no-go.",
     before: "Unsure whether the niche was big enough to quit a day job.",
+    afterOutcome: "Clear segment size, competitors, and one channel to test first.",
     after: "Sized the segment, mapped 8 competitors, and prioritized one beachhead channel.",
+    deliverables: ["TAM / segment sizing", "Competitor map (8 players)", "Beachhead channel pick"],
     note: "Early operator example — names published when customers approve.",
   },
   {
-    title: "MSME entering a new city",
+    id: "msme-expansion",
+    tabLabel: "MSME · New city",
+    audience: "Growing MSME",
+    title: "Expanding into a new city",
+    beforePain: "Pricing and partners felt like guesswork.",
     before: "Expansion felt like guesswork on pricing and partners.",
+    afterOutcome: "Local numbers, partners, and a dated rollout plan.",
     after: "Local pricing band, partner shortlist, and a 90-day rollout checklist.",
+    deliverables: ["Local pricing band", "Partner shortlist", "90-day rollout checklist"],
     note: "Representative workflow — not a paid case study yet.",
   },
   {
-    title: "B2B team refreshing category intel",
+    id: "b2b-intel",
+    tabLabel: "B2B · Category intel",
+    audience: "B2B revenue team",
+    title: "Keeping category intelligence current",
+    beforePain: "Sales decks drifted out of date every quarter.",
     before: "Sales used outdated competitor slides.",
+    afterOutcome: "One research home base with a refresh rhythm.",
     after: "Shared research vault + quarterly refresh cadence in IIDATECH.",
+    deliverables: ["Shared research vault", "Quarterly refresh cadence", "Slides tied to live data"],
     note: "Illustrates company-mode usage.",
   },
 ] as const;
@@ -575,9 +593,14 @@ export const CLIENT_LOGOS = [
     srcOnDark: "/partners/pathak.png",
   },
   {
-    name: "Loop",
+    name: "AuraEye Solutions",
     src: "/partners/loop.png",
     srcOnDark: "/partners/loop.png",
+  },
+  {
+    name: "Essenvia",
+    src: "/partners/white/essenvia.svg",
+    srcOnDark: "/partners/essenvia.svg",
   },
   {
     name: "Tyoharwale",

@@ -222,9 +222,8 @@ export function LandingPage() {
         <SectionVideo src={SECTION_VIDEOS.integrations} />
         <div className="mkt-wrap mkt-section mkt-band-content">
           <div className="mkt-section-head mkt-section-head-center">
-            <span className="mkt-label">Connect your stack</span>
             <h2 id="integrations-heading" className="mkt-h2">
-              Integrations vs AI models
+              Connects
             </h2>
             <p className="mkt-sub">
               Optional OAuth apps connect your workspace to tools you already use. Model logos show which AI providers can

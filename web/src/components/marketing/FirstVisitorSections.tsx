@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { ChevronLeft, ChevronRight } from "lucide-react";
+import { ArrowRight, Check, ChevronLeft, ChevronRight, CircleAlert } from "lucide-react";
 import { useCallback, useEffect, useState } from "react";
 import { WorkspaceEntryLink } from "@/components/WorkspaceEntryLink";
 import { buildHomePricingTeaserCards } from "./homePricingCards";
@@ -360,62 +360,95 @@ export function CaseStudiesSection({ intro, className = "" }: { intro?: string; 
   return (
     <section
       id="results"
-      className={`mkt-wrap mkt-section mkt-section-case-slider ${className}`.trim()}
+      className={`mkt-wrap mkt-section mkt-section-case-story ${className}`.trim()}
     >
       <div className="mkt-section-head mkt-section-head-center">
-        <span className="mkt-label">Case studies</span>
-        <h2 className="mkt-h2">Before → after (representative workflows)</h2>
-        <p className="mkt-sub">
+        <span className="mkt-label">Representative workflows</span>
+        <h2 className="mkt-h2">See the shift: friction → clear next steps</h2>
+        <p className="mkt-sub mkt-case-story-intro">
           {intro ??
-            "We are publishing named case studies as customers approve them. These show the decision → action story today."}
+            "These are illustrative stories — not paid endorsements. Each one shows what teams struggle with before a structured workflow, and what they can decide and ship after using IIDATECH."}
         </p>
       </div>
-      <div className="mkt-case-slider">
-        <button
-          type="button"
-          className="mkt-case-slider-nav"
-          onClick={() => go(index - 1)}
-          aria-label="Previous example"
-        >
-          <ChevronLeft aria-hidden />
-        </button>
-        <article className="mkt-case-card mkt-case-card-slide" aria-live="polite">
-          <p className="mkt-case-slide-meta">
-            {index + 1} / {total}
-          </p>
-          <h3 className="mkt-case-slide-title">{study.title}</h3>
-          <p className="mkt-case-slide-before">
-            <span className="mkt-case-slide-label">Before</span>
-            {study.before}
-          </p>
-          <p className="mkt-case-slide-after">
-            <span className="mkt-case-slide-label">After</span>
-            {study.after}
-          </p>
-          <p className="mkt-case-note">{study.note}</p>
-        </article>
-        <button
-          type="button"
-          className="mkt-case-slider-nav"
-          onClick={() => go(index + 1)}
-          aria-label="Next example"
-        >
-          <ChevronRight aria-hidden />
-        </button>
-      </div>
-      <div className="mkt-case-slider-dots" role="tablist" aria-label="Workflow examples">
+
+      <div className="mkt-case-story-tabs" role="tablist" aria-label="Choose a workflow story">
         {CASE_STUDIES.map((item, i) => (
           <button
-            key={item.title}
+            key={item.id}
             type="button"
             role="tab"
+            id={`case-tab-${item.id}`}
             aria-selected={i === index}
-            aria-label={`Show example ${i + 1}: ${item.title}`}
-            className={`mkt-case-slider-dot${i === index ? " is-active" : ""}`}
+            aria-controls="case-story-panel"
+            className={`mkt-case-story-tab${i === index ? " is-active" : ""}`}
             onClick={() => setIndex(i)}
-          />
+          >
+            {item.tabLabel}
+          </button>
         ))}
       </div>
+
+      <article
+        id="case-story-panel"
+        className="mkt-case-story-card"
+        role="tabpanel"
+        aria-labelledby={`case-tab-${study.id}`}
+        aria-live="polite"
+      >
+        <header className="mkt-case-story-card-head">
+          <span className="mkt-case-story-audience">{study.audience}</span>
+          <h3 className="mkt-case-story-title">{study.title}</h3>
+        </header>
+
+        <div className="mkt-case-story-split">
+          <div className="mkt-case-story-panel mkt-case-story-panel--before">
+            <div className="mkt-case-story-panel-head">
+              <CircleAlert className="mkt-case-story-panel-icon" aria-hidden />
+              <div>
+                <p className="mkt-case-story-panel-label">Before IIDATECH</p>
+                <p className="mkt-case-story-panel-tagline">{study.beforePain}</p>
+              </div>
+            </div>
+            <p className="mkt-case-story-panel-body">{study.before}</p>
+          </div>
+
+          <div className="mkt-case-story-bridge" aria-hidden="true">
+            <span className="mkt-case-story-bridge-pill">Then</span>
+            <ArrowRight className="mkt-case-story-bridge-icon" />
+          </div>
+
+          <div className="mkt-case-story-panel mkt-case-story-panel--after">
+            <div className="mkt-case-story-panel-head">
+              <span className="mkt-case-story-panel-badge">With IIDATECH</span>
+              <p className="mkt-case-story-panel-tagline mkt-case-story-panel-tagline--after">{study.afterOutcome}</p>
+            </div>
+            <p className="mkt-case-story-panel-body">{study.after}</p>
+            <ul className="mkt-case-story-deliverables">
+              {study.deliverables.map((item) => (
+                <li key={item}>
+                  <Check className="mkt-case-story-check" aria-hidden />
+                  <span>{item}</span>
+                </li>
+              ))}
+            </ul>
+          </div>
+        </div>
+
+        <footer className="mkt-case-story-foot">
+          <p className="mkt-case-note">{study.note}</p>
+          <div className="mkt-case-story-nav">
+            <button type="button" className="mkt-case-slider-nav" onClick={() => go(index - 1)} aria-label="Previous story">
+              <ChevronLeft aria-hidden />
+            </button>
+            <span className="mkt-case-story-counter">
+              {index + 1} / {total}
+            </span>
+            <button type="button" className="mkt-case-slider-nav" onClick={() => go(index + 1)} aria-label="Next story">
+              <ChevronRight aria-hidden />
+            </button>
+          </div>
+        </footer>
+      </article>
     </section>
   );
 }
