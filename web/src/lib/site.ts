@@ -1,9 +1,9 @@
-/** Public site URL for canonical links and sitemap. Prefer env on Render; fallback is the live Render hostname. */
+/** Public site URL — production custom domain iidatech.com (see docs/DNS_IIDATECH_COM.md). */
 export const SITE_URL = (
   process.env.NEXT_PUBLIC_SITE_URL ||
   process.env.PUBLIC_APP_URL ||
   process.env.RENDER_EXTERNAL_URL ||
-  "https://business-os-2.onrender.com"
+  "https://iidatech.com"
 ).replace(/\/$/, "");
 
 export const SITE_EMAIL = "hello@iidatech.com";

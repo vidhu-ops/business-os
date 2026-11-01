@@ -5,7 +5,7 @@ const NO_STORE = {
   Pragma: "no-cache",
 };
 
-/** Lightweight health for Render / keep-warm — must hit origin (not CDN cache). */
+/** Lightweight health for Render health checks — must hit origin (not CDN cache). */
 export async function GET() {
   return NextResponse.json(
     {

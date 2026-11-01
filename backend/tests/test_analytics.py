@@ -33,7 +33,7 @@ def test_ingest_pageview_heartbeat_signup(tmp_path, monkeypatch):
             "visitor_id": "visitorabc123",
             "session_id": "sessionabc123",
             "path": "/",
-            "href": "https://iidatech.biz/?utm_source=linkedin&utm_medium=social",
+            "href": "https://iidatech.com/?utm_source=linkedin&utm_medium=social",
             "referrer": "https://www.linkedin.com/feed",
             "utm_source": "linkedin",
             "utm_medium": "social",
@@ -123,7 +123,7 @@ def test_collect_and_admin_overview(tmp_path, monkeypatch):
             "type": "pageview",
             "path": "/about",
             "title": "About",
-            "href": "https://iidatech.biz/about",
+            "href": "https://iidatech.com/about",
             "referrer": "https://google.com/",
             "utm": {"source": "google", "medium": "organic"},
             "client": {"timezone": "Asia/Kolkata", "language": "en-IN", "screen_w": 1440, "screen_h": 900},
@@ -180,7 +180,7 @@ def test_demo_journey_and_page_people(tmp_path, monkeypatch):
             "visitor_id": "demovisitor01",
             "session_id": "demosession01",
             "path": "/app/research",
-            "href": "https://iidatech.biz/app/research?project=demo_readonly",
+            "href": "https://iidatech.com/app/research?project=demo_readonly",
             "props": {"is_demo": True},
         }
     )
@@ -190,7 +190,7 @@ def test_demo_journey_and_page_people(tmp_path, monkeypatch):
             "visitor_id": "demovisitor01",
             "session_id": "demosession01",
             "path": "/app/team",
-            "href": "https://iidatech.biz/app/team?project=demo_readonly",
+            "href": "https://iidatech.com/app/team?project=demo_readonly",
             "is_demo": True,
         }
     )

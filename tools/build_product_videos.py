@@ -181,7 +181,7 @@ def build_one(spec: dict):
         shot = fit_shot(path)
         caption = spec["steps"][min(idx, len(spec["steps"]) - 1)]
         ken_burns(frames, overlay_caption(shot, caption), 3.2)
-    hold(frames, title_card(spec["title"], "Try it free on iidatech.biz"), 2.0)
+    hold(frames, title_card(spec["title"], "Try it free on iidatech.com"), 2.0)
     out = OUT / f"{spec['id']}.mp4"
     imageio.mimsave(
         out,
