@@ -36,6 +36,24 @@ curl -I https://iidatech.com/api/health
 
 Until apex/www resolve, the app still works at **https://business-os-2.onrender.com**.
 
+## “I added a record but the site is still down”
+
+Check both hostnames separately — **www alone is not enough**.
+
+| Check | Good | Bad (what we see when apex is missing) |
+|-------|------|----------------------------------------|
+| `www` CNAME | `business-os-2.onrender.com` | missing or wrong target |
+| Apex `@` A or ANAME/CNAME | resolves to Render (IP or CNAME chain) | **no A/CNAME** (only SOA / empty `dig +short A iidatech.com`) |
+| `https://business-os-2.onrender.com` | HTTP 200 | Render deploy or service issue |
+
+**Why www can fail even after you add `www`:** Render redirects **`https://www.iidatech.com` → `https://iidatech.com`**. If apex `@` still has no DNS record, the browser dies on the redirect target.
+
+**Fix at name.com:** Add the **apex** row (step 3 above): **ANAME/ALIAS** on `@` → `business-os-2.onrender.com`, or apex **A** → value from Render’s modal (often `216.24.57.1`). Host must be **`@` / blank apex**, not `www`.
+
+**Temporary workaround (Render only):** Custom Domains → disable redirect from **www → apex** until apex DNS propagates; then **`https://www.iidatech.com`** loads without hitting broken apex. Re-enable after apex verifies.
+
+Public check (no login): [Google DNS lookup for iidatech.com A](https://dns.google/resolve?name=iidatech.com&type=A) should return an **Answer** section, not only Authority/SOA.
+
 ## Render dashboard
 
 1. Service **business-os-2** → **Settings** → **Custom Domains** → **`iidatech.com`** (+ **`www.iidatech.com`** if used).
