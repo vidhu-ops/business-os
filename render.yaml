@@ -29,15 +29,15 @@ services:
       # Free durable option: Neon Postgres connection string
       - key: DATABASE_URL
         sync: false
-      # Custom domain — used for OAuth redirects (Canva must match exactly).
+      # Custom domain — set to your verified Render custom domain when TLS is green; use onrender.com until then.
       - key: PUBLIC_APP_URL
-        value: https://iidatech.com
+        value: https://business-os-2.onrender.com
       - key: NEXT_PUBLIC_SITE_URL
-        value: https://iidatech.com
+        value: https://business-os-2.onrender.com
       - key: OAUTH_REDIRECT_URI
-        value: https://iidatech.com/api/v1/oauth/callback
+        value: https://business-os-2.onrender.com/api/v1/oauth/callback
       - key: CANVA_REDIRECT_URI
-        value: https://iidatech.com/api/v1/oauth/callback
+        value: https://business-os-2.onrender.com/api/v1/oauth/callback
       # FRONTEND_URL and CORS_ORIGINS default from PUBLIC_APP_URL or RENDER_EXTERNAL_URL in render-combined-start.sh
       - key: PERPLEXITY_API_KEY
         sync: false

@@ -1,7 +1,7 @@
 # Keep the Render Free instance from spinning down (~15 min idle → cold start).
 #
 # Fixed: status-code capture no longer mixes log lines into the HTTP code check.
-# Optional repo variable: KEEP_WARM_URL (default https://iidatech.com)
+# Optional repo variable: KEEP_WARM_URL (default https://business-os-2.onrender.com)
 #
 # Note: GitHub scheduled Actions can still drift/skip. For stricter uptime, also
 # use UptimeRobot / cron-job.org every 5 minutes, or upgrade Render off Free.
@@ -24,7 +24,8 @@ jobs:
           KEEP_WARM_URL: ${{ vars.KEEP_WARM_URL }}
         run: |
           set -euo pipefail
-          BASE="${KEEP_WARM_URL:-https://iidatech.com}"
+          BASE="${KEEP_WARM_URL:-https://business-os-2.onrender.com}"
+          FALLBACK="https://business-os-2.onrender.com"
           BASE="${BASE%/}"
           TS="$(date +%s)"
           echo "Pinging ${BASE} (cache-bust t=${TS})"
@@ -68,6 +69,19 @@ jobs:
             fi
             sleep 15
           done
+
+          if [ "${ok}" != "1" ] && [ "${BASE}" != "${FALLBACK}" ]; then
+            echo "Primary URL failed; falling back to ${FALLBACK}..."
+            BASE="${FALLBACK}"
+            for attempt in 1 2 3; do
+              echo "Fallback attempt ${attempt}/3..."
+              if try_warm; then
+                ok=1
+                break
+              fi
+              sleep 15
+            done
+          fi
 
           if [ "${ok}" != "1" ]; then
             echo "Keep-warm ping failed after retries"
