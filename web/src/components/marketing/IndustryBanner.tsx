@@ -29,7 +29,7 @@ type Props = {
 
 export function IndustryBanner({ signupCredits = 30 }: Props) {
   return (
-    <section className="mkt-industry-steps-band" aria-labelledby="home-use-steps-heading">
+    <section className="mkt-industry-steps-band">
       <div className="mkt-industry-banner-head mkt-wrap">
         <span className="mkt-industry-banner-label">Industries we work with</span>
       </div>
@@ -49,10 +49,7 @@ export function IndustryBanner({ signupCredits = 30 }: Props) {
       </div>
 
       <div className="mkt-wrap mkt-home-use-steps">
-        <h2 id="home-use-steps-heading" className="mkt-home-use-steps-title">
-          How to use IIDATECH
-        </h2>
-        <ol className="mkt-home-use-steps-grid">
+        <ol className="mkt-home-use-steps-grid" aria-label="Register, generate, and get results">
           {PROCESS_STEPS.map((item) => {
             const body =
               item.step === "01"
