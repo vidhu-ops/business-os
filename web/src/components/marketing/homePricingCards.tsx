@@ -74,7 +74,14 @@ export function buildHomePricingTeaserCards(signupCredits: number): HomePricingC
     {
       badge: "Start here",
       title: "Free",
-      price: <span>₹0</span>,
+      price: (
+        <>
+          <span className="mkt-price-amount">
+            <span className="mkt-price-currency">&#8377;</span>0
+          </span>
+          <small>to start</small>
+        </>
+      ),
       summary: `Demo workspace plus ${signupCredits} credits for research, plans, Mentor, and Employee OS.`,
       perks: [
         `${signupCredits} signup credits`,
@@ -88,7 +95,15 @@ export function buildHomePricingTeaserCards(signupCredits: number): HomePricingC
     {
       badge: "Popular",
       title: "Paid plans",
-      price: <span>From ₹4,999/mo</span>,
+      price: (
+        <>
+          <span className="mkt-price-from">From</span>
+          <span className="mkt-price-amount">
+            <span className="mkt-price-currency">&#8377;</span>4,999
+          </span>
+          <small>/ month</small>
+        </>
+      ),
       summary: "Higher limits when outputs earn their keep.",
       perks: [
         "Unlimited core research and plans (Starter)",
@@ -101,7 +116,7 @@ export function buildHomePricingTeaserCards(signupCredits: number): HomePricingC
     {
       badge: "Enterprise",
       title: "Enterprise",
-      price: <span>Custom</span>,
+      price: <span className="mkt-price-amount mkt-price-amount-text">Custom</span>,
       summary: "For teams that need security review and dedicated delivery.",
       perks: [
         "Custom scope & SLA",
